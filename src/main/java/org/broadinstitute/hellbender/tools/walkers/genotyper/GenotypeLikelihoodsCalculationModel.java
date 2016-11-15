@@ -8,5 +8,5 @@ public enum GenotypeLikelihoodsCalculationModel {
     INDEL,
     GENERALPLOIDYSNP,
     GENERALPLOIDYINDEL,
-    BOTH;
+    BOTH
 }

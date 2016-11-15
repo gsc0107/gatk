@@ -55,7 +55,7 @@ public final class MeanQualityByCycleSparkIntegrationTest extends CommandLinePro
 
         runCommandLine(args.getArgsArray());
 
-        try (final FileReader actualReader = new FileReader(outfile);) {
+        try (final FileReader actualReader = new FileReader(outfile)) {
             final MetricsFile<?,Integer> output = new MetricsFile<>();
             output.read(actualReader);
             Assert.assertEquals(output.getAllHistograms().size(), 1);

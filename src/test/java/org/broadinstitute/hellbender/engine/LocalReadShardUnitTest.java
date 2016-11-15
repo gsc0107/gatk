@@ -95,7 +95,7 @@ public class LocalReadShardUnitTest extends BaseTest {
         final ReadFilter keepReadBOnly = new ReadFilter() {
             private static final long serialVersionUID = 1l;
             @Override
-            public boolean test(final GATKRead read ) { return read.getName().equals("b"); };
+            public boolean test(final GATKRead read ) { return read.getName().equals("b"); }
         };
         final LocalReadShard filteredShard = new LocalReadShard(new SimpleInterval("1", 200, 210), new SimpleInterval("1", 200, 210), readsSource);
         filteredShard.setReadFilter(keepReadBOnly);
@@ -386,5 +386,5 @@ public class LocalReadShardUnitTest extends BaseTest {
         public void clearItems() {
             finalizedReads.clear();
         }
-    };
+    }
 }

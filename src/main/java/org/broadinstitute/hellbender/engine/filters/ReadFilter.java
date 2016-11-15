@@ -27,7 +27,8 @@ public abstract class ReadFilter implements Predicate<GATKRead>, Serializable {
 
     protected final ReadFilter delegate;
 
-    protected ReadFilter() { delegate = null; };
+    protected ReadFilter() { delegate = null; }
+
     protected ReadFilter(final ReadFilter delegate) { this.delegate = delegate; }
 
     public void setHeader(final SAMFileHeader samHeader) { this.samHeader = samHeader; }

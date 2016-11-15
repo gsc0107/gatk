@@ -12,7 +12,7 @@ import java.io.IOException;
  * Utils for running tests using TileDB
  */
 public final class GenomicsDBTestUtils {
-    private GenomicsDBTestUtils() {};
+    private GenomicsDBTestUtils() {}
 
 
     /**

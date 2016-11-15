@@ -104,7 +104,7 @@ public class GATKReadFilterPluginDescriptor extends GATKCommandLinePluginDescrip
      * @return
      */
     @Override
-    public List<String> getPackageNames() {return Collections.singletonList(pluginPackageName);};
+    public List<String> getPackageNames() {return Collections.singletonList(pluginPackageName);}
 
     @Override
     public Predicate<Class<?>> getClassFilter() {

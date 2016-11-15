@@ -32,9 +32,9 @@ public final class ReadGroupBlackListReadFilter extends ReadFilter implements Se
     private final Map<String, Collection<String>> blacklistEntries = new HashMap<>();
 
     // Command line parser requires a no-arg constructor
-    public ReadGroupBlackListReadFilter() {};
+    public ReadGroupBlackListReadFilter() {}
 
-        /**
+    /**
          * Creates a filter using the lists of files with blacklisted read groups.
          * Any entry can be a path to a file (ending with "list" or "txt" which
          * will load blacklist from that file. This scheme works recursively

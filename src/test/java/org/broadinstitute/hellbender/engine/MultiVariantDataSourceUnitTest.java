@@ -126,7 +126,7 @@ public final class MultiVariantDataSourceUnitTest extends BaseTest {
             int count = 0;
             for (final VariantContext vc: multiVariantSource) {
                 count++;
-            };
+            }
             Assert.assertEquals(count, 26);
         }
     }
@@ -156,7 +156,7 @@ public final class MultiVariantDataSourceUnitTest extends BaseTest {
             for (final VariantContext vc: multiVariantSource) {
                 Assert.assertEquals(vc.getID(), expectedIDOrder[count]);
                 count++;
-            };
+            }
             Assert.assertEquals(count, 28);
         }
     }
@@ -178,7 +178,7 @@ public final class MultiVariantDataSourceUnitTest extends BaseTest {
             while (it.hasNext()) {
                 it.next();
                 count++;
-            };
+            }
             Assert.assertEquals(count, 14);
 
             count = 0;
@@ -186,7 +186,7 @@ public final class MultiVariantDataSourceUnitTest extends BaseTest {
             while (it.hasNext()) {
                 it.next();
                 count++;
-            };
+            }
             Assert.assertEquals(count, 3);
         }
 
@@ -211,7 +211,7 @@ public final class MultiVariantDataSourceUnitTest extends BaseTest {
             );
             for (final VariantContext vc: multiVariantSource) {
                 count++;
-            };
+            }
             Assert.assertEquals(count, 17);
         }
     }

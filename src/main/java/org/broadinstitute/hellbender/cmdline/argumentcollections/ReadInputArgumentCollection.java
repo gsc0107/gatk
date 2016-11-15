@@ -47,5 +47,5 @@ public abstract class ReadInputArgumentCollection implements ArgumentCollectionD
      * Get the read validation stringency specified at the command line, or the default value if none was specified
      * at the command line.
      */
-    public ValidationStringency getReadValidationStringency() { return readValidationStringency; };
+    public ValidationStringency getReadValidationStringency() { return readValidationStringency; }
 }

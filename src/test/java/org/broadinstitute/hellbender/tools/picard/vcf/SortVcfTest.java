@@ -74,7 +74,7 @@ public final class SortVcfTest extends AbstractVcfMergingClpTester {
         final File indelInputFile = new File(TEST_DATA_PATH, "CEUTrio-indels-scrambled.1.vcf");
         final File snpInputFile = new File(TEST_DATA_PATH, "CEUTrio-snps-scrambled.1.vcf");
         final File output = BaseTest.createTempFile("merge-indels-snps-test-output.", ".vcf");
-        final List<String> indexing = Arrays.asList("--CREATE_INDEX", "false");;
+        final List<String> indexing = Arrays.asList("--CREATE_INDEX", "false");
 
         final int numberOfVariantContexts = loadContigPositions(indelInputFile).size() + loadContigPositions(snpInputFile).size();
 

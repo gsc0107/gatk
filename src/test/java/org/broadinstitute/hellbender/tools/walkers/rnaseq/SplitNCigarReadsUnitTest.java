@@ -31,7 +31,7 @@ public final class SplitNCigarReadsUnitTest extends BaseTest {
             new CigarElement(1, CigarOperator.MATCH_OR_MISMATCH),
             new CigarElement(1, CigarOperator.SKIPPED_REGION)
     };
-    private SAMFileHeader header = new SAMFileHeader();;
+    private SAMFileHeader header = new SAMFileHeader();
 
     private final class TestManager extends OverhangFixingManager {
         public TestManager(final SAMFileHeader header , final DummyTestWriter writer) {

@@ -161,7 +161,7 @@ public final class FilterReadsIntegrationTest extends CommandLineProgramTest {
         IOUtil.assertFileIsReadable(path);
         final File refFile = null == referenceFileName ? null : new File(TEST_DATA_DIR, referenceFileName);
 
-        try (final SamReader in = SamReaderFactory.makeDefault().referenceSequence(refFile).open(path);) {
+        try (final SamReader in = SamReaderFactory.makeDefault().referenceSequence(refFile).open(path)) {
             final SAMFileHeader header = in.getFileHeader();
             final SAMFileHeader.SortOrder hdrOrder = header.getSortOrder();
             switch (sortOrderName) {

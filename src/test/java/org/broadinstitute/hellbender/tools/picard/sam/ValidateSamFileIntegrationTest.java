@@ -47,7 +47,7 @@ public final class ValidateSamFileIntegrationTest extends CommandLineProgramTest
             final File refFile = new File(TEST_DATA_DIR, referenceName);
             args.add("--R ");
             args.add(refFile.getAbsoluteFile());
-        };
+        }
         Assert.assertEquals(runCommandLine(args.getArgsArray()), expectedValidity);
     }
 

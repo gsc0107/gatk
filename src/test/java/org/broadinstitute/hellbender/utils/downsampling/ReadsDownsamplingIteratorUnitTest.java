@@ -77,7 +77,7 @@ public class ReadsDownsamplingIteratorUnitTest extends BaseTest {
         public void clearItems() {
             finalizedReads.clear();
         }
-    };
+    }
 
     @DataProvider(name = "ReadsDownsamplingIteratorTestData")
     public Object[][] readsDownsamplingIteratorTestData() {

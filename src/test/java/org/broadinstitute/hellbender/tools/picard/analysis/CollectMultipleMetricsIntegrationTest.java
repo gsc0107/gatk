@@ -108,7 +108,8 @@ public final class CollectMultipleMetricsIntegrationTest extends CommandLineProg
         @Override
         protected void acceptRead(final SAMRecord rec, final ReferenceSequence ref) {
             count++;
-        };
+        }
+
         @Override
         public void finish() {}
     }
