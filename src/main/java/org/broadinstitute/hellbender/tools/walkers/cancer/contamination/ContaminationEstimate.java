@@ -1,6 +1,9 @@
 package org.broadinstitute.hellbender.tools.walkers.cancer.contamination;
 
 import htsjdk.samtools.util.Locatable;
+import org.broadinstitute.hellbender.utils.IndexRange;
+import org.broadinstitute.hellbender.utils.MathUtils;
+import org.broadinstitute.hellbender.utils.Utils;
 
 import java.util.Arrays;
 
@@ -8,76 +11,47 @@ import java.util.Arrays;
  * a class that estimates and stores the contamination values for a site.
  */
 final class ContaminationEstimate {
-    private final double precision;             // to what precision do we want to run; e.g. if set to 1, we run using 1% increments
     private final double[] bins;                // the bins representing the discrete contamination levels we're evaluating
     private double populationFit = 0.0;
-    private String popultationName = "";
+    private String populationName = "";
 
-    private static double[] precalculatedEpsilon;
-
-    private int arrayAlleleObservations = 0;
-    private int alternateAlleleObservations = 0;
-
-    // precalculate the 128 values of epsilon that are possible
-    static {
-        precalculatedEpsilon = new double[Byte.MAX_VALUE+1];
-
-        for(int i=0; i <= (int)Byte.MAX_VALUE; i++) {
-            precalculatedEpsilon[i] = Math.pow(10.0,-1.0*(((double)i)/10.0));
-        }
-    }
+    // precalculate the 128 possible values of epsilon
+    private static double[] precalculatedEpsilon = new IndexRange(0, Byte.MAX_VALUE + 1).mapToDouble(n -> Math.pow(10.0, -n/10.0));
 
     /**
      * create the contamination estimate, given:
      * @param precision the precision value, to what level are we calculating the contamination
      */
     public ContaminationEstimate(double precision,
-                                 double maf,
+                                 final double maf,  //TODO: I think maf == 0 is not an issue but double-check
                                  byte[] bases,
                                  byte[] quals,
                                  byte arrayAllele,
                                  byte hapmapAlt,
                                  String popName,
-                                 Locatable locus
-    ) {
-        // setup the bins to the correct precision
-        this.precision = precision;
+                                 Locatable locus) {
+        Utils.validateArg(0.0 <= maf && maf <= 1.0, () -> "Invalid allele Freq: must be between 0 and 1 (inclusive), maf was " + maf + " for population " + popName);
+
         bins = new double[(int)Math.ceil(100/precision)+1];
-        if (maf == 0) maf = 0.00001;
-
-        popultationName = popName;
-
-        Arrays.fill(bins,0.0); // just to make sure we don't have any residual values
-
-        // convert the quals
-        double[] realQuals = new double[quals.length];
-        int qIndex = 0;
-        for (byte qual : quals) {realQuals[qIndex++] = Math.pow(10.0,-1.0*(qual/10.0));}
-
-        // check our inputs
-        if (maf > 1.0 || maf < 0.0) throw new IllegalArgumentException("Invalid allele Freq: must be between 0 and 1 (inclusive), maf was " + maf + " for population " + popName);
+        populationName = popName;
+        final double[] realQuals = new IndexRange(0, quals.length).mapToDouble(n -> Math.pow(10.0,-quals[n]/10.0));
 
         // calculate the contamination for each bin
         int qualOffset = 0;
         for (byte base : bases) {
-
-            if (base == arrayAllele) { arrayAlleleObservations++; }
-            if (base == hapmapAlt) { alternateAlleleObservations++; }
-            double epsilon = precalculatedEpsilon[quals[qualOffset++]];
+            final double epsilon = precalculatedEpsilon[quals[qualOffset++]];
 
             for (int index = 0; index < bins.length; index++) {
-
-
-                double contaminationRate = (1.0 - (double) index / (double) bins.length);
+                final double contaminationRate = (1.0 - index / (double) bins.length);
 
                 if (base == arrayAllele) {
                     bins[index] += Math.log((1.0 - contaminationRate) * (1.0 - epsilon) +
-                            contaminationRate * ((maf) * (1.0 - epsilon) + (1.0 - maf) * (epsilon/3.0)));
+                            contaminationRate * (maf * (1.0 - epsilon) + (1.0 - maf) * epsilon/3.0));
                     populationFit += Math.log(epsilon);
 
                 } else if(hapmapAlt == base) {
-                    bins[index] += Math.log((1.0 - contaminationRate) * (epsilon / 3.0) +
-                            contaminationRate * ((maf) * (epsilon/3.0) + (1.0 - maf) * (1.0 - epsilon)));
+                    bins[index] += Math.log((1.0 - contaminationRate) * epsilon / 3.0 +
+                            contaminationRate * (maf * epsilon/3.0 + (1.0 - maf) * (1.0 - epsilon)));
 
                     populationFit += Math.log(maf + epsilon);
                 }
@@ -97,8 +71,8 @@ final class ContaminationEstimate {
         return populationFit;
     }
 
-    public String getPopultationName() {
-        return popultationName;
+    public String getPopulationName() {
+        return populationName;
     }
 
     public static class ConfidenceInterval {
@@ -107,26 +81,16 @@ final class ContaminationEstimate {
         private double stop;
         private double contamination;
         private double maxLikelihood;
-        double[] newBins;
+        final double[] newBins;
 
         public ConfidenceInterval(double bins[], double intervalArea) {
             // make a copy of the bins in non-log space
-            int maxIndex = 0;
-            for (int x = 0; x < bins.length; x++) if (bins[x] > bins[maxIndex]) maxIndex = x;
-            newBins = new double[bins.length];
+            int maxIndex = MathUtils.maxElementIndex(bins);
             maxLikelihood = bins[maxIndex];
 
-            int index = 0;
-            double total = 0.0;
-            for (double d : bins) {
-                newBins[index] = Math.pow(10,(bins[index] - bins[maxIndex]));
-                total += newBins[index];
-                index++;
-            }
+            newBins = MathUtils.applyToArray(bins, x -> Math.pow(10,x - bins[maxIndex]));
+            MathUtils.normalizeFromRealSpaceInPlace(newBins);
 
-            for (int x = 0; x < newBins.length; x++) {
-                newBins[x] = newBins[x] / total;
-            }
             double areaUnderCurve = 0;
             int leftIndex = maxIndex;
             int rightIndex = maxIndex;
@@ -170,12 +134,8 @@ final class ContaminationEstimate {
             return contamination;
         }
 
-        public double getMaxLikelihood() {
-            return maxLikelihood;
-        }
-
         public String toString() {
-            return contamination + "[" + start + " - " + stop + "] log likelihood = " + maxLikelihood;
+            return String.format("%f[%f-%f] log likelihood = %f", contamination, start, stop, maxLikelihood);
         }
     }
 }

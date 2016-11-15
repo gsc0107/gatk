@@ -3,6 +3,10 @@ package org.broadinstitute.hellbender.tools.walkers.cancer.contamination;
 
 import htsjdk.samtools.util.Locatable;
 import org.apache.commons.math3.distribution.BetaDistribution;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.broadinstitute.hellbender.utils.IndexRange;
+import org.broadinstitute.hellbender.utils.MathUtils;
 import org.broadinstitute.hellbender.utils.Utils;
 
 import java.io.PrintStream;
@@ -13,6 +17,7 @@ import java.util.*;
  * or whatever other divisor we've used on the read data
  */
 public final class ContaminationResults {
+    protected static final Logger logger = LogManager.getLogger(ContaminationResults.class);
 
     public static class ContaminationData implements Comparable<ContaminationData> {
         private Locatable site;
@@ -48,9 +53,8 @@ public final class ContaminationResults {
             this.basesMismatching = basesMismatching;
             this.bins = bins;
             long totalBases = this.basesMatching + this.basesMismatching;
-            if (totalBases != 0) {
-                this.mismatchFraction = (double)this.basesMismatching / (double) totalBases;
-            }
+            mismatchFraction = totalBases > 0 ? (double)this.basesMismatching / (double) totalBases : -1d;
+
 
             int a = (int) this.getBasesMismatching() + 1;
             int b = (int) this.getBasesMatching() + 1;
@@ -64,12 +68,7 @@ public final class ContaminationResults {
 
         @Override
         public String toString() {
-            return "ContaminationData{" +
-                    "site=" + site +
-                    ", basesMatching=" + basesMatching +
-                    ", basesMismatching=" + basesMismatching +
-                    ", mismatchFraction=" + mismatchFraction +
-                    '}';
+            return String.format("ContaminationData{site=%s, basesMatching=%d, basesMismatching=%d, mismatchFraction=%f}",site, basesMatching, basesMismatching, mismatchFraction);
         }
     }
 
@@ -149,7 +148,7 @@ public final class ContaminationResults {
         for (Map.Entry<String,Map<String, ContaminationStats>> entry : stats.entrySet()) {
             for (ContaminationStats stats : entry.getValue().values()) {
                 String aggregationLevel = entry.getKey();
-                String population = stats.getContamination().getPopultationName();
+                String population = stats.getContamination().getPopulationName();
 
                 List<ContaminationData> newStats = storedData.get(aggregationLevel).get(population);
                 String pm = "%3." + Math.round(Math.log10(1/precision)) +"f";
@@ -167,7 +166,7 @@ public final class ContaminationResults {
                 for(Iterator<ContaminationData> i = data.iterator(); trimmed < maxTrim && i.hasNext();) {
                     ContaminationData x = i.next();
                     if (x.getP() >= betaThreshold) {
-                        System.out.println("Trimming " + x.toString() + " with p(f>=0.5) >= " + betaThreshold + " with a value of  " + x.getP());
+                        logger.info("Trimming " + x.toString() + " with p(f>=0.5) >= " + betaThreshold + " with a value of  " + x.getP());
                         i.remove();
                         trimmed++;
                     }
@@ -182,20 +181,10 @@ public final class ContaminationResults {
                 }
 
                 // now perform the sum
-                double[] output = new double[bins];
-                for (int i = 0; i<bins; i++) {
-                    double[] binData = matrix[i];
-
-                    // remove the top and bottom
-                    output[i] = 0;
-                    for (int x = 0; x < binData.length; x++) {
-                        output[i] += binData[x];
-                    }
-                }
-                double[] newTrimmedStats = output;
+                final double[] output = new IndexRange(0, bins).mapToDouble(n -> MathUtils.sum(matrix[n]));
 
                 // get the confidence interval, at the set width
-                ContaminationEstimate.ConfidenceInterval newInterval = new ContaminationEstimate.ConfidenceInterval(newTrimmedStats, 0.95);
+                ContaminationEstimate.ConfidenceInterval newInterval = new ContaminationEstimate.ConfidenceInterval(output, 0.95);
 
                 out.println(
                         String.format("%s\t%s\t%s\t"+pm+"\t"+pm+"\t"+pm+"\t"+pm+"\t"+"%d",
@@ -208,11 +197,9 @@ public final class ContaminationResults {
                                 newInterval.getStop(),
                                 data.size())
                 );
-
             }
         }
     }
-
 
     public void writeCurves(PrintStream out) {
         boolean outputBins = false;
@@ -232,7 +219,7 @@ public final class ContaminationResults {
                 for (double value : stats.getContamination().getBins()) {
                     bins[index++] = String.valueOf(value);
                 }
-                out.print(entry.getKey()+",\""+stats.getContamination().getPopultationName()+"\",");
+                out.print(entry.getKey()+",\""+stats.getContamination().getPopulationName()+"\",");
                 out.println(Utils.join(",", (Object)bins));
             }
         }

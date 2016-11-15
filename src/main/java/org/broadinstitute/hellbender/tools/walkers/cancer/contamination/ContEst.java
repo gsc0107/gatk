@@ -11,6 +11,8 @@ import org.broadinstitute.hellbender.cmdline.Hidden;
 import org.broadinstitute.hellbender.cmdline.programgroups.QCProgramGroup;
 import org.broadinstitute.hellbender.engine.*;
 import org.broadinstitute.hellbender.exceptions.UserException;
+import org.broadinstitute.hellbender.utils.MathUtils;
+import org.broadinstitute.hellbender.utils.Nucleotide;
 import org.broadinstitute.hellbender.utils.pileup.ReadPileup;
 
 import java.io.PrintStream;
@@ -404,12 +406,12 @@ public final class ContEst extends LocusWalker {
             return null;
         }
 
-        if (sum(pileup.getBaseCounts()) < minGenotypingDepth) {
+        if (MathUtils.sum(pileup.getBaseCounts()) < minGenotypingDepth) {
             return null;
         }
         final int[] bases = pileup.getBaseCounts();
-        final int mx = maxPos(bases);
-        final int allGenotypes = sum(bases);
+        final int mx = MathUtils.maxIndex(bases);
+        final int allGenotypes = (int) MathUtils.sum(bases);
         final String refBase = String.valueOf((char)referenceContext.getBase());
         if (bases[mx] / (float)allGenotypes >= minGenotypeRatio && !refBase.equals(ALLELES[mx].getBaseString())) {
             final List<Allele> al = new ArrayList<>();
@@ -418,25 +420,6 @@ public final class ContEst extends LocusWalker {
             return builder.make();
         }
         return null;
-    }
-
-    // utils
-    private static int sum(final int[] a) {
-        int sm = 0;
-        for (final int i : a) {
-            sm = sm + i;
-        }
-        return sm;
-    }
-
-    private static int maxPos(final int[] a) {
-        int mx = 0;
-        for (int i = 0; i < a.length; i++) {
-            if (a[i] > a[mx]) {
-                mx = i;
-            }
-        }
-        return mx;
     }
 
     private static Genotype getGenotypeFromArray(final FeatureContext features, final FeatureInput<VariantContext> genotypes, boolean verifiedSampleName, final boolean verifySample, final String sampleName) {
@@ -458,18 +441,12 @@ public final class ContEst extends LocusWalker {
 
         final GenotypesContext gt = truthForSample.getGenotypes();
 
-        // if we are supposed to verify the sample name, AND the sample doesn't exist in the genotypes -- skip this site
-        if (verifySample && !gt.containsSample(sampleName)) {
+        // if we are supposed to verify the sample name (which we automatically are if more than one sample), AND the sample doesn't exist in the genotypes -- skip this site
+        if ((verifySample || gt.size() > 1) && !gt.containsSample(sampleName)) {
             return null;
         }
 
-        // if the sample doesn't exist in genotypes AND there is more than one sample in the genotypes file -- skip this site
-        if (!gt.containsSample(sampleName) && gt.size() != 1) {
-            return null;
-        }
-
-        // if there is more than one sample in the genotypes file, get it by name.  Otherwise just get the sole sample genotype
-        return gt.size() != 1 ? gt.get(sampleName) : gt.get(0);
+        return gt.size() == 1 ? gt.get(0) : gt.get(sampleName);
     }
 
 
@@ -563,24 +540,8 @@ public final class ContEst extends LocusWalker {
                                                              final Double precision,
                                                              final String lane,
                                                              final String[] pops) {
-        final int[] alts = new int[4];
-        int total = 0;
-        // get the depth ratio we are aiming for
-        for (final byte base : bases) {
-            if (base == 'A' || base == 'a') {
-                alts[0]++;
-            }
-            if (base == 'C' || base == 'c') {
-                alts[1]++;
-            }
-            if (base == 'G' || base == 'g') {
-                alts[2]++;
-            }
-            if (base == 'T' || base == 't') {
-                alts[3]++;
-            }
-            total++;
-        }
+        final Nucleotide.Counter counter = new Nucleotide.Counter();
+        counter.addAll(bases);
 
         final Map<String, ContaminationStats> ret = new LinkedHashMap<>();
 
@@ -591,10 +552,10 @@ public final class ContEst extends LocusWalker {
                 throw new RuntimeException("Minor allele frequency is greater than 0.5, this is an error; we saw AF of " + alleleFreq);
             }
 
-            final int majorCounts = alts[getBaseIndex(info.getMajorAllele())];
-            final int minorCounts = alts[getBaseIndex(info.getMinorAllele())];
-            final int otherCounts = total - majorCounts - minorCounts;
-
+            final long majorCounts = counter.get(Nucleotide.valueOf(info.getMajorAllele()));
+            final long minorCounts = counter.get(Nucleotide.valueOf(info.getMinorAllele()));
+            final long otherCounts = counter.get(Nucleotide.A) + counter.get(Nucleotide.C) + counter.get(Nucleotide.G)
+                    + counter.get(Nucleotide.T) - majorCounts - minorCounts;
 
             // only use sites where this is the minor allele
             if (myAllele == info.minorAllele) {
@@ -629,22 +590,6 @@ public final class ContEst extends LocusWalker {
 
         }
         return ret;
-    }
-
-    private static int getBaseIndex(final byte base) {
-        if (base == 'A' || base == 'a') {
-            return 0;
-        }
-        if (base == 'C' || base == 'c') {
-            return 1;
-        }
-        if (base == 'G' || base == 'g') {
-            return 2;
-        }
-        if (base == 'T' || base == 't') {
-            return 3;
-        }
-        return -1;
     }
 
     /**

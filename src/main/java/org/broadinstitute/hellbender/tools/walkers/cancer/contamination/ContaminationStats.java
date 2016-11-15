@@ -2,13 +2,14 @@ package org.broadinstitute.hellbender.tools.walkers.cancer.contamination;
 
 
 import htsjdk.samtools.util.Locatable;
+import org.broadinstitute.hellbender.utils.Utils;
 
 /**
  * a class that tracks our contamination stats; both the estimate of contamination, as well as the number of sites and other
  * run-specific data
  */
 public final class ContaminationStats {
-    static final int ALLELE_COUNT = 4;
+    private static final int ALLELE_COUNT = 4;
     private Locatable site;
     private int numberOfSites = 0;
     private double sumOfAlleleFrequency = 0.0;
@@ -25,7 +26,7 @@ public final class ContaminationStats {
         this.basesFor = basesFor;
         this.basesAgainst = basesAgainst;
         this.contaminationEstimate = estimate;
-        if (alleleBreakdown.length != ALLELE_COUNT) throw new IllegalArgumentException("Allele breakdown should have length " + ALLELE_COUNT);
+        Utils.validateArg(alleleBreakdown.length == ALLELE_COUNT, () -> "Allele breakdown should have length " + ALLELE_COUNT);
         this.alleleBreakdown = alleleBreakdown;
     }
 
@@ -50,7 +51,7 @@ public final class ContaminationStats {
     }
 
     public ContaminationEstimate getContamination() {
-        return this.contaminationEstimate;
+        return contaminationEstimate;
     }
 
     public Locatable getSite() {

@@ -47,6 +47,16 @@ public final class MathUtils {
      */
     private MathUtils() { }
 
+    public static int maxIndex(final int[] a) {
+        int mx = 0;
+        for (int i = 0; i < a.length; i++) {
+            if (a[i] > a[mx]) {
+                mx = i;
+            }
+        }
+        return mx;
+    }
+
 
     /**
      * A utility class that computes on the fly average and standard deviation for a stream of numbers.
@@ -704,6 +714,15 @@ public final class MathUtils {
         final double sum = sum(array);
         Utils.validateArg(sum >= 0.0, () -> "Values in probability array sum to a negative number " + sum);
         return applyToArray(array, x -> x/sum);
+    }
+
+    public static double[] normalizeFromRealSpaceInPlace(final double[] array) {
+        if ( array.length == 0 )
+            return array;
+
+        final double sum = sum(array);
+        Utils.validateArg(sum >= 0.0, () -> "Values in probability array sum to a negative number " + sum);
+        return applyToArrayInPlace(array, x -> x/sum);
     }
 
     public static int maxElementIndex(final double[] array) {
