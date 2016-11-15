@@ -62,7 +62,7 @@ public final class AlleleListUnitTester {
     /**
      * Save to assume that this allele will never be used.
      */
-    private static final Allele NEVER_USE_ALLELE = Allele.create(new String("ACTGACTGACTGACTGACTGACTGACTGACTGGTCAGTCAGTCAGTCAGTCAGTCA").getBytes(), false);
+    private static final Allele NEVER_USE_ALLELE = Allele.create("ACTGACTGACTGACTGACTGACTGACTGACTGGTCAGTCAGTCAGTCAGTCAGTCA".getBytes(), false);
 
     /**
      * Generate testing alleles. Guarantees that alleles are unique.
