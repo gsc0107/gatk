@@ -33,7 +33,7 @@ public final class FilterReads extends PicardCommandLineProgram {
 
     private static final Logger log = LogManager.getLogger();
 
-    private static enum Filter {
+    private enum Filter {
         includeAligned("OUTPUT SAM/BAM/CRAM will contain aligned reads only. INPUT SAM/BAM/CRAM must be in queryname SortOrder. (Note that *both* first and second of paired reads must be aligned to be included in the OUTPUT file)"),
         excludeAligned("OUTPUT SAM/BAM/CRAM will contain un-mapped reads only. INPUT SAM/BAM/CRAM must be in queryname SortOrder. (Note that *both* first and second of pair must be aligned to be excluded from the OUTPUT file)"),
         includeReadList("OUTPUT SAM/BAM/CRAM will contain reads that are supplied in the READ_LIST_FILE file"),

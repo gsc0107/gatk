@@ -75,7 +75,7 @@ public abstract class PairHMM implements Closeable{
 
         private final Supplier<PairHMM> makeHmm;
 
-        private Implementation(final Supplier<PairHMM> makeHmm){
+        Implementation(final Supplier<PairHMM> makeHmm){
             this.makeHmm = makeHmm;
         }
 

@@ -35,7 +35,7 @@ public enum GATKReportVersion {
 
     private final String versionString;
 
-    private GATKReportVersion(final String versionString) {
+    GATKReportVersion(final String versionString) {
         this.versionString = versionString;
     }
 

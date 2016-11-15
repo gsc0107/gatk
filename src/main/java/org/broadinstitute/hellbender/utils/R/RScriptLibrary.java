@@ -13,7 +13,7 @@ public enum RScriptLibrary {
 
     private final String name;
 
-    private RScriptLibrary(final String name) {
+    RScriptLibrary(final String name) {
         this.name = name;
     }
 

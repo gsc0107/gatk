@@ -140,7 +140,7 @@ public final class RevertOriginalBaseQualitiesAndAddMateCigar extends PicardComm
         private final String format;
         private final boolean skip;
 
-        private CanSkipSamFile(final String format, final boolean skip) {
+        CanSkipSamFile(final String format, final boolean skip) {
             this.format = format;
             this.skip = skip;
         }

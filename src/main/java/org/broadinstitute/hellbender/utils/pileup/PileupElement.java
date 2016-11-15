@@ -326,7 +326,7 @@ public final class PileupElement {
             return increment;
         }
 
-        private Direction(final int increment){
+        Direction(final int increment){
             this.increment = increment;
         }
     }

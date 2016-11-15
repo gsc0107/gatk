@@ -25,7 +25,7 @@ public final class BaseUtils {
 
         public byte base;
 
-        private Base(final char base) {
+        Base(final char base) {
             this.base = (byte)base;
         }
     }

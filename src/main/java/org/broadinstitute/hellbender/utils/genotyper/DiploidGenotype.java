@@ -28,11 +28,11 @@ public enum DiploidGenotype {
             { AT, CT, GT, TT }
     };
 
-    private DiploidGenotype(final char base1, final char base2) {
+    DiploidGenotype(final char base1, final char base2) {
         this((byte)base1, (byte)base2);
     }
 
-    private DiploidGenotype(final byte base1, final byte base2) {
+    DiploidGenotype(final byte base1, final byte base2) {
         this.base1 = base1;
         this.base2 = base2;
     }

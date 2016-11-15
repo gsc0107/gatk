@@ -34,7 +34,7 @@ public final class CollectMultipleMetrics extends PicardCommandLineProgram {
         SinglePassSamProgram makeInstance(final String outbase);
     }
 
-    public static enum Program implements ProgramInterface {
+    public enum Program implements ProgramInterface {
         CollectAlignmentSummaryMetrics {
             @Override
             public SinglePassSamProgram makeInstance(final String outbase) {

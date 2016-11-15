@@ -253,7 +253,7 @@ public final class GenomeLocUnitTest extends BaseTest {
 
         final int cmp;
 
-        private ComparisonResult(final int cmp) {
+        ComparisonResult(final int cmp) {
             this.cmp = cmp;
         }
     }

@@ -67,7 +67,7 @@ public final class CollectMultipleMetricsSpark extends GATKSparkTool {
     }
 
     // Enum of Collector types that CollectMultipleMetrics can support.
-    public static enum SparkCollectors implements SparkCollectorProvider {
+    public enum SparkCollectors implements SparkCollectorProvider {
         CollectInsertSizeMetrics {
             @Override
             public MetricsCollectorSpark<? extends MetricsArgumentCollection> createCollector(

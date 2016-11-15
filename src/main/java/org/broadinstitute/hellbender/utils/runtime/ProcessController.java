@@ -29,7 +29,7 @@ import java.util.*;
 public final class ProcessController {
     private static final Logger logger = LogManager.getLogger(ProcessController.class);
 
-    private static enum ProcessStream {Stdout, Stderr}
+    private enum ProcessStream {Stdout, Stderr}
 
     // Tracks running processes.
     private static final Set<ProcessController> running = Collections.synchronizedSet(new LinkedHashSet<>());

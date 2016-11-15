@@ -21,7 +21,7 @@ public enum EventType {
      */
     private static final EventType[] cachedValues = EventType.values();
 
-    private EventType(final String representation, final String longRepresentation) {
+    EventType(final String representation, final String longRepresentation) {
         this.representation = representation;
         this.longRepresentation = longRepresentation;
     }

@@ -45,7 +45,7 @@ public enum GATKReportDataType {
 
     private final java.lang.String dataTypeString;
 
-    private GATKReportDataType(final java.lang.String dataTypeString) {
+    GATKReportDataType(final java.lang.String dataTypeString) {
         this.dataTypeString = dataTypeString;
     }
 
