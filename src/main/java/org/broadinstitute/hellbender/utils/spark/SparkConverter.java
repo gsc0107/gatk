@@ -91,7 +91,7 @@ public final class SparkConverter {
 
         // This cast is required, even though it would not seem necessary, at first.  Exact reason why is unknown.
         //   Will fail compilation if the cast is removed.
-        final Vector [] rowVectors = (Vector []) r.rows().collect();
+        final Vector [] rowVectors = r.rows().collect();
 
         final RealMatrix result = new Array2DRowRealMatrix(numRows, numCols);
         for (int i = 0; i < numRows; i++) {

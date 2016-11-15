@@ -62,12 +62,12 @@ public final class AlignmentContextUnitTest extends BaseTest{
 
         final AlignmentContext acFWD = ac.stratify(AlignmentContext.ReadOrientation.FORWARD);
         Assert.assertEquals(acFWD.getLocation(), loc, "Forward Loc");
-        Assert.assertEquals((Iterable<?>) acFWD.getBasePileup(), (Iterable<?>)pileup, "Forward Pileup");
+        Assert.assertEquals(acFWD.getBasePileup(), pileup, "Forward Pileup");
 
         final AlignmentContext acREV = ac.stratify(AlignmentContext.ReadOrientation.REVERSE);
         final AlignmentContext emptyAC= new AlignmentContext(loc, new ReadPileup(loc));
         Assert.assertEquals(acREV.getLocation(), loc, "Reverse Loc");
-        Assert.assertEquals((Iterable<?>)acREV.getBasePileup(), (Iterable<?>)emptyAC.getBasePileup(), "Reverse pileup");
+        Assert.assertEquals(acREV.getBasePileup(), emptyAC.getBasePileup(), "Reverse pileup");
         Assert.assertNotNull(ac.toString());
 
         final Map<String, AlignmentContext> bySample = ac.splitContextBySampleName(header);

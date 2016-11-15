@@ -144,8 +144,8 @@ public abstract class AS_StrandBiasTest extends StrandBiasTest implements Reduci
         for (final Allele a : combined.getAlleles()) {
             if (toAdd.hasAttribute(a) && toAdd.getAttribute(a) != null) {
                 if (combined.getAttribute(a) != null) {
-                    combined.getAttribute(a).set(0, (int) combined.getAttribute(a).get(0) + (int) toAdd.getAttribute(a).get(0));
-                    combined.getAttribute(a).set(1, (int) combined.getAttribute(a).get(1) + (int) toAdd.getAttribute(a).get(1));
+                    combined.getAttribute(a).set(0, combined.getAttribute(a).get(0) + toAdd.getAttribute(a).get(0));
+                    combined.getAttribute(a).set(1, combined.getAttribute(a).get(1) + toAdd.getAttribute(a).get(1));
                 }
                 else {
                     final List<Integer> alleleData = new ArrayList<>();
