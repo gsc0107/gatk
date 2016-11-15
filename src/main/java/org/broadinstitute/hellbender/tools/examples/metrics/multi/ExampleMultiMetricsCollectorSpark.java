@@ -31,7 +31,7 @@ public class ExampleMultiMetricsCollectorSpark
     private ExampleMultiMetricsArgumentCollection inputArgs;
 
     // Container for per-partition metrics
-    private ExampleMultiMetricsCollector collector = new ExampleMultiMetricsCollector();
+    private final ExampleMultiMetricsCollector collector = new ExampleMultiMetricsCollector();
 
     // Container for final aggregate reduced/combined metrics
     private ExampleMultiMetricsCollector reducedResultMetrics;

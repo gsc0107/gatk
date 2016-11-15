@@ -20,7 +20,7 @@ import static org.broadinstitute.hellbender.utils.read.ReadUtils.getSoftStart;
 
 public final class ReadClipperUnitTest extends BaseTest {
     List<Cigar> cigarList;
-    int maximumCigarElements = 9;                                                                                           // 6 is the minimum necessary number to try all combinations of cigar types with guarantee of clipping an element with length = 2
+    final int maximumCigarElements = 9;                                                                                           // 6 is the minimum necessary number to try all combinations of cigar types with guarantee of clipping an element with length = 2
 
     @BeforeClass
     public void init() {
@@ -347,7 +347,7 @@ public final class ReadClipperUnitTest extends BaseTest {
     }
 
     private class CigarCounter {
-        private Map<CigarOperator, Integer> counter;
+        private final Map<CigarOperator, Integer> counter;
 
         public Integer getCounterForOp(final CigarOperator operator) {
             return counter.get(operator);

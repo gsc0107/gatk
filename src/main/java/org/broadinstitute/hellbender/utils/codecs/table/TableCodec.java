@@ -42,7 +42,7 @@ public final class TableCodec extends AsciiFeatureCodec<TableFeature> {
     protected static final String IGV_HEADER_DELIMITER = "track";
     protected static final String COMMENT_DELIMITER = "#";
 
-    protected List<String> header = new ArrayList<>();
+    protected final List<String> header = new ArrayList<>();
 
     public TableCodec() {
         super(TableFeature.class);

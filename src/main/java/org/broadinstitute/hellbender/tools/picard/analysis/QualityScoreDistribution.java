@@ -42,16 +42,16 @@ public final class QualityScoreDistribution extends SinglePassSamProgram {
     public File CHART_OUTPUT;
 
     @Argument(doc="If set to true calculate mean quality over aligned reads only.")
-    public boolean ALIGNED_READS_ONLY = false;
+    public final boolean ALIGNED_READS_ONLY = false;
 
     @Argument(shortName="PF", doc="If set to true calculate mean quality over PF reads only.")
-    public boolean PF_READS_ONLY = false;
+    public final boolean PF_READS_ONLY = false;
 
     @Argument(doc="If set to true, include quality for no-call bases in the distribution.")
-    public boolean INCLUDE_NO_CALLS = false;
+    public final boolean INCLUDE_NO_CALLS = false;
 
     @Argument(doc = "Should an output plot be created")
-    public boolean PRODUCE_PLOT = false;
+    public final boolean PRODUCE_PLOT = false;
 
     private final long[] qCounts  = new long[128];
     private final long[] oqCounts = new long[128];

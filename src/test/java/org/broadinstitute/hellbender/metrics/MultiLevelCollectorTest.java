@@ -19,7 +19,7 @@ import static htsjdk.samtools.util.CollectionUtil.makeSet;
 
 public final class MultiLevelCollectorTest {
 
-    public static File TESTFILE = new File("src/test/resources/org/broadinstitute/hellbender/metrics/test.sam");
+    public static final File TESTFILE = new File("src/test/resources/org/broadinstitute/hellbender/metrics/test.sam");
 
     public String noneOrStr(final String str) {
         final String out;

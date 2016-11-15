@@ -38,10 +38,10 @@ public final class NormalizeFasta extends CommandLineProgram {
     public File OUTPUT;
 
     @Argument(doc="The line length to be used for the output fasta file.")
-    public int LINE_LENGTH=100;
+    public final int LINE_LENGTH=100;
 
     @Argument(doc="Truncate sequence names at first whitespace.")
-    public boolean TRUNCATE_SEQUENCE_NAMES_AT_WHITESPACE=false;
+    public final boolean TRUNCATE_SEQUENCE_NAMES_AT_WHITESPACE=false;
 
     @Override
     protected Object doWork() {

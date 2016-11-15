@@ -25,7 +25,7 @@ import static htsjdk.samtools.util.CollectionUtil.makeSet;
  */
 public final class MultiLevelReducibleCollectorUnitTest {
 
-    public static File TESTFILE = new File("src/test/resources/org/broadinstitute/hellbender/metrics/test.sam");
+    public static final File TESTFILE = new File("src/test/resources/org/broadinstitute/hellbender/metrics/test.sam");
 
     public String noneOrStr(final String str) {
         return str == null ? "" : str;
@@ -56,7 +56,7 @@ public final class MultiLevelReducibleCollectorUnitTest {
         private static final long serialVersionUID = 1L;
         private final TotalNumberMetric metric;
 
-        RecordCountMultiLevelCollector outerCollector;
+        final RecordCountMultiLevelCollector outerCollector;
 
         public RecordCountPerUnitCollector(
                 final RecordCountMultiLevelCollector outerCollector, final String sample, final String library, final String readGroup) {

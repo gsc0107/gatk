@@ -56,10 +56,10 @@ public final class GeneralPloidyAFCalculationModelUnitTest extends BaseTest {
     }
 
     private final class GetGLsTest extends TestDataProvider {
-        GenotypesContext GLs;
-        int numAltAlleles;
-        String name;
-        int ploidy;
+        final GenotypesContext GLs;
+        final int numAltAlleles;
+        final String name;
+        final int ploidy;
         private GetGLsTest(final String name, final int numAltAlleles, final int ploidy, final Genotype... arg) {
             super(GetGLsTest.class, name);
             GLs = GenotypesContext.create(arg);

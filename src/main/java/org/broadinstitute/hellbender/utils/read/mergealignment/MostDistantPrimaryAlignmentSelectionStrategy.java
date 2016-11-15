@@ -110,7 +110,7 @@ public final class MostDistantPrimaryAlignmentSelectionStrategy implements Prima
 
     private static class BestEndAlignmentsAccumulator {
         public int bestMapq = -1;
-        public List<SAMRecord> bestAlignments = new ArrayList<>();
+        public final List<SAMRecord> bestAlignments = new ArrayList<>();
 
         public void considerBest(final SAMRecord rec) {
             if (bestMapq == -1) {
@@ -136,7 +136,7 @@ public final class MostDistantPrimaryAlignmentSelectionStrategy implements Prima
     private static class BestPairAlignmentsAccumulator {
         public int bestDistance = -1;
         public int bestPairMapq = -1;
-        public List<Map.Entry<SAMRecord, SAMRecord>> bestAlignmentPairs =
+        public final List<Map.Entry<SAMRecord, SAMRecord>> bestAlignmentPairs =
                 new ArrayList<>();
 
         public void considerBest(final SAMRecord firstEnd, final SAMRecord secondEnd) {

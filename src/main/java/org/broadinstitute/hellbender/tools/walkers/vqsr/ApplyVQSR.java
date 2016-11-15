@@ -153,7 +153,7 @@ public class ApplyVQSR extends MultiVariantWalker {
      *  Requires a .recal file produced using an allele-specific run of VariantRecalibrator
      */
     @Argument(fullName="useAlleleSpecificAnnotations", shortName="AS", doc="If specified, the tool will attempt to apply a filter to each allele based on the input tranches and allele-specific .recal file.", optional=true)
-    private boolean useASannotations = false;
+    private final boolean useASannotations = false;
 
     @Advanced
     @Argument(fullName="lodCutoff", shortName="lodCutoff", doc="The VQSLOD score below which to start filtering", optional=true)
@@ -163,16 +163,16 @@ public class ApplyVQSR extends MultiVariantWalker {
      * For this to work properly, the -ignoreFilter argument should also be applied to the VariantRecalibration command.
      */
     @Argument(fullName="ignore_filter", shortName="ignoreFilter", doc="If specified, the recalibration will be applied to variants marked as filtered by the specified filter name in the input VCF file", optional=true)
-    private List<String> IGNORE_INPUT_FILTERS = new ArrayList<>();
+    private final List<String> IGNORE_INPUT_FILTERS = new ArrayList<>();
 
     @Argument(fullName="ignore_all_filters", shortName="ignoreAllFilters", doc="If specified, the variant recalibrator will ignore all input filters. Useful to rerun the VQSR from a filtered output file.", optional=true)
-    private boolean IGNORE_ALL_FILTERS = false;
+    private final boolean IGNORE_ALL_FILTERS = false;
 
     @Argument(fullName="excludeFiltered", shortName="ef", doc="Don't output filtered loci after applying the recalibration", optional=true)
-    private boolean EXCLUDE_FILTERED = false;
+    private final boolean EXCLUDE_FILTERED = false;
 
     @Argument(fullName = "mode", shortName = "mode", doc = "Recalibration mode to employ: 1.) SNP for recalibrating only SNPs (emitting indels untouched in the output VCF); 2.) INDEL for indels; and 3.) BOTH for recalibrating both SNPs and indels simultaneously.", optional=true)
-    private VariantRecalibratorArgumentCollection.Mode MODE = VariantRecalibratorArgumentCollection.Mode.SNP;
+    private final VariantRecalibratorArgumentCollection.Mode MODE = VariantRecalibratorArgumentCollection.Mode.SNP;
 
     /////////////////////////////
     // Private Member Variables

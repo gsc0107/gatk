@@ -33,7 +33,7 @@ public final class RenameSampleInVcf extends PicardCommandLineProgram {
     public File OUTPUT;
 
     @Argument(doc = "Existing name of sample in VCF; if provided, asserts that that is the name of the extant sample name", optional = true)
-    public String OLD_SAMPLE_NAME = null;
+    public final String OLD_SAMPLE_NAME = null;
 
     @Argument(doc = "New name to give sample in output VCF.")
     public String NEW_SAMPLE_NAME;

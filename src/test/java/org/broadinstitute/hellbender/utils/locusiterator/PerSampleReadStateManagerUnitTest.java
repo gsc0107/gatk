@@ -17,7 +17,7 @@ public final class PerSampleReadStateManagerUnitTest extends LocusIteratorByStat
         private List<Integer> readCountsPerAlignmentStart;
         private List<GATKRead> reads;
         private List<ArrayList<AlignmentStateMachine>> recordStatesByAlignmentStart;
-        private int removalInterval;
+        private final int removalInterval;
 
         public PerSampleReadStateManagerTester(final List<Integer> readCountsPerAlignmentStart, final int removalInterval ) {
             super(PerSampleReadStateManagerTester.class);

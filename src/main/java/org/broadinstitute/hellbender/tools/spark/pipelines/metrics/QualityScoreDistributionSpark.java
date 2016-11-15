@@ -50,13 +50,13 @@ public final class QualityScoreDistributionSpark extends GATKSparkTool {
     public File chartOutput;
 
     @Argument(shortName="A", fullName = "alignedReadsOnly", doc="If set to true calculate mean quality over aligned reads only.")
-    public boolean alignedReadsOnly = false;
+    public final boolean alignedReadsOnly = false;
 
     @Argument(shortName="F", fullName = "pfReadsOnly", doc="If set to true calculate mean quality over PF reads only.")
-    public boolean pfReadsOnly = false;
+    public final boolean pfReadsOnly = false;
 
     @Argument(shortName = "NC", fullName = "includeNoCalls", doc="If set to true, include quality for no-call bases in the distribution.")
-    public boolean includeNoCalls = false;
+    public final boolean includeNoCalls = false;
 
     @Override
     public ReadFilter makeReadFilter() {

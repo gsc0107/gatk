@@ -16,7 +16,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 
 public class UpdateVCFSequenceDictionaryIntegrationTest extends CommandLineProgramTest {
-    private File testDir = new File(getTestDataDir(), "walkers/variantutils/UpdateVCFSequenceDictionary");
+    private final File testDir = new File(getTestDataDir(), "walkers/variantutils/UpdateVCFSequenceDictionary");
 
     @DataProvider(name="UpdateGoodSequenceDictionaryData")
     public Object[][] updateGoodSequenceDictionaryData() {

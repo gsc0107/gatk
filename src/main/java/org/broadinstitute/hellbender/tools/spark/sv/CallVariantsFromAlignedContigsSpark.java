@@ -66,7 +66,7 @@ public final class CallVariantsFromAlignedContigsSpark extends GATKSparkTool {
 
     @Argument(doc = "Minimum flanking alignment length", shortName = "minAlignLength",
             fullName = "minAlignLength", optional = true)
-    private Integer minAlignLength = CallVariantsFromAlignedContigsSpark.DEFAULT_MIN_ALIGNMENT_LENGTH;
+    private final Integer minAlignLength = CallVariantsFromAlignedContigsSpark.DEFAULT_MIN_ALIGNMENT_LENGTH;
 
     // This class requires a reference parameter in 2bit format (to broadcast) and a reference in FASTA format
     // (to get a good sequence dictionary).

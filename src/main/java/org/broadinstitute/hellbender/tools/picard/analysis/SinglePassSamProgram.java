@@ -37,10 +37,10 @@ public abstract class SinglePassSamProgram extends PicardCommandLineProgram {
 
     @Argument(doc = "If true (default), then the sort order in the header file will be ignored.",
             shortName = StandardArgumentDefinitions.ASSUME_SORTED_SHORT_NAME)
-    public boolean ASSUME_SORTED = true;
+    public final boolean ASSUME_SORTED = true;
 
     @Argument(doc = "Stop after processing N reads, mainly for debugging.")
-    public long STOP_AFTER = 0;
+    public final long STOP_AFTER = 0;
 
     private static final Logger logger = LogManager.getLogger();
 

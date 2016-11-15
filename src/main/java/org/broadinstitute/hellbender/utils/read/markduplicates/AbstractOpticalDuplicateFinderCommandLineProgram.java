@@ -16,7 +16,7 @@ public abstract class AbstractOpticalDuplicateFinderCommandLineProgram extends P
     protected static Logger LOG = LogManager.getLogger(AbstractOpticalDuplicateFinderCommandLineProgram.class);
 
     @ArgumentCollection
-    protected OpticalDuplicatesArgumentCollection opticalDuplicatesArgumentCollection = new OpticalDuplicatesArgumentCollection();
+    protected final OpticalDuplicatesArgumentCollection opticalDuplicatesArgumentCollection = new OpticalDuplicatesArgumentCollection();
 
     // The tool with which to find optical duplicates
     protected OpticalDuplicateFinder opticalDuplicateFinder = null;

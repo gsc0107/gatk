@@ -93,7 +93,7 @@ public final class VariantsToTable extends VariantWalker {
     @Argument(fullName = StandardArgumentDefinitions.OUTPUT_LONG_NAME,
             shortName = StandardArgumentDefinitions.OUTPUT_SHORT_NAME,
             doc="File to which results should be written (defaults to stdout)")
-    private String out = null;
+    private final String out = null;
 
     /**
      * -F NAME can be any standard VCF column (CHROM, ID, QUAL) or any annotation name in the INFO field (e.g., -F AC).
@@ -101,14 +101,14 @@ public final class VariantsToTable extends VariantWalker {
      * of inputs.  So -F CHROM -F POS is allowed.
      */
     @Argument(fullName="fields", shortName="F", doc="The name of each field to capture for output in the table", optional=true)
-    private List<String> fieldsToTake = new ArrayList<>();
+    private final List<String> fieldsToTake = new ArrayList<>();
 
     /**
      * -GF NAME can be any annotation name in the FORMAT field (e.g., GQ, PL).
      * This argument accepts any number of inputs.  So -GF GQ -GF PL is allowed.
      */
     @Argument(fullName="genotypeFields", shortName="GF", doc="The name of each genotype field to capture for output in the table", optional=true)
-    private List<String> genotypeFieldsToTake = new ArrayList<>();
+    private final List<String> genotypeFieldsToTake = new ArrayList<>();
 
     /**
      * By default this tool only emits values for records where the FILTER field is either PASS or . (unfiltered).
@@ -116,7 +116,7 @@ public final class VariantsToTable extends VariantWalker {
      */
     @Advanced
     @Argument(fullName="showFiltered", shortName="raw", doc="If provided, field values from filtered records will be included in the output", optional=true)
-    private boolean showFiltered = false;
+    private final boolean showFiltered = false;
 
     /**
      * By default, records with multiple ALT alleles will comprise just one line of output; note that in general this can make your resulting file
@@ -125,7 +125,7 @@ public final class VariantsToTable extends VariantWalker {
      * INFO field values that are not lists are copied for each of the output records while only the appropriate entry is used for lists.
      */
     @Argument(fullName="splitMultiAllelic", shortName="SMA", doc="If provided, we will split multi-allelic records into multiple lines of output", optional=true)
-    private boolean splitMultiAllelic = false;
+    private final boolean splitMultiAllelic = false;
 
     /**
      * By default, this tool emits one line per usable VCF record (or per allele if the -SMA flag is provided).  Using the -moltenize flag
@@ -134,7 +134,7 @@ public final class VariantsToTable extends VariantWalker {
      */
     @Advanced
     @Argument(fullName="moltenize", shortName="moltenize", doc="If provided, we will produce molten output", optional=true)
-    private boolean moltenizeOutput = false;
+    private final boolean moltenizeOutput = false;
 
     /**
      * By default, this tool throws a UserException error when it encounters a record that does not contain a value for one of the requested fields.  This
@@ -146,7 +146,7 @@ public final class VariantsToTable extends VariantWalker {
      */
     @Advanced
     @Argument(fullName="allowMissingData", shortName="AMD", doc="If provided, we will not require every record to contain every field", optional=true)
-    private boolean allowMissingData = false;
+    private final boolean allowMissingData = false;
     private static final String MISSING_DATA = "NA";
 
 

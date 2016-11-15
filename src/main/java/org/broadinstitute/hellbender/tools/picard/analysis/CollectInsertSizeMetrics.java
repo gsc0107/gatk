@@ -30,10 +30,10 @@ import java.util.List;
 public final class CollectInsertSizeMetrics extends SinglePassSamProgram {
 
     @ArgumentCollection
-    public InsertSizeMetricsArgumentCollection insertSizeArgs = new InsertSizeMetricsArgumentCollection();
+    public final InsertSizeMetricsArgumentCollection insertSizeArgs = new InsertSizeMetricsArgumentCollection();
 
     // Calculates InsertSizeMetrics for all METRIC_ACCUMULATION_LEVELs provided
-    private InsertSizeMetricsCollector insertSizeCollector = new InsertSizeMetricsCollector();
+    private final InsertSizeMetricsCollector insertSizeCollector = new InsertSizeMetricsCollector();
 
     private ReadFilter insertSizeMetricsReadFilter;
 

@@ -116,8 +116,8 @@ public final class IntervalUtilsUnitTest extends BaseTest {
     // -------------------------------------------------------------------------------------
 
     private final class IntervalSlicingTest extends TestDataProvider {
-        public int parts;
-        public double maxAllowableVariance;
+        public final int parts;
+        public final double maxAllowableVariance;
 
         private IntervalSlicingTest(final int parts, final double maxAllowableVariance) {
             super(IntervalSlicingTest.class);

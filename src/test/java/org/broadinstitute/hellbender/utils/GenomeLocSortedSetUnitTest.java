@@ -18,7 +18,7 @@ import static org.testng.Assert.*;
 public final class GenomeLocSortedSetUnitTest extends BaseTest {
 
     private GenomeLocSortedSet mSortedSet = null;
-    private SAMFileHeader header = ArtificialReadUtils.createArtificialSamHeader(NUMBER_OF_CHROMOSOMES, STARTING_CHROMOSOME, CHROMOSOME_SIZE);
+    private final SAMFileHeader header = ArtificialReadUtils.createArtificialSamHeader(NUMBER_OF_CHROMOSOMES, STARTING_CHROMOSOME, CHROMOSOME_SIZE);
     private static final int NUMBER_OF_CHROMOSOMES = 5;
     private static final int STARTING_CHROMOSOME = 1;
     private static final int CHROMOSOME_SIZE = 1000;

@@ -38,7 +38,7 @@ public final class ApplyBQSRSpark extends GATKSparkTool {
     private String bqsrRecalFile;
 
     @ArgumentCollection
-    private ApplyBQSRArgumentCollection applyBQSRArgs = new ApplyBQSRArgumentCollection();
+    private final ApplyBQSRArgumentCollection applyBQSRArgs = new ApplyBQSRArgumentCollection();
 
     @Override
     protected void runTool(final JavaSparkContext ctx) {

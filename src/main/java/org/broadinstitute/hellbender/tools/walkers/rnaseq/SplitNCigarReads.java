@@ -58,6 +58,7 @@ public final class SplitNCigarReads extends TwoPassReadWalker {
      * You should only use this if you know that your reads have that problem.
      */
     @Argument(fullName = "refactor_NDN_cigar_string", shortName = "fixNDN", doc = "refactor cigar string with NDN elements to one element", optional = true)
+    final
     boolean REFACTOR_NDN_CIGAR_READS = false;
 
     /**
@@ -66,6 +67,7 @@ public final class SplitNCigarReads extends TwoPassReadWalker {
      * enough with the default value.
      */
     @Argument(fullName="maxReadsInMemory", shortName="maxInMemory", doc="max reads allowed to be kept in memory at a time by the BAM writer", optional=true)
+    final
     int MAX_RECORDS_IN_MEMORY = 150000;
 
     /**
@@ -74,18 +76,22 @@ public final class SplitNCigarReads extends TwoPassReadWalker {
      * value, e.g. if most of the overhang mismatches.
      */
     @Argument(fullName="maxMismatchesInOverhang", shortName="maxMismatches", doc="max number of mismatches allowed in the overhang", optional=true)
+    final
     int MAX_MISMATCHES_IN_OVERHANG = 1;
 
     /**
      * If there are more than this many bases in the overhang, we won't try to hard-clip them out
      */
     @Argument(fullName="maxBasesInOverhang", shortName="maxOverhang", doc="max number of bases allowed in the overhang", optional=true)
+    final
     int MAX_BASES_TO_CLIP = 40;
 
     @Argument(fullName="doNotFixOverhangs", shortName="doNotFixOverhangs", doc="do not have the walker soft-clip overhanging sections of the reads", optional=true)
+    final
     boolean doNotFixOverhangs = false;
 
     @Argument(fullName="processSecondaryAlignments", shortName="processSecondaryAlignments", doc="have the walker split secondary alignments (will still repair MC tag without it)", optional=true)
+    final
     boolean processSecondaryAlignments = false;
 
     @Override

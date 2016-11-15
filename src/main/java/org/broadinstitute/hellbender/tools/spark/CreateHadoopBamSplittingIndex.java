@@ -52,7 +52,7 @@ public final class CreateHadoopBamSplittingIndex extends CommandLineProgram {
                     "do not otherwise need to be decoded.",
             common=true,
             optional=true)
-    public ValidationStringency readValidationStringency = ReadConstants.DEFAULT_READ_VALIDATION_STRINGENCY;
+    public final ValidationStringency readValidationStringency = ReadConstants.DEFAULT_READ_VALIDATION_STRINGENCY;
 
     @Argument(fullName = StandardArgumentDefinitions.OUTPUT_LONG_NAME,
             shortName = StandardArgumentDefinitions.OUTPUT_SHORT_NAME,
@@ -65,13 +65,13 @@ public final class CreateHadoopBamSplittingIndex extends CommandLineProgram {
             shortName = SPLITTING_INDEX_GRANULARITY_SHORT_NAME,
             doc = "Splitting index granularity, an entry is created in the index every this many reads.",
             optional = true)
-    public int granularity = SplittingBAMIndexer.DEFAULT_GRANULARITY;
+    public final int granularity = SplittingBAMIndexer.DEFAULT_GRANULARITY;
 
     @Argument(fullName = CREATE_BAI_LONG_NAME,
             shortName = CREATE_BAI_SHORT_NAME,
             doc = "set this to create a bai index at the same time as creating a splitting index",
             optional = true)
-    public boolean createBai = false;
+    public final boolean createBai = false;
 
 
     @Override

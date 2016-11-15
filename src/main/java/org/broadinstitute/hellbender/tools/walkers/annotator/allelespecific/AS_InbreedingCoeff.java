@@ -40,7 +40,7 @@ import java.util.*;
 public final class AS_InbreedingCoeff extends InfoFieldAnnotation implements AS_StandardAnnotation {
 
     public static final int MIN_SAMPLES = 10;
-    private Set<String> founderIds;    //TODO: either use this or enter a bug report
+    private final Set<String> founderIds;    //TODO: either use this or enter a bug report
 
     public AS_InbreedingCoeff(){
         this(null);

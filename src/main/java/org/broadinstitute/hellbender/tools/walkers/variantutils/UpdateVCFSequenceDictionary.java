@@ -35,7 +35,7 @@ public final class UpdateVCFSequenceDictionary extends VariantWalker {
     static final Logger logger = LogManager.getLogger(UpdateVCFSequenceDictionary.class);
 
     @Argument(fullName = StandardArgumentDefinitions.OUTPUT_LONG_NAME, doc="File to which updated variants should be written")
-    public String outFile = null;
+    public final String outFile = null;
 
     public final static String DICTIONARY_ARGUMENT_NAME = "sourceDictionary";
     @Argument(fullName=DICTIONARY_ARGUMENT_NAME,
@@ -50,6 +50,7 @@ public final class UpdateVCFSequenceDictionary extends VariantWalker {
     @Argument(fullName=REPLACE_ARGUMENT_NAME,
             doc="Force replacement of the dictionary if the input file already has a dictionary",
             optional=true)
+    final
     boolean replace = false; // optional since a reference can be provided as a dictionary source instead
 
     private VariantContextWriter vcfWriter;

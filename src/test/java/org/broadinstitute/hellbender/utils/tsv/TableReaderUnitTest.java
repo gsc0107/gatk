@@ -21,7 +21,7 @@ import java.util.stream.Collectors;
  */
 public class TableReaderUnitTest extends BaseTest {
 
-    private static TestTuple[] ORDINARY_VALUE_TEST_TUPLES = new TestTuple[]{
+    private static final TestTuple[] ORDINARY_VALUE_TEST_TUPLES = new TestTuple[]{
             new TestTuple("str1", 1, 1.1),
             new TestTuple("str2", 2, 2.2E-2),
             new TestTuple("str3", -3, Double.NaN),

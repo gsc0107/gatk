@@ -20,11 +20,11 @@ import org.broadinstitute.hellbender.exceptions.UserException;
  * @since 2011
  */
 public class PedReaderUnitTest extends BaseTest {
-    private static Logger logger = LogManager.getLogger(PedReaderUnitTest.class);
+    private static final Logger logger = LogManager.getLogger(PedReaderUnitTest.class);
 
     private final class PedReaderTest extends TestDataProvider {
-        public String fileContents;
-        public List<Sample> expectedSamples;
+        public final String fileContents;
+        public final List<Sample> expectedSamples;
         EnumSet<PedReader.MissingPedField> missing;
 
         private PedReaderTest(final String name, final List<Sample> expectedSamples, final String fileContents) {
@@ -166,10 +166,10 @@ public class PedReaderUnitTest extends BaseTest {
     // -----------------------------------------------------------------
 
     private final class PedReaderTestMissing extends TestDataProvider {
-        public EnumSet<PedReader.MissingPedField> missingDesc;
-        public EnumSet<PedReader.Field> missingFields;
+        public final EnumSet<PedReader.MissingPedField> missingDesc;
+        public final EnumSet<PedReader.Field> missingFields;
         public final String fileContents;
-        public Sample expected;
+        public final Sample expected;
 
 
         private PedReaderTestMissing(final String name, final String fileContents,
@@ -245,7 +245,7 @@ public class PedReaderUnitTest extends BaseTest {
     // -----------------------------------------------------------------
 
     private final class PedReaderTestTagParsing extends TestDataProvider {
-        public EnumSet<PedReader.MissingPedField> expected;
+        public final EnumSet<PedReader.MissingPedField> expected;
         public final List<String> tags;
 
         private PedReaderTestTagParsing(final List<String> tags, final EnumSet<PedReader.MissingPedField> missingDesc) {

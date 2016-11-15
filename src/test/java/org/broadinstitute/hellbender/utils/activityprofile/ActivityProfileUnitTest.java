@@ -40,10 +40,10 @@ public class ActivityProfileUnitTest extends BaseTest {
     // --------------------------------------------------------------------------------
 
     private class BasicActivityProfileTestProvider extends TestDataProvider {
-        List<Double> probs;
-        List<AssemblyRegion> expectedRegions;
-        int extension = 0;
-        GenomeLoc regionStart = startLoc;
+        final List<Double> probs;
+        final List<AssemblyRegion> expectedRegions;
+        final int extension = 0;
+        final GenomeLoc regionStart = startLoc;
         final ProfileType type;
 
         public BasicActivityProfileTestProvider(final ProfileType type, final List<Double> probs, final boolean startActive, final int ... startsAndStops) {

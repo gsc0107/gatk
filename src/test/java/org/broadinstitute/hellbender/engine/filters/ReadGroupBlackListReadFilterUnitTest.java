@@ -22,7 +22,7 @@ public final class ReadGroupBlackListReadFilterUnitTest extends BaseTest {
     private static final int CHR_SIZE = 1000;
     private static final int GROUP_COUNT = 5;
 
-    private SAMFileHeader header= ArtificialReadUtils.createArtificialSamHeaderWithGroups(CHR_COUNT, CHR_START, CHR_SIZE, GROUP_COUNT);
+    private final SAMFileHeader header= ArtificialReadUtils.createArtificialSamHeaderWithGroups(CHR_COUNT, CHR_START, CHR_SIZE, GROUP_COUNT);
 
     @Test(expectedExceptions=UserException.class)
     public void testBadFilter() throws IOException {

@@ -157,6 +157,7 @@ public final class ClipReads extends ReadWalker {
      * quality score threshold.
      */
     @Argument(fullName = "qTrimmingThreshold", shortName = "QT", doc = "If provided, the Q-score clipper will be applied", optional = true)
+    final
     int qTrimmingThreshold = -1;
 
     /**
@@ -186,6 +187,7 @@ public final class ClipReads extends ReadWalker {
      * from writing Ns over the clipped bases to hard clipping away the bases from the BAM.
      */
     @Argument(fullName = "clipRepresentation", shortName = "CR", doc = "How should we actually clip the bases?", optional = true)
+    final
     ClippingRepresentation clippingRepresentation = ClippingRepresentation.WRITE_NS;
 
     @Argument(fullName="read", doc="", optional = true)
@@ -482,9 +484,11 @@ public final class ClipReads extends ReadWalker {
     // --------------------------------------------------------------------------------------------------------------
 
     private static final class SeqToClip {
-        String name;
-        String seq, revSeq;
-        Pattern fwdPat, revPat;
+        final String name;
+        final String seq;
+        final String revSeq;
+        final Pattern fwdPat;
+        final Pattern revPat;
 
         public SeqToClip(final String name, final byte[] bytez) {
             this.name = name;
@@ -504,7 +508,7 @@ public final class ClipReads extends ReadWalker {
         public long nRangeClippedBases = 0;
         public long nSeqClippedBases = 0;
 
-        SortedMap<String, Long> seqClipCounts = new TreeMap<>();
+        final SortedMap<String, Long> seqClipCounts = new TreeMap<>();
 
         public ClippingData(final List<SeqToClip> clipSeqs) {
             for (final SeqToClip clipSeq : clipSeqs) {

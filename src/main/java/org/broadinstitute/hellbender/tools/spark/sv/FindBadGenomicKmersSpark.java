@@ -43,10 +43,10 @@ public final class FindBadGenomicKmersSpark extends GATKSparkTool {
     private String outputFile;
 
     @Argument(doc = "kmer size.", fullName = "kSize", optional = true)
-    private int kSize = SVConstants.KMER_SIZE;
+    private final int kSize = SVConstants.KMER_SIZE;
 
     @Argument(doc = "minimum kmer entropy", fullName = "kmerEntropy")
-    private double minEntropy = SVConstants.MIN_ENTROPY;
+    private final double minEntropy = SVConstants.MIN_ENTROPY;
 
     @Argument(doc = "high copy genomic intervals (mitochondrion, e.g.)",
             fullName = "highCopyIntervals", optional = true)

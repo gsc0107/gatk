@@ -31,14 +31,14 @@ public final class SeekableByteChannelPrefetcher implements SeekableByteChannel 
     private final int bufSize;
     private final ExecutorService exec;
     private final long size;
-    private List<WorkUnit> full = new ArrayList<>();
+    private final List<WorkUnit> full = new ArrayList<>();
     private WorkUnit fetching = null;
     // total number of buffers
     private final static int BUF_COUNT = 2;
     // where we pretend to be, wrt returning bytes from read()
     private long position = 0;
     private boolean open;
-    private Stopwatch betweenCallsToRead = Stopwatch.createUnstarted();
+    private final Stopwatch betweenCallsToRead = Stopwatch.createUnstarted();
 
     // statistics, for profiling
     // time spent blocking the user because we're waiting on the network

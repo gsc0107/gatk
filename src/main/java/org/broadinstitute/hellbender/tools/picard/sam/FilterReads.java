@@ -73,7 +73,7 @@ public final class FilterReads extends PicardCommandLineProgram {
     @Argument(
             doc = "Create .reads files (for debugging purposes)",
             optional = true)
-    public boolean WRITE_READS_FILES = true;
+    public final boolean WRITE_READS_FILES = true;
 
     @Argument(doc = "SAM/BAM file to write read excluded results to",
             optional = false,

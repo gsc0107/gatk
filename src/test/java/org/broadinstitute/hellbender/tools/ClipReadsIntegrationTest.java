@@ -16,7 +16,7 @@ import java.util.List;
 
 public final class ClipReadsIntegrationTest extends CommandLineProgramTest {
 
-    private File localTestData = new File(getTestDataDir(), "ClipReads");
+    private final File localTestData = new File(getTestDataDir(), "ClipReads");
 
     @Test(dataProvider = "clipOptions")
     public void testClipper(final String inBam, final String reference, final String extension, final String option, final String optAbrv, final boolean doStats) throws IOException {

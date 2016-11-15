@@ -160,7 +160,7 @@ public final class TableCodecUnitTest extends BaseTest {
 
     private LineReader makeReader(final List<String> strings) {
         return new LineReader() {
-            private Iterator<String> iterator = strings.iterator();
+            private final Iterator<String> iterator = strings.iterator();
             @Override
             public String readLine() throws IOException {
                 return iterator.hasNext() ? iterator.next() : null;

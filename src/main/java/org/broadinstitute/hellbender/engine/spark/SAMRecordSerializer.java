@@ -11,7 +11,7 @@ import htsjdk.samtools.*;
  * Assumes that the SAMRecords are headerless (and clears their header if they're not).
  */
 public final class SAMRecordSerializer extends Serializer<SAMRecord> {
-    private SAMRecordSparkCodec lazyCodec = new SAMRecordSparkCodec();
+    private final SAMRecordSparkCodec lazyCodec = new SAMRecordSparkCodec();
 
     @Override
     public void write(final Kryo kryo, final Output output, final SAMRecord record) {

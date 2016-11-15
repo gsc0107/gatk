@@ -29,7 +29,7 @@ public final class FamilyLikelihoods {
 
     static final int NUM_CALLED_GENOTYPETYPES = 3; //HOM_REF, HET, and HOM_VAR
 
-    double[] configurationLikelihoodsMatrix = new double[NUM_CALLED_GENOTYPETYPES*NUM_CALLED_GENOTYPETYPES*NUM_CALLED_GENOTYPETYPES];
+    final double[] configurationLikelihoodsMatrix = new double[NUM_CALLED_GENOTYPETYPES*NUM_CALLED_GENOTYPETYPES*NUM_CALLED_GENOTYPETYPES];
 
     private List<Sample> trios = new ArrayList<>();
 

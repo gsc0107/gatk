@@ -45,7 +45,7 @@ public final class SplitReads extends ReadWalker {
     @Argument(shortName = StandardArgumentDefinitions.OUTPUT_SHORT_NAME,
             fullName = StandardArgumentDefinitions.OUTPUT_LONG_NAME,
             doc = "The directory to output SAM/BAM/CRAM files.")
-    public File OUTPUT_DIRECTORY = new File("");
+    public final File OUTPUT_DIRECTORY = new File("");
 
     @Argument(shortName = SAMPLE_SHORT_NAME,
             doc = "Split file by sample.")

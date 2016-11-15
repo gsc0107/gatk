@@ -35,7 +35,7 @@ import java.util.List;
 public class ReadsSparkSinkUnitTest extends BaseTest {
     private MiniDFSCluster cluster;
 
-    private static String testDataDir = publicTestDir + "org/broadinstitute/hellbender/";
+    private static final String testDataDir = publicTestDir + "org/broadinstitute/hellbender/";
 
     @BeforeClass(alwaysRun = true)
     private void setupMiniCluster() throws IOException {

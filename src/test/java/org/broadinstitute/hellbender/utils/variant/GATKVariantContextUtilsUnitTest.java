@@ -100,8 +100,8 @@ public final class GATKVariantContextUtilsUnitTest extends BaseTest {
     // --------------------------------------------------------------------------------
 
     private final class MergeAllelesTest extends TestDataProvider {
-        List<List<Allele>> inputs;
-        List<Allele> expected;
+        final List<List<Allele>> inputs;
+        final List<Allele> expected;
 
         @SafeVarargs
         @SuppressWarnings("varargs")
@@ -196,8 +196,8 @@ public final class GATKVariantContextUtilsUnitTest extends BaseTest {
     // --------------------------------------------------------------------------------
 
     private final class SimpleMergeRSIDTest extends TestDataProvider {
-        List<String> inputs;
-        String expected;
+        final List<String> inputs;
+        final String expected;
 
         private SimpleMergeRSIDTest(final String... arg) {
             super(SimpleMergeRSIDTest.class);
@@ -251,10 +251,10 @@ public final class GATKVariantContextUtilsUnitTest extends BaseTest {
     // --------------------------------------------------------------------------------
 
     private final class MergeFilteredTest extends TestDataProvider {
-        List<VariantContext> inputs;
-        VariantContext expected;
-        String setExpected;
-        GATKVariantContextUtils.FilteredRecordMergeType type;
+        final List<VariantContext> inputs;
+        final VariantContext expected;
+        final String setExpected;
+        final GATKVariantContextUtils.FilteredRecordMergeType type;
 
 
         private MergeFilteredTest(final String name, final VariantContext input1, final VariantContext input2, final VariantContext expected, final String setExpected) {
@@ -388,9 +388,9 @@ public final class GATKVariantContextUtilsUnitTest extends BaseTest {
     // --------------------------------------------------------------------------------
 
     private final class MergeGenotypesTest extends TestDataProvider {
-        List<VariantContext> inputs;
-        VariantContext expected;
-        List<String> priority;
+        final List<VariantContext> inputs;
+        final VariantContext expected;
+        final List<String> priority;
 
         private MergeGenotypesTest(final String name, final String priority, final VariantContext... arg) {
             super(MergeGenotypesTest.class, name);
@@ -722,9 +722,9 @@ public final class GATKVariantContextUtilsUnitTest extends BaseTest {
     // --------------------------------------------------------------------------------
 
     private final class RepeatDetectorTest extends TestDataProvider {
-        String ref;
-        boolean isTrueRepeat;
-        VariantContext vc;
+        final String ref;
+        final boolean isTrueRepeat;
+        final VariantContext vc;
 
         private RepeatDetectorTest(final boolean isTrueRepeat, final String ref, final String refAlleleString, final String ... altAlleleStrings) {
             super(RepeatDetectorTest.class);

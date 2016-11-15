@@ -44,64 +44,64 @@ public final class FindBreakpointEvidenceSpark extends GATKSparkTool {
     @VisibleForTesting static final Params defaultParams = new Params();
 
     @Argument(doc = "Kmer size.", fullName = "kSize")
-    private int kSize = defaultParams.kSize;
+    private final int kSize = defaultParams.kSize;
 
     @Argument(doc = "Minimum kmer entropy", fullName = "kmerEntropy")
-    private double minEntropy = defaultParams.minEntropy;
+    private final double minEntropy = defaultParams.minEntropy;
 
     @Argument(doc = "The minimum mapping quality for reads used to gather evidence of breakpoints.",
             fullName = "minEvidenceMapQ", optional = true)
-    private int minEvidenceMapQ = defaultParams.minEvidenceMapQ;
+    private final int minEvidenceMapQ = defaultParams.minEvidenceMapQ;
 
     @Argument(doc = "The minimum length of the matched portion of an interesting alignment.  "+
             "Reads that don't match at least this many reference bases won't be used in gathering evidence.",
             fullName = "minEvidenceMatchLength", optional = true)
-    private int minEvidenceMatchLength = defaultParams.minEvidenceMatchLength;
+    private final int minEvidenceMatchLength = defaultParams.minEvidenceMatchLength;
 
     @Argument(doc = "Intervals with more than this much coverage are filtered out, because the reads mapped to "+
             "that interval are clearly not exclusively local to the interval.", fullName = "maxIntervalCoverage")
-    private int maxIntervalCoverage = defaultParams.maxIntervalCoverage;
+    private final int maxIntervalCoverage = defaultParams.maxIntervalCoverage;
 
     @Argument(doc = "Minimum number of reads in cluster to declare an interval of interest.",
             fullName = "minEvidenceCount")
-    private int minEvidenceCount = defaultParams.minEvidenceCount;
+    private final int minEvidenceCount = defaultParams.minEvidenceCount;
 
     @Argument(doc = "Minimum number of localizing kmers in a valid interval.", fullName="minKmersPerInterval")
-    private int minKmersPerInterval = defaultParams.minKmersPerInterval;
+    private final int minKmersPerInterval = defaultParams.minKmersPerInterval;
 
     @Argument(doc = "KmerCleaner maximum number of intervals for a localizing kmer.", fullName = "cleanerMaxIntervals")
-    private int cleanerMaxIntervals = defaultParams.cleanerMaxIntervals;
+    private final int cleanerMaxIntervals = defaultParams.cleanerMaxIntervals;
 
     @Argument(doc = "KmerCleaner minimum kmer count.", fullName = "cleanerMinKmerCount")
-    private int cleanerMinKmerCount = defaultParams.cleanerMinKmerCount;
+    private final int cleanerMinKmerCount = defaultParams.cleanerMinKmerCount;
 
     @Argument(doc = "KmerCleaner maximum kmer count.", fullName = "cleanerMaxKmerCount")
-    private int cleanerMaxKmerCount = defaultParams.cleanerMaxKmerCount;
+    private final int cleanerMaxKmerCount = defaultParams.cleanerMaxKmerCount;
 
     @Argument(doc = "KmerCleaner unique error-free kmers per partition", fullName = "cleanerKmersPerPartitionGuess")
-    private int cleanerKmersPerPartitionGuess = defaultParams.cleanerKmersPerPartitionGuess;
+    private final int cleanerKmersPerPartitionGuess = defaultParams.cleanerKmersPerPartitionGuess;
 
     @Argument(doc = "Maximum number of templates containing an assembly kmer.", fullName = "maxQNamesPerKmer")
-    private int maxQNamesPerKmer = defaultParams.maxQNamesPerKmer;
+    private final int maxQNamesPerKmer = defaultParams.maxQNamesPerKmer;
 
     @Argument(doc = "Guess at number of clean kmers per assembly partition.", fullName = "assemblyKmerMapSize")
-    private int assemblyKmerMapSize = defaultParams.assemblyKmerMapSize;
+    private final int assemblyKmerMapSize = defaultParams.assemblyKmerMapSize;
 
     @Argument(doc = "Guess at the ratio of reads in the final assembly to the number reads mapped to the interval.",
             fullName = "assemblyToMappedSizeRatioGuess")
-    private int assemblyToMappedSizeRatioGuess = defaultParams.assemblyToMappedSizeRatioGuess;
+    private final int assemblyToMappedSizeRatioGuess = defaultParams.assemblyToMappedSizeRatioGuess;
 
     @Argument(doc = "Maximum FASTQ file size.", fullName = "maxFASTQSize")
-    private int maxFASTQSize = defaultParams.maxFASTQSize;
+    private final int maxFASTQSize = defaultParams.maxFASTQSize;
 
     @Argument(doc = "Exclusion interval padding.", fullName = "exclusionIntervalPadding")
-    private int exclusionIntervalPadding = defaultParams.exclusionIntervalPadding;
+    private final int exclusionIntervalPadding = defaultParams.exclusionIntervalPadding;
 
     @Argument(doc = "Include read mapping location in FASTQ files.", fullName = "includeMappingLocation")
-    private boolean includeMappingLocation = true;
+    private final boolean includeMappingLocation = true;
 
     @Argument(doc = "Include read mapping location in FASTQ files.", fullName = "intervalOnlyAssembly")
-    private boolean intervalOnlyAssembly = false;
+    private final boolean intervalOnlyAssembly = false;
 
     // --------- locations ----------
 

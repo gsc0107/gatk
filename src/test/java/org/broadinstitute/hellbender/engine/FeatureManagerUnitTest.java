@@ -101,13 +101,13 @@ public final class FeatureManagerUnitTest extends BaseTest {
         public FeatureInput<VariantContext> variantContextFeatureInput;
 
         @Argument(fullName = "variantContextListFeatureInput")
-        public List<FeatureInput<VariantContext>> variantContextListFeatureInput;
+        public final List<FeatureInput<VariantContext>> variantContextListFeatureInput;
 
         @Argument(fullName = "bedFeatureInput")
         public FeatureInput<BEDFeature> bedFeatureInput;
 
         @Argument(fullName = "bedListFeatureInput")
-        public List<FeatureInput<BEDFeature>> bedListFeatureInput;
+        public final List<FeatureInput<BEDFeature>> bedListFeatureInput;
 
         public ValidFeatureArgumentSource() {
             // The real argument parsing system ensures that Collection argument fields are non-null

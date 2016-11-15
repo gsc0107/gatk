@@ -58,18 +58,18 @@ public final class BaseRecalibrationEngine implements Serializable {
     }
     public static final SerializableFunction<GATKRead, SimpleInterval> BQSR_REFERENCE_WINDOW_FUNCTION = new BQSRReferenceWindowFunction();
 
-    private RecalibrationArgumentCollection recalArgs;
+    private final RecalibrationArgumentCollection recalArgs;
 
     private RecalibrationTables recalTables;
 
-    private SAMFileHeader readsHeader;
+    private final SAMFileHeader readsHeader;
 
     /**
      * list to hold the all the covariate objects that were requested (required + standard + experimental)
      */
-    private StandardCovariateList covariates;
+    private final StandardCovariateList covariates;
 
-    private BAQ baq; // BAQ the reads on the fly to generate the alignment uncertainty vector
+    private final BAQ baq; // BAQ the reads on the fly to generate the alignment uncertainty vector
     private static final byte NO_BAQ_UNCERTAINTY = (byte)'@';
 
     private long numReadsProcessed = 0L;

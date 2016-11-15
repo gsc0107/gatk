@@ -46,12 +46,14 @@ public final class BAQUnitTest extends BaseTest {
         Assert.assertEquals(referenceWindowForRead, refWindow);
     }
     private class BAQTest {
-        String readBases, refBases;
-        byte[] quals, expected;
-        String cigar;
-        int refOffset;
-        int pos;
-        ReferenceDataSource rds;
+        final String readBases;
+        final String refBases;
+        final byte[] quals;
+        final byte[] expected;
+        final String cigar;
+        final int refOffset;
+        final int pos;
+        final ReferenceDataSource rds;
 
         public BAQTest(final String _refBases, final String _readBases, final String _quals, final String _expected) {
             this(_refBases, _readBases, _quals, _expected, null);

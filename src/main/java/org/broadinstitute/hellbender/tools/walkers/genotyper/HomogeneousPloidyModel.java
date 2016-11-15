@@ -9,7 +9,7 @@ import org.broadinstitute.hellbender.utils.genotyper.SampleList;
 */
 public final class HomogeneousPloidyModel implements PloidyModel {
 
-    private SampleList sampleList;
+    private final SampleList sampleList;
 
     private final int ploidy;
 

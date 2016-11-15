@@ -513,9 +513,9 @@ public class ReadFilterPluginUnitTest {
 
     // object for holding test setup params to use as a type for test lambdas
     public class SetupTest {
-        public SAMFileHeader hdr;
-        public GATKRead read;
-        public String argValue;
+        public final SAMFileHeader hdr;
+        public final GATKRead read;
+        public final String argValue;
 
         public SetupTest(final SAMFileHeader hdr, final GATKRead read, final String argValue) {
             this.hdr = hdr;

@@ -27,5 +27,5 @@ public class ApplyBQSRArgumentCollection extends ApplyBQSRUniqueArgumentCollecti
      * tag is present for a read, the standard qual score will be used.
      */
     @Argument(fullName="useOriginalQualities", shortName = "OQ", doc = "Use the base quality scores from the OQ tag", optional = true)
-    public Boolean useOriginalBaseQualities = false;
+    public final Boolean useOriginalBaseQualities = false;
 }

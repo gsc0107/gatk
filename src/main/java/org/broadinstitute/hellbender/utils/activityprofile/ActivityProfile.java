@@ -21,7 +21,7 @@ public class ActivityProfile {
     protected SimpleInterval regionStartLoc;
     protected SimpleInterval regionStopLoc;
 
-    protected SAMFileHeader samHeader;
+    protected final SAMFileHeader samHeader;
 
     /**
      * A cached value of the regionStartLoc contig length, to make calls to

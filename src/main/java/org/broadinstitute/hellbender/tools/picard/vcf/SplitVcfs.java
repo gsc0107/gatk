@@ -52,7 +52,7 @@ public final class SplitVcfs extends PicardCommandLineProgram {
     public File SEQUENCE_DICTIONARY;
 
     @Argument(doc = "If true an exception will be thrown if an event type other than SNP or indel is encountered")
-    public Boolean STRICT = true;
+    public final Boolean STRICT = true;
 
     public SplitVcfs() {
         this.CREATE_INDEX = true;

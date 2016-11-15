@@ -54,16 +54,16 @@ public final class CollectGcBiasMetrics extends SinglePassSamProgram {
     public File SUMMARY_OUTPUT;
 
     @Argument(doc = "The size of windows on the genome that are used to bin reads.")
-    public int WINDOW_SIZE = 100;
+    public final int WINDOW_SIZE = 100;
 
     @Argument(doc = "For summary metrics, exclude GC windows that include less than this fraction of the genome.")
-    public double MINIMUM_GENOME_FRACTION = 0.00001;
+    public final double MINIMUM_GENOME_FRACTION = 0.00001;
 
     @Argument(shortName = "BS", doc = "Whether the SAM/BAM file consists of bisulfite sequenced reads.  ")
-    public boolean IS_BISULFITE_SEQUENCED = false;
+    public final boolean IS_BISULFITE_SEQUENCED = false;
 
     @Argument(doc = "Should an output plot be created")
-    public boolean PRODUCE_PLOT = false;
+    public final boolean PRODUCE_PLOT = false;
 
     // Used to keep track of the total clusters as this is kinda important for bias
     private int totalClusters = 0;

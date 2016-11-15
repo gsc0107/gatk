@@ -20,7 +20,7 @@ public final class IndependentSampleGenotypesModel {
 
     private final int cacheAlleleCountCapacity;
     private final int cachePloidyCapacity;
-    private GenotypeLikelihoodCalculator[][] likelihoodCalculators;
+    private final GenotypeLikelihoodCalculator[][] likelihoodCalculators;
     private final GenotypeLikelihoodCalculators calculators;
 
     public IndependentSampleGenotypesModel() { this(DEFAULT_CACHE_PLOIDY_CAPACITY, DEFAULT_CACHE_ALLELE_CAPACITY); }

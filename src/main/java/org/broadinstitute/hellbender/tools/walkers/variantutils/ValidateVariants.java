@@ -141,18 +141,22 @@ public final class ValidateVariants extends VariantWalker {
     }
 
     @ArgumentCollection
+    final
     DbsnpArgumentCollection dbsnp = new DbsnpArgumentCollection();
 
     @Argument(fullName = "validationTypeToExclude", shortName = "Xtype", doc = "which validation type to exclude from a full strict validation", optional = true)
+    final
     List<ValidationType> excludeTypes = new ArrayList<>();
 
     /**
      * By default, even filtered records are validated.
      */
     @Argument(fullName = "doNotValidateFilteredRecords", shortName = "doNotValidateFilteredRecords", doc = "skip validation on filtered records", optional = true)
+    final
     Boolean DO_NOT_VALIDATE_FILTERED = false;
 
     @Argument(fullName = "warnOnErrors", shortName = "warnOnErrors", doc = "just emit warnings on errors instead of terminating the run at the first instance", optional = true)
+    final
     Boolean WARN_ON_ERROR = false;
 
     /**

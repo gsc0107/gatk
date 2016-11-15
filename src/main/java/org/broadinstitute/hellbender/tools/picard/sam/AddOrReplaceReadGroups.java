@@ -41,7 +41,7 @@ public final class AddOrReplaceReadGroups extends PicardCommandLineProgram {
     public SAMFileHeader.SortOrder SORT_ORDER;
 
     @Argument(shortName = "ID", doc = "Read Group ID")
-    public String RGID = "1";
+    public final String RGID = "1";
 
     @Argument(shortName = "LB", doc = "Read Group Library")
     public String RGLB;

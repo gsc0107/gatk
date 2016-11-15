@@ -44,12 +44,12 @@ public final class ExampleCollectMultiMetricsSpark
      * Embedded instance of the collector's argument collection.
      */
     @ArgumentCollection
-    private ExampleMultiMetricsArgumentCollection exampleArgs = new ExampleMultiMetricsArgumentCollection();
+    private final ExampleMultiMetricsArgumentCollection exampleArgs = new ExampleMultiMetricsArgumentCollection();
 
     /**
      * Embedded instance of the actual collector to which we will delegate
      */
-    private ExampleMultiMetricsCollectorSpark exampleMultiCollector = new ExampleMultiMetricsCollectorSpark();
+    private final ExampleMultiMetricsCollectorSpark exampleMultiCollector = new ExampleMultiMetricsCollectorSpark();
 
     /**
      * Return the embedded argument collection. Called by the base class; the results are passed back

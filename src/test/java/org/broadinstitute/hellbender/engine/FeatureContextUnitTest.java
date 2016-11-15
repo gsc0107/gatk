@@ -19,6 +19,7 @@ public final class FeatureContextUnitTest extends BaseTest {
     @CommandLineProgramProperties(summary = "", oneLineSummary = "", programGroup = QCProgramGroup.class)
     private static class ArtificialFeatureContainingCommandLineProgram extends CommandLineProgram {
         @Argument(fullName = "featureArgument", shortName = "f")
+        final
         FeatureInput<Feature> featureArgument;
 
         public ArtificialFeatureContainingCommandLineProgram() {

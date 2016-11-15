@@ -1201,7 +1201,7 @@ public final class GATKVariantContextUtils {
     private static class CompareByPriority implements Comparator<VariantContext>, Serializable {
         private static final long serialVersionUID = 0L;
 
-        List<String> priorityListOfVCs;
+        final List<String> priorityListOfVCs;
         public CompareByPriority(final List<String> priorityListOfVCs) {
             this.priorityListOfVCs = priorityListOfVCs;
         }

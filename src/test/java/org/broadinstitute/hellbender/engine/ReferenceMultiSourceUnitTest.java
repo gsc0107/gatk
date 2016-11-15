@@ -12,7 +12,7 @@ import org.testng.annotations.Test;
 
 public class ReferenceMultiSourceUnitTest extends BaseTest {
 
-    private static String twoBitRefURL = publicTestDir + "large/human_g1k_v37.20.21.2bit";
+    private static final String twoBitRefURL = publicTestDir + "large/human_g1k_v37.20.21.2bit";
 
     @Test
     public void testSerializeRoundTrip2Bit() {

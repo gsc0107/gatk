@@ -48,7 +48,7 @@ public final class FastqToSam extends PicardCommandLineProgram {
     public File OUTPUT ;
 
     @Argument(shortName="RG", doc="Read group name")
-    public String READ_GROUP_NAME = "A";
+    public final String READ_GROUP_NAME = "A";
 
     @Argument(shortName="SM", doc="Sample name to insert into the read group header")
     public String SAMPLE_NAME;
@@ -76,7 +76,7 @@ public final class FastqToSam extends PicardCommandLineProgram {
     public String PLATFORM_MODEL;
 
     @Argument(doc="Comment(s) to include in the merged output file's header.", optional=true, shortName="CO")
-    public List<String> COMMENT = new ArrayList<>();
+    public final List<String> COMMENT = new ArrayList<>();
 
     @Argument(shortName = "DS", doc = "Inserted into the read group header", optional = true)
     public String DESCRIPTION;
@@ -85,19 +85,19 @@ public final class FastqToSam extends PicardCommandLineProgram {
     public Iso8601Date RUN_DATE;
 
     @Argument(shortName="SO", doc="The sort order for the output sam/bam file.")
-    public SAMFileHeader.SortOrder SORT_ORDER = SAMFileHeader.SortOrder.queryname;
+    public final SAMFileHeader.SortOrder SORT_ORDER = SAMFileHeader.SortOrder.queryname;
 
     @Argument(doc="Minimum quality allowed in the input fastq.  An exception will be thrown if a quality is less than this value.")
-    public int MIN_Q = 0;
+    public final int MIN_Q = 0;
 
     @Argument(doc="Maximum quality allowed in the input fastq.  An exception will be thrown if a quality is greater than this value.")
-    public int MAX_Q = SAMUtils.MAX_PHRED_SCORE;
+    public final int MAX_Q = SAMUtils.MAX_PHRED_SCORE;
 
     @Argument(doc="If true and this is an unpaired fastq any occurance of '/1' will be removed from the end of a read name.")
-    public Boolean STRIP_UNPAIRED_MATE_NUMBER = false;
+    public final Boolean STRIP_UNPAIRED_MATE_NUMBER = false;
 
     @Argument(doc="Allow (and ignore) empty lines")
-    public Boolean ALLOW_AND_IGNORE_EMPTY_LINES = false;
+    public final Boolean ALLOW_AND_IGNORE_EMPTY_LINES = false;
 
     private static final SolexaQualityConverter solexaQualityConverter = SolexaQualityConverter.getSingleton();
 

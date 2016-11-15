@@ -75,9 +75,9 @@ public final class IndependentAllelesDiploidExactAFCalculatorUnitTest extends Ba
                 "Combined PLs " + Utils.join(",", combined.getPL()) + " != expected " + Utils.join(",", expected.getPL()));
     }
 
-    static Allele A = Allele.create("A", true);
-    static Allele C = Allele.create("C");
-    static Allele G = Allele.create("G");
+    static final Allele A = Allele.create("A", true);
+    static final Allele C = Allele.create("C");
+    static final Allele G = Allele.create("G");
 
     @DataProvider(name = "TestMakeAlleleConditionalContexts")
     public Object[][] makeTestMakeAlleleConditionalContexts() {

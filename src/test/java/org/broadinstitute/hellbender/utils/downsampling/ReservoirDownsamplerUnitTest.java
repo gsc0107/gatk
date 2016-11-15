@@ -16,10 +16,10 @@ import java.util.List;
 public final class ReservoirDownsamplerUnitTest extends BaseTest {
 
     private static class ReservoirDownsamplerTest extends TestDataProvider {
-        int reservoirSize;
-        int totalReads;
-        int expectedNumReadsAfterDownsampling;
-        int expectedNumDiscardedItems;
+        final int reservoirSize;
+        final int totalReads;
+        final int expectedNumReadsAfterDownsampling;
+        final int expectedNumDiscardedItems;
 
         public ReservoirDownsamplerTest(final int reservoirSize, final int totalReads ) {
             super(ReservoirDownsamplerTest.class);

@@ -71,20 +71,20 @@ public final class VariantFiltration extends VariantWalker {
     public FeatureInput<Feature> mask;
 
     @Argument(doc="File to which variants should be written", fullName = StandardArgumentDefinitions.OUTPUT_LONG_NAME, shortName = StandardArgumentDefinitions.OUTPUT_SHORT_NAME, optional = false)
-    public String out = null;
+    public final String out = null;
 
     /**
      * VariantFiltration accepts any number of JEXL expressions (so you can have two named filters by using
      * --filterName One --filterExpression "X < 1" --filterName Two --filterExpression "X > 2").
      */
     @Argument(fullName="filterExpression", shortName="filter", doc="One or more expression used with INFO fields to filter", optional=true)
-    public List<String> filterExpressions = new ArrayList<>();
+    public final List<String> filterExpressions = new ArrayList<>();
 
     /**
      * This name is put in the FILTER field for variants that get filtered.  Note that there must be a 1-to-1 mapping between filter expressions and filter names.
      */
     @Argument(fullName="filterName", shortName="filterName", doc="Names to use for the list of filters", optional=true)
-    public List<String> filterNames = new ArrayList<>();
+    public final List<String> filterNames = new ArrayList<>();
 
     /**
      * Similar to the INFO field based expressions, but used on the FORMAT (genotype) fields instead.
@@ -94,28 +94,28 @@ public final class VariantFiltration extends VariantWalker {
      * expressions isCalled, isNoCall, isMixed, and isAvailable, in accordance with the methods of the Genotype object.
      */
     @Argument(fullName="genotypeFilterExpression", shortName="G_filter", doc="One or more expression used with FORMAT (sample/genotype-level) fields to filter (see documentation guide for more info)", optional=true)
-    public List<String> genotypeFilterExpressions = new ArrayList<>();
+    public final List<String> genotypeFilterExpressions = new ArrayList<>();
 
     /**
      * Similar to the INFO field based expressions, but used on the FORMAT (genotype) fields instead.
      */
     @Argument(fullName="genotypeFilterName", shortName="G_filterName", doc="Names to use for the list of sample/genotype filters (must be a 1-to-1 mapping); this name is put in the FILTER field for variants that get filtered", optional=true)
-    public List<String> genotypeFilterNames = new ArrayList<>();
+    public final List<String> genotypeFilterNames = new ArrayList<>();
 
     /**
      * Works together with the --clusterWindowSize argument.
      */
     @Argument(fullName="clusterSize", shortName="cluster", doc="The number of SNPs which make up a cluster. Must be at least 2", optional=true)
-    public Integer clusterSize = 3;
+    public final Integer clusterSize = 3;
 
     /**
      * Works together with the --clusterSize argument.  To disable the clustered SNP filter, set this value to less than 1.
      */
     @Argument(fullName="clusterWindowSize", shortName="window", doc="The window size (in bases) in which to evaluate clustered SNPs", optional=true)
-    public Integer clusterWindow = 0;
+    public final Integer clusterWindow = 0;
 
     @Argument(fullName="maskExtension", shortName="maskExtend", doc="How many bases beyond records from a provided 'mask' should variants be filtered", optional=true)
-    public Integer maskExtension = 0;
+    public final Integer maskExtension = 0;
 
     /**
      * When using the -mask argument, the maskName will be annotated in the variant record.
@@ -124,7 +124,7 @@ public final class VariantFiltration extends VariantWalker {
      * (e.g. if masking against Hapmap, use -maskName=hapmap for the normal masking and -maskName=not_hapmap for the reverse masking).
      */
     @Argument(fullName="maskName", shortName="maskName", doc="The text to put in the FILTER field if a 'mask' is provided and overlaps with a variant call", optional=true)
-    public String maskName = "Mask";
+    public final String maskName = "Mask";
 
     /**
      * By default, if the -mask argument is used, any variant falling in a mask will be filtered.
@@ -134,38 +134,39 @@ public final class VariantFiltration extends VariantWalker {
      * (e.g. if masking against Hapmap, use -maskName=hapmap for the normal masking and -maskName=not_hapmap for the reverse masking).
      */
     @Argument(fullName="filterNotInMask", shortName="filterNotInMask", doc="Filter records NOT in given input mask.", optional=true)
-    public boolean filterRecordsNotInMask = false;
+    public final boolean filterRecordsNotInMask = false;
 
     /**
      * By default, if JEXL cannot evaluate your expression for a particular record because one of the annotations is not present, the whole expression evaluates as PASSing.
      * Use this argument to have it evaluate as failing filters instead for these cases.
      */
     @Argument(fullName="missingValuesInExpressionsShouldEvaluateAsFailing", doc="When evaluating the JEXL expressions, missing values should be considered failing the expression", optional=true)
-    public Boolean failMissingValues = false;
+    public final Boolean failMissingValues = false;
 
     /**
      * Invalidate previous filters applied to the VariantContext, applying only the filters here
      */
     @Argument(fullName="invalidatePreviousFilters",doc="Remove previous filters applied to the VCF",optional=true)
+    final
     boolean invalidatePreviousFilters = false;
 
     /**
      * Invert the selection criteria for --filterExpression
      */
     @Argument(fullName="invertFilterExpression", shortName="invfilter", doc="Invert the selection criteria for --filterExpression", optional=true)
-    public boolean invertFilterExpression = false;
+    public final boolean invertFilterExpression = false;
 
     /**
      * Invert the selection criteria for --genotypeFilterExpression
      */
     @Argument(fullName="invertGenotypeFilterExpression", shortName="invG_filter", doc="Invert the selection criteria for --genotypeFilterExpression", optional=true)
-    public boolean invertGenotypeFilterExpression = false;
+    public final boolean invertGenotypeFilterExpression = false;
 
     /**
      * If this argument is provided, set filtered genotypes to no-call (./.).
      */
     @Argument(fullName="setFilteredGtToNocall", optional=true, doc="Set filtered genotypes to no-call")
-    public boolean setFilteredGenotypesToNocall = false;
+    public final boolean setFilteredGenotypesToNocall = false;
 
     // JEXL expressions for the filters
     private List<JexlVCMatchExp> filterExps;

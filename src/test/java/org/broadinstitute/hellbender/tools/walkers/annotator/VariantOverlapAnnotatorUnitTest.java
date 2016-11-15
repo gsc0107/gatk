@@ -134,9 +134,11 @@ public final class VariantOverlapAnnotatorUnitTest extends BaseTest {
     @CommandLineProgramProperties(summary = "", oneLineSummary = "", programGroup=QCProgramGroup.class)
     private static class ArtificialFeatureContainingCommandLineProgram_ForVariantOverlap extends CommandLineProgram {
         @Argument(fullName = "dbsnp", shortName = "f")
+        final
         FeatureInput<Feature> featureArgument;
 
         @Argument(fullName = "binding", shortName = "b")
+        final
         FeatureInput<Feature> binding;
 
         public ArtificialFeatureContainingCommandLineProgram_ForVariantOverlap(final File f) {

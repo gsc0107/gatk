@@ -49,7 +49,7 @@ public final class LiftOverIntervalList extends PicardCommandLineProgram {
     public File CHAIN;
 
     @Argument(doc = "Minimum percentage of bases in each input interval that must map to output interval.")
-    public double MIN_LIFTOVER_PCT = DEFAULT_LIFTOVER_MINMATCH;
+    public final double MIN_LIFTOVER_PCT = DEFAULT_LIFTOVER_MINMATCH;
 
     /**
      * Do the work after command line has been parsed. RuntimeException may be

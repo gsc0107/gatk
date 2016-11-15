@@ -48,7 +48,7 @@ public final class PileupSpark extends LocusWalkerSpark {
      * and read mapping quality.  These per read items are delimited with an '@' character.
      */
     @Argument(fullName = "showVerbose", shortName = "verbose", doc = "Add an extra verbose section to the pileup output", optional = true)
-    public boolean showVerbose = false;
+    public final boolean showVerbose = false;
 
     /**
      * This enables annotating the pileup to show overlaps with metadata from a Feature file(s). For example, if you provide a
@@ -56,7 +56,7 @@ public final class PileupSpark extends LocusWalkerSpark {
      * annotated with the corresponding source Feature identifier.
      */
     @Argument(fullName = "metadata", shortName = "metadata", doc = "Features file(s) containing metadata", optional = true)
-    public List<FeatureInput<Feature>> metadata = new ArrayList<>();
+    public final List<FeatureInput<Feature>> metadata = new ArrayList<>();
 
     /**
      * Adds the length of the insert each base comes from to the output pileup. Here, "insert" refers to the DNA insert
@@ -64,7 +64,7 @@ public final class PileupSpark extends LocusWalkerSpark {
      */
     @Hidden
     @Argument(fullName = "outputInsertLength", shortName = "outputInsertLength", doc = "Output insert length", optional = true)
-    public boolean outputInsertLength = false;
+    public final boolean outputInsertLength = false;
 
     @Override
     public ReadFilter makeReadFilter(){

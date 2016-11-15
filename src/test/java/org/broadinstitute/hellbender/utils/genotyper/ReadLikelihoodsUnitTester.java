@@ -41,7 +41,7 @@ public final class ReadLikelihoodsUnitTester {
     }
 
 
-    private static SAMFileHeader SAM_HEADER = ArtificialReadUtils.createArtificialSamHeader(10, 0, 1000);
+    private static final SAMFileHeader SAM_HEADER = ArtificialReadUtils.createArtificialSamHeader(10, 0, 1000);
 
 
     static List<GATKRead> readList(final int sampleIndex, final int readCount) {

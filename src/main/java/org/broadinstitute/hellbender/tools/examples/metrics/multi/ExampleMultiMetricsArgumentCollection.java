@@ -15,5 +15,6 @@ public class ExampleMultiMetricsArgumentCollection extends MetricsArgumentCollec
 
     //This example collector only uses the standard argument collection for selecting a collection level.
     @ArgumentCollection
+    final
     MetricAccumulationLevelArgumentCollection metricAccumulationLevel = new MetricAccumulationLevelArgumentCollection();
 }

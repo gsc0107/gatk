@@ -16,7 +16,7 @@ import java.util.stream.IntStream;
 public final class RecalibrationTablesUnitTest extends BaseTest {
     private RecalibrationTables tables;
     private StandardCovariateList covariates;
-    private int numReadGroups = 6;
+    private final int numReadGroups = 6;
     final byte qualByte = 1;
     final List<Integer> combineStates = Arrays.asList(0, 1, 2);
 

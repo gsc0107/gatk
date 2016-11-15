@@ -43,7 +43,7 @@ public final class ApplyBQSR extends ReadWalker{
      * command-line arguments to fine tune the recalibration.
      */
     @ArgumentCollection
-    public ApplyBQSRArgumentCollection bqsrArgs = new ApplyBQSRArgumentCollection();
+    public final ApplyBQSRArgumentCollection bqsrArgs = new ApplyBQSRArgumentCollection();
     
     private SAMFileGATKReadWriter outputWriter;
 

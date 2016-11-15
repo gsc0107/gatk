@@ -170,8 +170,9 @@ public final class AlignmentUtilsUnitTest {
     }
 
     private static final class Mutation implements Comparable<Mutation> {
-        int pos, len;
-        CigarOperator operator;
+        final int pos;
+        final int len;
+        final CigarOperator operator;
 
         private Mutation(final int pos, final int len, final CigarOperator operator) {
             this.pos = pos;
@@ -207,8 +208,8 @@ public final class AlignmentUtilsUnitTest {
     }
 
     private static final class MutatedSequence {
-        int numMismatches;
-        String seq;
+        final int numMismatches;
+        final String seq;
 
         private MutatedSequence(final int numMismatches, final String seq) {
             this.numMismatches = numMismatches;

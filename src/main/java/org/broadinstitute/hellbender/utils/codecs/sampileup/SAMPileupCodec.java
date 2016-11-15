@@ -30,7 +30,7 @@ public class SAMPileupCodec extends AsciiFeatureCodec<SAMPileupFeature> {
     private static final Pattern SPLIT_PATTERN = Pattern.compile("\\t|( +)");
 
     // although the minimum number of fields is 6 (see specifications), if the coverage is 0 sometimes bases and qualities does not appear
-    private static int MINIMUM_FIELDS = 4;
+    private static final int MINIMUM_FIELDS = 4;
     // number of maximum fields expected
     private static final int MAXIMUM_FIELDS = 6;
 

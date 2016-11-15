@@ -10,8 +10,8 @@ import java.util.Collections;
 import java.util.List;
 
 public final class GetGLsTest extends BaseTest.TestDataProvider {
-    GenotypesContext GLs;
-    int numAltAlleles;
+    final GenotypesContext GLs;
+    final int numAltAlleles;
     final AFCalculator calc;
     final int[] expectedACs;
     final double[] priors;

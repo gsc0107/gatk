@@ -83,10 +83,10 @@ public final class AFPriorProviderUnitTest extends BaseTest {
     }
 
 
-    private double[] hets = { 0.00001, 0.001, 0.1, 0.5, 0.99, 0.999 };
-    private int[] useCounts = { 10, 100, 1000 };
+    private final double[] hets = { 0.00001, 0.001, 0.1, 0.5, 0.99, 0.999 };
+    private final int[] useCounts = { 10, 100, 1000 };
 
-    private int[] ploidy = { 1 , 2, 3, 10, 100, 200, 500};
+    private final int[] ploidy = { 1 , 2, 3, 10, 100, 200, 500};
 
     @DataProvider(name="CustomProviderData")
     public Object[][] customProviderData() {

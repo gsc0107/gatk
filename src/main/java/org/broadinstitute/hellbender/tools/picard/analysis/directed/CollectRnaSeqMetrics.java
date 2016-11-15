@@ -55,19 +55,19 @@ public final class CollectRnaSeqMetrics extends SinglePassSamProgram {
     public RnaSeqMetricsCollector.StrandSpecificity STRAND_SPECIFICITY;
 
     @Argument(doc="When calculating coverage based values (e.g. CV of coverage) only use transcripts of this length or greater.")
-    public int MINIMUM_LENGTH = 500;
+    public final int MINIMUM_LENGTH = 500;
 
     @Argument(doc="The PDF file to write out a plot of normalized position vs. coverage.", shortName="CHART", optional = true)
     public File CHART_OUTPUT;
 
     @Argument(doc="If a read maps to a sequence specified with this option, all the bases in the read are counted as ignored bases.", optional = true)
-    public Set<String> IGNORE_SEQUENCE = new HashSet<>();
+    public final Set<String> IGNORE_SEQUENCE = new HashSet<>();
 
     @Argument(doc="This percentage of the length of a fragment must overlap one of the ribosomal intervals for a read or read pair by this must in order to be considered rRNA.")
-    public double RRNA_FRAGMENT_PERCENTAGE = 0.8;
+    public final double RRNA_FRAGMENT_PERCENTAGE = 0.8;
 
     @Argument(shortName="LEVEL", doc="The level(s) at which to accumulate metrics.")
-    public Set<MetricAccumulationLevel> METRIC_ACCUMULATION_LEVEL = EnumSet.of(MetricAccumulationLevel.ALL_READS);
+    public final Set<MetricAccumulationLevel> METRIC_ACCUMULATION_LEVEL = EnumSet.of(MetricAccumulationLevel.ALL_READS);
 
     private RnaSeqMetricsCollector collector;
 

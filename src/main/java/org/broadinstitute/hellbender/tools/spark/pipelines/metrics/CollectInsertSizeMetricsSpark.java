@@ -27,9 +27,9 @@ public final class CollectInsertSizeMetricsSpark
     private static final long serialVersionUID = 1L;
 
     @ArgumentCollection
-    private InsertSizeMetricsArgumentCollection insertSizeArgs = new InsertSizeMetricsArgumentCollection();
+    private final InsertSizeMetricsArgumentCollection insertSizeArgs = new InsertSizeMetricsArgumentCollection();
 
-    private InsertSizeMetricsCollectorSpark insertSizeCollector = new InsertSizeMetricsCollectorSpark();
+    private final InsertSizeMetricsCollectorSpark insertSizeCollector = new InsertSizeMetricsCollectorSpark();
 
     @Override
     public InsertSizeMetricsArgumentCollection getInputArguments() {

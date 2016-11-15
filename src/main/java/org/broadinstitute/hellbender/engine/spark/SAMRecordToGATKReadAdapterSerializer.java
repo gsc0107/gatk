@@ -13,7 +13,7 @@ import org.broadinstitute.hellbender.utils.read.SAMRecordToGATKReadAdapter;
  */
 public final class SAMRecordToGATKReadAdapterSerializer extends Serializer<SAMRecordToGATKReadAdapter> {
 
-    private SAMRecordSparkCodec lazyCodec = new SAMRecordSparkCodec();
+    private final SAMRecordSparkCodec lazyCodec = new SAMRecordSparkCodec();
 
     @Override
     public void write(final Kryo kryo, final Output output, final SAMRecordToGATKReadAdapter adapter) {

@@ -34,6 +34,7 @@ public class CommandLineParserPluginUnitTest {
         final String pluginNamesArgName = "pluginName";
 
         @Argument(fullName=pluginNamesArgName, optional = true)
+        final
         Set<String> pluginNames = new HashSet<>();
 
         // Map of plugin names to the corresponding instance
@@ -181,6 +182,7 @@ public class CommandLineParserPluginUnitTest {
         final String pluginNamesArgName = "pluginName";
 
         @Argument(fullName=pluginNamesArgName, optional = true)
+        final
         Set<String> pluginNames = new HashSet<>();
 
         // Map of plugin names to the corresponding instance

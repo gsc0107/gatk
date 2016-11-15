@@ -18,8 +18,8 @@ import java.util.List;
 public final class FractionalDownsamplerUnitTest extends BaseTest {
 
     private static class FractionalDownsamplerTest extends TestDataProvider {
-        double fraction;
-        int totalReads;
+        final double fraction;
+        final int totalReads;
         int expectedMinNumReadsAfterDownsampling;
         int expectedMaxNumReadsAfterDownsampling;
         int expectedMinDiscardedItems;

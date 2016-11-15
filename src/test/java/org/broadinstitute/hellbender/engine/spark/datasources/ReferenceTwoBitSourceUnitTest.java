@@ -12,8 +12,8 @@ import org.testng.annotations.Test;
 import java.io.IOException;
 
 public class ReferenceTwoBitSourceUnitTest extends BaseTest {
-    private static String fastaRefURL = publicTestDir + "large/human_g1k_v37.20.21.fasta";
-    private static String twoBitRefURL = publicTestDir + "large/human_g1k_v37.20.21.2bit";
+    private static final String fastaRefURL = publicTestDir + "large/human_g1k_v37.20.21.fasta";
+    private static final String twoBitRefURL = publicTestDir + "large/human_g1k_v37.20.21.2bit";
 
     @DataProvider(name = "goodIntervals")
     public Object[][] goodIntervals() throws IOException {

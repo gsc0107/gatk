@@ -14,12 +14,12 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 public final class ExcessHetUnitTest extends BaseTest {
-    private static double DELTA_PRECISION = .001;
-    private Allele Aref= Allele.create("A", true);
-    private Allele T = Allele.create("T");
-    private Allele C = Allele.create("C");
-    private int[] hetPLs = {240, 0, 240};
-    private int[] homRefPLs= {0, 60, 600};
+    private static final double DELTA_PRECISION = .001;
+    private final Allele Aref= Allele.create("A", true);
+    private final Allele T = Allele.create("T");
+    private final Allele C = Allele.create("C");
+    private final int[] hetPLs = {240, 0, 240};
+    private final int[] homRefPLs= {0, 60, 600};
 
     private Genotype makeG(final String sample, final Allele a1, final Allele a2, final int... pls) {
         return new GenotypeBuilder(sample, Arrays.asList(a1, a2)).PL(pls).make();

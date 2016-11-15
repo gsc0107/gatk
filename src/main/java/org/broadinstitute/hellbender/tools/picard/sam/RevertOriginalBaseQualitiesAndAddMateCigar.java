@@ -52,12 +52,12 @@ public final class RevertOriginalBaseQualitiesAndAddMateCigar extends PicardComm
 
     @Argument(shortName = StandardArgumentDefinitions.USE_ORIGINAL_QUALITIES_SHORT_NAME, doc = "True to restore original" +
             " qualities from the OQ field to the QUAL field if available.")
-    public boolean RESTORE_ORIGINAL_QUALITIES = true;
+    public final boolean RESTORE_ORIGINAL_QUALITIES = true;
 
     @Argument(doc = "The maximum number of records to examine to determine if we can exit early and not output, given that"
             + " there are a no original base qualities (if we are to restore) and mate cigars exist."
             + " Set to 0 to never skip the file.")
-    public int MAX_RECORDS_TO_EXAMINE = 10000;
+    public final int MAX_RECORDS_TO_EXAMINE = 10000;
 
     public RevertOriginalBaseQualitiesAndAddMateCigar() {
         this.CREATE_INDEX = true;

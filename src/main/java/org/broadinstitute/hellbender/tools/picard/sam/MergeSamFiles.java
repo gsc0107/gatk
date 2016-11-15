@@ -36,29 +36,29 @@ public final class MergeSamFiles extends PicardCommandLineProgram {
 
     @Argument(fullName = StandardArgumentDefinitions.INPUT_LONG_NAME,
             shortName = StandardArgumentDefinitions.INPUT_SHORT_NAME, doc = "SAM/BAM input file", optional=false)
-    public List<File> INPUT = new ArrayList<>();
+    public final List<File> INPUT = new ArrayList<>();
 
     @Argument(fullName = StandardArgumentDefinitions.OUTPUT_LONG_NAME,
             shortName = StandardArgumentDefinitions.OUTPUT_SHORT_NAME, doc = "SAM/BAM file to write merged result to")
     public File OUTPUT;
 
     @Argument(shortName = StandardArgumentDefinitions.SORT_ORDER_SHORT_NAME, doc = "Sort order of output file", optional = true)
-    public SAMFileHeader.SortOrder SORT_ORDER = SAMFileHeader.SortOrder.coordinate;
+    public final SAMFileHeader.SortOrder SORT_ORDER = SAMFileHeader.SortOrder.coordinate;
 
     @Argument(doc = "If true, assume that the input files are in the same sort order as the requested output sort order, even if their headers say otherwise.",
             shortName = StandardArgumentDefinitions.ASSUME_SORTED_SHORT_NAME)
-    public boolean ASSUME_SORTED = false;
+    public final boolean ASSUME_SORTED = false;
 
     @Argument(shortName = "MSD", doc = "Merge the sequence dictionaries", optional = true)
-    public boolean MERGE_SEQUENCE_DICTIONARIES = false;
+    public final boolean MERGE_SEQUENCE_DICTIONARIES = false;
 
     @Argument(doc = "Option to create a background thread to encode, " +
             "compress and write to disk the output file. The threaded version uses about 20% more CPU and decreases " +
             "runtime by ~20% when writing out a compressed BAM file.")
-    public boolean USE_THREADING = false;
+    public final boolean USE_THREADING = false;
 
     @Argument(doc = "Comment(s) to include in the merged output file's header.", optional = true, shortName = "CO")
-    public List<String> COMMENT = new ArrayList<>();
+    public final List<String> COMMENT = new ArrayList<>();
 
     private static final int PROGRESS_INTERVAL = 1000000;
 

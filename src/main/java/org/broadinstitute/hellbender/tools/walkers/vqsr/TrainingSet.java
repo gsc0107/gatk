@@ -12,7 +12,7 @@ import org.broadinstitute.hellbender.utils.Utils;
  */
 public class TrainingSet {
 
-    public FeatureInput<VariantContext> variantSource;
+    public final FeatureInput<VariantContext> variantSource;
     public boolean isKnown = false;
     public boolean isTraining = false;
     public boolean isAntiTraining = false;

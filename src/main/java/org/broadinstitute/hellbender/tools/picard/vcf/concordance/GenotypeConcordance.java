@@ -65,7 +65,7 @@ public final class GenotypeConcordance extends PicardCommandLineProgram {
     public List<File> INTERVALS;
 
     @Argument(doc="If true, multiple interval lists will be intersected. If false multiple lists will be unioned.")
-    public boolean INTERSECT_INTERVALS = true;
+    public final boolean INTERSECT_INTERVALS = true;
 
     @Argument(doc="Genotypes below this genotype quality will have genotypes classified as LowGq.")
     public int MIN_GQ = 0;
@@ -77,7 +77,7 @@ public final class GenotypeConcordance extends PicardCommandLineProgram {
     public boolean OUTPUT_ALL_ROWS = false;
 
     @Argument(doc="If true, use the VCF index, else iterate over the entire VCF.", optional = true)
-    public boolean USE_VCF_INDEX = false;
+    public final boolean USE_VCF_INDEX = false;
 
     private final ProgressLogger progress = new ProgressLogger(logger, 10000, "checked", "variants");
 

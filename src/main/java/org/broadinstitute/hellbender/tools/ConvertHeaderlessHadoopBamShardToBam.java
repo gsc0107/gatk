@@ -29,13 +29,13 @@ import java.io.*;
 public final class ConvertHeaderlessHadoopBamShardToBam extends CommandLineProgram {
 
     @Argument(shortName = "bamShard", fullName = "bamShard", doc = "Headerless Hadoop BAM shard to be converted into a readable BAM", optional = false)
-    private File bamShard = null;
+    private final File bamShard = null;
 
     @Argument(shortName = "bamWithHeader", fullName = "bamWithHeader", doc = "Well-formed BAM whose header to use for the converted fragment", optional = false)
-    private File bamWithHeader = null;
+    private final File bamWithHeader = null;
 
     @Argument(shortName = "O", fullName = "outputBam", doc = "Location to write the converted BAM shard", optional = false)
-    private File outputBam = null;
+    private final File outputBam = null;
 
     @Override
     protected Object doWork(){

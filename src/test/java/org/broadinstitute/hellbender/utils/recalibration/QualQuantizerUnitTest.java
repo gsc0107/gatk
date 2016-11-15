@@ -29,8 +29,10 @@ public final class QualQuantizerUnitTest extends BaseTest {
 
     private final class QualIntervalTestProvider extends BaseTest.TestDataProvider {
         final QualQuantizer.QualInterval left, right;
-        int exError, exTotal, exQual;
-        double exErrorRate;
+        final int exError;
+        final int exTotal;
+        final int exQual;
+        final double exErrorRate;
 
         private QualIntervalTestProvider(final int leftE, final int leftN, final int rightE, final int rightN, final int exError, final int exTotal) {
             super(QualIntervalTestProvider.class);

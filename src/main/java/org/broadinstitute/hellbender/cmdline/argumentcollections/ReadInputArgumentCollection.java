@@ -25,7 +25,7 @@ public abstract class ReadInputArgumentCollection implements ArgumentCollectionD
                     "do not otherwise need to be decoded.",
             common=true,
             optional=true)
-    public ValidationStringency readValidationStringency = ReadConstants.DEFAULT_READ_VALIDATION_STRINGENCY;
+    public final ValidationStringency readValidationStringency = ReadConstants.DEFAULT_READ_VALIDATION_STRINGENCY;
 
     /**
      * Get the list of BAM/SAM/CRAM files specified at the command line.

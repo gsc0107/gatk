@@ -17,7 +17,7 @@ public abstract class SparkCommandLineProgram extends CommandLineProgram impleme
 
     @Argument(doc = "API Key for google cloud authentication",
             shortName = "apiKey", fullName = "apiKey", optional=true)
-    protected String apiKey = null;
+    protected final String apiKey = null;
 
     @Argument(
             doc = "Name of the program running",
@@ -28,7 +28,7 @@ public abstract class SparkCommandLineProgram extends CommandLineProgram impleme
     public String programName;
 
     @ArgumentCollection
-    public SparkCommandLineArgumentCollection sparkArgs = new SparkCommandLineArgumentCollection();
+    public final SparkCommandLineArgumentCollection sparkArgs = new SparkCommandLineArgumentCollection();
 
 
     @Override

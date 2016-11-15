@@ -97,7 +97,7 @@ public abstract class PairHMM implements Closeable{
     protected double[] mLogLikelihoodArray;
 
     //profiling information
-    protected static Boolean doProfiling = true;
+    protected static final Boolean doProfiling = true;
     protected static long pairHMMComputeTime = 0;
     protected long threadLocalPairHMMComputeTimeDiff = 0;
     protected long startTime = 0;

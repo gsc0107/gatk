@@ -496,8 +496,11 @@ public final class BAQ implements Serializable {
     }
 
     public static class BAQCalculationResult {
-        public byte[] refBases, rawQuals, readBases, bq;
-        public int[] state;
+        public final byte[] refBases;
+        public final byte[] rawQuals;
+        public final byte[] readBases;
+        public final byte[] bq;
+        public final int[] state;
 
         public BAQCalculationResult(final GATKRead read, final byte[] ref) {
             this(read.getBaseQualities(), read.getBases(), ref);

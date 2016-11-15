@@ -473,13 +473,13 @@ public final class ReadLikelihoodsUnitTest {
         }
     }
 
-    private String[][] SAMPLE_SETS = {
+    private final String[][] SAMPLE_SETS = {
             {"A","B","C"},
             {"A"},
             {"C","A","D","E","Salsa","Gazpacho"},
     };
 
-    private Allele[][] ALLELE_SETS = {
+    private final Allele[][] ALLELE_SETS = {
             {Allele.create("A", true), Allele.create("T"), Allele.create("C")},
             {Allele.create("A", true)},
             {Allele.create("ATTTA"), Allele.create("A", true)},
@@ -712,11 +712,11 @@ public final class ReadLikelihoodsUnitTest {
         return alleleList;
     }
 
-    private SAMFileHeader SAM_HEADER = ArtificialReadUtils.createArtificialSamHeader(10, 0, 1000);
+    private final SAMFileHeader SAM_HEADER = ArtificialReadUtils.createArtificialSamHeader(10, 0, 1000);
     final GenomeLocParser locParser = new GenomeLocParser(SAM_HEADER.getSequenceDictionary());
 
 
-    private int[][] READ_COUNTS = {
+    private final int[][] READ_COUNTS = {
             {},
             { 100 },
             { 0 },
@@ -726,7 +726,7 @@ public final class ReadLikelihoodsUnitTest {
             { 1000, 10, 100, 20, 23 }
     };
 
-    private int[] ALLELE_COUNTS = { 0, 1, 2, 3, 10, 20 };
+    private final int[] ALLELE_COUNTS = { 0, 1, 2, 3, 10, 20 };
 
     @DataProvider(name="readCountsAndnumberOfAllelesData")
     public Object[][] readCountsAndnumberOfAllelesData() {

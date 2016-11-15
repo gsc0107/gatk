@@ -117,7 +117,7 @@ public abstract class TableReader<R> implements Closeable, Iterable<R> {
      * Holds a reference to the csvReader object use to read and parse the input
      * into {@link String} arrays.
      */
-    private CSVReader csvReader;
+    private final CSVReader csvReader;
 
     /**
      * Indicates whether the reader has tried to fetch the next record.

@@ -7,7 +7,7 @@ import org.broadinstitute.hellbender.utils.read.GATKRead;
 
 public final class LIBS_position {
 
-    GATKRead read;
+    final GATKRead read;
 
     final int numOperators;
     int currentOperatorIndex = 0;

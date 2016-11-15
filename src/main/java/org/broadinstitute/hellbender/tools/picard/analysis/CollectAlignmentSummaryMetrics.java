@@ -56,10 +56,10 @@ public final class CollectAlignmentSummaryMetrics extends SinglePassSamProgram {
     // Usage and parameters
 
     @Argument(doc="Paired end reads above this insert size will be considered chimeric along with inter-chromosomal pairs.")
-    public int MAX_INSERT_SIZE = 100000;
+    public final int MAX_INSERT_SIZE = 100000;
 
     @Argument(doc="List of adapter sequences to use when processing the alignment metrics")
-	public List<String> ADAPTER_SEQUENCE = CollectionUtil.makeList(
+	public final List<String> ADAPTER_SEQUENCE = CollectionUtil.makeList(
             IlluminaAdapterPair.SINGLE_END.get5PrimeAdapter(),
             IlluminaAdapterPair.SINGLE_END.get3PrimeAdapter(),
             IlluminaAdapterPair.PAIRED_END.get5PrimeAdapter(),
@@ -69,10 +69,10 @@ public final class CollectAlignmentSummaryMetrics extends SinglePassSamProgram {
     );
 
     @Argument(shortName="LEVEL", doc="The level(s) at which to accumulate metrics.  ")
-    public Set<MetricAccumulationLevel> METRIC_ACCUMULATION_LEVEL = EnumSet.of(MetricAccumulationLevel.ALL_READS);
+    public final Set<MetricAccumulationLevel> METRIC_ACCUMULATION_LEVEL = EnumSet.of(MetricAccumulationLevel.ALL_READS);
 
     @Argument(shortName="BS", doc="Whether the SAM/BAM/CRAM file consists of bisulfite sequenced reads.  ")
-    public boolean IS_BISULFITE_SEQUENCED = false;
+    public final boolean IS_BISULFITE_SEQUENCED = false;
 
     private AlignmentSummaryMetricsCollector collector;
 

@@ -106,7 +106,7 @@ public class CountingReadFilter extends ReadFilter {
     private class CountingNegateReadFilter extends CountingReadFilter {
         private static final long serialVersionUID = 1L;
 
-        CountingReadFilter delegateCountingFilter;
+        final CountingReadFilter delegateCountingFilter;
 
         public CountingNegateReadFilter(final CountingReadFilter delegate) {
             this.delegateCountingFilter = delegate;

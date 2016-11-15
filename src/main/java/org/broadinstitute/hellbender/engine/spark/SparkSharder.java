@@ -327,7 +327,7 @@ public class SparkSharder {
 
         private static final long serialVersionUID = 1L;
 
-        private int numPartitions;
+        private final int numPartitions;
 
         public KeyPartitioner(final int numPartitions) {
             this.numPartitions = numPartitions;

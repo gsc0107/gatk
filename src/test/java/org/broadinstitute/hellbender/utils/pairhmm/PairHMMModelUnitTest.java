@@ -286,11 +286,11 @@ public final class PairHMMModelUnitTest extends BaseTest {
     }
 
 
-    private static int[] INS_QUALS = {30, 45, 20, 10, 5, 60, 123 };
+    private static final int[] INS_QUALS = {30, 45, 20, 10, 5, 60, 123 };
 
-    private static int[] DEL_QUALS = {30, 45, 20, 10, 5, 60, 123 };
+    private static final int[] DEL_QUALS = {30, 45, 20, 10, 5, 60, 123 };
 
-    private static int[] GAP_QUALS = {10, 20, 5};
+    private static final int[] GAP_QUALS = {10, 20, 5};
 
-    private static Integer[] READ_LENGTHS = { 0, 1, 5, 20, 100, 250};
+    private static final Integer[] READ_LENGTHS = { 0, 1, 5, 20, 100, 250};
 }

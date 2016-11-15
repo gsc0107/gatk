@@ -58,31 +58,31 @@ public final class CollectOxoGMetrics extends PicardCommandLineProgram {
 
     @Argument(shortName = "Q",
             doc = "The minimum base quality score for a base to be included in analysis.")
-    public int MINIMUM_QUALITY_SCORE = 20;
+    public final int MINIMUM_QUALITY_SCORE = 20;
 
     @Argument(shortName = "MQ",
             doc = "The minimum mapping quality score for a base to be included in analysis.")
-    public int MINIMUM_MAPPING_QUALITY = 30;
+    public final int MINIMUM_MAPPING_QUALITY = 30;
 
     @Argument(shortName = "MIN_INS",
             doc = "The minimum insert size for a read to be included in analysis. Set of 0 to allow unpaired reads.")
-    public int MINIMUM_INSERT_SIZE = 60;
+    public final int MINIMUM_INSERT_SIZE = 60;
 
     @Argument(shortName = "MAX_INS",
             doc = "The maximum insert size for a read to be included in analysis. Set of 0 to allow unpaired reads.")
-    public int MAXIMUM_INSERT_SIZE = 600;
+    public final int MAXIMUM_INSERT_SIZE = 600;
 
     @Argument(doc = "When available, use original quality scores for filtering.")
-    public boolean USE_OQ = true;
+    public final boolean USE_OQ = true;
 
     @Argument(doc = "The number of context bases to include on each side of the assayed G/C base.")
-    public int CONTEXT_SIZE = 1;
+    public final int CONTEXT_SIZE = 1;
 
     @Argument(doc = "The optional set of sequence contexts to restrict analysis to. If not supplied all contexts are analyzed.")
-    public Set<String> CONTEXTS = new HashSet<>();
+    public final Set<String> CONTEXTS = new HashSet<>();
 
     @Argument(doc = "For debugging purposes: stop after visiting this many sites with at least 1X coverage.")
-    public int STOP_AFTER = Integer.MAX_VALUE;
+    public final int STOP_AFTER = Integer.MAX_VALUE;
 
     private static final String UNKNOWN_LIBRARY = "UnknownLibrary";
     private static final String UNKNOWN_SAMPLE = "UnknownSample";

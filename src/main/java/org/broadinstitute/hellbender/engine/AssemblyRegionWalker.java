@@ -49,30 +49,30 @@ import java.util.List;
 public abstract class AssemblyRegionWalker extends GATKTool {
 
     @Argument(fullName="readShardSize", shortName="readShardSize", doc = "Maximum size of each read shard, in bases. For good performance, this should be much larger than the maximum assembly region size.", optional = true)
-    protected int readShardSize = defaultReadShardSize();
+    protected final int readShardSize = defaultReadShardSize();
 
     @Argument(fullName="readShardPadding", shortName="readShardPadding", doc = "Each read shard has this many bases of extra context on each side. Read shards must have as much or more padding than assembly regions.", optional = true)
-    protected int readShardPadding = defaultReadShardPadding();
+    protected final int readShardPadding = defaultReadShardPadding();
 
     @Argument(fullName = "minAssemblyRegionSize", shortName = "minAssemblyRegionSize", doc = "Minimum size of an assembly region", optional = true)
-    protected int minAssemblyRegionSize = defaultMinAssemblyRegionSize();
+    protected final int minAssemblyRegionSize = defaultMinAssemblyRegionSize();
 
     @Argument(fullName = "maxAssemblyRegionSize", shortName = "maxAssemblyRegionSize", doc = "Maximum size of an assembly region", optional = true)
-    protected int maxAssemblyRegionSize = defaultMaxAssemblyRegionSize();
+    protected final int maxAssemblyRegionSize = defaultMaxAssemblyRegionSize();
 
     @Argument(fullName = "assemblyRegionPadding", shortName = "assemblyRegionPadding", doc = "Number of additional bases of context to include around each assembly region", optional = true)
-    protected int assemblyRegionPadding = defaultAssemblyRegionPadding();
+    protected final int assemblyRegionPadding = defaultAssemblyRegionPadding();
 
     @Argument(fullName = "maxReadsPerAlignmentStart", shortName = "maxReadsPerAlignmentStart", doc = "Maximum number of reads to retain per alignment start position. Reads above this threshold will be downsampled. Set to 0 to disable.", optional = true)
-    protected int maxReadsPerAlignmentStart = defaultMaxReadsPerAlignmentStart();
+    protected final int maxReadsPerAlignmentStart = defaultMaxReadsPerAlignmentStart();
 
     @Advanced
     @Argument(fullName = "activeProbabilityThreshold", shortName = "activeProbabilityThreshold", doc="Minimum probability for a locus to be considered active.", optional = true)
-    protected double activeProbThreshold = defaultActiveProbThreshold();
+    protected final double activeProbThreshold = defaultActiveProbThreshold();
 
     @Advanced
     @Argument(fullName = "maxProbPropagationDistance", shortName = "maxProbPropagationDistance", doc="Upper limit on how many bases away probability mass can be moved around when calculating the boundaries between active and inactive assembly regions", optional = true)
-    protected int maxProbPropagationDistance = defaultMaxProbPropagationDistance();
+    protected final int maxProbPropagationDistance = defaultMaxProbPropagationDistance();
 
     /**
      * @return Default value for the {@link #readShardSize} parameter, if none is provided on the command line

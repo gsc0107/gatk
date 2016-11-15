@@ -56,12 +56,12 @@ import java.util.List;
 class BreakpointAlignment {
 
     public static final String NO_SEQUENCE = "none";
-    String contigId;
-    AlignmentRegion region1;
-    AlignmentRegion region2;
-    String insertedSequence;
-    String homology;
-    List<String> insertionMappings;
+    final String contigId;
+    final AlignmentRegion region1;
+    final AlignmentRegion region2;
+    final String insertedSequence;
+    final String homology;
+    final List<String> insertionMappings;
 
     /**
      * Construct a new BreakpointAlignment from two AlignmentRegions.

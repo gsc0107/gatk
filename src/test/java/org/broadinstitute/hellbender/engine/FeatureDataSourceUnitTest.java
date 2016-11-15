@@ -390,9 +390,9 @@ public final class FeatureDataSourceUnitTest extends BaseTest {
 
     @SuppressWarnings("overrides")  // because I don't want to implement hashCode() but do need an equals() here
     private static class ArtificialTestFeature implements Feature {
-        private String chr;
-        private int start;
-        private int end;
+        private final String chr;
+        private final int start;
+        private final int end;
 
         public ArtificialTestFeature( final String chr, final int start, final int end ) {
             this.chr = chr;

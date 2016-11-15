@@ -40,10 +40,10 @@ public final class DownsampleSam extends PicardCommandLineProgram {
               shortName = "rand",
               doc = "Random seed to use if reproducibilty is desired.  " +
             "Setting to null will cause multiple invocations to produce different results.")
-    public Long RANDOM_SEED = 1L;
+    public final Long RANDOM_SEED = 1L;
 
     @Argument(shortName = "P", doc = "The probability of keeping any individual read, between 0 and 1.")
-    public double PROBABILITY = 1;
+    public final double PROBABILITY = 1;
 
     @Override
     protected Object doWork() {

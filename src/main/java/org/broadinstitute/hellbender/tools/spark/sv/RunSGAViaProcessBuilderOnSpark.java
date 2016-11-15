@@ -41,19 +41,19 @@ public final class RunSGAViaProcessBuilderOnSpark extends GATKSparkTool {
               shortName = "sgaPath",
               fullName  = "fullPathToSGA",
               optional  = false)
-    public String pathToSGA = null;
+    public final String pathToSGA = null;
 
     @Argument(doc       = "An URI to the directory where all interleaved FASTQ files for putative breakpoints are located.",
               shortName = "in",
               fullName  = "inDir",
               optional  = false)
-    public String pathToAllInterleavedFASTQFiles = null;
+    public final String pathToAllInterleavedFASTQFiles = null;
 
     @Argument(doc       = "A substring in the FASTQ file names that needs to be stripped out for retrieving the breakpoint ID",
               shortName = "scrub",
               fullName  = "subStringToStrip",
               optional  = false)
-    public String subStringToStrip = null;
+    public final String subStringToStrip = null;
 
     @Argument(doc       = "An URI (prefix) to a directory to write results to. " +
                           "Breakpoints where local assembly were successful are saved in a directory prefix_0," +
@@ -61,19 +61,19 @@ public final class RunSGAViaProcessBuilderOnSpark extends GATKSparkTool {
               shortName = "out",
               fullName  = "outDirPrefix",
               optional  = false)
-    public String outDirPrefix = null;
+    public final String outDirPrefix = null;
 
     @Argument(doc       = "To run k-mer based read correction with default parameters (as provided by SGA) or not.",
               shortName = "correct",
               fullName  = "kmerCorrectReads",
               optional  = true)
-    public boolean runCorrection = false;
+    public final boolean runCorrection = false;
 
     @Argument(doc       = "If true, capture the stdout and stderr of the SGA processes along with the assembly output (valuable for debugging but hurts performance)",
               shortName = "captureStdIO",
               fullName  = "captureSGAStdOutAndError",
               optional  = true)
-    public boolean enableSTDIOCapture = false;
+    public final boolean enableSTDIOCapture = false;
 
     // a few hard-coded parameters for use in various SGA modules based on some tuning experiences.
     // subject to future changes as we see more test cases

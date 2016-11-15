@@ -32,7 +32,7 @@ public class SparkSharderUnitTest extends BaseTest implements Serializable {
 
     private static final int STANDARD_READ_LENGTH = 3;
 
-    private SAMSequenceDictionary sequenceDictionary = new SAMSequenceDictionary(
+    private final SAMSequenceDictionary sequenceDictionary = new SAMSequenceDictionary(
             ImmutableList.of(new SAMSequenceRecord("1", 100), new SAMSequenceRecord("2", 50)));
 
 

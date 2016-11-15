@@ -35,7 +35,7 @@ import java.util.List;
 public abstract class GATKTool extends CommandLineProgram {
 
     @ArgumentCollection
-    protected IntervalArgumentCollection intervalArgumentCollection = requiresIntervals() ? new RequiredIntervalArgumentCollection() : new OptionalIntervalArgumentCollection();
+    protected final IntervalArgumentCollection intervalArgumentCollection = requiresIntervals() ? new RequiredIntervalArgumentCollection() : new OptionalIntervalArgumentCollection();
 
     @ArgumentCollection
     protected final ReadInputArgumentCollection readArguments = requiresReads() ? new RequiredReadInputArgumentCollection() : new OptionalReadInputArgumentCollection();
@@ -44,38 +44,38 @@ public abstract class GATKTool extends CommandLineProgram {
     protected final ReferenceInputArgumentCollection referenceArguments = requiresReference() ? new RequiredReferenceInputArgumentCollection() :  new OptionalReferenceInputArgumentCollection();
 
     @Argument(fullName = "secondsBetweenProgressUpdates", shortName = "secondsBetweenProgressUpdates", doc = "Output traversal statistics every time this many seconds elapse", optional = true)
-    private double secondsBetweenProgressUpdates = ProgressMeter.DEFAULT_SECONDS_BETWEEN_UPDATES;
+    private final double secondsBetweenProgressUpdates = ProgressMeter.DEFAULT_SECONDS_BETWEEN_UPDATES;
 
     @Argument(fullName = "disableSequenceDictionaryValidation", shortName = "disableSequenceDictionaryValidation", doc = "If specified, do not check the sequence dictionaries from our inputs for compatibility. Use at your own risk!", optional = true)
-    private boolean disableSequenceDictionaryValidation = false;
+    private final boolean disableSequenceDictionaryValidation = false;
 
     @Argument(fullName=StandardArgumentDefinitions.CREATE_OUTPUT_BAM_INDEX_LONG_NAME,
             shortName=StandardArgumentDefinitions.CREATE_OUTPUT_BAM_INDEX_SHORT_NAME,
             doc = "If true, create a BAM/CRAM index when writing a coordinate-sorted BAM/CRAM file.", optional=true)
-    public boolean createOutputBamIndex = true;
+    public final boolean createOutputBamIndex = true;
 
     @Argument(fullName=StandardArgumentDefinitions.CREATE_OUTPUT_BAM_MD5_LONG_NAME,
             shortName=StandardArgumentDefinitions.CREATE_OUTPUT_BAM_MD5_SHORT_NAME,
             doc = "If true, create a MD5 digest for any BAM/SAM/CRAM file created", optional=true)
-    public boolean createOutputBamMD5 = false;
+    public final boolean createOutputBamMD5 = false;
 
     @Argument(fullName=StandardArgumentDefinitions.CREATE_OUTPUT_VARIANT_INDEX_LONG_NAME,
             shortName=StandardArgumentDefinitions.CREATE_OUTPUT_VARIANT_INDEX_SHORT_NAME,
             doc = "If true, create a VCF index when writing a coordinate-sorted VCF file.", optional=true)
-    public boolean createOutputVariantIndex = true;
+    public final boolean createOutputVariantIndex = true;
 
     @Argument(fullName=StandardArgumentDefinitions.CREATE_OUTPUT_VARIANT_MD5_LONG_NAME,
             shortName=StandardArgumentDefinitions.CREATE_OUTPUT_VARIANT_MD5_SHORT_NAME,
             doc = "If true, create a a MD5 digest any VCF file created.", optional=true)
-    public boolean createOutputVariantMD5 = false;
+    public final boolean createOutputVariantMD5 = false;
 
     @Argument(fullName= StandardArgumentDefinitions.LENIENT_LONG_NAME,
             shortName = StandardArgumentDefinitions.LENIENT_SHORT_NAME,
             doc = "Lenient processing of VCF files", common = true, optional = true)
-    protected boolean lenientVCFProcessing = false;
+    protected final boolean lenientVCFProcessing = false;
 
     @Argument(fullName="addOutputSAMProgramRecord", shortName="addOutputSAMProgramRecord", doc = "If true, adds a PG tag to created SAM/BAM/CRAM files.", optional=true)
-    public boolean addOutputSAMProgramRecord = true;
+    public final boolean addOutputSAMProgramRecord = true;
 
     /*
      * TODO: Feature arguments for the current tool are currently discovered through reflection via FeatureManager.

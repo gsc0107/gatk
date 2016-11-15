@@ -43,10 +43,10 @@ public final class CompareDuplicatesSpark extends GATKSparkTool {
     protected String input2;
 
     @Argument(doc="print summary", shortName = "ps", fullName = "printSummary", optional = true)
-    protected boolean printSummary = true;
+    protected final boolean printSummary = true;
 
     @Argument(doc="throw error on diff", shortName = "cd", fullName = "throwOnDiff", optional = true)
-    protected boolean throwOnDiff = false;
+    protected final boolean throwOnDiff = false;
 
     @Override
     protected void runTool(final JavaSparkContext ctx) {

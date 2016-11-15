@@ -56,7 +56,7 @@ public final class BQSRPipelineSpark extends GATKSparkTool {
     protected String output;
 
     @Argument(doc = "the join strategy for reference bases and known variants", shortName = "joinStrategy", fullName = "joinStrategy", optional = true)
-    private JoinStrategy joinStrategy = JoinStrategy.BROADCAST;
+    private final JoinStrategy joinStrategy = JoinStrategy.BROADCAST;
 
     /**
      * all the command line arguments for BQSR and its covariates
@@ -65,16 +65,16 @@ public final class BQSRPipelineSpark extends GATKSparkTool {
     private final RecalibrationArgumentCollection bqsrArgs = new RecalibrationArgumentCollection();
 
     @Argument(fullName="readShardSize", shortName="readShardSize", doc = "Maximum size of each read shard, in bases. Only applies when using the OVERLAPS_PARTITIONER join strategy.", optional = true)
-    public int readShardSize = 10000;
+    public final int readShardSize = 10000;
 
     @Argument(fullName="readShardPadding", shortName="readShardPadding", doc = "Each read shard has this many bases of extra context on each side. Only applies when using the OVERLAPS_PARTITIONER join strategy.", optional = true)
-    public int readShardPadding = 1000;
+    public final int readShardPadding = 1000;
 
     /**
      * command-line arguments to fine tune the apply BQSR step.
      */
     @ArgumentCollection
-    public ApplyBQSRUniqueArgumentCollection applyBqsrArgs = new ApplyBQSRUniqueArgumentCollection();
+    public final ApplyBQSRUniqueArgumentCollection applyBqsrArgs = new ApplyBQSRUniqueArgumentCollection();
 
     @Override
     public SerializableFunction<GATKRead, SimpleInterval> getReferenceWindowFunction() {

@@ -173,7 +173,7 @@ public abstract class LocusIteratorByStateBaseTest extends BaseTest {
 
 
     static final class FakeCloseableIterator<T> implements CloseableIterator<T> {
-        Iterator<T> iterator;
+        final Iterator<T> iterator;
 
         public FakeCloseableIterator(final Iterator<T> it) {
             iterator = it;

@@ -11,7 +11,7 @@ import java.util.NoSuchElementException;
 public final class ByteArrayIterator implements Iterator<Byte> {
     private final byte[] byteArray;
     private int currentPosition;
-    private int stopIndex;
+    private final int stopIndex;
 
     public ByteArrayIterator( final byte[] byteArray ) {
         this(byteArray, 0, byteArray.length);

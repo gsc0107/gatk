@@ -23,9 +23,9 @@ public final class OpticalDuplicateFinder implements Serializable {
 
     public static final int DEFAULT_OPTICAL_DUPLICATE_DISTANCE = 100;
 
-    public String readNameRegex;
+    public final String readNameRegex;
 
-    public int opticalDuplicatePixelDistance;
+    public final int opticalDuplicatePixelDistance;
 
     private Pattern readNamePattern;
 

@@ -18,8 +18,8 @@ public final class CompareMatrix implements Serializable {
     public static final int dimension = QualityUtils.MAX_SAM_QUAL_SCORE+1;
     private final byte[] bin;
 
-    private long[][] mat;
-    private long[][] binnedMat;
+    private final long[][] mat;
+    private final long[][] binnedMat;
 
     public CompareMatrix(final byte[] binning) {
         Utils.nonNull(binning);

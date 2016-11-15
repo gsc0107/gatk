@@ -32,7 +32,7 @@ public abstract class LocusWalkerSpark extends GATKSparkTool {
     private static final long serialVersionUID = 1L;
 
     @Argument(fullName = "maxDepthPerSample", shortName = "maxDepthPerSample", doc = "Maximum number of reads to retain per sample per locus. Reads above this threshold will be downsampled. Set to 0 to disable.", optional = true)
-    protected int maxDepthPerSample = defaultMaxDepthPerSample();
+    protected final int maxDepthPerSample = defaultMaxDepthPerSample();
 
     /**
      * Returns default value for the {@link #maxDepthPerSample} parameter, if none is provided on the command line.
@@ -43,13 +43,13 @@ public abstract class LocusWalkerSpark extends GATKSparkTool {
     }
 
     @Argument(fullName="readShardSize", shortName="readShardSize", doc = "Maximum size of each read shard, in bases.", optional = true)
-    public int readShardSize = 10000;
+    public final int readShardSize = 10000;
 
     @Argument(fullName="readShardPadding", shortName="readShardPadding", doc = "Each read shard has this many bases of extra context on each side.", optional = true)
-    public int readShardPadding = 1000;
+    public final int readShardPadding = 1000;
 
     @Argument(doc = "whether to use the shuffle implementation or overlaps partitioning (the default)", shortName = "shuffle", fullName = "shuffle", optional = true)
-    public boolean shuffle = false;
+    public final boolean shuffle = false;
 
     private FeatureManager features; // TODO: move up to GATKSparkTool?
 

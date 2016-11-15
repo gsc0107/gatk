@@ -30,19 +30,19 @@ public final class CommandLineParserTest {
         SpecialArgumentsCollection specialArgs = new SpecialArgumentsCollection();
 
         @PositionalArguments(minElements=2, maxElements=2)
-        public List<File> positionalArguments = new ArrayList<>();
+        public final List<File> positionalArguments = new ArrayList<>();
 
         @Argument(shortName="T", doc="Frobnication threshold setting.")
-        public Integer FROBNICATION_THRESHOLD = 20;
+        public final Integer FROBNICATION_THRESHOLD = 20;
 
         @Argument
         public FrobnicationFlavor FROBNICATION_FLAVOR;
 
         @Argument(doc="Allowed shmiggle types.", optional = false)
-        public List<String> SHMIGGLE_TYPE = new ArrayList<>();
+        public final List<String> SHMIGGLE_TYPE = new ArrayList<>();
 
         @Argument
-        public Boolean TRUTHINESS = false;
+        public final Boolean TRUTHINESS = false;
     }
 
     @CommandLineProgramProperties(
@@ -517,7 +517,7 @@ public final class CommandLineParserTest {
 
     class CollectionWithDefaultValuesArguments {
         @Argument
-        public List<String> LIST = CollectionUtil.makeList("foo", "bar");
+        public final List<String> LIST = CollectionUtil.makeList("foo", "bar");
     }
 
     @Test
@@ -575,10 +575,10 @@ public final class CommandLineParserTest {
         public ArgsCollectionHaver(){}
 
         @ArgumentCollection
-        public ArgsCollection default_args = new ArgsCollection();
+        public final ArgsCollection default_args = new ArgsCollection();
 
         @Argument(fullName = "somenumber",shortName = "n")
-        public int someNumber = 0;
+        public final int someNumber = 0;
     }
 
     @Test
@@ -595,13 +595,13 @@ public final class CommandLineParserTest {
 
     class BooleanFlags{
         @Argument
-        public Boolean flag1 = false;
+        public final Boolean flag1 = false;
 
         @Argument
-        public boolean flag2 = true;
+        public final boolean flag2 = true;
 
         @Argument
-        public boolean flag3 = false;
+        public final boolean flag3 = false;
 
         @Argument(mutex="flag1")
         public boolean antiflag1 = false;
@@ -635,15 +635,16 @@ public final class CommandLineParserTest {
 
     class PrivateArgument{
         @Argument
-        private boolean privateArgument = false;
+        private final boolean privateArgument = false;
 
         @Argument(optional = true)
-        private List<Integer> privateCollection = new ArrayList<>();
+        private final List<Integer> privateCollection = new ArrayList<>();
 
         @ArgumentCollection
-        private BooleanFlags booleanFlags= new BooleanFlags();
+        private final BooleanFlags booleanFlags= new BooleanFlags();
 
         @PositionalArguments()
+        final
         List<Integer> positionals = new ArrayList<>();
     }
 
@@ -842,7 +843,7 @@ public final class CommandLineParserTest {
      * initialize it.
      */
     private static class GatherArgumentValuesTargetSuperType {
-        private String value;
+        private final String value;
 
         public GatherArgumentValuesTargetSuperType(final String s ) {
             value = s;
@@ -961,8 +962,8 @@ public final class CommandLineParserTest {
      * @param <T> meaningless type parameter
      */
     private static class GatherArgumentValuesParameterizedTargetType<T> {
-        private String value;
-        private T foo;
+        private final String value;
+        private final T foo;
 
         public GatherArgumentValuesParameterizedTargetType(final String s ) {
             value = s;

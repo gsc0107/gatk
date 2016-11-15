@@ -64,7 +64,7 @@ public abstract class CollectTargetedMetrics<METRIC extends MultiLevelMetrics, C
     public File OUTPUT;
 
     @Argument(shortName = "LEVEL", doc = "The level(s) at which to accumulate metrics.")
-    public Set<MetricAccumulationLevel> METRIC_ACCUMULATION_LEVEL = EnumSet.of(MetricAccumulationLevel.ALL_READS);
+    public final Set<MetricAccumulationLevel> METRIC_ACCUMULATION_LEVEL = EnumSet.of(MetricAccumulationLevel.ALL_READS);
 
     @Argument(optional = true, doc = "An optional file to output per target coverage information to.")
     public File PER_TARGET_COVERAGE;

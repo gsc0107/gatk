@@ -68,7 +68,7 @@ public final class CheckPileup extends LocusWalker {
 
     // This is to check for previous versions of samtools without having overlap detection
     @Argument(fullName = "ignore_overlaps", shortName = "ignore_overlaps", doc = "Disable read-pair overlap detection.", optional = true)
-    public boolean ignoreOverlaps = false;
+    public final boolean ignoreOverlaps = false;
 
     /**
      * By default the program will quit if it encounters an error (such as missing truth data for a given position).
@@ -76,7 +76,7 @@ public final class CheckPileup extends LocusWalker {
      * to the next position.
      */
     @Argument(fullName="continue_after_error", doc="Continue after encountering an error", optional=true)
-    public boolean continueAfterAnError = false;
+    public final boolean continueAfterAnError = false;
 
     // These are the default read filters from samtools
     @Override

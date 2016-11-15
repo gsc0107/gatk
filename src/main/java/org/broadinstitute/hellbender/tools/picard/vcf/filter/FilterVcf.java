@@ -41,19 +41,19 @@ public final class FilterVcf extends PicardCommandLineProgram {
     @Argument(doc="The minimum allele balance acceptable before filtering a site. Allele balance is calculated for heterozygotes as " +
             "the number of bases supporting the least-represented allele over the total number of base observations. Different heterozygote " +
             "genotypes at the same locus are measured independently. The locus is filtered if any allele balance is below the limit.")
-    public double MIN_AB = 0.0d;
+    public final double MIN_AB = 0.0d;
 
     @Argument(doc="The minimum sequencing depth supporting a genotype before the genotype will be filtered out.")
-    public int MIN_DP = 0;
+    public final int MIN_DP = 0;
 
     @Argument(doc="The minimum genotype quality that must be achieved for a sample otherwise the genotype will be filtered out.")
-    public int MIN_GQ = 0;
+    public final int MIN_GQ = 0;
 
     @Argument(doc="The maximum phred scaled fisher strand value before a site will be filtered out.")
-    public double MAX_FS = Double.MAX_VALUE;
+    public final double MAX_FS = Double.MAX_VALUE;
 
     @Argument(doc="The minimum QD value to accept or otherwise filter out the variant.")
-    public double MIN_QD = 0;
+    public final double MIN_QD = 0;
 
     /** Constructor to default to having index creation on. */
     public FilterVcf() { this.CREATE_INDEX = true; }

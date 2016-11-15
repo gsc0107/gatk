@@ -77,7 +77,7 @@ public final class CommandLineParser {
 
     // Map from (full class) name of each GATKCommandLinePluginDescriptor requested and
     // found to the actual descriptor instance
-    private Map<String, GATKCommandLinePluginDescriptor<?>> pluginDescriptors = new HashMap<>();
+    private final Map<String, GATKCommandLinePluginDescriptor<?>> pluginDescriptors = new HashMap<>();
 
     // Return the plugin instance corresponding to the targetDescriptor class
     public <T> T getPluginDescriptor(final Class<T> targetDescriptor) {
@@ -1081,7 +1081,7 @@ public final class CommandLineParser {
         /**
          * Comparator for sorting ArgumentDefinitions in alphabetical order b y longName
          */
-        public static Comparator<ArgumentDefinition> sortByLongName = new Comparator<ArgumentDefinition>() {
+        public static final Comparator<ArgumentDefinition> sortByLongName = new Comparator<ArgumentDefinition>() {
             @Override
             public int compare(final ArgumentDefinition argDef1, final ArgumentDefinition argDef2) {
                 return String.CASE_INSENSITIVE_ORDER.compare(argDef1.getLongName(), argDef2.getLongName());

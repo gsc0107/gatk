@@ -30,9 +30,9 @@ public final class CollectQualityYieldMetricsSpark extends MetricsCollectorSpark
     private static final long serialVersionUID = 1L;
 
     @ArgumentCollection
-    private QualityYieldMetricsArgumentCollection qualityYieldArgs = new QualityYieldMetricsArgumentCollection();
+    private final QualityYieldMetricsArgumentCollection qualityYieldArgs = new QualityYieldMetricsArgumentCollection();
 
-    private QualityYieldMetricsCollectorSpark qualityYieldCollector = new QualityYieldMetricsCollectorSpark();
+    private final QualityYieldMetricsCollectorSpark qualityYieldCollector = new QualityYieldMetricsCollectorSpark();
 
     @Override
     protected SortOrder getExpectedSortOrder() { return qualityYieldCollector.getExpectedSortOrder(); }

@@ -24,9 +24,9 @@ public final class ArtificialReadPileupTestProvider {
     final String artificialReadName = "synth";
     final int artificialRefStart = 1;
     final int artificialMappingQuality = 60;
-    Map<String, SAMReadGroupRecord> sample2RG = new LinkedHashMap<>();
-    List<SAMReadGroupRecord> sampleRGs;
-    List<String> sampleNames = new ArrayList<>();
+    final Map<String, SAMReadGroupRecord> sample2RG = new LinkedHashMap<>();
+    final List<SAMReadGroupRecord> sampleRGs;
+    final List<String> sampleNames = new ArrayList<>();
     private String sampleName(final int i) { return sampleNames.get(i); }
     private SAMReadGroupRecord sampleRG(final String name) { return sample2RG.get(name); }
     public final int locStart = 105; // start position where we desire artificial variant

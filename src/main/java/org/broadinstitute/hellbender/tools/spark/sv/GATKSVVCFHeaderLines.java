@@ -10,7 +10,7 @@ import java.util.Map;
 
 public class GATKSVVCFHeaderLines {
 
-    public static Map<String, VCFHeaderLine> vcfHeaderLines = new HashMap<>();
+    public static final Map<String, VCFHeaderLine> vcfHeaderLines = new HashMap<>();
 
     // VCF standard SV header lines
     // todo: add these and the other standard SV info fields from the VCF spec to htsjdk VCFStandardHeaderLines

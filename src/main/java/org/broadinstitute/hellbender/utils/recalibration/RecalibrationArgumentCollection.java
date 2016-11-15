@@ -88,7 +88,7 @@ public final class RecalibrationArgumentCollection implements ArgumentCollection
     public String BINARY_TAG_NAME = null;
 
     @Argument(fullName = "bqsrBAQGapOpenPenalty", shortName="bqsrBAQGOP", doc="BQSR BAQ gap open penalty (Phred Scaled).  Default value is 40.  30 is perhaps better for whole genome call sets", optional = true)
-    public double BAQGOP = BAQ.DEFAULT_GOP;
+    public final double BAQGOP = BAQ.DEFAULT_GOP;
 
     /**
      * This flag tells GATK not to modify quality scores less than this value. Instead they will be written out unmodified in the recalibrated BAM file.
@@ -98,15 +98,15 @@ public final class RecalibrationArgumentCollection implements ArgumentCollection
      * your Q2 bin can be elevated to Q8 or Q10, leading to issues downstream.
      */
     @Argument(fullName = "preserve_qscores_less_than", shortName = "preserveQ", doc = "Don't recalibrate bases with quality scores less than this threshold (with -" + StandardArgumentDefinitions.BQSR_TABLE_SHORT_NAME + ")", optional = true)
-    public int PRESERVE_QSCORES_LESS_THAN = QualityUtils.MIN_USABLE_Q_SCORE;
+    public final int PRESERVE_QSCORES_LESS_THAN = QualityUtils.MIN_USABLE_Q_SCORE;
 
     @Hidden
     @Argument(fullName = "enableBAQ", shortName = "enableBAQ", doc = "do BAQ correction")
-    public boolean enableBAQ = false;
+    public final boolean enableBAQ = false;
 
     @Hidden
     @Argument(fullName = "computeIndelBQSRTables", shortName = "indelBQSR", doc = "compute indel BQSR tables")
-    public boolean computeIndelBQSRTables = false;
+    public final boolean computeIndelBQSRTables = false;
 
 
     // --------------------------------------------------------------------------------------------------------------
@@ -121,7 +121,7 @@ public final class RecalibrationArgumentCollection implements ArgumentCollection
      * tag is present for a read, the standard qual score will be used.
      */
     @Argument(fullName="useOriginalQualities", shortName = "OQ", doc = "Use the base quality scores from the OQ tag", optional = true)
-    public Boolean useOriginalBaseQualities = false;
+    public final Boolean useOriginalBaseQualities = false;
 
     /**
      * If reads are missing some or all base quality scores, this value will be used for all base quality scores.
@@ -129,7 +129,7 @@ public final class RecalibrationArgumentCollection implements ArgumentCollection
      */
     //TODO: minValue = 0, maxValue = Byte.MAX_VALUE)
     @Argument(fullName="defaultBaseQualities", shortName = "DBQ", doc = "Assign a default base quality", optional = true)
-    public byte defaultBaseQualities = -1;
+    public final byte defaultBaseQualities = -1;
 
 
     /////////////////////////////

@@ -31,7 +31,7 @@ public class ApplyBQSRUniqueArgumentCollection implements ArgumentCollectionDefi
      */
     @Advanced
     @Argument(fullName="static_quantized_quals", shortName = "SQQ", doc = "Use static quantized quality scores to a given number of levels (with -"+ StandardArgumentDefinitions.BQSR_TABLE_SHORT_NAME+ ")", optional=true, mutex = "quantize_quals")
-    public List<Integer> staticQuantizationQuals = new ArrayList<>();
+    public final List<Integer> staticQuantizationQuals = new ArrayList<>();
 
     /**
      * Round down quantized only works with the static_quantized_quals option, and should not be used with
@@ -41,7 +41,7 @@ public class ApplyBQSRUniqueArgumentCollection implements ArgumentCollectionDefi
      */
     @Advanced
     @Argument(fullName="round_down_quantized", shortName = "RDQ", doc = "Round quals down to nearest quantized qual", optional=true, mutex = "quantize_quals")
-    public boolean roundDown = false;
+    public final boolean roundDown = false;
 
     /**
      * By default, the OQ tag in not emitted. Use this flag to include OQ tags in the output BAM file.

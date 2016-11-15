@@ -15,7 +15,7 @@ import java.util.*;
 
 public class VcfUtilsUnitTest extends BaseTest {
 
-    VCFHeaderVersion vcfHeaderVersion = VCFHeaderVersion.VCF4_2;
+    final VCFHeaderVersion vcfHeaderVersion = VCFHeaderVersion.VCF4_2;
 
     @DataProvider(name = "testData")
     public Object[][] getInitialData() {

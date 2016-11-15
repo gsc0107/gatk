@@ -58,7 +58,7 @@ public class BaseRecalibratorSpark extends GATKSparkTool {
     private List<String> knownVariants;
 
     @Argument(doc = "the join strategy for reference bases and known variants", shortName = "joinStrategy", fullName = "joinStrategy", optional = true)
-    private JoinStrategy joinStrategy = JoinStrategy.BROADCAST;
+    private final JoinStrategy joinStrategy = JoinStrategy.BROADCAST;
 
     @Argument(doc = "Path to save the final recalibration tables to.",
             shortName = StandardArgumentDefinitions.OUTPUT_SHORT_NAME, fullName = StandardArgumentDefinitions.OUTPUT_LONG_NAME, optional = false)
@@ -71,10 +71,10 @@ public class BaseRecalibratorSpark extends GATKSparkTool {
     private final RecalibrationArgumentCollection bqsrArgs = new RecalibrationArgumentCollection();
 
     @Argument(fullName="readShardSize", shortName="readShardSize", doc = "Maximum size of each read shard, in bases. Only applies when using the OVERLAPS_PARTITIONER join strategy.", optional = true)
-    public int readShardSize = 10000;
+    public final int readShardSize = 10000;
 
     @Argument(fullName="readShardPadding", shortName="readShardPadding", doc = "Each read shard has this many bases of extra context on each side. Only applies when using the OVERLAPS_PARTITIONER join strategy.", optional = true)
-    public int readShardPadding = 1000;
+    public final int readShardPadding = 1000;
 
     @Override
     protected void runTool(final JavaSparkContext ctx ) {

@@ -31,7 +31,7 @@ public final class CompareBaseQualities extends PicardCommandLineProgram {
     protected String outputFilename;
 
     @Argument(doc="throw error on diff", shortName = "cd", fullName = "throwOnDiff", optional = true)
-    protected boolean throwOnDiff = false;
+    protected final boolean throwOnDiff = false;
 
     /**
      * Return value is 0 if the two files have identical base qualities and non-zero otherwise.
@@ -39,7 +39,7 @@ public final class CompareBaseQualities extends PicardCommandLineProgram {
      */
     @Advanced
     @Argument(fullName="static_quantized_quals", shortName = "SQQ", doc = "Use static quantized quality scores to a given number of levels (with -"+ StandardArgumentDefinitions.BQSR_TABLE_SHORT_NAME+ ")", optional=true)
-    public List<Integer> staticQuantizationQuals = new ArrayList<>();
+    public final List<Integer> staticQuantizationQuals = new ArrayList<>();
 
     /**
      * Round down quantized only works with the static_quantized_quals option.  When roundDown = false, rounding is done in
@@ -49,7 +49,7 @@ public final class CompareBaseQualities extends PicardCommandLineProgram {
      */
     @Advanced
     @Argument(fullName="round_down_quantized", shortName = "RDQ", doc = "Round quals down to nearest quantized qual", optional=true)
-    public boolean roundDown = false;
+    public final boolean roundDown = false;
 
     private byte[] staticQuantizedMapping;
 

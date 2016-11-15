@@ -53,7 +53,7 @@ public final class DataLine {
     /**
      * Reference to the format error exception factory.
      */
-    private Function<String, RuntimeException> formatErrorFactory;
+    private final Function<String, RuntimeException> formatErrorFactory;
 
     /**
      * String accepted as a "false" as parsed from a table file cell value.

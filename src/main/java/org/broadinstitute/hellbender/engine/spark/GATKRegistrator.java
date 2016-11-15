@@ -19,7 +19,7 @@ import java.util.Collections;
  */
 public class GATKRegistrator implements KryoRegistrator {
 
-    private ADAMKryoRegistrator ADAMregistrator;
+    private final ADAMKryoRegistrator ADAMregistrator;
 
     public GATKRegistrator() {
         this.ADAMregistrator = new ADAMKryoRegistrator();

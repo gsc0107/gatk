@@ -104,7 +104,7 @@ public class ContigAligner implements Closeable {
     }
 
     private static class LocalizedReference {
-        static File INSTANCE;
+        static final File INSTANCE;
 
         static {
             try {

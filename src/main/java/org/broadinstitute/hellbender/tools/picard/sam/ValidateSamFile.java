@@ -41,17 +41,17 @@ public final class ValidateSamFile extends PicardCommandLineProgram {
 
     @Argument(shortName = "M",
             doc = "Mode of output")
-    public Mode MODE = Mode.VERBOSE;
+    public final Mode MODE = Mode.VERBOSE;
 
     @Argument(doc = "List of validation error types to ignore.", optional = true)
-    public List<SAMValidationError.Type> IGNORE = new ArrayList<>();
+    public final List<SAMValidationError.Type> IGNORE = new ArrayList<>();
 
     @Argument(shortName = "MO",
             doc = "The maximum number of lines output in verbose mode")
-    public Integer MAX_OUTPUT = 100;
+    public final Integer MAX_OUTPUT = 100;
 
     @Argument(doc = "If true, only report errors and ignore warnings.")
-    public boolean IGNORE_WARNINGS = false;
+    public final boolean IGNORE_WARNINGS = false;
 
     @Argument(doc = "If true and input is a BAM file with an index file, also validates the index.")
     public boolean VALIDATE_INDEX = true;
@@ -59,13 +59,13 @@ public final class ValidateSamFile extends PicardCommandLineProgram {
     @Argument(shortName = "BISULFITE",
             doc = "Whether the SAM/BAM/CRAM file consists of bisulfite sequenced reads. " +
                     "If so, C->T is not counted as an error in computing the value of the NM tag.")
-    public boolean IS_BISULFITE_SEQUENCED = false;
+    public final boolean IS_BISULFITE_SEQUENCED = false;
 
     @Argument(doc = "Relevant for a coordinate-sorted file containing read pairs only. " +
             "Maximum number of file handles to keep open when spilling mate info to disk. " +
             "Set this number a little lower than the per-process maximum number of file that may be open. " +
             "This number can be found by executing the 'ulimit -n' command on a Unix system.")
-    public int MAX_OPEN_TEMP_FILES = 8000;
+    public final int MAX_OPEN_TEMP_FILES = 8000;
 
     @Override
     protected Object doWork() {

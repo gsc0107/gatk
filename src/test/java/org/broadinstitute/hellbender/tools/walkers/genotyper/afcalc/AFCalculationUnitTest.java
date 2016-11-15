@@ -17,9 +17,9 @@ import java.util.*;
 
 
 public final class AFCalculationUnitTest extends BaseTest {
-    static Allele A = Allele.create("A", true);
-    static Allele C = Allele.create("C");
-    static Allele G = Allele.create("G");
+    static final Allele A = Allele.create("A", true);
+    static final Allele C = Allele.create("C");
+    static final Allele G = Allele.create("G");
 
     static int sampleNameCounter = 0;
     static Genotype AA1, AB1, BB1, NON_INFORMATIVE1;

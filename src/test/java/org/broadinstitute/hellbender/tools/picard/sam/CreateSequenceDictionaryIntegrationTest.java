@@ -14,8 +14,8 @@ import java.io.File;
  */
 public final class CreateSequenceDictionaryIntegrationTest extends CommandLineProgramTest {
     private static final File TEST_DATA_DIR = new File(getTestDataDir(), "picard/sam/CreateSequenceDictionary");
-    public static File BASIC_FASTA = new File(TEST_DATA_DIR, "basic.fasta");
-    public static File DUPLICATE_FASTA = new File(TEST_DATA_DIR, "duplicate_sequence_names.fasta");
+    public static final File BASIC_FASTA = new File(TEST_DATA_DIR, "basic.fasta");
+    public static final File DUPLICATE_FASTA = new File(TEST_DATA_DIR, "duplicate_sequence_names.fasta");
 
     @Override
     public String getTestedClassName() {

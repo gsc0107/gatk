@@ -51,12 +51,12 @@ public final class ReorderSam extends PicardCommandLineProgram {
     @Argument(shortName = "S", doc = "If true, then allows only a partial overlap of the BAM contigs with the new reference " +
             "sequence contigs.  By default, this tool requires a corresponding contig in the new " +
             "reference for each read contig")
-    public boolean ALLOW_INCOMPLETE_DICT_CONCORDANCE = false;
+    public final boolean ALLOW_INCOMPLETE_DICT_CONCORDANCE = false;
 
     @Argument(shortName = "U", doc = "If true, then permits mapping from a read contig to a new reference contig with the " +
             "same name but a different length.  Highly dangerous, only use if you know what you " +
             "are doing.")
-    public boolean ALLOW_CONTIG_LENGTH_DISCORDANCE = false;
+    public final boolean ALLOW_CONTIG_LENGTH_DISCORDANCE = false;
 
     @Override
     protected Object doWork() {

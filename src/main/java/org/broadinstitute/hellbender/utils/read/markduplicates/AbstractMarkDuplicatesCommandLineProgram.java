@@ -53,19 +53,19 @@ public abstract class AbstractMarkDuplicatesCommandLineProgram extends AbstractO
 
     @Argument(shortName = "PG_NAME",
             doc = "Value of PN tag of PG record to be created.")
-    public String PROGRAM_GROUP_NAME = getClass().getSimpleName();
+    public final String PROGRAM_GROUP_NAME = getClass().getSimpleName();
 
     @Argument(shortName = "CO",
             doc = "Comment(s) to include in the output file's header.",
             optional = true)
-    public List<String> COMMENT = new ArrayList<>();
+    public final List<String> COMMENT = new ArrayList<>();
 
     @Argument(doc = "If true do not write duplicates to the output file instead of writing them with appropriate flags set.")
-    public boolean REMOVE_DUPLICATES = false;
+    public final boolean REMOVE_DUPLICATES = false;
 
     @Argument(shortName = StandardArgumentDefinitions.ASSUME_SORTED_SHORT_NAME,
             doc = "If true, assume that the input file is coordinate sorted even if the header says otherwise.")
-    public boolean ASSUME_SORTED = false;
+    public final boolean ASSUME_SORTED = false;
 
     @Argument(shortName = "DS", doc = "The scoring strategy for choosing the non-duplicate among candidates.")
     public DuplicateScoringStrategy.ScoringStrategy DUPLICATE_SCORING_STRATEGY = ScoringStrategy.TOTAL_MAPPED_REFERENCE_LENGTH;

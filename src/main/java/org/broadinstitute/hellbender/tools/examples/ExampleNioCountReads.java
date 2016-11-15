@@ -32,7 +32,7 @@ public class ExampleNioCountReads extends SparkCommandLineProgram {
 
     // Typically set to number of executors times number of cores per executor.
     @Argument(fullName = "parts", doc = "number of partitions", optional = false)
-    private int parts = 3;
+    private final int parts = 3;
 
     private void countReads(final JavaSparkContext ctx) {
         final PrintStream outputStream;

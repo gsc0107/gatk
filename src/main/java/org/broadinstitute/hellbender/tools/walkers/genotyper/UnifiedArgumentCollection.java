@@ -11,7 +11,7 @@ public final class UnifiedArgumentCollection extends StandardCallerArgumentColle
     private static final long serialVersionUID = 1L;
 
     @Argument(fullName = "genotype_likelihoods_model", shortName = "glm", doc = "Genotype likelihoods calculation model to employ -- SNP is the default option, while INDEL is also available for calling indels and BOTH is available for calling both together", optional = true)
-    public GenotypeLikelihoodsCalculationModel GLmodel = GenotypeLikelihoodsCalculationModel.SNP;
+    public final GenotypeLikelihoodsCalculationModel GLmodel = GenotypeLikelihoodsCalculationModel.SNP;
 
     /**
      * The PCR error rate is independent of the sequencing error rate, which is necessary because we cannot necessarily
@@ -25,7 +25,7 @@ public final class UnifiedArgumentCollection extends StandardCallerArgumentColle
      * Note that calculating the SLOD increases the runtime by an appreciable amount.
      */
     @Argument(fullName = "computeSLOD", shortName = "slod", doc = "If provided, we will calculate the SLOD (SB annotation)", optional = true)
-    public boolean COMPUTE_SLOD = false;
+    public final boolean COMPUTE_SLOD = false;
 
     /**
      * The PairHMM implementation to use for -glm INDEL genotype likelihood calculations. The various implementations balance a tradeoff of accuracy and runtime.

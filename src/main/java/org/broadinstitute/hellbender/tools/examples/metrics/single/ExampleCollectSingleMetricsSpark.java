@@ -42,12 +42,12 @@ public final class ExampleCollectSingleMetricsSpark
      * Embedded instance of the collector's argument collection.
      */
     @ArgumentCollection
-    private ExampleSingleMetricsArgumentCollection exampleArgs = new ExampleSingleMetricsArgumentCollection();
+    private final ExampleSingleMetricsArgumentCollection exampleArgs = new ExampleSingleMetricsArgumentCollection();
 
     /**
      * Embedded instance of the actual collector to which we will delegate
      */
-    private ExampleSingleMetricsCollectorSpark exampleSingleCollector = new ExampleSingleMetricsCollectorSpark();
+    private final ExampleSingleMetricsCollectorSpark exampleSingleCollector = new ExampleSingleMetricsCollectorSpark();
 
     /**
      * Return the embedded argument collection. Called by the base class; the results are passed back

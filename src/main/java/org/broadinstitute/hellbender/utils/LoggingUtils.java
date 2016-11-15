@@ -28,7 +28,7 @@ public class LoggingUtils {
 
     // Map between the logging level used throughout Hellbender code (which is the Picard Log.LogLevel enum),
     // and the log4j log Level values.
-    private static BiMap<Log.LogLevel, Level> loggingLevelNamespaceMap;
+    private static final BiMap<Log.LogLevel, Level> loggingLevelNamespaceMap;
     static {
         loggingLevelNamespaceMap = EnumHashBiMap.create(Log.LogLevel.class);
         loggingLevelNamespaceMap.put(Log.LogLevel.ERROR, Level.ERROR);
@@ -37,7 +37,7 @@ public class LoggingUtils {
         loggingLevelNamespaceMap.put(Log.LogLevel.DEBUG, Level.DEBUG);
     }
 
-    private static BiMap<Log.LogLevel, java.util.logging.Level> javaUtilLevelNamespaceMap;
+    private static final BiMap<Log.LogLevel, java.util.logging.Level> javaUtilLevelNamespaceMap;
     static {
         javaUtilLevelNamespaceMap = EnumHashBiMap.create(Log.LogLevel.class);
         javaUtilLevelNamespaceMap.put(Log.LogLevel.ERROR, java.util.logging.Level.SEVERE);

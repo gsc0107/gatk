@@ -16,7 +16,10 @@ import java.util.List;
 
 public final class RecalUtilsUnitTest extends BaseTest {
     private final class Row {
-        int rg, qual, ne, no;
+        final int rg;
+        final int qual;
+        int ne;
+        int no;
 
         private Row(final Row copy) {
             this(copy.rg, copy.qual, copy.ne, copy.no);

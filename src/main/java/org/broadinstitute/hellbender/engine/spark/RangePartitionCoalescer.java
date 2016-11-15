@@ -18,7 +18,7 @@ class RangePartitionCoalescer implements PartitionCoalescer, Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    private List<Integer> maxEndPartitionIndexes;
+    private final List<Integer> maxEndPartitionIndexes;
 
     /**
      * @param maxEndPartitionIndexes the indexes of the end of each coalesced partition, so that

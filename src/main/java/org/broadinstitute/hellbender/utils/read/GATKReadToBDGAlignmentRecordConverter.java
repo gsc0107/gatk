@@ -13,9 +13,9 @@ import org.bdgenomics.adam.models.RecordGroupDictionary;
 public class GATKReadToBDGAlignmentRecordConverter {
     private static final SAMRecordConverter converter = new SAMRecordConverter();
 
-    private SAMFileHeader header;
-    private SequenceDictionary dict;
-    private RecordGroupDictionary readGroups;
+    private final SAMFileHeader header;
+    private final SequenceDictionary dict;
+    private final RecordGroupDictionary readGroups;
 
     public GATKReadToBDGAlignmentRecordConverter(final SAMFileHeader header) {
         this.header = header;

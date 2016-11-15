@@ -66,7 +66,7 @@ public final class SamToFastq extends PicardCommandLineProgram {
     public boolean OUTPUT_PER_RG;
 
     @Argument(shortName="RGT", doc = "The read group tag (PU or ID) to be used to output a fastq file per read group.")
-    public String RG_TAG = "PU";
+    public final String RG_TAG = "PU";
 
     @Argument(shortName = "ODIR", doc = "Directory in which to output the fastq file(s).  Used only when OUTPUT_PER_RG is true.",
             optional = true)
@@ -74,15 +74,15 @@ public final class SamToFastq extends PicardCommandLineProgram {
 
     @Argument(shortName = "RC", doc = "Re-reverse bases and qualities of reads with negative strand flag set before writing them to fastq",
             optional = true)
-    public boolean RE_REVERSE = true;
+    public final boolean RE_REVERSE = true;
 
     @Argument(shortName = "INTER", doc = "Will generate an interleaved fastq if paired, each line will have /1 or /2 to describe which end it came from")
-    public boolean INTERLEAVE = false;
+    public final boolean INTERLEAVE = false;
 
     @Argument(shortName = "NON_PF", doc = "Include non-PF reads from the SAM file into the output " +
             "FASTQ files. PF means 'passes filtering'. Reads whose 'not passing quality controls' " +
             "flag is set are non-PF reads.")
-    public boolean INCLUDE_NON_PF_READS = false;
+    public final boolean INCLUDE_NON_PF_READS = false;
 
     @Argument(shortName = "CLIP_ATTR", doc = "The attribute that stores the position at which " +
             "the SAM record should be clipped", optional = true)
@@ -96,7 +96,7 @@ public final class SamToFastq extends PicardCommandLineProgram {
     public String CLIPPING_ACTION;
 
     @Argument(shortName = "R1_TRIM", doc = "The number of bases to trim from the beginning of read 1.")
-    public int READ1_TRIM = 0;
+    public final int READ1_TRIM = 0;
 
     @Argument(shortName = "R1_MAX_BASES", doc = "The maximum number of bases to write from read 1 after trimming. " +
             "If there are fewer than this many bases left after trimming, all will be written.  If this " +
@@ -104,7 +104,7 @@ public final class SamToFastq extends PicardCommandLineProgram {
     public Integer READ1_MAX_BASES_TO_WRITE;
 
     @Argument(shortName = "R2_TRIM", doc = "The number of bases to trim from the beginning of read 2.")
-    public int READ2_TRIM = 0;
+    public final int READ2_TRIM = 0;
 
     @Argument(shortName = "R2_MAX_BASES", doc = "The maximum number of bases to write from read 2 after trimming. " +
             "If there are fewer than this many bases left after trimming, all will be written.  If this " +
@@ -113,7 +113,7 @@ public final class SamToFastq extends PicardCommandLineProgram {
 
     @Argument(doc = "If true, include non-primary alignments in the output.  Support of non-primary alignments in SamToFastq " +
             "is not comprehensive, so there may be exceptions if this is set to true and there are paired reads with non-primary alignments.")
-    public boolean INCLUDE_NON_PRIMARY_ALIGNMENTS = false;
+    public final boolean INCLUDE_NON_PRIMARY_ALIGNMENTS = false;
 
     @Override
     protected Object doWork() {

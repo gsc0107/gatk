@@ -13,7 +13,7 @@ import java.util.*;
 public class SampleDBUnitTest extends BaseTest {
     private static SampleDBBuilder builder;
     // all the test sample files are located here
-    private File testPED = new File(getToolTestDataDir() +  "testtrio.ped");
+    private final File testPED = new File(getToolTestDataDir() +  "testtrio.ped");
 
     private static final Set<Sample> testPEDSamples = new LinkedHashSet<>(Arrays.asList(
             new Sample("kid", "fam1", "dad", "mom", Sex.MALE, Affection.AFFECTED),

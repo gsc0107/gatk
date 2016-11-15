@@ -50,7 +50,7 @@ public final class CreateSequenceDictionary extends PicardCommandLineProgram {
     public String SPECIES;
 
     @Argument(doc = "Stop after writing this many sequences.  For testing.")
-    public int NUM_SEQUENCES = Integer.MAX_VALUE;
+    public final int NUM_SEQUENCES = Integer.MAX_VALUE;
 
     /**
      * Use reference filename to create URI to go into header if URI was not passed on cmd line.

@@ -678,8 +678,8 @@ public final class MathUtilsUnitTest extends BaseTest {
      */
     class PartitionGenerator implements Iterator<List<Integer>> {
         // generate the partitions of an integer, each partition sorted numerically
-        int n;
-        List<Integer> a;
+        final int n;
+        final List<Integer> a;
 
         int y;
         int k;
@@ -777,8 +777,8 @@ public final class MathUtilsUnitTest extends BaseTest {
      */
     class NextCounts implements Iterator<int[]> {
 
-        private PartitionGenerator partitioner;
-        private int numCategories;
+        private final PartitionGenerator partitioner;
+        private final int numCategories;
         private int[] next;
 
         public NextCounts(final int numCategories, final int totalCounts) {

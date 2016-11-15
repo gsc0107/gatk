@@ -35,13 +35,13 @@ public final class CollectBaseDistributionByCycle extends SinglePassSamProgram {
     public File CHART_OUTPUT;
 
     @Argument(doc = "If set to true, calculate the base distribution over aligned reads only.")
-    public boolean ALIGNED_READS_ONLY = false;
+    public final boolean ALIGNED_READS_ONLY = false;
 
     @Argument(doc = "If set to true calculate the base distribution over PF reads only.")
-    public boolean PF_READS_ONLY = false;
+    public final boolean PF_READS_ONLY = false;
 
     @Argument(doc = "Should an output plot be created")
-    public boolean PRODUCE_PLOT = false;
+    public final boolean PRODUCE_PLOT = false;
 
     private HistogramGenerator hist;
     private String plotSubtitle = "";

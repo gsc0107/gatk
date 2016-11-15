@@ -24,7 +24,7 @@ public final class AlignmentContext implements Locatable, HasGenomeLocation {
     private final Locatable loc;
     private final ReadPileup basePileup;
 
-    private boolean hasPileupBeenDownsampled;
+    private final boolean hasPileupBeenDownsampled;
 
     public AlignmentContext(final Locatable loc, final ReadPileup basePileup) {
         this(loc, basePileup, false);

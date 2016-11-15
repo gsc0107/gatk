@@ -26,12 +26,12 @@ import java.util.Iterator;
 public final class BaseRecalibratorEngineSparkWrapper implements Serializable {
     private static final long serialVersionUID = 1L;
 
-    private Broadcast<SAMFileHeader> headerBcast;
+    private final Broadcast<SAMFileHeader> headerBcast;
     private transient SAMFileHeader header;
-    private Broadcast<SAMSequenceDictionary> referenceSequenceDictionaryBcast;
+    private final Broadcast<SAMSequenceDictionary> referenceSequenceDictionaryBcast;
     private transient SAMSequenceDictionary referenceSequenceDictionary;
 
-    private RecalibrationArgumentCollection recalArgs;
+    private final RecalibrationArgumentCollection recalArgs;
 
     private BaseRecalibrationEngine recalibrationEngine;
 

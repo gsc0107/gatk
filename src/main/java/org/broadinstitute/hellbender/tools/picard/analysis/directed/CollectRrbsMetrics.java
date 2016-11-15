@@ -49,29 +49,29 @@ public final class CollectRrbsMetrics extends PicardCommandLineProgram {
     public String METRICS_FILE_PREFIX;
 
     @Argument(doc = "Minimum read length")
-    public int MINIMUM_READ_LENGTH = 5;
+    public final int MINIMUM_READ_LENGTH = 5;
 
     @Argument(doc = "Threshold for base quality of a C base before it is considered")
-    public int C_QUALITY_THRESHOLD = 20;
+    public final int C_QUALITY_THRESHOLD = 20;
 
     @Argument(doc = "Threshold for quality of a base next to a C before the C base is considered")
-    public int NEXT_BASE_QUALITY_THRESHOLD = 10;
+    public final int NEXT_BASE_QUALITY_THRESHOLD = 10;
 
     @Argument(doc = "Maximum percentage of mismatches in a read for it to be considered, with a range of 0-1")
-    public double MAX_MISMATCH_RATE = 0.1;
+    public final double MAX_MISMATCH_RATE = 0.1;
 
     @Argument(doc = "Set of sequence names to consider, if not specified all sequences will be used", optional = true)
-    public Set<String> SEQUENCE_NAMES = new HashSet<>();
+    public final Set<String> SEQUENCE_NAMES = new HashSet<>();
 
     @Argument(shortName = StandardArgumentDefinitions.ASSUME_SORTED_SHORT_NAME,
             doc = "If true, assume that the input file is coordinate sorted even if the header says otherwise.")
-    public boolean ASSUME_SORTED = false;
+    public final boolean ASSUME_SORTED = false;
 
     @Argument(shortName = "LEVEL", doc = "The level(s) at which to accumulate metrics.  ")
-    public Set<MetricAccumulationLevel> METRIC_ACCUMULATION_LEVEL = EnumSet.of(MetricAccumulationLevel.ALL_READS);
+    public final Set<MetricAccumulationLevel> METRIC_ACCUMULATION_LEVEL = EnumSet.of(MetricAccumulationLevel.ALL_READS);
 
     @Argument(doc = "Should an output plot be created")
-    public boolean PRODUCE_PLOT = false;
+    public final boolean PRODUCE_PLOT = false;
 
     public static final String DETAIL_FILE_EXTENSION = "rrbs_detail_metrics";
     public static final String SUMMARY_FILE_EXTENSION = "rrbs_summary_metrics";

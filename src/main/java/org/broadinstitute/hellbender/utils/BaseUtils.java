@@ -23,7 +23,7 @@ public final class BaseUtils {
         N ('N'),
         D ('D');
 
-        public byte base;
+        public final byte base;
 
         Base(final char base) {
             this.base = (byte)base;

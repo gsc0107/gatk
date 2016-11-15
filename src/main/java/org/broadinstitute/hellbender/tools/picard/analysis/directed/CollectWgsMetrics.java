@@ -50,19 +50,19 @@ public final class CollectWgsMetrics extends PicardCommandLineProgram {
     public File OUTPUT;
 
     @Argument(shortName = "MQ", doc = "Minimum mapping quality for a read to contribute coverage.")
-    public int MINIMUM_MAPPING_QUALITY = 20;
+    public final int MINIMUM_MAPPING_QUALITY = 20;
 
     @Argument(shortName = "Q", doc = "Minimum base quality for a base to contribute coverage.")
-    public int MINIMUM_BASE_QUALITY = 20;
+    public final int MINIMUM_BASE_QUALITY = 20;
 
     @Argument(shortName = "CAP", doc = "Treat bases with coverage exceeding this value as if they had coverage at this value.")
-    public int COVERAGE_CAP = 250;
+    public final int COVERAGE_CAP = 250;
 
     @Argument(doc = "For debugging purposes, stop after processing this many genomic bases.")
-    public long STOP_AFTER = -1;
+    public final long STOP_AFTER = -1;
 
     @Argument(doc = "Determines whether to include the base quality histogram in the metrics file.")
-    public boolean INCLUDE_BQ_HISTOGRAM = false;
+    public final boolean INCLUDE_BQ_HISTOGRAM = false;
 
     /** Metrics for evaluating the performance of whole genome sequencing experiments. */
     public static class WgsMetrics extends MetricBase {

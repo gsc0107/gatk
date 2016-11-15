@@ -18,7 +18,7 @@ public final class SparkCommandLineArgumentCollection implements ArgumentCollect
     private static final long serialVersionUID = 1L;
 
     @Argument(fullName = "sparkMaster", doc="URL of the Spark Master to submit jobs to when using the Spark pipeline runner.", optional = true)
-    private String sparkMaster = SparkContextFactory.DEFAULT_SPARK_MASTER;
+    private final String sparkMaster = SparkContextFactory.DEFAULT_SPARK_MASTER;
 
     @Argument(
             doc = "spark properties to set on the spark context in the format <property>=<value>",

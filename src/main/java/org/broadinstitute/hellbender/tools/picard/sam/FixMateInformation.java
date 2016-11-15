@@ -61,10 +61,10 @@ public final class FixMateInformation extends PicardCommandLineProgram {
 
     @Argument(doc = "If true, assume that the input file is queryname sorted, even if the header says otherwise.",
             shortName = StandardArgumentDefinitions.ASSUME_SORTED_SHORT_NAME)
-    public boolean ASSUME_SORTED = false;
+    public final boolean ASSUME_SORTED = false;
 
     @Argument(shortName = "MC", optional = true, doc = "Adds the mate CIGAR tag (MC) if true, does not if false.")
-    public Boolean ADD_MATE_CIGAR = true;
+    public final Boolean ADD_MATE_CIGAR = true;
 
     @Override
     protected Object doWork() {

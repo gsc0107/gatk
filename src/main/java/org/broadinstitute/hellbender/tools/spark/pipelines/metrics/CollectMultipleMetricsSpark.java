@@ -44,12 +44,13 @@ public final class CollectMultipleMetricsSpark extends GATKSparkTool {
     public String outputBaseName;
 
     @ArgumentCollection
+    final
     MetricAccumulationLevelArgumentCollection metricAccumulationLevel = new MetricAccumulationLevelArgumentCollection();
 
     @Argument(fullName="collectors",
             doc = "List of metrics collectors to apply during the pass through the SAM file. " +
                   "If no collectors are specified than all collectors will be run", optional = true)
-    public List<SparkCollectors> userCollectors = new ArrayList<>();
+    public final List<SparkCollectors> userCollectors = new ArrayList<>();
 
     public interface SparkCollectorProvider {
         /**

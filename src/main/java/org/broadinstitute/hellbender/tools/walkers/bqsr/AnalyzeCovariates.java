@@ -182,7 +182,7 @@ public final class AnalyzeCovariates extends CommandLineProgram {
      * If true, it won't show a warning if the last-modification time of the before and after input files suggest that they have been reversed.
      */
     @Argument(shortName="ignoreLMT", fullName="ignoreLastModificationTimes", doc= "do not emit warning messages related to suspicious last modification time order of inputs",optional = true)
-    protected boolean ignoreLastModificationTime = false;
+    protected final boolean ignoreLastModificationTime = false;
 
     /**
      * Output report file name.

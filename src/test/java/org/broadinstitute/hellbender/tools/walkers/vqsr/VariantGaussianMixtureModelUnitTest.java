@@ -11,10 +11,10 @@ import java.io.File;
 import java.util.*;
 
 public final class VariantGaussianMixtureModelUnitTest extends BaseTest {
-    private static int N_VARIANTS = 100;
+    private static final int N_VARIANTS = 100;
     private VariantDatum[] variantData1 = new VariantDatum[N_VARIANTS];
 
-    private String testDir = CommandLineProgramTest.getTestDataDir() + "/walkers/VQSR/TrancheManagerUnitTest/";
+    private final String testDir = CommandLineProgramTest.getTestDataDir() + "/walkers/VQSR/TrancheManagerUnitTest/";
 
     private final File QUAL_DATA = new File(testDir + "tranches.raw.dat");
     private final List<Double> TRUTH_SENSITIVITY_CUTS = new ArrayList<Double>(Arrays.asList(99.9, 99.0, 97.0, 95.0));

@@ -32,7 +32,7 @@ public class InsertSizeMetricsArgumentCollection extends MetricsArgumentCollecti
             shortName = "TOL",
             fullName = "HistogramPlotDeviationsTolerance",
             optional = true)
-    public double maxMADTolerance = 10.0;
+    public final double maxMADTolerance = 10.0;
 
     @Argument(shortName="W", doc="Explicitly sets the Histogram width, overriding automatic truncation of Histogram tail. " +
             "Also, when calculating mean and standard deviation, only bins <= HISTOGRAM_WIDTH will be included.", optional=true)
@@ -40,12 +40,12 @@ public class InsertSizeMetricsArgumentCollection extends MetricsArgumentCollecti
 
     @Argument(shortName="M", doc="When generating the Histogram, discard any data categories (out of FR, TANDEM, RF) that have fewer than this " +
             "percentage of overall reads. (Range: 0 to 1).")
-    public float minimumPct = 0.05f;
+    public final float minimumPct = 0.05f;
 
     @Argument(doc = "Should an output plot be created")
-    public boolean producePlot = false;
+    public final boolean producePlot = false;
 
     @ArgumentCollection
-    public MetricAccumulationLevelArgumentCollection metricAccumulationLevel = new MetricAccumulationLevelArgumentCollection();
+    public final MetricAccumulationLevelArgumentCollection metricAccumulationLevel = new MetricAccumulationLevelArgumentCollection();
 
 }

@@ -88,17 +88,17 @@ public final class CollectMultipleMetrics extends PicardCommandLineProgram {
 
     @Argument(doc = "If true (default), then the sort order in the header file will be ignored.",
             shortName = StandardArgumentDefinitions.ASSUME_SORTED_SHORT_NAME)
-    public boolean ASSUME_SORTED = true;
+    public final boolean ASSUME_SORTED = true;
 
     @Argument(doc = "Stop after processing N reads, mainly for debugging.")
-    public int STOP_AFTER = 0;
+    public final int STOP_AFTER = 0;
 
     @Argument(fullName = StandardArgumentDefinitions.OUTPUT_LONG_NAME, shortName = StandardArgumentDefinitions.OUTPUT_SHORT_NAME,
             doc = "Base name of output files.")
     public String OUTPUT;
 
     @Argument(doc = "List of metrics programs to apply during the pass through the SAM file.")
-    public List<Program> PROGRAM = CollectionUtil.makeList(Program.values());
+    public final List<Program> PROGRAM = CollectionUtil.makeList(Program.values());
 
     /**
      * Contents of PROGRAM list is transferred to this list during command-line validation, so that an outside

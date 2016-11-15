@@ -17,6 +17,6 @@ public class QualityYieldMetricsArgumentCollection extends MetricsArgumentCollec
             fullName = StandardArgumentDefinitions.USE_ORIGINAL_QUALITIES_LONG_NAME,
             doc = "If available in the OQ tag, use the original quality scores " +
                     "as inputs instead of the quality scores in the QUAL field.")
-    public boolean useOriginalQualities = true;
+    public final boolean useOriginalQualities = true;
 
 }

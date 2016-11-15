@@ -12,7 +12,7 @@ import java.util.Map;
  * Created by gauthier on 9/25/15.
  */
 public final class CompressedDataList<T>  implements Iterable<T> {
-    protected Map<T,Integer> valueCounts = new HashMap<>();
+    protected final Map<T,Integer> valueCounts = new HashMap<>();
 
     public Map<T,Integer> getValueCounts(){
         return valueCounts;
@@ -25,7 +25,7 @@ public final class CompressedDataList<T>  implements Iterable<T> {
     @Override
     public Iterator<T> iterator(){
         return new Iterator<T>() {
-            private Iterator<T> keySetIterator = valueCounts.keySet().iterator();
+            private final Iterator<T> keySetIterator = valueCounts.keySet().iterator();
             private T currentKey = valueCounts.isEmpty() ? null : keySetIterator.next();
             private int currentValueIndex = 0;
             private int currentValueSize = valueCounts.isEmpty() ? 0 : valueCounts.get(currentKey);

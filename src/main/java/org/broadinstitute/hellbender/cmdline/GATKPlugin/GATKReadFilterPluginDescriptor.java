@@ -47,19 +47,19 @@ public class GATKReadFilterPluginDescriptor extends GATKCommandLinePluginDescrip
     @Argument(fullName = "disableAllReadFilters",
             shortName = "disableAllReadFilters",
             doc = "Disable all read filters", common = false, optional = true)
-    public boolean disableAllReadFilters = false;
+    public final boolean disableAllReadFilters = false;
 
     // Map of read filter (simple) class names to the corresponding discovered plugin instance
     private Map<String, ReadFilter> readFilters = new HashMap<>();
 
     // List of default filters in the order they were specified by the tool
-    private List<String> toolDefaultReadFilterNamesInOrder = new ArrayList<>();
+    private final List<String> toolDefaultReadFilterNamesInOrder = new ArrayList<>();
 
     // Map of read filter (simple) class names to the corresponding default plugin instance
-    private Map<String, ReadFilter> toolDefaultReadFilters = new HashMap<>();
+    private final Map<String, ReadFilter> toolDefaultReadFilters = new HashMap<>();
 
     // Set of dependent args for which we've seen values (requires predecessor)
-    private Set<String> requiredPredecessors = new HashSet<>();
+    private final Set<String> requiredPredecessors = new HashSet<>();
 
     /**
      * @param toolDefaultFilters Default filters that may be supplied with arguments

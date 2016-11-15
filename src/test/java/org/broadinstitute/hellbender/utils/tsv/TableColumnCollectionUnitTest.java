@@ -15,7 +15,7 @@ import java.util.Arrays;
  */
 public class TableColumnCollectionUnitTest extends BaseTest {
 
-    private static int[] COUNT_TEST = new int[]{1, 3, 10, 101};
+    private static final int[] COUNT_TEST = new int[]{1, 3, 10, 101};
 
     @Test(expectedExceptions = IllegalArgumentException.class)
     public void testCheckNamesOnANullArray() {

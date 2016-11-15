@@ -54,14 +54,14 @@ public abstract class CommandLineProgram {
     public SpecialArgumentsCollection specialArgumentsCollection = new SpecialArgumentsCollection();
 
     @Argument(fullName = StandardArgumentDefinitions.VERBOSITY_NAME, shortName = StandardArgumentDefinitions.VERBOSITY_NAME, doc = "Control verbosity of logging.", common = true, optional = true)
-    public Log.LogLevel VERBOSITY = Log.LogLevel.INFO;
+    public final Log.LogLevel VERBOSITY = Log.LogLevel.INFO;
 
     @Argument(doc = "Whether to suppress job-summary info on System.err.", common=true)
-    public Boolean QUIET = false;
+    public final Boolean QUIET = false;
     private final String standardUsagePreamble = CommandLineParser.getStandardUsagePreamble(getClass());
 
     @Argument(fullName = "use_jdk_deflater", shortName = "jdk_deflater", doc = "Whether to use the JdkDeflater (as opposed to IntelDeflater)", common=true)
-    public boolean useJdkDeflater = false;
+    public final boolean useJdkDeflater = false;
 
     /**
     * Initialized in parseArgs.  Subclasses may want to access this to do their

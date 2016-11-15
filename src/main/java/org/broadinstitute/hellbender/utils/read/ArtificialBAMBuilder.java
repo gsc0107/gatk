@@ -34,7 +34,7 @@ public final class ArtificialBAMBuilder {
     private final ArrayList<String> samples = new ArrayList<>();
     private List<GATKRead> createdReads;
 
-    private List<GATKRead> additionalReads = new LinkedList<>();
+    private final List<GATKRead> additionalReads = new LinkedList<>();
     private SAMFileHeader header;
 
     public ArtificialBAMBuilder(final int nReadsPerLocus, final int nLoci) {

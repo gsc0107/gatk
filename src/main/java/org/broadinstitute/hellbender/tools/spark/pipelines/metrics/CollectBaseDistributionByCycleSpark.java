@@ -45,10 +45,10 @@ public final class CollectBaseDistributionByCycleSpark extends GATKSparkTool {
     public File chartOutput;
 
     @Argument(shortName="A", fullName = "alignedReadsOnly", doc="If set to true, calculate the base distribution over aligned reads only.")
-    public boolean alignedReadsOnly = false;
+    public final boolean alignedReadsOnly = false;
 
     @Argument(shortName="F", fullName = "pfReadsOnly", doc="If set to true calculate the base distribution over PF reads only.")
-    public boolean pfReadsOnly = false;
+    public final boolean pfReadsOnly = false;
 
     @Override
     public ReadFilter makeReadFilter() {

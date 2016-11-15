@@ -90,25 +90,25 @@ public final class EstimateLibraryComplexity extends AbstractOpticalDuplicateFin
             "be grouped together for duplicate detection.  In effect total_reads / 4^max_id_bases reads will " +
             "be compared at a time, so lower numbers will produce more accurate results but consume " +
             "exponentially more memory and CPU.")
-    public int MIN_IDENTICAL_BASES = 5;
+    public final int MIN_IDENTICAL_BASES = 5;
 
     @Argument(doc = "The maximum rate of differences between two reads to call them identical.")
-    public double MAX_DIFF_RATE = 0.03;
+    public final double MAX_DIFF_RATE = 0.03;
 
     @Argument(doc = "The minimum mean quality of the bases in a read pair for the read to be analyzed. Reads with " +
             "lower average quality are filtered out and not considered in any calculations.")
-    public int MIN_MEAN_QUALITY = 20;
+    public final int MIN_MEAN_QUALITY = 20;
 
     @Argument(doc = "Do not process self-similar groups that are this many times over the mean expected group size. " +
             "I.e. if the input contains 10m read pairs and MIN_IDENTICAL_BASES is set to 5, then the mean expected " +
             "group size would be approximately 10 reads.")
-    public int MAX_GROUP_RATIO = 500;
+    public final int MAX_GROUP_RATIO = 500;
 
     /**
      * Little class to hold the sequence of a pair of reads and tile location information.
      */
     static class PairedReadSequence implements OpticalDuplicateFinder.PhysicalLocation {
-        static int size_in_bytes = 2 + 1 + 4 + 1 + 300; // rough guess at memory footprint
+        static final int size_in_bytes = 2 + 1 + 4 + 1 + 300; // rough guess at memory footprint
         short readGroup = -1;
         short tile = -1;
         short x = -1, y = -1;

@@ -54,7 +54,7 @@ public final class ProgressMeter {
     /**
      * We output a line to the logger after this many seconds have elapsed
      */
-    private double secondsBetweenUpdates;
+    private final double secondsBetweenUpdates;
 
     /**
      * We check the current time every time we process this many records
@@ -102,7 +102,7 @@ public final class ProgressMeter {
      * Function that returns the current time in milliseconds (defaults to {@link #DEFAULT_TIME_FUNCTION}).
      * Should only be customized for unit testing purposes.
      */
-    private LongSupplier timeFunction;
+    private final LongSupplier timeFunction;
 
     /**
      * Keeps track of whether the progress meter has ever been started.

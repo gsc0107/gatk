@@ -27,7 +27,7 @@ public class InsertSizeMetricsCollectorSpark
     private static final long serialVersionUID = 1L;
 
     private InsertSizeMetricsArgumentCollection inputArgs;
-    private InsertSizeMetricsCollector collector = new InsertSizeMetricsCollector();
+    private final InsertSizeMetricsCollector collector = new InsertSizeMetricsCollector();
 
     private InsertSizeMetricsCollector resultMetrics;
     private MetricsFile<InsertSizeMetrics, Integer> metricsFile;

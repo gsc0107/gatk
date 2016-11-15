@@ -63,34 +63,34 @@ public final class CollectSequencingArtifactMetrics extends SinglePassSamProgram
     public File DB_SNP;
 
     @Argument(shortName = "Q", doc = "The minimum base quality score for a base to be included in analysis.")
-    public int MINIMUM_QUALITY_SCORE = 20;
+    public final int MINIMUM_QUALITY_SCORE = 20;
 
     @Argument(shortName = "MQ", doc = "The minimum mapping quality score for a base to be included in analysis.")
-    public int MINIMUM_MAPPING_QUALITY = 30;
+    public final int MINIMUM_MAPPING_QUALITY = 30;
 
     @Argument(shortName = "MIN_INS", doc = "The minimum insert size for a read to be included in analysis.")
-    public int MINIMUM_INSERT_SIZE = 60;
+    public final int MINIMUM_INSERT_SIZE = 60;
 
     @Argument(shortName = "MAX_INS", doc = "The maximum insert size for a read to be included in analysis. Set to 0 to have no maximum.")
-    public int MAXIMUM_INSERT_SIZE = 600;
+    public final int MAXIMUM_INSERT_SIZE = 600;
 
     @Argument(shortName = "UNPAIRED", doc = "Include unpaired reads. If set to true then all paired reads will be included as well - " +
             "MINIMUM_INSERT_SIZE and MAXIMUM_INSERT_SIZE will be ignored.")
-    public boolean INCLUDE_UNPAIRED = false;
+    public final boolean INCLUDE_UNPAIRED = false;
 
     @Argument(shortName = "TANDEM", doc = "Set to true if mate pairs are being sequenced from the same strand, " +
             "i.e. they're expected to face the same direction.")
-    public boolean TANDEM_READS = false;
+    public final boolean TANDEM_READS = false;
 
     @Argument(doc = "When available, use original quality scores for filtering.")
-    public boolean USE_OQ = true;
+    public final boolean USE_OQ = true;
 
     @Argument(doc = "The number of context bases to include on each side of the assayed base.")
-    public int CONTEXT_SIZE = 1;
+    public final int CONTEXT_SIZE = 1;
 
     @Argument(doc = "If specified, only print results for these contexts in the detail metrics output. " +
                   "However, the summary metrics output will still take all contexts into consideration.", optional = true)
-    public Set<String> CONTEXTS_TO_PRINT = new HashSet<>();
+    public final Set<String> CONTEXTS_TO_PRINT = new HashSet<>();
 
     private static final String UNKNOWN_LIBRARY = "UnknownLibrary";
     private static final String UNKNOWN_SAMPLE = "UnknownSample";

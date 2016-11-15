@@ -24,13 +24,13 @@ public abstract class MultiVariantWalker extends VariantWalkerBase {
     //       of variants separate from any other potential sources of Features
     @Argument(fullName = StandardArgumentDefinitions.VARIANT_LONG_NAME, shortName = StandardArgumentDefinitions.VARIANT_SHORT_NAME,
                 doc = "One or more VCF files containing variants", common = false, optional = false)
-    public List<String> drivingVariantFiles = new ArrayList<String>();
+    public final List<String> drivingVariantFiles = new ArrayList<String>();
 
     // NOTE: keeping the driving source of variants separate from other, supplementary FeatureInputs in our FeatureManager
     // in GATKTool we do add the driving source to the Feature manager but we do need to treat it differently and thus this
     // field.
     private MultiVariantDataSource drivingVariants;
-    private List<FeatureInput<VariantContext>> drivingVariantsFeatureInputs = new ArrayList<>(2);
+    private final List<FeatureInput<VariantContext>> drivingVariantsFeatureInputs = new ArrayList<>(2);
 
     @Override
     protected SAMSequenceDictionary getSequenceDictionaryForDrivingVariants() { return drivingVariants.getSequenceDictionary(); }

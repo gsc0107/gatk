@@ -68,23 +68,23 @@ public abstract class GATKSparkTool extends SparkCommandLineProgram {
     public final ReadInputArgumentCollection readArguments = requiresReads() ? new RequiredReadInputArgumentCollection() : new OptionalReadInputArgumentCollection();
 
     @ArgumentCollection
-    protected IntervalArgumentCollection intervalArgumentCollection = requiresIntervals() ? new RequiredIntervalArgumentCollection() : new OptionalIntervalArgumentCollection();
+    protected final IntervalArgumentCollection intervalArgumentCollection = requiresIntervals() ? new RequiredIntervalArgumentCollection() : new OptionalIntervalArgumentCollection();
 
     @Argument(doc = "maximum number of bytes to read from a file into each partition of reads. " +
             "Setting this higher will result in fewer partitions. Note that this will not be equal to the size of the partition in memory. " +
             "Defaults to 0, which uses the default split size (determined by the Hadoop input format, typically the size of one HDFS block).",
             fullName = "bamPartitionSize", shortName = "bps", optional = true)
-    protected long bamPartitionSplitSize = 0;
+    protected final long bamPartitionSplitSize = 0;
 
     @Argument(fullName = "disableSequenceDictionaryValidation", shortName = "disableSequenceDictionaryValidation", doc = "If specified, do not check the sequence dictionaries from our inputs for compatibility. Use at your own risk!", optional = true)
-    private boolean disableSequenceDictionaryValidation = false;
+    private final boolean disableSequenceDictionaryValidation = false;
 
     @Argument(doc = "For tools that write an output, write the output in multiple pieces (shards)", shortName = "shardedOutput", fullName = "shardedOutput", optional = true)
-    protected boolean shardedOutput = false;
+    protected final boolean shardedOutput = false;
 
     @Argument(doc="For tools that shuffle data or write an output, sets the number of reducers. Defaults to 0, which gives one partition per 10MB of input.",
             shortName = "numReducers", fullName = "numReducers", optional = true)
-    protected int numReducers = 0;
+    protected final int numReducers = 0;
 
     private ReadsSparkSource readsSource;
     private SAMFileHeader readsHeader;

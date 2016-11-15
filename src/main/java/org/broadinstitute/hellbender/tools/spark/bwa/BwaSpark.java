@@ -28,7 +28,7 @@ public final class BwaSpark extends GATKSparkTool {
     private String output;
 
     @ArgumentCollection
-    private BwaArgumentCollection bwaArgs = new BwaArgumentCollection();
+    private final BwaArgumentCollection bwaArgs = new BwaArgumentCollection();
 
     @Override
     public boolean requiresReference() {

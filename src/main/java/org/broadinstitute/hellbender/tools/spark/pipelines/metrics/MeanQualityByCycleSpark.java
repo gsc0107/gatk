@@ -56,10 +56,10 @@ public final class MeanQualityByCycleSpark extends GATKSparkTool {
     public File chartOutput;
 
     @Argument(shortName="A", fullName = "alignedReadsOnly", doc="If set to true calculate mean quality over aligned reads only.")
-    public boolean alignedReadsOnly = false;
+    public final boolean alignedReadsOnly = false;
 
     @Argument(shortName="F", fullName = "pfReadsOnly", doc="If set to true calculate mean quality over PF reads only.")
-    public boolean pfReadsOnly = false;
+    public final boolean pfReadsOnly = false;
 
     @Override
     public ReadFilter makeReadFilter() {
@@ -175,8 +175,8 @@ public final class MeanQualityByCycleSpark extends GATKSparkTool {
      */
     private static final class HistogramGeneratorPair implements Serializable {
         private static final long serialVersionUID = 1;
-        HistogramGenerator useQuals = new HistogramGenerator(false);
-        HistogramGenerator useOrigQuals = new HistogramGenerator(true);
+        final HistogramGenerator useQuals = new HistogramGenerator(false);
+        final HistogramGenerator useOrigQuals = new HistogramGenerator(true);
         HistogramGeneratorPair addRead(final GATKRead read){
             useQuals.addRead(read);
             useOrigQuals.addRead(read);

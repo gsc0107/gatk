@@ -20,7 +20,7 @@ final class VariantRecalibratorArgumentCollection {
      * Use either SNP for recalibrating only SNPs (emitting indels untouched in the output VCF) or INDEL for indels (emitting SNPs untouched in the output VCF). There is also a BOTH option for recalibrating both SNPs and indels simultaneously, but this is meant for testing purposes only and should not be used in actual analyses.
      */
     @Argument(fullName = "mode", shortName = "mode", doc = "Recalibration mode to employ", optional = false)
-    public VariantRecalibratorArgumentCollection.Mode MODE = VariantRecalibratorArgumentCollection.Mode.SNP;
+    public final VariantRecalibratorArgumentCollection.Mode MODE = VariantRecalibratorArgumentCollection.Mode.SNP;
 
     /**
      * Generate a VQSR model using per-allele data instead of the default per-site data, assuming that the input VCF contains allele-specific annotations.
@@ -29,7 +29,7 @@ final class VariantRecalibratorArgumentCollection {
     @Argument(fullName="useAlleleSpecificAnnotations",
             shortName="AS",
             doc="If specified, the variant recalibrator will attempt to use the allele-specific versions of the specified annotations.", optional=true)
-    public boolean useASannotations = false;
+    public final boolean useASannotations = false;
 
     /**
      * This parameter determines the maximum number of Gaussians that should be used when building a positive model
@@ -37,7 +37,7 @@ final class VariantRecalibratorArgumentCollection {
      */
     @Advanced
     @Argument(fullName = "maxGaussians", shortName = "mG", doc = "Max number of Gaussians for the positive model", optional = true)
-    public int MAX_GAUSSIANS = 8;
+    public final int MAX_GAUSSIANS = 8;
 
     /**
      * This parameter determines the maximum number of Gaussians that should be used when building a negative model
@@ -47,7 +47,7 @@ final class VariantRecalibratorArgumentCollection {
      */
     @Advanced
     @Argument(fullName = "maxNegativeGaussians", shortName = "mNG", doc = "Max number of Gaussians for the negative model", optional = true)
-    public int MAX_GAUSSIANS_FOR_NEGATIVE_MODEL = 2;
+    public final int MAX_GAUSSIANS_FOR_NEGATIVE_MODEL = 2;
 
     /**
      * This parameter determines the maximum number of VBEM iterations to be performed in the variational Bayes algorithm.
@@ -55,7 +55,7 @@ final class VariantRecalibratorArgumentCollection {
      */
     @Advanced
     @Argument(fullName = "maxIterations", shortName = "mI", doc = "Maximum number of VBEM iterations", optional = true)
-    public int MAX_ITERATIONS = 150;
+    public final int MAX_ITERATIONS = 150;
 
     /**
      * This parameter determines the number of k-means iterations to perform in order to initialize the means of
@@ -63,7 +63,7 @@ final class VariantRecalibratorArgumentCollection {
      */
     @Advanced
     @Argument(fullName = "numKMeans", shortName = "nKM", doc = "Number of k-means iterations", optional = true)
-    public int NUM_KMEANS_ITERATIONS = 100;
+    public final int NUM_KMEANS_ITERATIONS = 100;
 
     /**
      * If a variant has annotations more than -std standard deviations away from mean, it won't be used for building
@@ -71,19 +71,19 @@ final class VariantRecalibratorArgumentCollection {
      */
     @Advanced
     @Argument(fullName = "stdThreshold", shortName = "std", doc = "Annotation value divergence threshold (number of standard deviations from the means) ", optional = true)
-    public double STD_THRESHOLD = 10.0;
+    public final double STD_THRESHOLD = 10.0;
 
     @Advanced
     @Argument(fullName = "shrinkage", shortName = "shrinkage", doc = "The shrinkage parameter in the variational Bayes algorithm.", optional = true)
-    public double SHRINKAGE = 1.0;
+    public final double SHRINKAGE = 1.0;
 
     @Advanced
     @Argument(fullName = "dirichlet", shortName = "dirichlet", doc = "The dirichlet parameter in the variational Bayes algorithm.", optional = true)
-    public double DIRICHLET_PARAMETER = 0.001;
+    public final double DIRICHLET_PARAMETER = 0.001;
 
     @Advanced
     @Argument(fullName = "priorCounts", shortName = "priorCounts", doc = "The number of prior counts to use in the variational Bayes algorithm.", optional = true)
-    public double PRIOR_COUNTS = 20.0;
+    public final double PRIOR_COUNTS = 20.0;
 
     /**
      * The number of variants to use in building the Gaussian mixture model. Training sets larger than this will be randomly downsampled.
@@ -98,14 +98,14 @@ final class VariantRecalibratorArgumentCollection {
      */
     @Advanced
     @Argument(fullName = "minNumBadVariants", shortName = "minNumBad", doc = "Minimum number of bad variants", optional = true)
-    public int MIN_NUM_BAD_VARIANTS = 1000;
+    public final int MIN_NUM_BAD_VARIANTS = 1000;
 
     /**
      * Variants scoring lower than this threshold will be used to build the Gaussian model of bad variants.
      */
     @Advanced
     @Argument(fullName = "badLodCutoff", shortName = "badLodCutoff", doc = "LOD score cutoff for selecting bad variants", optional = true)
-    public double BAD_LOD_CUTOFF = -5.0;
+    public final double BAD_LOD_CUTOFF = -5.0;
 
     /**
      * MQ is capped at a "max" value (60 for bwa-mem) when the alignment is considered perfect. Typically, a huge
@@ -125,7 +125,7 @@ final class VariantRecalibratorArgumentCollection {
      */
     @Advanced
     @Argument(fullName="MQCapForLogitJitterTransform", shortName = "MQCap", doc="Apply logit transform and jitter to MQ values", optional=true)
-    public int MQ_CAP = 0;
+    public final int MQ_CAP = 0;
 
     /**
      * The following 2 arguments are hidden because they are only for testing different jitter amounts with and without logit transform.
@@ -140,6 +140,6 @@ final class VariantRecalibratorArgumentCollection {
     @Hidden
     @Advanced
     @Argument(fullName="MQ_jitter", shortName="MQJitt", doc="Amount of jitter (as a factor to a Normal(0,1) noise) to add to the MQ capped values", optional = true)
-    public double MQ_JITTER = 0.05;
+    public final double MQ_JITTER = 0.05;
 
 }

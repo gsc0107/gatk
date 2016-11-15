@@ -17,7 +17,7 @@ public final class GenotypeLikelihoodCalculator {
     /**
      * Maximum number of components (or distinct alleles) for any genotype with this calculator ploidy and allele count.
      */
-    private int maximumDistinctAllelesInGenotype;
+    private final int maximumDistinctAllelesInGenotype;
 
     /**
      * Offset table for this calculator.

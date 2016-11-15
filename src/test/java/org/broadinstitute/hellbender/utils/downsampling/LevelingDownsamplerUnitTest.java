@@ -16,11 +16,11 @@ public final class LevelingDownsamplerUnitTest extends BaseTest {
     private static final class LevelingDownsamplerUniformStacksTest extends TestDataProvider {
         public enum DataStructure { LINKED_LIST, ARRAY_LIST }
 
-        int targetSize;
-        int numStacks;
-        int stackSize;
-        DataStructure dataStructure;
-        int expectedSize;
+        final int targetSize;
+        final int numStacks;
+        final int stackSize;
+        final DataStructure dataStructure;
+        final int expectedSize;
 
         public LevelingDownsamplerUniformStacksTest(final int targetSize, final int numStacks, final int stackSize, final DataStructure dataStructure ) {
             super(LevelingDownsamplerUniformStacksTest.class);

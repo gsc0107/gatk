@@ -32,7 +32,7 @@ public final class CollectQualityYieldMetrics extends PicardCommandLineProgram {
     public File INPUT;
 
     @ArgumentCollection
-    public QualityYieldMetricsArgumentCollection qualityYieldMetricsArgs = new QualityYieldMetricsArgumentCollection();
+    public final QualityYieldMetricsArgumentCollection qualityYieldMetricsArgs = new QualityYieldMetricsArgumentCollection();
 
     /**
      * Main method for the program.  Checks that all input files are present and

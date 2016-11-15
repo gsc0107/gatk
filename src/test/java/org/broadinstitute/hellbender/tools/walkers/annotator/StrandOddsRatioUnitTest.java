@@ -17,7 +17,7 @@ import org.testng.annotations.Test;
 import java.util.*;
 
 public final class StrandOddsRatioUnitTest {
-    private static double DELTA_PRECISION = 0.001;
+    private static final double DELTA_PRECISION = 0.001;
 
     private static final Allele REF = Allele.create("T", true);
     private static final Allele ALT = Allele.create("A", false);
