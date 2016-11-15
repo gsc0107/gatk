@@ -14,8 +14,8 @@ import java.util.*;
  */
 public interface VariantFilter {
     /** Check to see if the VariantContext should have a filter applied to it. If so return the filter string, otherwise return null. */
-    public String filter(final VariantContext ctx);
+    String filter(final VariantContext ctx);
 
     /** Return VCF header lines that define filters that may be applied by the VariantFilter. */
-    public List<VCFFilterHeaderLine> headerLines();
+    List<VCFFilterHeaderLine> headerLines();
 }

@@ -23,7 +23,7 @@ public interface ReferenceDataSource extends GATKDataSource<Byte>, AutoCloseable
      *
      * @param fastaFile reference fasta file
      */
-    public static ReferenceDataSource of(final File fastaFile) {
+    static ReferenceDataSource of(final File fastaFile) {
         return new ReferenceFileSource(fastaFile);
     }
 
@@ -31,7 +31,7 @@ public interface ReferenceDataSource extends GATKDataSource<Byte>, AutoCloseable
     /**
      * Initialize this data source using ReferenceBases and corresponding sequence dictionary.
      */
-    public static ReferenceDataSource of(final ReferenceBases bases, final SAMSequenceDictionary referenceSequenceDictionary) {
+    static ReferenceDataSource of(final ReferenceBases bases, final SAMSequenceDictionary referenceSequenceDictionary) {
         return new ReferenceMemorySource(bases, referenceSequenceDictionary);
     }
 
@@ -45,7 +45,7 @@ public interface ReferenceDataSource extends GATKDataSource<Byte>, AutoCloseable
      * @param interval query interval
      * @return a ReferenceSequence containing all bases spanning the query interval, prefetched
      */
-    default public ReferenceSequence queryAndPrefetch( final SimpleInterval interval ) {
+    default ReferenceSequence queryAndPrefetch(final SimpleInterval interval) {
         return queryAndPrefetch(interval.getContig(), interval.getStart(), interval.getEnd());
     }
 
@@ -59,7 +59,7 @@ public interface ReferenceDataSource extends GATKDataSource<Byte>, AutoCloseable
      * @param stop query interval stop
      * @return a ReferenceSequence containing all bases spanning the query interval, prefetched
      */
-    public ReferenceSequence queryAndPrefetch(final String contig, final long start , final long stop);
+    ReferenceSequence queryAndPrefetch(final String contig, final long start, final long stop);
 
     /**
       * Query a specific interval on this reference, and get back an iterator over the bases spanning that interval.
@@ -70,7 +70,7 @@ public interface ReferenceDataSource extends GATKDataSource<Byte>, AutoCloseable
       * @return iterator over the bases spanning the query interval
       */
     @Override
-    default public Iterator<Byte> query(final SimpleInterval interval) {
+    default Iterator<Byte> query(final SimpleInterval interval) {
         // TODO: need a way to iterate lazily over reference bases without necessarily loading them all into memory at once
         return new ByteArrayIterator(queryAndPrefetch(interval).getBases());
     }
@@ -80,13 +80,13 @@ public interface ReferenceDataSource extends GATKDataSource<Byte>, AutoCloseable
      *
      * @return SAMSequenceDictionary for this reference
      */
-    public SAMSequenceDictionary getSequenceDictionary();
+    SAMSequenceDictionary getSequenceDictionary();
 
     /**
      * Permanently close this data source. The default implementation does nothing.
      */
     @Override
-    default public void close(){
+    default void close(){
         //do nothing
     }
 }

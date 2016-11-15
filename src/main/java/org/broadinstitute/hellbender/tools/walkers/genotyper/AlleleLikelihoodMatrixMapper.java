@@ -24,7 +24,7 @@ public interface AlleleLikelihoodMatrixMapper<A extends Allele> extends UnaryOpe
      *
      * @return never {@code null}.
      */
-    public static <A extends Allele> AlleleLikelihoodMatrixMapper<A> newInstance(final AlleleListPermutation<A> permutation) {
+    static <A extends Allele> AlleleLikelihoodMatrixMapper<A> newInstance(final AlleleListPermutation<A> permutation) {
         Utils.nonNull(permutation, "the permutation must not be null");
         if (permutation.isNonPermuted()) {
             return read -> read;

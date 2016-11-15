@@ -18,14 +18,14 @@ public interface Permutation<E> {
      *
      * @return {@code true} iff this is a partial permutation.
      */
-    public boolean isPartial();
+    boolean isPartial();
 
     /**
      * Checks whether this is a trivial permutation where the resulting element list is the same as original.
      *
      * @return {@code true} iff the resulting element list is the same as the original.
      */
-    public boolean isNonPermuted();
+    boolean isNonPermuted();
 
     /**
      * Given an index on the original list, returns the position of tha element in the resulting list.
@@ -37,7 +37,7 @@ public interface Permutation<E> {
      * @return -1 if that element is not part of the result (partial) permutation, otherwise some number between
      *   0 and {@link #toSize()} - 1.
      */
-    public int toIndex(final int fromIndex);
+    int toIndex(final int fromIndex);
 
     /**
      * Given an index on the resulting list, it gives you the index of that element on the original list.
@@ -47,7 +47,7 @@ public interface Permutation<E> {
      *
      * @return a value between 0 and {@link #fromSize()} - 1.
      */
-    public int fromIndex(final int toIndex);
+    int fromIndex(final int toIndex);
 
     /**
      * Given an index of the original list, return whether this index is found at any position of the permuted list.
@@ -56,32 +56,32 @@ public interface Permutation<E> {
      * @param fromIndex
      * @return
      */
-    public boolean isKept(final int fromIndex);
+    boolean isKept(final int fromIndex);
 
     /**
      * Length of the original element list.
      *
      * @return 0 or greater.
      */
-    public int fromSize();
+    int fromSize();
 
     /**
      * Length of the resulting element list.
      *
      * @return 0 or greater.
      */
-    public int toSize();
+    int toSize();
 
     /**
      * Returns an unmodifiable view to the original element list.
      * @return never {@code null}.
      */
-    public List<E> fromList();
+    List<E> fromList();
 
     /**
      * Returns an unmodifiable view to the original element list.
      *
      * @return never {@code null}.
      */
-    public List<E> toList();
+    List<E> toList();
 }

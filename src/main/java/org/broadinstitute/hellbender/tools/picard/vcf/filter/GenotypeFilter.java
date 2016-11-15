@@ -11,5 +11,5 @@ import htsjdk.variant.variantcontext.VariantContext;
  */
 public interface GenotypeFilter {
     /** Test whether or not the genotype should be filtered out. If so return a filter string, otherwise return null. */
-    public String filter(final VariantContext ctx, final Genotype gt);
+    String filter(final VariantContext ctx, final Genotype gt);
 }

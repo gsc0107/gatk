@@ -30,7 +30,7 @@ public final class CollectMultipleMetrics extends PicardCommandLineProgram {
     /**
      * This interface allows developers to create Programs to run in addition to the ones defined in the Program enum.
      */
-    public static interface ProgramInterface {
+    public interface ProgramInterface {
         SinglePassSamProgram makeInstance(final String outbase);
     }
 

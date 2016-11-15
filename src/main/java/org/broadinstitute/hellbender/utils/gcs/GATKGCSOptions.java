@@ -25,7 +25,7 @@ import java.security.GeneralSecurityException;
  */
 public interface GATKGCSOptions extends GCSOptions, DataflowPipelineOptions {
 
-    public static class Methods {
+    class Methods {
         public static void setOfflineAuth(final GATKGCSOptions opts, final GenomicsFactory.OfflineAuth auth) throws IOException {
             final ByteArrayOutputStream os = new ByteArrayOutputStream();
             try (ObjectOutputStream oos = new ObjectOutputStream(os)) {

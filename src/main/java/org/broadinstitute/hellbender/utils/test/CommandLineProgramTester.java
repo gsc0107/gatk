@@ -18,7 +18,7 @@ public interface CommandLineProgramTester {
     /**
      * Returns the name for the tested tool.
      */
-    public String getTestedToolName();
+    String getTestedToolName();
 
     /**
      * For testing support. Given a name of a Main CommandLineProgram and it's arguments, builds the arguments appropriate for calling the

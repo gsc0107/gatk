@@ -16,7 +16,7 @@ import java.util.*;
 // because {@link ReadLikelihoods} implements AlleleList and SampleList and then size() would be ambiguous.
 public interface SampleList  {
 
-    static final SampleList EMPTY_LIST = new SampleList() {
+    SampleList EMPTY_LIST = new SampleList() {
         @Override
         public int numberOfSamples() {
             return 0;
@@ -39,14 +39,14 @@ public interface SampleList  {
      *
      * @return never {@code null}
      */
-    public static SampleList emptySampleList() {
+    static SampleList emptySampleList() {
         return EMPTY_LIST;
     }
 
     /**
      * Returns number of elements in the list.
      */
-    public int numberOfSamples();
+    int numberOfSamples();
 
     /**
      * Returns the index of an object.
@@ -57,7 +57,7 @@ public interface SampleList  {
      * @return {@code -1} if such a sample is not an element of this set, otherwise is index in the set thus a
      * values within [0,{@link #numberOfSamples()}).
      */
-    public int indexOfSample(final String sample);
+    int indexOfSample(final String sample);
 
     /**
      * Returns the element given its index within the set.
@@ -67,7 +67,7 @@ public interface SampleList  {
      *
      * @return never {@code null}; as null is not a valid element.
      */
-    public String getSample(final int sampleIndex);
+    String getSample(final int sampleIndex);
 
     /**
      * Checks whether two sample lists are in fact the same.
@@ -78,7 +78,7 @@ public interface SampleList  {
      *
      * @return {@code true} iff both list are equal.
      */
-    public static boolean equals(final SampleList first, final SampleList second) {
+    static boolean equals(final SampleList first, final SampleList second) {
         Utils.nonNull(first, "first list is null");
         Utils.nonNull(second, "second list is null");
         final int sampleCount = first.numberOfSamples();
@@ -103,7 +103,7 @@ public interface SampleList  {
      *
      * @return Unmodifiable view of the sample list. Never {@code null}.
      */
-    default public List<String> asListOfSamples() {
+    default List<String> asListOfSamples() {
         return new AbstractList<String>() {
                 @Override
                 public String get(final int index) {
@@ -122,7 +122,7 @@ public interface SampleList  {
      *
      * @return Unmodifiable view of the sample set. Never null.
      */
-    default public Set<String> asSetOfSamples() {
+    default Set<String> asSetOfSamples() {
         return new AbstractSet<String>() {
             @Override
             public Iterator<String> iterator() {
@@ -168,7 +168,7 @@ public interface SampleList  {
      * @param sampleName the sample name.
      * @return never {@code sampleName}
      */
-    public static SampleList singletonSampleList(final String sampleName) {
+    static SampleList singletonSampleList(final String sampleName) {
         Utils.nonNull(sampleName, "the sample name cannot be null");
         return new SampleList() {
             @Override

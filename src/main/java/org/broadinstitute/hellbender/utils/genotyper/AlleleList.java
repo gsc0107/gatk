@@ -42,7 +42,7 @@ public interface AlleleList<A extends Allele>{
     }
 
     @SuppressWarnings({"rawtypes"})
-    static final AlleleList EMPTY_LIST = new AlleleList() {
+    AlleleList EMPTY_LIST = new AlleleList() {
         @Override
         public int numberOfAlleles() {
             return 0;
@@ -129,7 +129,7 @@ public interface AlleleList<A extends Allele>{
      *
      * @return never {@code null}.
      */
-    default public List<A> asListOfAlleles() {
+    default List<A> asListOfAlleles() {
         return new AbstractList<A>() {
 
             @Override

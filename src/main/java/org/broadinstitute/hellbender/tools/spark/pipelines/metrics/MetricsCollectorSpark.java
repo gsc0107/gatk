@@ -88,7 +88,7 @@ import java.util.List;
  */
 public interface MetricsCollectorSpark<T extends MetricsArgumentCollection> extends Serializable
 {
-    public static final long serialVersionUID = 1L;
+    long serialVersionUID = 1L;
 
     /**
      * Return whether or not this collector requires a reference. Default implementation

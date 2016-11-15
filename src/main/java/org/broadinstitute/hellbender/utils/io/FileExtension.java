@@ -8,5 +8,5 @@ public interface FileExtension {
      * @param path New path.
      * @return New FileExtension
      */
-    public File withPath(String path);
+    File withPath(String path);
 }

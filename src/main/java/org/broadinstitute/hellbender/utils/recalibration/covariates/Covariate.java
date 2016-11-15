@@ -13,7 +13,7 @@ import java.io.Serializable;
  * Covariates are immutable objects after construction. All state setting and parameterization must happen during the construction call.
  */
 public interface Covariate extends Serializable {
-    public static long serialVersionUID = 1L;
+    long serialVersionUID = 1L;
     /**
      * Calculates covariate values for all positions in the read.
      *
@@ -22,7 +22,7 @@ public interface Covariate extends Serializable {
      * @param values the object to record the covariate values for every base in the read.
      * @param recordIndelValues indicates whether values of the covariate are to be recorded for indels
      */
-    public void recordValues(final GATKRead read, final SAMFileHeader header, final ReadCovariates values, final boolean recordIndelValues);
+    void recordValues(final GATKRead read, final SAMFileHeader header, final ReadCovariates values, final boolean recordIndelValues);
 
     /**
      * Converts the internal representation of the key to String format for file output.
@@ -30,7 +30,7 @@ public interface Covariate extends Serializable {
      * @param key the long representation of the key
      * @return a string representation of the key
      */
-    public String formatKey(final int key);
+    String formatKey(final int key);
 
     /**
      * Converts an Object key into a long key using only the lowest numberOfBits() bits
@@ -41,14 +41,14 @@ public interface Covariate extends Serializable {
      * @param value the object corresponding to the covariate
      * @return a long representation of the object
      */
-    public int keyFromValue(final Object value);
+    int keyFromValue(final Object value);
 
     /**
      * Returns the maximum value possible for any key representing this covariate
      *
      * @return the maximum value possible for any key representing this covariate
      */
-    public int maximumKeyValue();
+    int maximumKeyValue();
 
     /**
      * Returns the names of the covariate, which is the simple class name without the "Covariate" part;

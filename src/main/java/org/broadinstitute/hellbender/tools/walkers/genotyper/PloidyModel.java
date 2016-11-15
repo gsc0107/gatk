@@ -14,14 +14,14 @@ public interface PloidyModel extends SampleList {
      * @param sampleIndex target sample index.
      * @return 0 or greater.
      */
-    public int samplePloidy(final int sampleIndex);
+    int samplePloidy(final int sampleIndex);
 
     /**
      * Checks whether the ploidy is homogeneous across all samples.
      *
      * @return {@code true} if all samples has the same ploidy.
      */
-    public boolean isHomogeneous();
+    boolean isHomogeneous();
 
     /**
      * Sum of all ploidy across all samples.
@@ -31,5 +31,5 @@ public interface PloidyModel extends SampleList {
      *
      * @return 0 or greater.
      */
-    public int totalPloidy();
+    int totalPloidy();
 }

@@ -27,7 +27,7 @@ import java.util.*;
 
 public final class ReadUtilsUnitTest extends BaseTest {
     private interface GetAdaptorFunc {
-        public int getAdaptor(final GATKRead record);
+        int getAdaptor(final GATKRead record);
     }
 
     @DataProvider(name = "AdaptorGetter")

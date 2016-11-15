@@ -73,7 +73,7 @@ public class ListFileUtils {
      *
      * @param <T> Type to convert to a String.
      */
-    public static interface StringConverter<T> {
+    public interface StringConverter<T> {
         String convert(T value);
     }
 

@@ -11,7 +11,7 @@ import java.util.function.UnaryOperator;
  */
 @FunctionalInterface
 public interface ReadTransformer extends UnaryOperator<GATKRead>, SerializableFunction<GATKRead, GATKRead> {
-    public static final long serialVersionUID = 1L;
+    long serialVersionUID = 1L;
 
     //HACK: These methods are a hack to get to get the type system to accept compositions of ReadTransformers.
     @SuppressWarnings("overloads")
