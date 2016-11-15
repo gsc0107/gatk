@@ -474,10 +474,8 @@ public final class MergeBamAlignmentIntegrationTest extends CommandLineProgramTe
 
             if (numAlignments != that.numAlignments) return false;
             if (seenUnaligned != that.seenUnaligned) return false;
-            if (primaryAlignmentSequence != null ? !primaryAlignmentSequence.equals(that.primaryAlignmentSequence) : that.primaryAlignmentSequence != null)
-                return false;
+            return primaryAlignmentSequence != null ? primaryAlignmentSequence.equals(that.primaryAlignmentSequence) : that.primaryAlignmentSequence == null;
 
-            return true;
         }
 
         @Override

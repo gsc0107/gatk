@@ -339,33 +339,32 @@ public final class ClipReads extends ReadWalker {
      * @param clipper
      */
     private void clipSequences(final ReadClipperWithData clipper) {
-        if (sequencesToClip != null) {                // don't bother if we don't have any sequences to clip
-            final GATKRead read = clipper.getRead();
-            final ClippingData data = clipper.getData();
+        // don't bother if we don't have any sequences to clip
+        final GATKRead read = clipper.getRead();
+        final ClippingData data = clipper.getData();
 
-            for (final SeqToClip stc : sequencesToClip) {
-                // we have a pattern for both the forward and the reverse strands
-                final Pattern pattern = read.isReverseStrand() ? stc.revPat : stc.fwdPat;
-                final String bases = read.getBasesString();
-                final Matcher match = pattern.matcher(bases);
+        for (final SeqToClip stc : sequencesToClip) {
+            // we have a pattern for both the forward and the reverse strands
+            final Pattern pattern = read.isReverseStrand() ? stc.revPat : stc.fwdPat;
+            final String bases = read.getBasesString();
+            final Matcher match = pattern.matcher(bases);
 
-                // keep clipping until match.find() says it can't find anything else
-                boolean found = true;   // go through at least once
-                while (found) {
-                    found = match.find();
-                    //System.out.printf("Matching %s against %s/%s => %b%n", bases, stc.seq, stc.revSeq, found);
-                    if (found) {
-                        final int start = match.start();
-                        final int stop = match.end() - 1;
-                        //ClippingOp op = new ClippingOp(ClippingOp.ClippingType.MATCHES_CLIP_SEQ, start, stop, stc.seq);
-                        final ClippingOp op = new ClippingOp(start, stop);
-                        clipper.addOp(op);
-                        data.incSeqClippedBases(stc.seq, op.getLength());
-                    }
+            // keep clipping until match.find() says it can't find anything else
+            boolean found = true;   // go through at least once
+            while (found) {
+                found = match.find();
+                //System.out.printf("Matching %s against %s/%s => %b%n", bases, stc.seq, stc.revSeq, found);
+                if (found) {
+                    final int start = match.start();
+                    final int stop = match.end() - 1;
+                    //ClippingOp op = new ClippingOp(ClippingOp.ClippingType.MATCHES_CLIP_SEQ, start, stop, stc.seq);
+                    final ClippingOp op = new ClippingOp(start, stop);
+                    clipper.addOp(op);
+                    data.incSeqClippedBases(stc.seq, op.getLength());
                 }
             }
-            clipper.setData(data);
         }
+        clipper.setData(data);
     }
 
     /**

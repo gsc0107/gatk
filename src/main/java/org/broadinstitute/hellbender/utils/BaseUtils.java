@@ -134,7 +134,7 @@ public final class BaseUtils {
      * @return 0, 1, 2, 3, or -1 if the base can't be understood
      */
     public static int simpleBaseToBaseIndex(final byte base) {
-        Utils.validateArg( base >= 0 && base < 256,
+        Utils.validateArg(base >= 0,
                 "Non-standard bases were encountered in either the input reference or BAM file(s)");
         return baseIndexMap[base];
     }

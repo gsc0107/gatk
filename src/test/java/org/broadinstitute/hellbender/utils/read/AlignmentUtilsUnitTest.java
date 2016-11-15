@@ -532,11 +532,8 @@ public final class AlignmentUtilsUnitTest {
                                 final boolean isMismatch;
                                 if ( mismatchLocation < startOnRead || mismatchLocation >= startOnRead + basesToRead || mismatchLocation < lengthOfSoftClip ) {
                                     isMismatch = false;
-                                } else if ( middleOp == 'M' || middleOp == 'D' || mismatchLocation < lengthOfSoftClip + lengthOfFirstM || mismatchLocation >= lengthOfSoftClip + lengthOfFirstM + lengthOfIndel ) {
-                                    isMismatch = true;
-                                } else {
-                                    isMismatch = false;
-                                }
+                                } else
+                                    isMismatch = middleOp == 'M' || middleOp == 'D' || mismatchLocation < lengthOfSoftClip + lengthOfFirstM || mismatchLocation >= lengthOfSoftClip + lengthOfFirstM + lengthOfIndel;
 
                                 tests.add(new Object[]{read, locationOnReference, startOnRead, basesToRead, isMismatch});
                             }

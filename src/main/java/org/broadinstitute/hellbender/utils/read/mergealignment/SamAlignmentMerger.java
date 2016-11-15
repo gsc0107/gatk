@@ -106,7 +106,7 @@ public final class SamAlignmentMerger extends AbstractAlignmentMerger {
         this.read2AlignedSamFile = read2AlignedSamFile;
         this.maxGaps = maxGaps;
 
-        log.info("Processing SAM file(s): " + alignedSamFile != null ? alignedSamFile : read1AlignedSamFile + "," + read2AlignedSamFile);
+        log.info("Processing SAM file(s): " + (alignedSamFile != null ? alignedSamFile : read1AlignedSamFile) + "," + read2AlignedSamFile);
     }
 
 

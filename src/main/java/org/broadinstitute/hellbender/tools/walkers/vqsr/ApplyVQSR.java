@@ -552,12 +552,10 @@ public class ApplyVQSR extends MultiVariantWalker {
                 alleleFilterString = generateFilterString(lod);
                 alleleCulpritString = recalDatum.getAttributeAsString(GATKVCFConstants.CULPRIT_KEY, ".");
 
-                if(recalDatum != null) {
-                    if (recalDatum.hasAttribute(GATKVCFConstants.POSITIVE_LABEL_KEY))
-                        builder.attribute(GATKVCFConstants.POSITIVE_LABEL_KEY, true);
-                    if (recalDatum.hasAttribute(GATKVCFConstants.NEGATIVE_LABEL_KEY))
-                        builder.attribute(GATKVCFConstants.NEGATIVE_LABEL_KEY, true);
-                }
+                if (recalDatum.hasAttribute(GATKVCFConstants.POSITIVE_LABEL_KEY))
+                    builder.attribute(GATKVCFConstants.POSITIVE_LABEL_KEY, true);
+                if (recalDatum.hasAttribute(GATKVCFConstants.NEGATIVE_LABEL_KEY))
+                    builder.attribute(GATKVCFConstants.NEGATIVE_LABEL_KEY, true);
             }
 
             //append per-allele VQSR annotations
@@ -603,12 +601,10 @@ public class ApplyVQSR extends MultiVariantWalker {
 
         builder.attribute(GATKVCFConstants.VQS_LOD_KEY, lod);
         builder.attribute(GATKVCFConstants.CULPRIT_KEY, recalDatum.getAttribute(GATKVCFConstants.CULPRIT_KEY));
-        if(recalDatum != null) {
-            if (recalDatum.hasAttribute(GATKVCFConstants.POSITIVE_LABEL_KEY))
-                builder.attribute(GATKVCFConstants.POSITIVE_LABEL_KEY, true);
-            if (recalDatum.hasAttribute(GATKVCFConstants.NEGATIVE_LABEL_KEY))
-                builder.attribute(GATKVCFConstants.NEGATIVE_LABEL_KEY, true);
-        }
+        if (recalDatum.hasAttribute(GATKVCFConstants.POSITIVE_LABEL_KEY))
+            builder.attribute(GATKVCFConstants.POSITIVE_LABEL_KEY, true);
+        if (recalDatum.hasAttribute(GATKVCFConstants.NEGATIVE_LABEL_KEY))
+            builder.attribute(GATKVCFConstants.NEGATIVE_LABEL_KEY, true);
 
         return generateFilterString(lod);
     }

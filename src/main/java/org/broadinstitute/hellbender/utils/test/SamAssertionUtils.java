@@ -196,10 +196,7 @@ public final class SamAssertionUtils {
                 return "Different Sequence dictionaries";
             }
 
-            msg = compareReadGroups(h1, h2);
-            if (msg != null) { return msg; }
-
-            return msg;
+            return compareReadGroups(h1, h2);
         }
     }
 

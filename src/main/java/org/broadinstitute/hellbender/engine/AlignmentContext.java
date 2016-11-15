@@ -112,7 +112,7 @@ public final class AlignmentContext implements Locatable, HasGenomeLocation {
         }
         final Locatable loc = this.getLocation();
         // this will throw an user error if there are samples without RG/sampleName
-        final Map<String, ReadPileup> pileups = this.getBasePileup().splitBySample(header, assumedSingleSample);
+        final Map<String, ReadPileup> pileups = this.getBasePileup().splitBySample(header, null);
         final Map<String, AlignmentContext> contexts = new LinkedHashMap<>(pileups.size());
         for (final Map.Entry<String, ReadPileup> entry : pileups.entrySet()) {
             // Don't add empty pileups to the split context.

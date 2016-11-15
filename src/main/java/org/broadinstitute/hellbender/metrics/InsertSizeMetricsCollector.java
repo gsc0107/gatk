@@ -151,7 +151,7 @@ public final class InsertSizeMetricsCollector
                      " of the total aligned paired data.");
             final PerUnitInsertSizeMetricsCollector allReadsCollector = getAllReadsCollector();
             log.warn("Total mapped pairs in all categories: " + (allReadsCollector == null ?
-                    allReadsCollector :
+                    null :
                     allReadsCollector.getTotalInserts()));
         }
         else {

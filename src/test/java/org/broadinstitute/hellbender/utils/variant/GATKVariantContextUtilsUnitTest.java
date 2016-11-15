@@ -1494,10 +1494,7 @@ public final class GATKVariantContextUtilsUnitTest extends BaseTest {
             expected = false;
         else if (vc.getEnd() < genomeLoc.getStart())
             expected = false;
-        else if (!vc.getContig().equals(genomeLoc.getContig()))
-            expected = false;
-        else
-            expected = true;
+        else expected = vc.getContig().equals(genomeLoc.getContig());
 
         Assert.assertEquals(GATKVariantContextUtils.overlapsRegion(vc, genomeLoc), expected);
     }

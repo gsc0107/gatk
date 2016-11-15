@@ -30,7 +30,6 @@ public class ReadsIterable implements Iterable<SAMRecord>, Serializable {
     private final String path;
     private final byte[] index;
     private final QueryInterval interval;
-    private final boolean removeHeader = true;
 
     class ReadsIterator implements CloseableIterator<SAMRecord> {
         private final static int BUFSIZE = 200 * 1024 * 1024;
@@ -98,9 +97,7 @@ public class ReadsIterable implements Iterable<SAMRecord>, Serializable {
                 final int start = sr.getAlignmentStart();
                 if (start >= interval.start && start <= interval.end) {
                     // read starts in the interval
-                    if (removeHeader) {
-                        sr.setHeader(null);
-                    }
+                    sr.setHeader(null);
                     return sr;
                 }
             }
