@@ -15,7 +15,7 @@ public final class ClippingOpUnitTest extends BaseTest {
         final Cigar cpostClip = TextCigarCodec.decode(postClip);
         Assert.assertEquals(ClippingOp.getNewAlignmentStartOffset(cpostClip, cpreClip), expectedResult,
                 "getNewAlignmentStartOffset returned "+ClippingOp.getNewAlignmentStartOffset(cpostClip, cpreClip)+
-                        " when "+expectedResult+" was expected for "+preClip.toString()+" which was clipped to "+postClip.toString());
+                        " when "+expectedResult+" was expected for "+ preClip +" which was clipped to "+ postClip);
     }
 
     // provider fields: cigar string before clip, cigar string after clip, expected result for getNewAlignmentStartOffset() method
