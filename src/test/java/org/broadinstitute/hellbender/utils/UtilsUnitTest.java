@@ -653,7 +653,7 @@ public final class UtilsUnitTest extends BaseTest {
             // add query to reference at a random location for 75% of the tests
             if (i % 4 > 0) {
                 final int index = rng.nextInt(referenceLength - queryLength);
-                System.arraycopy(query, 0, reference, index + 0, queryLength);
+                System.arraycopy(query, 0, reference, index, queryLength);
             }
             
             final int result = Utils.lastIndexOf(reference, query);
