@@ -99,7 +99,7 @@ public final class GATKVariantContextUtilsUnitTest extends BaseTest {
     //
     // --------------------------------------------------------------------------------
 
-    private class MergeAllelesTest extends TestDataProvider {
+    private final class MergeAllelesTest extends TestDataProvider {
         List<List<Allele>> inputs;
         List<Allele> expected;
 
@@ -195,7 +195,7 @@ public final class GATKVariantContextUtilsUnitTest extends BaseTest {
     //
     // --------------------------------------------------------------------------------
 
-    private class SimpleMergeRSIDTest extends TestDataProvider {
+    private final class SimpleMergeRSIDTest extends TestDataProvider {
         List<String> inputs;
         String expected;
 
@@ -250,7 +250,7 @@ public final class GATKVariantContextUtilsUnitTest extends BaseTest {
     //
     // --------------------------------------------------------------------------------
 
-    private class MergeFilteredTest extends TestDataProvider {
+    private final class MergeFilteredTest extends TestDataProvider {
         List<VariantContext> inputs;
         VariantContext expected;
         String setExpected;
@@ -387,7 +387,7 @@ public final class GATKVariantContextUtilsUnitTest extends BaseTest {
     //
     // --------------------------------------------------------------------------------
 
-    private class MergeGenotypesTest extends TestDataProvider {
+    private final class MergeGenotypesTest extends TestDataProvider {
         List<VariantContext> inputs;
         VariantContext expected;
         List<String> priority;
@@ -592,7 +592,7 @@ public final class GATKVariantContextUtilsUnitTest extends BaseTest {
     //
     // --------------------------------------------------------------------------------
 
-    private class ReverseClippingPositionTestProvider extends TestDataProvider {
+    private final class ReverseClippingPositionTestProvider extends TestDataProvider {
         final String ref;
         final List<Allele> alleles = new ArrayList<>();
         final int expectedClip;
@@ -721,7 +721,7 @@ public final class GATKVariantContextUtilsUnitTest extends BaseTest {
     //
     // --------------------------------------------------------------------------------
 
-    private class RepeatDetectorTest extends TestDataProvider {
+    private final class RepeatDetectorTest extends TestDataProvider {
         String ref;
         boolean isTrueRepeat;
         VariantContext vc;

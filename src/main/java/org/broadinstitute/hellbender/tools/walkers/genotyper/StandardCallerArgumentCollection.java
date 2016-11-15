@@ -8,9 +8,6 @@ import org.broadinstitute.hellbender.tools.walkers.genotyper.afcalc.AFCalculator
 import org.broadinstitute.hellbender.utils.Utils;
 
 import java.io.File;
-import java.lang.reflect.Field;
-import java.lang.reflect.Method;
-import java.lang.reflect.Modifier;
 import java.util.Collections;
 import java.util.Map;
 

@@ -1,11 +1,8 @@
 package org.broadinstitute.hellbender.utils;
 
 import org.apache.commons.math3.special.Gamma;
-import org.apache.commons.math3.util.MathArrays;
 
-import java.util.Arrays;
 import java.util.Collections;
-import java.util.stream.IntStream;
 
 /**
  * The Dirichlet distribution is a distribution on multinomial distributions: if pi is a vector of positive multinomial weights

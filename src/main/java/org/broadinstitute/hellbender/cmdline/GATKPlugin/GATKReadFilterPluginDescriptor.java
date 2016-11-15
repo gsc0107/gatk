@@ -1,6 +1,5 @@
 package org.broadinstitute.hellbender.cmdline.GATKPlugin;
 
-import com.sun.jersey.server.impl.wadl.WadlResource;
 import htsjdk.samtools.SAMFileHeader;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;

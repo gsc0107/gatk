@@ -1,11 +1,6 @@
 package org.broadinstitute.hellbender.utils.nio;
 
-import com.google.cloud.AuthCredentials;
-import com.google.cloud.RetryParams;
 import com.google.cloud.storage.StorageException;
-import com.google.cloud.storage.StorageOptions;
-import com.google.cloud.storage.contrib.nio.CloudStorageConfiguration;
-import com.google.cloud.storage.contrib.nio.CloudStorageFileSystem;
 import org.broadinstitute.hellbender.utils.gcs.BucketUtils;
 import org.broadinstitute.hellbender.utils.test.BaseTest;
 import org.testng.annotations.Test;
@@ -14,7 +9,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.URI;
 import java.nio.file.*;
-import java.util.Arrays;
 
 /**
  * Test GCS access via the NIO APIs.

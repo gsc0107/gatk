@@ -26,7 +26,6 @@ implements Iterable<String[]>, CloseableIterator<String[]> {
     private int wordCount = 0;      /* The number of delimiter-separated "words" per line of the file.
                                        We can save a little caclulation, or handle files with varying numbers of
                                        words per line, by specifying this if known in advance */
-    private final boolean skipBlankLines = true;
 
     /**
      * Closes this stream and releases any system resources associated with it.
@@ -63,7 +62,7 @@ implements Iterable<String[]>, CloseableIterator<String[]> {
         do {
             nextLine = readNextLine();
         }
-        while (nextLine != null && ((this.skipBlankLines && isBlank(nextLine)) || isComment(nextLine)));
+        while (nextLine != null && (isBlank(nextLine) || isComment(nextLine)));
         return nextLine == null ? null : parseLine(nextLine);
     }
 

@@ -1,7 +1,5 @@
 package org.broadinstitute.hellbender.engine.spark.datasources;
 
-import htsjdk.samtools.SAMFileHeader;
-import htsjdk.samtools.SAMRecord;
 import htsjdk.variant.variantcontext.VariantContext;
 import htsjdk.variant.vcf.VCFHeader;
 import org.apache.hadoop.conf.Configuration;
@@ -26,7 +24,6 @@ import org.seqdoop.hadoop_bam.util.BGZFCodec;
 import org.seqdoop.hadoop_bam.util.VCFFileMerger;
 import scala.Tuple2;
 
-import java.io.File;
 import java.io.IOException;
 import java.util.Comparator;
 

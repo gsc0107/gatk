@@ -6,8 +6,6 @@ import org.broadinstitute.hellbender.utils.SimpleInterval;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
-import static org.testng.Assert.*;
-
 public class AlignmentRegionTest {
 
     @Test

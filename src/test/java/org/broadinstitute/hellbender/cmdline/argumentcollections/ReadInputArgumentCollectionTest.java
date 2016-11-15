@@ -5,8 +5,6 @@ import org.broadinstitute.hellbender.cmdline.CommandLineParser;
 import org.broadinstitute.hellbender.exceptions.UserException;
 import org.testng.annotations.Test;
 
-import static org.testng.Assert.*;
-
 public final class ReadInputArgumentCollectionTest {
 
     @Test(expectedExceptions = UserException.CommandLineException.class)

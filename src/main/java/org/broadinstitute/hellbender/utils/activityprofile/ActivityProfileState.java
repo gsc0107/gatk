@@ -1,7 +1,6 @@
 package org.broadinstitute.hellbender.utils.activityprofile;
 
 import htsjdk.samtools.util.Locatable;
-import org.broadinstitute.hellbender.utils.MathUtils;
 import org.broadinstitute.hellbender.utils.SimpleInterval;
 import org.broadinstitute.hellbender.utils.Utils;
 

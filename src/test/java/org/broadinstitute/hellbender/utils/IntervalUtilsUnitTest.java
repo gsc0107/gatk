@@ -115,7 +115,7 @@ public final class IntervalUtilsUnitTest extends BaseTest {
     //
     // -------------------------------------------------------------------------------------
 
-    private class IntervalSlicingTest extends TestDataProvider {
+    private final class IntervalSlicingTest extends TestDataProvider {
         public int parts;
         public double maxAllowableVariance;
 
@@ -170,7 +170,7 @@ public final class IntervalUtilsUnitTest extends BaseTest {
     // -------------------------------------------------------------------------------------
 
     /** large scale tests for many intervals */
-    private class SplitLocusIntervalsTest extends TestDataProvider {
+    private final class SplitLocusIntervalsTest extends TestDataProvider {
         final List<GenomeLoc> originalIntervals;
         final public int parts;
 
@@ -223,7 +223,7 @@ public final class IntervalUtilsUnitTest extends BaseTest {
     }
 
     /** small scale tests where the expected cuts are enumerated upfront for testing */
-    private class SplitLocusIntervalsSmallTest extends TestDataProvider {
+    private final class SplitLocusIntervalsSmallTest extends TestDataProvider {
         final List<GenomeLoc> original;
         final public int parts;
         final public int expectedParts;

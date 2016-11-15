@@ -1,10 +1,6 @@
 package org.broadinstitute.hellbender.tools.picard.vcf;
 
 import com.beust.jcommander.internal.Lists;
-import htsjdk.samtools.util.CloseableIterator;
-import htsjdk.variant.variantcontext.VariantContext;
-import htsjdk.variant.variantcontext.VariantContextComparator;
-import htsjdk.variant.vcf.VCFFileReader;
 import org.testng.Assert;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;

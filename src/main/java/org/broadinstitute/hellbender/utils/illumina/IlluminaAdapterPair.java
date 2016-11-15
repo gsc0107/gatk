@@ -1,8 +1,5 @@
 package org.broadinstitute.hellbender.utils.illumina;
 
-import htsjdk.samtools.util.SequenceUtil;
-import htsjdk.samtools.util.StringUtil;
-
 /** Describes adapters used on each pair of strands */
 public enum IlluminaAdapterPair implements AdapterPair {
 

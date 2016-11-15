@@ -11,7 +11,6 @@ import org.testng.annotations.Test;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 import static org.broadinstitute.hellbender.utils.BaseUtils.Base.*;

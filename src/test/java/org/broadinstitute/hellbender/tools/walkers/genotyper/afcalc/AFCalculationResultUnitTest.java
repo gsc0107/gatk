@@ -12,7 +12,7 @@ import org.testng.annotations.Test;
 import java.util.*;
 
 public final class AFCalculationResultUnitTest extends BaseTest {
-    private static class MyTest {
+    private static final class MyTest {
         final double[] Ls, expectedPosteriors;
 
         private MyTest(final double[] ls, final double[] expectedPosteriors) {

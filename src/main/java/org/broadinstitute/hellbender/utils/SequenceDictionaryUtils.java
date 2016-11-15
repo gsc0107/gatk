@@ -1,6 +1,5 @@
 package org.broadinstitute.hellbender.utils;
 
-import com.google.common.annotations.VisibleForTesting;
 import htsjdk.samtools.SAMSequenceDictionary;
 import htsjdk.samtools.SAMSequenceRecord;
 import org.broadinstitute.hellbender.exceptions.GATKException;
@@ -337,10 +336,7 @@ public final class SequenceDictionaryUtils {
         if (length1 != length2 && length1 != SAMSequenceRecord.UNKNOWN_SEQUENCE_LENGTH && length2 != SAMSequenceRecord.UNKNOWN_SEQUENCE_LENGTH){
             return false;
         }
-        if (! first.getSequenceName().equals(second.getSequenceName())){
-            return false;
-        }
-        return true;
+        return first.getSequenceName().equals(second.getSequenceName());
     }
 
     /**

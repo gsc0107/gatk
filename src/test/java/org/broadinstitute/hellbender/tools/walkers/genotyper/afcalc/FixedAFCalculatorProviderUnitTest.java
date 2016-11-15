@@ -7,9 +7,6 @@ import org.testng.Assert;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
-import java.util.Arrays;
-import java.util.List;
-
 /**
  * Tests {@link org.broadinstitute.gatk.tools.walkers.genotyper.afcalc.FixedAFCalculatorProvider}
  *

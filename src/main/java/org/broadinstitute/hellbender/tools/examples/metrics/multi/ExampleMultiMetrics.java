@@ -1,6 +1,5 @@
 package org.broadinstitute.hellbender.tools.examples.metrics.multi;
 
-import htsjdk.samtools.metrics.MetricBase;
 import org.broadinstitute.hellbender.metrics.MultiLevelMetrics;
 import org.broadinstitute.hellbender.utils.Utils;
 import org.broadinstitute.hellbender.utils.read.GATKRead;

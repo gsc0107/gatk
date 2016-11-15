@@ -157,7 +157,7 @@ public final class GenomeLocUnitTest extends BaseTest {
     //
     // -------------------------------------------------------------------------------------
 
-    private class ReciprocalOverlapProvider extends TestDataProvider {
+    private final class ReciprocalOverlapProvider extends TestDataProvider {
         GenomeLoc gl1, gl2;
         int overlapSize;
         double overlapFraction;
@@ -276,7 +276,7 @@ public final class GenomeLocUnitTest extends BaseTest {
     private static final GenomeLoc loc2 = new GenomeLoc("1", 0, 21, 30);
     private static final GenomeLoc loc3 = new GenomeLoc("1", 0, 31, 40);
 
-    private class MergeTest {
+    private final class MergeTest {
         public List<GenomeLoc> locs;
 
         private MergeTest(final List<GenomeLoc> locs) {

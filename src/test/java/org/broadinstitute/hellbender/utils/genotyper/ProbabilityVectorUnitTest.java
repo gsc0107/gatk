@@ -1,12 +1,7 @@
 package org.broadinstitute.hellbender.utils.genotyper;
 
 import org.testng.Assert;
-import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
-
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
 
 public final class ProbabilityVectorUnitTest{
 

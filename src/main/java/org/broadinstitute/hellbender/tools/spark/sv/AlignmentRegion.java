@@ -13,7 +13,6 @@ import org.broadinstitute.hellbender.utils.SimpleInterval;
 import org.broadinstitute.hellbender.utils.read.CigarUtils;
 import org.broadinstitute.hellbender.utils.read.GATKRead;
 
-import java.io.Serializable;
 import java.util.List;
 import java.util.Objects;
 

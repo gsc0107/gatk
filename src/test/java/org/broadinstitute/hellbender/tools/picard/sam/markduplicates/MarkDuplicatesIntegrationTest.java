@@ -127,7 +127,7 @@ public final class MarkDuplicatesIntegrationTest extends AbstractMarkDuplicatesC
      * Represents an expected PN value and VN value for a PG record.  If one of thexe is null, any value is allowed
      * in the PG record being tested.
      */
-    private static class ExpectedPnAndVn {
+    private static final class ExpectedPnAndVn {
         final String expectedPn;
         final String expectedVn;
 

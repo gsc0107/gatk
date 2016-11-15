@@ -14,7 +14,6 @@ import org.broadinstitute.hellbender.utils.reference.ReferenceBases;
 import org.broadinstitute.hellbender.utils.variant.GATKVariant;
 import scala.Tuple2;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 
 public final class BaseRecalibratorSparkFn {

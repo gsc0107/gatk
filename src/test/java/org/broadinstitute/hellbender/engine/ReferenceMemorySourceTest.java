@@ -1,6 +1,5 @@
 package org.broadinstitute.hellbender.engine;
 
-import com.google.api.client.util.Lists;
 import htsjdk.samtools.SAMSequenceDictionary;
 import htsjdk.samtools.SAMSequenceRecord;
 import org.broadinstitute.hellbender.utils.SimpleInterval;

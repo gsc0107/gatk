@@ -16,7 +16,7 @@ import java.util.Arrays;
 
 public final class BaseRecalibratorIntegrationTest extends CommandLineProgramTest{
 
-    private static class BQSRTest {
+    private static final class BQSRTest {
         final String reference;
         final String bam;
         final String knownSites;

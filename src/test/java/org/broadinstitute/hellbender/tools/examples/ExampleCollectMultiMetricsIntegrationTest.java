@@ -1,7 +1,6 @@
 package org.broadinstitute.hellbender.tools.examples;
 
 import org.broadinstitute.hellbender.CommandLineProgramTest;
-import org.broadinstitute.hellbender.cmdline.StandardArgumentDefinitions;
 import org.broadinstitute.hellbender.metrics.MetricAccumulationLevel;
 import org.broadinstitute.hellbender.tools.examples.metrics.multi.ExampleCollectMultiMetricsSpark;
 import org.broadinstitute.hellbender.utils.test.ArgumentsBuilder;

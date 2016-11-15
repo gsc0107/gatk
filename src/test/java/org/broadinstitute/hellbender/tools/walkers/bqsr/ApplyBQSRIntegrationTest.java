@@ -19,7 +19,7 @@ import java.util.List;
 import java.util.stream.Stream;
 
 public final class ApplyBQSRIntegrationTest extends CommandLineProgramTest {
-    private static class ABQSRTest {
+    private static final class ABQSRTest {
         final String bam;
         final String reference;
         final String outputExtension;

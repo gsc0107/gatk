@@ -453,7 +453,7 @@ public final class MergeBamAlignmentIntegrationTest extends CommandLineProgramTe
         SamAssertionUtils.assertSamValid(merged);
     }
 
-    private static class AlignmentAccumulator {
+    private static final class AlignmentAccumulator {
         boolean seenUnaligned = false;
         int numAlignments = 0;
         String primaryAlignmentSequence = null;
@@ -1490,7 +1490,7 @@ public final class MergeBamAlignmentIntegrationTest extends CommandLineProgramTe
         writer.addAlignment(alignedRecord);
     }
 
-    private static class MostDistantStrategyAlignmentSpec {
+    private static final class MostDistantStrategyAlignmentSpec {
         public final boolean expectedPrimary;
         public final String sequence;
         public final int alignmentStart;

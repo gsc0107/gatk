@@ -15,7 +15,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 public final class RecalUtilsUnitTest extends BaseTest {
-    private class Row {
+    private final class Row {
         int rg, qual, ne, no;
 
         private Row(final Row copy) {

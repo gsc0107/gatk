@@ -20,7 +20,7 @@ public class BaseRecalibratorSparkShardedIntegrationTest extends CommandLineProg
 
     private final static String THIS_TEST_FOLDER = "org/broadinstitute/hellbender/tools/BQSR/";
 
-    private static class BQSRTest {
+    private static final class BQSRTest {
         final String referenceURL;
         final String bam;
         final String knownSites;

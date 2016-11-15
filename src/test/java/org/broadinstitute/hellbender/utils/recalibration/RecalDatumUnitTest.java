@@ -19,7 +19,7 @@ public final class RecalDatumUnitTest extends BaseTest {
     //
     // --------------------------------------------------------------------------------
 
-    private class RecalDatumTestProvider extends TestDataProvider {
+    private final class RecalDatumTestProvider extends TestDataProvider {
         int exError, exTotal, reportedQual;
 
         private RecalDatumTestProvider(final int E, final int N, final int reportedQual) {

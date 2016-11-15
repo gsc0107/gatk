@@ -27,7 +27,7 @@ public final class QualQuantizerUnitTest extends BaseTest {
     //
     // --------------------------------------------------------------------------------
 
-    private class QualIntervalTestProvider extends BaseTest.TestDataProvider {
+    private final class QualIntervalTestProvider extends BaseTest.TestDataProvider {
         final QualQuantizer.QualInterval left, right;
         int exError, exTotal, exQual;
         double exErrorRate;
@@ -93,7 +93,7 @@ public final class QualQuantizerUnitTest extends BaseTest {
     //
     // --------------------------------------------------------------------------------
 
-    private class QuantizerTestProvider extends TestDataProvider {
+    private final class QuantizerTestProvider extends TestDataProvider {
         final List<Long> nObservationsPerQual = new ArrayList<>();
         final int nLevels;
         final List<Integer> expectedMap;

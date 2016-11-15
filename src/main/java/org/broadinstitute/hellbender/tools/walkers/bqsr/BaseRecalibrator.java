@@ -27,8 +27,6 @@ import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.broadinstitute.hellbender.engine.filters.ReadFilterLibrary.*;
-
 /**
  * First pass of the base quality score recalibration -- Generates recalibration table based on various covariates
  * (such as read group, reported quality score, machine cycle, and nucleotide context).

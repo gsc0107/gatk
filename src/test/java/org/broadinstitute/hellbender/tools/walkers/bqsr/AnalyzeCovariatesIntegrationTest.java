@@ -15,8 +15,6 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 
-import static org.testng.Assert.assertTrue;
-
 /**
  * Tests Analyze Covariates.
  * <p/>

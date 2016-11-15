@@ -169,7 +169,7 @@ public final class AlignmentUtilsUnitTest {
         Assert.assertEquals(read, originalReadCopy, "createReadAlignedToRef seems be modifying the original read!");
     }
 
-    private static class Mutation implements Comparable<Mutation> {
+    private static final class Mutation implements Comparable<Mutation> {
         int pos, len;
         CigarOperator operator;
 
@@ -206,7 +206,7 @@ public final class AlignmentUtilsUnitTest {
         }
     }
 
-    private static class MutatedSequence {
+    private static final class MutatedSequence {
         int numMismatches;
         String seq;
 

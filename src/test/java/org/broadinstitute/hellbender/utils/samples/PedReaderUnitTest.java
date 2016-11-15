@@ -22,7 +22,7 @@ import org.broadinstitute.hellbender.exceptions.UserException;
 public class PedReaderUnitTest extends BaseTest {
     private static Logger logger = LogManager.getLogger(PedReaderUnitTest.class);
 
-    private class PedReaderTest extends TestDataProvider {
+    private final class PedReaderTest extends TestDataProvider {
         public String fileContents;
         public List<Sample> expectedSamples;
         EnumSet<PedReader.MissingPedField> missing;
@@ -165,7 +165,7 @@ public class PedReaderUnitTest extends BaseTest {
     // missing format field tests
     // -----------------------------------------------------------------
 
-    private class PedReaderTestMissing extends TestDataProvider {
+    private final class PedReaderTestMissing extends TestDataProvider {
         public EnumSet<PedReader.MissingPedField> missingDesc;
         public EnumSet<PedReader.Field> missingFields;
         public final String fileContents;
@@ -244,7 +244,7 @@ public class PedReaderUnitTest extends BaseTest {
     // parsing tags
     // -----------------------------------------------------------------
 
-    private class PedReaderTestTagParsing extends TestDataProvider {
+    private final class PedReaderTestTagParsing extends TestDataProvider {
         public EnumSet<PedReader.MissingPedField> expected;
         public final List<String> tags;
 

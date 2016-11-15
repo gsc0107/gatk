@@ -3,9 +3,6 @@ package org.broadinstitute.hellbender.utils.runtime;
 import htsjdk.samtools.util.AbstractProgressLogger;
 import org.apache.logging.log4j.Logger;
 
-import java.text.DecimalFormat;
-import java.text.NumberFormat;
-
 /**
  * Facilitate consistent logging output when progressing through a stream of SAM records.
  *

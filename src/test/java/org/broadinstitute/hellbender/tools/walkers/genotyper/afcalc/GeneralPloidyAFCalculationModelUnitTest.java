@@ -55,7 +55,7 @@ public final class GeneralPloidyAFCalculationModelUnitTest extends BaseTest {
 
     }
 
-    private class GetGLsTest extends TestDataProvider {
+    private final class GetGLsTest extends TestDataProvider {
         GenotypesContext GLs;
         int numAltAlleles;
         String name;

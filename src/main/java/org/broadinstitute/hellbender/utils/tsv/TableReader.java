@@ -303,7 +303,7 @@ public abstract class TableReader<R> implements Closeable, Iterable<R> {
      * @throws IOException if a {@link IOException} was thrown when reading from the input.
      */
     public final R readRecord() throws IOException {
-        if (nextRecordFetched == false) {
+        if (!nextRecordFetched) {
             nextRecord = fetchNextRecord();
         }
         if (nextRecord != null) {

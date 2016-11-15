@@ -3,7 +3,6 @@ package org.broadinstitute.hellbender.tools.picard.interval;
 import htsjdk.samtools.util.Interval;
 import htsjdk.samtools.util.IntervalList;
 import org.broadinstitute.hellbender.CommandLineProgramTest;
-import org.testng.Assert;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
@@ -28,7 +27,7 @@ public final class IntervalListScattererTest extends CommandLineProgramTest {
         assertEquals(LIST_TO_SCATTER.getUniqueBaseCount(), 200, "Wrong unique base count");
     }
 
-    private static class Testcase {
+    private static final class Testcase {
         final IntervalList source;
         final List<IntervalList> expectedScatter;
         final int scatterWidth;

@@ -241,7 +241,7 @@ public final class GenomeLocParserUnitTest extends BaseTest {
         genomeLocParser.validateGenomeLoc("1", 1, 1, 2, false);
     }
 
-    private static class FlankingGenomeLocTestData extends TestDataProvider {
+    private static final class FlankingGenomeLocTestData extends TestDataProvider {
         final GenomeLocParser parser;
         final int basePairs;
         final GenomeLoc original, flankStart, flankStop;

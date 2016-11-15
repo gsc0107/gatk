@@ -6,7 +6,6 @@ import com.esotericsoftware.kryo.io.Input;
 import com.esotericsoftware.kryo.io.Output;
 import org.broadinstitute.hellbender.utils.SimpleInterval;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 

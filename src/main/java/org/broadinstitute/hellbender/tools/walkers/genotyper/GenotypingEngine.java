@@ -317,7 +317,7 @@ public abstract class GenotypingEngine<Config extends StandardCallerArgumentColl
      * Holds information about the alternative allele subsetting based on supporting evidence, genotyping and
      * output modes.
      */
-    private static class OutputAlleleSubset {
+    private static final class OutputAlleleSubset {
         private  final List<Allele> alleles;
         private  final boolean siteIsMonomorphic;
         private  final List<Integer> mleCounts;

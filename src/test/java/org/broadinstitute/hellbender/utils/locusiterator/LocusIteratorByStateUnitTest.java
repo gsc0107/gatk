@@ -685,7 +685,7 @@ public final class LocusIteratorByStateUnitTest extends LocusIteratorByStateBase
         }
     }
 
-    private static class WeakReadTrackingIterator implements Iterator<GATKRead> {
+    private static final class WeakReadTrackingIterator implements Iterator<GATKRead> {
         final int nReads, readLength, payloadInBytes;
         int readI = 0;
         final SAMFileHeader header;

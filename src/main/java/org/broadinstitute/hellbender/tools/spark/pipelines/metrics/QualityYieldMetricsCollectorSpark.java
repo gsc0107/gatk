@@ -5,8 +5,6 @@ import htsjdk.samtools.metrics.Header;
 import htsjdk.samtools.metrics.MetricsFile;
 import org.apache.spark.api.java.JavaRDD;
 import org.broadinstitute.hellbender.engine.AuthHolder;
-import org.broadinstitute.hellbender.engine.filters.ReadFilter;
-import org.broadinstitute.hellbender.engine.filters.ReadFilterLibrary;
 import org.broadinstitute.hellbender.metrics.MetricsUtils;
 import org.broadinstitute.hellbender.metrics.QualityYieldMetrics;
 import org.broadinstitute.hellbender.metrics.QualityYieldMetricsArgumentCollection;

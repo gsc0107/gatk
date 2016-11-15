@@ -18,7 +18,7 @@ public final class ClassUtilsUnitTest extends BaseTest{
     private static class Priv{
     }
 
-    public static class PubNestedUtils{
+    public static final class PubNestedUtils{
         private PubNestedUtils(){}
     }
 

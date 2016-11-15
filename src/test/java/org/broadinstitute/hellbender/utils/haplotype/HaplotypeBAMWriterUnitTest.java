@@ -246,7 +246,7 @@ public class HaplotypeBAMWriterUnitTest extends BaseTest {
         return hap;
     }
 
-    private class MockValidatingDestination extends HaplotypeBAMDestination {
+    private final class MockValidatingDestination extends HaplotypeBAMDestination {
         private final String expectedBaseSignature;  // bases expected for the synthesized haplotype read
 
         public int readCount = 0;           // number of reads written to this destination
