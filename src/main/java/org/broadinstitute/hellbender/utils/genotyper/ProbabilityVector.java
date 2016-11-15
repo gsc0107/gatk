@@ -59,9 +59,7 @@ public final class ProbabilityVector {
         for (int i=0; i < minVal; i++) {
             x[i] = Double.NEGATIVE_INFINITY;
         }
-        for (int i=minVal; i <=maxVal; i++) {
-            x[i] = probabilityArray[i - minVal];
-        }
+        System.arraycopy(probabilityArray, minVal - minVal, x, minVal, maxVal + 1 - minVal);
 
         return x;
     }

@@ -621,7 +621,7 @@ public final class BAQ implements Serializable {
                 case S : refI += l; // move the reference too, in addition to I
                 case I :
                     // todo -- is it really the case that we want to treat I and S the same?
-                    for ( int i = readI; i < readI + l; i++ ) baqResult.bq[i] = baqResult.rawQuals[i];
+                    System.arraycopy(baqResult.rawQuals, readI, baqResult.bq, readI, readI + l - readI);
                     readI += l;
                     break;
                 case D : refI += l; break;
