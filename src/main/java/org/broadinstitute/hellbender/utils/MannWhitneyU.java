@@ -154,8 +154,7 @@ public final class MannWhitneyU {
     private static double getZApprox(final int n, final int m, final long u) {
         final double mean = ( ((long)m)*n+1.0)/2;
         final double var = (((long) n)*m*(n+m+1.0))/12;
-        final double z = ( u - mean )/ Math.sqrt(var);
-        return z;
+        return ( u - mean )/ Math.sqrt(var);
     }
 
     /**

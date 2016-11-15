@@ -24,7 +24,7 @@ public final class CompressedDataList<T>  implements Iterable<T> {
 
     @Override
     public Iterator<T> iterator(){
-        final Iterator<T> it = new Iterator<T>() {
+        return new Iterator<T>() {
             private Iterator<T> keySetIterator = valueCounts.keySet().iterator();
             private T currentKey = valueCounts.isEmpty() ? null : keySetIterator.next();
             private int currentValueIndex = 0;
@@ -54,7 +54,6 @@ public final class CompressedDataList<T>  implements Iterable<T> {
                 throw new UnsupportedOperationException();
             }
         };
-        return it;
     }
 
     @Override

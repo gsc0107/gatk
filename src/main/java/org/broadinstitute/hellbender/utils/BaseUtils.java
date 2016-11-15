@@ -91,9 +91,8 @@ public final class BaseUtils {
      * @return
      */
     public static BaseSubstitutionType SNPSubstitutionType(final byte base1, final byte base2) {
-        final BaseSubstitutionType t = isTransition(base1, base2) ? BaseSubstitutionType.TRANSITION : BaseSubstitutionType.TRANSVERSION;
         //System.out.printf("SNPSubstitutionType( char %c, char %c ) => %s%n", base1, base2, t);
-        return t;
+        return isTransition(base1, base2) ? BaseSubstitutionType.TRANSITION : BaseSubstitutionType.TRANSVERSION;
     }
 
     public static boolean isTransition(final byte base1, final byte base2) {

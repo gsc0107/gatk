@@ -254,8 +254,7 @@ public final class BQSRReadTransformer implements ReadTransformer {
             return mapping;
         }
 
-        final int firstQual = QualityUtils.MIN_USABLE_Q_SCORE;
-        int previousQual = firstQual;
+        int previousQual = (int) QualityUtils.MIN_USABLE_Q_SCORE;
         double previousProb = QualityUtils.qualToProb(previousQual);
         for (final int nextQual : staticQuantizedQuals) {
             final double nextProb = QualityUtils.qualToProb(nextQual);

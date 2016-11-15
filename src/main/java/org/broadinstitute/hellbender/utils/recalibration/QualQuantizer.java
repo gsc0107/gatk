@@ -201,9 +201,8 @@ public final class QualQuantizer {
 
             final int level = Math.max(left.level, right.level) + 1;
             final Set<QualInterval> subIntervals = new LinkedHashSet<>(Arrays.asList(left, right));
-            final QualInterval merged = new QualInterval(left.qStart, right.qEnd, nCombinedObs, nCombinedErr, level, subIntervals);
 
-            return merged;
+            return new QualInterval(left.qStart, right.qEnd, nCombinedObs, nCombinedErr, level, subIntervals);
         }
 
         public double getPenalty() {

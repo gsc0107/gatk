@@ -316,8 +316,7 @@ public final class ReadsDataSource implements GATKDataSource<GATKRead>, AutoClos
         }
 
         // TODO: don't require coordinate ordering
-        final SamFileHeaderMerger headerMerger = new SamFileHeaderMerger(SAMFileHeader.SortOrder.coordinate, headers, true);
-        return headerMerger;
+        return new SamFileHeaderMerger(SAMFileHeader.SortOrder.coordinate, headers, true);
     }
 
     /**

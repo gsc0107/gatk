@@ -1169,12 +1169,11 @@ public final class IntervalUtilsUnitTest extends BaseTest {
     @DataProvider(name="intervals")
     public Object[][] intervals(){
         final ArrayList<SimpleInterval> input = Lists.newArrayList(new SimpleInterval("1", 10, 100));
-        final ArrayList<SimpleInterval> output = input;
         final ArrayList<SimpleInterval> hundred = Lists.newArrayList(new SimpleInterval("1", 1, 100));
 
         return new Object[][]{
                 // input fits all in one shard
-                new Object[]{input, 1000, output},
+                new Object[]{input, 1000, input},
                 // input could fit in the shard, but is cut anyways so it's aligned to integer multiples of shard boundary
                 new Object[]{input, 90, Lists.newArrayList(new SimpleInterval("1", 10, 90),new SimpleInterval("1", 91, 100))},
                 // shard ends just after input

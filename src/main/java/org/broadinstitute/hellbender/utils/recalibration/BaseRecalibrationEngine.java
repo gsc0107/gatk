@@ -284,12 +284,10 @@ public final class BaseRecalibrationEngine implements Serializable {
     private ReadTransformer makeReadTransform() {
         final ReadTransformer f0 = BaseRecalibrationEngine::consolidateCigar;
 
-        final ReadTransformer f = f0.andThen(this::setDefaultBaseQualities)
+        return f0.andThen(this::setDefaultBaseQualities)
                 .andThen(this::resetOriginalBaseQualities)
                 .andThen(ReadClipper::hardClipAdaptorSequence)
                 .andThen(ReadClipper::hardClipSoftClippedBases);
-
-        return f;
     }
 
     private static GATKRead consolidateCigar( final GATKRead read ) {

@@ -30,15 +30,14 @@ public final class FisherExactTest {
         Utils.validateArg(normalizedTable[1] != null && normalizedTable[1].length == 2, "input must be 2x2 " + Arrays.deepToString(normalizedTable));
 
         //Note: this implementation follows the one in R base package
-        final int[][] x= normalizedTable;
-        final int m = addExact(x[0][0], x[0][1]);
-        final int n = addExact(x[1][0], x[1][1]);
+        final int m = addExact(normalizedTable[0][0], normalizedTable[0][1]);
+        final int n = addExact(normalizedTable[1][0], normalizedTable[1][1]);
 
         if (m+n == 0){     //special case, all entries zero
             return 1.0;
         }
 
-        final int k = addExact(x[0][0], x[1][0]);
+        final int k = addExact(normalizedTable[0][0], normalizedTable[1][0]);
         final int lo = max(0, k - n);
         final int hi = min(k, m);
         final int[] support = range(lo, hi);
@@ -48,7 +47,7 @@ public final class FisherExactTest {
         final double[] ds = dnHyper(oddsRatioAtNull, logdc, support);
         final double relErr = 1 + pow(10, -7);
 
-        final double threshold= ds[x[0][0] - lo] * relErr;
+        final double threshold= ds[normalizedTable[0][0] - lo] * relErr;
         final double pValue = DoubleStream.of(ds).filter(d -> d <= threshold).sum();
 
         // min is necessary as numerical precision can result in pValue being slightly greater than 1.0

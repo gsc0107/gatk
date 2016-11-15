@@ -37,9 +37,8 @@ public final class QuantizationInfo implements Serializable {
         final NestedIntegerArray<RecalDatum> qualTable = recalibrationTables.getQualityScoreTable(); // get the quality score table
 
         for (final RecalDatum value : qualTable.getAllValues()) {
-            final RecalDatum datum = value;
-            final int empiricalQual = MathUtils.fastRound(datum.getEmpiricalQuality()); // convert the empirical quality to an integer ( it is already capped by MAX_QUAL )
-            qualHistogram[empiricalQual] += datum.getNumObservations(); // add the number of observations for every key
+            final int empiricalQual = MathUtils.fastRound(value.getEmpiricalQuality()); // convert the empirical quality to an integer ( it is already capped by MAX_QUAL )
+            qualHistogram[empiricalQual] += value.getNumObservations(); // add the number of observations for every key
         }
         empiricalQualCounts = new ArrayList<>(Arrays.asList(qualHistogram)); // histogram with the number of observations of the empirical qualities
         quantizeQualityScores(quantizationLevels);

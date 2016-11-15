@@ -785,7 +785,6 @@ public final class LocusIteratorByStateUnitTest extends LocusIteratorByStateBase
             expectedPos++;
         }
 
-        final int nExpectedPileups = nReadContainingPileups;
-        Assert.assertEquals(nPileups, nExpectedPileups, "Wrong number of pileups seen");
+        Assert.assertEquals(nPileups, nReadContainingPileups, "Wrong number of pileups seen");
     }
 }

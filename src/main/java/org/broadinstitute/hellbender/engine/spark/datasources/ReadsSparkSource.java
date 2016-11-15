@@ -159,8 +159,7 @@ public final class ReadsSparkSource implements Serializable {
                 inputPath, AvroParquetInputFormat.class, Void.class, AlignmentRecord.class, job.getConfiguration())
                 .values();
         final JavaRDD<GATKRead> readsRdd = recordsRdd.map(record -> new BDGAlignmentRecordToGATKReadAdapter(record, bHeader.getValue()));
-        final JavaRDD<GATKRead> filteredRdd = readsRdd.filter(record -> samRecordOverlaps(record.convertToSAMRecord(header), intervals));
-        return filteredRdd;
+        return readsRdd.filter(record -> samRecordOverlaps(record.convertToSAMRecord(header), intervals));
     }
 
     /**

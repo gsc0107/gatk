@@ -168,9 +168,8 @@ public class SAMRecordSparkCodec implements SortingCollection.Codec<SAMRecord> {
         final int insertSize = this.binaryCodec.readInt();
         final byte[] restOfRecord = new byte[recordLength - BAMFileConstants.FIXED_BLOCK_SIZE];
         this.binaryCodec.readBytes(restOfRecord);
-        final BAMRecord ret = this.samRecordFactory.createBAMRecord(
+        return this.samRecordFactory.createBAMRecord(
                 null, referenceID, coordinate, readNameLength, mappingQuality,
                 bin, cigarLen, flags, readLen, mateReferenceID, mateCoordinate, insertSize, restOfRecord);
-        return ret;
     }
 }

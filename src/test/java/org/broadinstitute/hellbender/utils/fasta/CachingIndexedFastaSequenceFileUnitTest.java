@@ -68,11 +68,10 @@ public final class CachingIndexedFastaSequenceFileUnitTest extends BaseTest {
 
         final SAMSequenceRecord contig = uncached.getSequenceDictionary().getSequence(0);
         for ( int i = 0; i < contig.getSequenceLength(); i += STEP_SIZE ) {
-            final int start = i;
-            final int stop = start + querySize;
+            final int stop = i + querySize;
             if ( stop <= contig.getSequenceLength() ) {
-                final ReferenceSequence cachedVal = caching.getSubsequenceAt(contig.getSequenceName(), start, stop);
-                final ReferenceSequence uncachedVal = uncached.getSubsequenceAt(contig.getSequenceName(), start, stop);
+                final ReferenceSequence cachedVal = caching.getSubsequenceAt(contig.getSequenceName(), i, stop);
+                final ReferenceSequence uncachedVal = uncached.getSubsequenceAt(contig.getSequenceName(), i, stop);
 
                 Assert.assertEquals(cachedVal.getName(), uncachedVal.getName());
                 Assert.assertEquals(cachedVal.getContigIndex(), uncachedVal.getContigIndex());
@@ -106,12 +105,11 @@ public final class CachingIndexedFastaSequenceFileUnitTest extends BaseTest {
                 contig.getSequenceName(), contig.getSequenceLength(), cacheSize, querySize));
 
         for ( int i = 0; i < contig.getSequenceLength(); i += 10 ) {
-            final int start = i;
-            final int stop = start + querySize;
+            final int stop = i + querySize;
             if ( stop <= contig.getSequenceLength() ) {
                 final ReferenceSequence grabMiddle = caching.getSubsequenceAt(contig.getSequenceName(), middleStart, middleStop);
-                final ReferenceSequence cachedVal = caching.getSubsequenceAt(contig.getSequenceName(), start, stop);
-                final ReferenceSequence uncachedVal = uncached.getSubsequenceAt(contig.getSequenceName(), start, stop);
+                final ReferenceSequence cachedVal = caching.getSubsequenceAt(contig.getSequenceName(), i, stop);
+                final ReferenceSequence uncachedVal = uncached.getSubsequenceAt(contig.getSequenceName(), i, stop);
 
                 Assert.assertEquals(cachedVal.getName(), uncachedVal.getName());
                 Assert.assertEquals(cachedVal.getContigIndex(), uncachedVal.getContigIndex());

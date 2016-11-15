@@ -314,8 +314,7 @@ public abstract class BaseTest {
      */
     public static File getSafeNonExistentFile(final String fileNameWithExtension) {
         final File tempDir = createTempDir("nonExistentFileHolder");
-        final File nonExistingFile = new File(tempDir, fileNameWithExtension);
-        return nonExistingFile;
+        return new File(tempDir, fileNameWithExtension);
     }
 
     /**

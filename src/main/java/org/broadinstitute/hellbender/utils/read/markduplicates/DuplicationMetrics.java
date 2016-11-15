@@ -70,28 +70,26 @@ public final class DuplicationMetrics extends MetricBase implements Serializable
         final long readPairDuplicates = readPairs - uniqueReadPairs;
 
         if (readPairs > 0 && readPairDuplicates > 0) {
-            final long n = readPairs;
-            final long c = uniqueReadPairs;
 
             double m = 1.0, M = 100.0;
 
-            if (c >= n || f(m*c, c, n) < 0) {
+            if (uniqueReadPairs >= readPairs || f(m* uniqueReadPairs, uniqueReadPairs, readPairs) < 0) {
                 throw new IllegalStateException("Invalid values for pairs and unique pairs: "
-                        + n + ", " + c);
+                        + readPairs + ", " + uniqueReadPairs);
 
             }
 
-            while( f(M*c, c, n) >= 0 ) M *= 10.0;
+            while( f(M* uniqueReadPairs, uniqueReadPairs, readPairs) >= 0 ) M *= 10.0;
 
             for (int i=0; i<40; i++ ) {
                 final double r = (m+M)/2.0;
-                final double u = f( r * c, c, n );
+                final double u = f( r * uniqueReadPairs, uniqueReadPairs, readPairs);
                 if ( u == 0 ) break;
                 else if ( u > 0 ) m = r;
                 else if ( u < 0 ) M = r;
             }
 
-            return (long) (c * (m+M)/2.0);
+            return (long) (uniqueReadPairs * (m+M)/2.0);
         }
         else {
             return null;

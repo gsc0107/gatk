@@ -19,8 +19,7 @@ public final class GenotypingDataUnitTest {
     @Test(dataProvider="ploidyAndMaximumAlleleAndReadCountsData")
     public void testInstantiation(final int[] ploidies, final int[] readCounts) {
         final ReadLikelihoods<Allele> likelihoods = ReadLikelihoodsUnitTester.readLikelihoods(2, readCounts);
-        final SampleList sampleList = likelihoods;
-        final PloidyModel ploidyModel = new HeterogeneousPloidyModel(sampleList, ploidies);
+        final PloidyModel ploidyModel = new HeterogeneousPloidyModel(likelihoods, ploidies);
         final GenotypingData<Allele> data = new GenotypingData<>(ploidyModel, likelihoods);
         Assert.assertEquals(data.asListOfAlleles(), likelihoods.asListOfAlleles());
         Assert.assertEquals(data.asListOfSamples(), likelihoods.asListOfSamples());

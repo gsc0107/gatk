@@ -121,13 +121,12 @@ public final class SWPairwiseAlignmentUnitTest extends BaseTest {
     public void testSubstringMatchSoftclip() {
         final String match     = "CCCCC";
         final String reference = "AAA" + match;
-        final String read      = match;
         final int expectedStart = 3;
         final String expectedCigar = "5M";
-        final SWPairwiseAlignment sw = new SWPairwiseAlignment(reference.getBytes(), read.getBytes(),
+        final SWPairwiseAlignment sw = new SWPairwiseAlignment(reference.getBytes(), match.getBytes(),
                                                                SWPairwiseAlignment.ORIGINAL_DEFAULT,
                                                                SWPairwiseAlignment.OverhangStrategy.SOFTCLIP);
-        sw.printAlignment(reference.getBytes(), read.getBytes());
+        sw.printAlignment(reference.getBytes(), match.getBytes());
         Assert.assertEquals(sw.getAlignmentStart2wrt1(), expectedStart);
         Assert.assertEquals(sw.getCigar().toString(), expectedCigar);
     }
@@ -136,13 +135,12 @@ public final class SWPairwiseAlignmentUnitTest extends BaseTest {
     public void testSubstringMatchIndel() {
         final String match     = "CCCCC";
         final String reference = "AAA" + match;
-        final String read      = match;
         final int expectedStart = 0;
         final String expectedCigar = "3D5M";
-        final SWPairwiseAlignment sw = new SWPairwiseAlignment(reference.getBytes(), read.getBytes(),
+        final SWPairwiseAlignment sw = new SWPairwiseAlignment(reference.getBytes(), match.getBytes(),
                                                                SWPairwiseAlignment.ORIGINAL_DEFAULT,
                                                                SWPairwiseAlignment.OverhangStrategy.INDEL);
-        sw.printAlignment(reference.getBytes(), read.getBytes());
+        sw.printAlignment(reference.getBytes(), match.getBytes());
         Assert.assertEquals(sw.getAlignmentStart2wrt1(), expectedStart);
         Assert.assertEquals(sw.getCigar().toString(), expectedCigar);
     }
@@ -151,13 +149,12 @@ public final class SWPairwiseAlignmentUnitTest extends BaseTest {
     public void testSubstringMatchLeadingIndel() {
         final String match     = "CCCCC";
         final String reference = "AAA" + match;
-        final String read      = match;
         final int expectedStart = 0;
         final String expectedCigar = "3D5M";
-        final SWPairwiseAlignment sw = new SWPairwiseAlignment(reference.getBytes(), read.getBytes(),
+        final SWPairwiseAlignment sw = new SWPairwiseAlignment(reference.getBytes(), match.getBytes(),
                                                                SWPairwiseAlignment.ORIGINAL_DEFAULT,
                                                                SWPairwiseAlignment.OverhangStrategy.LEADING_INDEL);
-        sw.printAlignment(reference.getBytes(), read.getBytes());
+        sw.printAlignment(reference.getBytes(), match.getBytes());
         Assert.assertEquals(sw.getAlignmentStart2wrt1(), expectedStart);
         Assert.assertEquals(sw.getCigar().toString(), expectedCigar);
     }
@@ -166,13 +163,12 @@ public final class SWPairwiseAlignmentUnitTest extends BaseTest {
     public void testSubstringMatchIgnore() {
         final String match     = "CCCCC";
         final String reference = "AAA" + match;
-        final String read      = match;
         final int expectedStart = 3;
         final String expectedCigar = "5M";
-        final SWPairwiseAlignment sw = new SWPairwiseAlignment(reference.getBytes(), read.getBytes(),
+        final SWPairwiseAlignment sw = new SWPairwiseAlignment(reference.getBytes(), match.getBytes(),
                                                                SWPairwiseAlignment.ORIGINAL_DEFAULT,
                                                                SWPairwiseAlignment.OverhangStrategy.IGNORE);
-        sw.printAlignment(reference.getBytes(), read.getBytes());
+        sw.printAlignment(reference.getBytes(), match.getBytes());
         Assert.assertEquals(sw.getAlignmentStart2wrt1(), expectedStart);
         Assert.assertEquals(sw.getCigar().toString(), expectedCigar);
     }

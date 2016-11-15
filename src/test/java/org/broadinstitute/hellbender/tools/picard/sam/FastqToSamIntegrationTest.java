@@ -178,13 +178,11 @@ public final class FastqToSamIntegrationTest extends CommandLineProgramTest {
     }
 
     private static File newTempSamFile(final String filename) throws IOException {
-        final File file = BaseTest.createTempFile(filename, ".sam");
-        return file;
+        return BaseTest.createTempFile(filename, ".sam");
     }
 
     private static File newTempFile(final String filename) throws IOException {
-        final File file = BaseTest.createTempFile(filename, ".tmp");
-        return file;
+        return BaseTest.createTempFile(filename, ".tmp");
     }
 
     //  Test for legal syntax for pair read names for FastqToSam.getBaseName()

@@ -27,8 +27,7 @@ public final class ExcessHetUnitTest extends BaseTest {
 
     private VariantContext makeVC(final String source, final List<Allele> alleles, final Genotype... genotypes) {
         final int start = 10;
-        final int stop = start; // alleles.contains(ATC) ? start + 3 : start;
-        return new VariantContextBuilder(source, "1", start, stop, alleles)
+        return new VariantContextBuilder(source, "1", start, start, alleles)
                 .genotypes(Arrays.asList(genotypes))
                 .filters((String) null)
                 .make();

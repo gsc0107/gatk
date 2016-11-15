@@ -573,7 +573,7 @@ public final class UtilsUnitTest extends BaseTest {
 
     @DataProvider(name = "testEqualRange")
     public Object[][] testEqualRange(){
-        final Object[][] result = {
+        return new Object[][]{
             {"ATGATGATGATG".getBytes(), 0, 3, "ATG".getBytes(), true},
             {"ATGATGATGATG".getBytes(), 3, 6, "ATG".getBytes(), true},
             {"ATGATGATGATG".getBytes(), 9, 12, "ATG".getBytes(), true},
@@ -594,7 +594,6 @@ public final class UtilsUnitTest extends BaseTest {
             {"ATGATGATGATG".getBytes(), 10, 11, "G".getBytes(), false},
             {"ATGATGATCATG".getBytes(), 10, 12, "AT".getBytes(), false},
         };
-        return result;
     }
 
     @Test(dataProvider = "testEqualRange")
