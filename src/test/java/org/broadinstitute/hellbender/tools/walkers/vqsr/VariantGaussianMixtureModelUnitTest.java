@@ -41,21 +41,21 @@ public final class VariantGaussianMixtureModelUnitTest extends BaseTest {
     }
 
     @Test(expectedExceptions = {UserException.MalformedFile.class})
-    public final void readBadFormat() throws java.io.FileNotFoundException, java.io.IOException {
+    public final void readBadFormat() throws java.io.IOException {
         Tranche.readTranches(QUAL_DATA);
     }
 
     @Test
-    public final void readNewFormat() throws java.io.FileNotFoundException, java.io.IOException {
+    public final void readNewFormat() throws java.io.IOException {
         read(EXPECTED_TRANCHES_NEW);
     }
 
     @Test(expectedExceptions = {UserException.MalformedFile.class})
-    public final void readOldFormat() throws java.io.FileNotFoundException, java.io.IOException {
+    public final void readOldFormat() throws java.io.IOException {
         read(EXPECTED_TRANCHES_OLD);
     }
 
-    public final List<Tranche> read(final File f) throws java.io.FileNotFoundException, java.io.IOException {
+    public final List<Tranche> read(final File f) throws java.io.IOException {
         return Tranche.readTranches(f);
     }
 
@@ -85,7 +85,7 @@ public final class VariantGaussianMixtureModelUnitTest extends BaseTest {
     }
 
     @Test
-    public final void testFindTranches1() throws java.io.FileNotFoundException, java.io.IOException {
+    public final void testFindTranches1() throws java.io.IOException {
         final ArrayList<VariantDatum> vd = readData();
         final List<Tranche> tranches = findMyTranches(vd, TRUTH_SENSITIVITY_CUTS);
 
@@ -93,7 +93,7 @@ public final class VariantGaussianMixtureModelUnitTest extends BaseTest {
     }
 
     @Test(expectedExceptions = {UserException.class})
-    public final void testBadFDR() throws java.io.IOException, java.io.FileNotFoundException {
+    public final void testBadFDR() throws java.io.IOException {
         final ArrayList<VariantDatum> vd = readData();
         findMyTranches(vd, new ArrayList<Double>(Arrays.asList(-1.0)));
     }
