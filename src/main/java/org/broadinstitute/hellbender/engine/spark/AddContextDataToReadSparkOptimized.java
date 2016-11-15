@@ -169,9 +169,9 @@ public final class AddContextDataToReadSparkOptimized implements Serializable {
         private final List<SimpleInterval> subshards;
         private int currentSubShardIndex;
         private ArrayList<GATKRead> readsSoFar = new ArrayList<>();
-        private Storage.Objects storageClient = null;
+        private Storage.Objects storageClient;
         private SimpleInterval currentSubShard;
-        private ContextShard nextOutput = null;
+        private ContextShard nextOutput;
         private boolean readerClosed = false;
 
         public SubdivideAndFillReadsIterator(final String bam, final AuthHolder auth, final int outputShardSize, final int margin, final ReadFilter optFilter, final ContextShard shard) throws IOException, GeneralSecurityException, ClassNotFoundException {

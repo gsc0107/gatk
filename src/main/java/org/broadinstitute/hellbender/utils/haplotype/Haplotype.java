@@ -24,8 +24,8 @@ public final class Haplotype extends Allele {
             Comparator.comparingInt((Haplotype hap) -> hap.getBases().length)
                       .thenComparing(hap -> hap.getBaseString());
 
-    private Locatable genomeLocation = null;
-    private EventMap eventMap = null;
+    private Locatable genomeLocation;
+    private EventMap eventMap;
     private Cigar cigar;
     private int alignmentStartHapwrtRef;
     private double score = Double.NaN;

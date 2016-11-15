@@ -64,7 +64,7 @@ public final class CheckPileup extends LocusWalker {
     public FeatureInput<SAMPileupFeature> mpileup;
 
     @Argument(fullName = StandardArgumentDefinitions.OUTPUT_LONG_NAME, shortName = StandardArgumentDefinitions.OUTPUT_SHORT_NAME, doc = "Output file (if not provided, defaults to STDOUT).", optional = true)
-    public File outFile = null;
+    public File outFile;
 
     // This is to check for previous versions of samtools without having overlap detection
     @Argument(fullName = "ignore_overlaps", shortName = "ignore_overlaps", doc = "Disable read-pair overlap detection.", optional = true)

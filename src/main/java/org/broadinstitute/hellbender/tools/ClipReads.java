@@ -150,7 +150,7 @@ public final class ClipReads extends ReadWalker {
      * If provided, ClipReads will write summary statistics about the clipping operations applied to the reads in this file.
      */
     @Argument(fullName = "outputStatistics", shortName = "os", doc = "File to output statistics", optional = true)
-    File STATSOUTPUT = null;
+    File STATSOUTPUT;
 
     /**
      * If a value > 0 is provided, then the quality score based read clipper will be applied to the reads using this
@@ -166,20 +166,20 @@ public final class ClipReads extends ReadWalker {
      * and 12.
      */
     @Argument(fullName = "cyclesToTrim", shortName = "CT", doc = "String indicating machine cycles to clip from the reads", optional = true)
-    String cyclesToClipArg = null;
+    String cyclesToClipArg;
 
     /**
      * Reads the sequences in the provided FASTA file, and clip any bases that exactly match any of the
      * sequences in the file.
      */
     @Argument(fullName = "clipSequencesFile", shortName = "XF", doc = "Remove sequences within reads matching the sequences in this FASTA file", optional = true)
-    String clipSequenceFile = null;
+    String clipSequenceFile;
 
     /**
      * Clips bases from the reads matching the provided SEQ.
      */
     @Argument(fullName = "clipSequence", shortName = "X", doc = "Remove sequences within reads matching this sequence", optional = true)
-    List<String> clipSequencesArgs = null;
+    List<String> clipSequencesArgs;
 
     /**
      * The different values for this argument determines how ClipReads applies clips to the reads.  This can range
@@ -189,7 +189,7 @@ public final class ClipReads extends ReadWalker {
     ClippingRepresentation clippingRepresentation = ClippingRepresentation.WRITE_NS;
 
     @Argument(fullName="read", doc="", optional = true)
-    String onlyDoRead = null;
+    String onlyDoRead;
 
     /**
      * List of sequence that should be clipped from the reads
@@ -199,7 +199,7 @@ public final class ClipReads extends ReadWalker {
     /**
      * List of cycle start / stop pairs (0-based, stop is included in the cycle to remove) to clip from the reads
      */
-    private List<Pair<Integer, Integer>> cyclesToClip = null;
+    private List<Pair<Integer, Integer>> cyclesToClip;
 
     /**
      * Output reads is written to this BAM.

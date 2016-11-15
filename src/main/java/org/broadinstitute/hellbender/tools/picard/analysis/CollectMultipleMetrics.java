@@ -105,7 +105,7 @@ public final class CollectMultipleMetrics extends PicardCommandLineProgram {
      * developer can invoke this class programmatically and provide alternative Programs to run by calling
      * setProgramsToRun().
      */
-    private List<ProgramInterface> programsToRun = null;
+    private List<ProgramInterface> programsToRun;
 
     @Override
     protected String[] customCommandLineValidation() {

@@ -62,7 +62,7 @@ public class BaseRecalibratorSpark extends GATKSparkTool {
 
     @Argument(doc = "Path to save the final recalibration tables to.",
             shortName = StandardArgumentDefinitions.OUTPUT_SHORT_NAME, fullName = StandardArgumentDefinitions.OUTPUT_LONG_NAME, optional = false)
-    private String outputTablesPath = null;
+    private String outputTablesPath;
 
     /**
      * all the command line arguments for BQSR and its covariates

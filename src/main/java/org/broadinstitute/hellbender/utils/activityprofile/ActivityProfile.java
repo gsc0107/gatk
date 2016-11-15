@@ -18,8 +18,8 @@ public class ActivityProfile {
     protected final int maxProbPropagationDistance;
     protected final double activeProbThreshold;
 
-    protected SimpleInterval regionStartLoc = null;
-    protected SimpleInterval regionStopLoc = null;
+    protected SimpleInterval regionStartLoc;
+    protected SimpleInterval regionStopLoc;
 
     protected SAMFileHeader samHeader;
 

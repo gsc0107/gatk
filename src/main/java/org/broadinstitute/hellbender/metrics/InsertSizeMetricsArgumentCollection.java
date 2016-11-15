@@ -36,7 +36,7 @@ public class InsertSizeMetricsArgumentCollection extends MetricsArgumentCollecti
 
     @Argument(shortName="W", doc="Explicitly sets the Histogram width, overriding automatic truncation of Histogram tail. " +
             "Also, when calculating mean and standard deviation, only bins <= HISTOGRAM_WIDTH will be included.", optional=true)
-    public Integer histogramWidth = null;
+    public Integer histogramWidth;
 
     @Argument(shortName="M", doc="When generating the Histogram, discard any data categories (out of FR, TANDEM, RF) that have fewer than this " +
             "percentage of overall reads. (Range: 0 to 1).")

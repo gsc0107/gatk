@@ -33,7 +33,7 @@ public final class InsertSizeMetricsCollector
     private static final long serialVersionUID = 1L;
     private static final Logger log = LogManager.getLogger(InsertSizeMetricsCollector.class);
 
-    InsertSizeMetricsArgumentCollection inputArgs = null;
+    InsertSizeMetricsArgumentCollection inputArgs;
 
     public InsertSizeMetricsCollector() {}
 

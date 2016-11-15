@@ -107,7 +107,7 @@ public final class BaseRecalibrator extends ReadWalker {
      * and the raw empirical quality score calculated by phred-scaling the mismatch rate.   Use '/dev/stdout' to print to standard out.
      */
     @Argument(shortName = StandardArgumentDefinitions.OUTPUT_SHORT_NAME, fullName = StandardArgumentDefinitions.OUTPUT_LONG_NAME, doc = "The output recalibration table file to create", optional = false)
-    private File recalTableFile = null;
+    private File recalTableFile;
 
     private BaseRecalibrationEngine recalibrationEngine;
 
@@ -116,7 +116,7 @@ public final class BaseRecalibrator extends ReadWalker {
     /**
      * an object that keeps track of the information necessary for quality score quantization
      */
-    private QuantizationInfo quantizationInfo = null;
+    private QuantizationInfo quantizationInfo;
 
     @Override
     public boolean requiresReference() {

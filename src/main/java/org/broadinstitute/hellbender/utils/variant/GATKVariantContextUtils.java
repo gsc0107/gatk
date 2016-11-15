@@ -1184,8 +1184,8 @@ public final class GATKVariantContextUtils {
     }
 
     protected static class AlleleMapper {
-        private VariantContext vc = null;
-        private Map<Allele, Allele> map = null;
+        private VariantContext vc;
+        private Map<Allele, Allele> map;
         public AlleleMapper(final VariantContext vc)          { this.vc = vc; }
         public AlleleMapper(final Map<Allele, Allele> map)    { this.map = map; }
         public boolean needsRemapping()                 { return this.map != null; }

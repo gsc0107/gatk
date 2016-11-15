@@ -146,7 +146,7 @@ public class ApplyVQSR extends MultiVariantWalker {
     // Command Line Arguments
     /////////////////////////////
     @Argument(fullName="ts_filter_level", shortName="ts_filter_level", doc="The truth sensitivity level at which to start filtering", optional=true)
-    private Double TS_FILTER_LEVEL = null;
+    private Double TS_FILTER_LEVEL;
 
     /**
      *  Filter the input file based on allele-specific recalibration data.  See tool docs for site-level and allele-level filtering details.
@@ -157,7 +157,7 @@ public class ApplyVQSR extends MultiVariantWalker {
 
     @Advanced
     @Argument(fullName="lodCutoff", shortName="lodCutoff", doc="The VQSLOD score below which to start filtering", optional=true)
-    protected Double VQSLOD_CUTOFF = null;
+    protected Double VQSLOD_CUTOFF;
 
     /**
      * For this to work properly, the -ignoreFilter argument should also be applied to the VariantRecalibration command.

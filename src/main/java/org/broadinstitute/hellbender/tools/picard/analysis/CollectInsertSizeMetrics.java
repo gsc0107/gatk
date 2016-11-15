@@ -35,7 +35,7 @@ public final class CollectInsertSizeMetrics extends SinglePassSamProgram {
     // Calculates InsertSizeMetrics for all METRIC_ACCUMULATION_LEVELs provided
     private InsertSizeMetricsCollector insertSizeCollector = new InsertSizeMetricsCollector();
 
-    private ReadFilter insertSizeMetricsReadFilter = null;
+    private ReadFilter insertSizeMetricsReadFilter;
 
     /**
      * Put any custom command-line validation in an override of this method.

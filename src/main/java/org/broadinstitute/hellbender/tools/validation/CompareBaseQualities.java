@@ -28,7 +28,7 @@ public final class CompareBaseQualities extends PicardCommandLineProgram {
     public List<File> samFiles;
 
     @Argument(doc="summary output file", shortName = StandardArgumentDefinitions.OUTPUT_SHORT_NAME, fullName = StandardArgumentDefinitions.OUTPUT_LONG_NAME, optional = true)
-    protected String outputFilename = null;
+    protected String outputFilename;
 
     @Argument(doc="throw error on diff", shortName = "cd", fullName = "throwOnDiff", optional = true)
     protected boolean throwOnDiff = false;

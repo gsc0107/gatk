@@ -32,7 +32,7 @@ public final class ArtificialBAMBuilder {
     int alignmentStart = 1;
     int readLength = 10;
     private final ArrayList<String> samples = new ArrayList<>();
-    private List<GATKRead> createdReads = null;
+    private List<GATKRead> createdReads;
 
     private List<GATKRead> additionalReads = new LinkedList<>();
     private SAMFileHeader header;

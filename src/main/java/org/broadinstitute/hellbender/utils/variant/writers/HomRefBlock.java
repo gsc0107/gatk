@@ -38,7 +38,7 @@ final class HomRefBlock implements Locatable {
     private final int ploidy;
 
     private int end;
-    private int[] minPLs = null;
+    private int[] minPLs;
 
     /**
      * Create a new HomRefBlock

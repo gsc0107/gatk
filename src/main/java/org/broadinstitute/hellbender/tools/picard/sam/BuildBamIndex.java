@@ -37,8 +37,8 @@ public final class BuildBamIndex extends PicardCommandLineProgram {
             doc = "A BAM file or URL to process. Must be sorted in coordinate order.")
     public String INPUT;
 
-    URL inputUrl = null;   // INPUT as URL
-    File inputFile = null; // INPUT as File, if it can't be interpreted as a valid URL
+    URL inputUrl;   // INPUT as URL
+    File inputFile; // INPUT as File, if it can't be interpreted as a valid URL
 
     @Argument(fullName = StandardArgumentDefinitions.OUTPUT_LONG_NAME,
             shortName = StandardArgumentDefinitions.OUTPUT_SHORT_NAME,

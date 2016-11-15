@@ -31,9 +31,9 @@ public final class GVCFWriter implements VariantContextWriter {
 
     /** fields updated on the fly during GVCFWriter operation */
     private int nextAvailableStart = -1;
-    private String contigOfNextAvailableStart = null;
-    private String sampleName = null;
-    private HomRefBlock currentBlock = null;
+    private String contigOfNextAvailableStart;
+    private String sampleName;
+    private HomRefBlock currentBlock;
 
     /**
      * Create a new GVCF writer

@@ -16,8 +16,8 @@ public class ArtificialReadIterator implements Iterator<GATKRead>, Iterable<GATK
     protected int unmappedRemaining = 0;
     protected boolean done = false;
     // the next record
-    protected GATKRead next = null;
-    protected SAMFileHeader header = null;
+    protected GATKRead next;
+    protected SAMFileHeader header;
 
     // the passed in parameters
     protected final int sChr;

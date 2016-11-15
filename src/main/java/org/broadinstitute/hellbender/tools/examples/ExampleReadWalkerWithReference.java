@@ -26,9 +26,9 @@ import java.io.PrintStream;
 public final class ExampleReadWalkerWithReference extends ReadWalker {
 
     @Argument(fullName = StandardArgumentDefinitions.OUTPUT_LONG_NAME, shortName = StandardArgumentDefinitions.OUTPUT_SHORT_NAME, doc = "Output file (if not provided, defaults to STDOUT)", common = false, optional = true)
-    private File OUTPUT_FILE = null;
+    private File OUTPUT_FILE;
 
-    private PrintStream outputStream = null;
+    private PrintStream outputStream;
 
     @Override
     public boolean requiresReference(){

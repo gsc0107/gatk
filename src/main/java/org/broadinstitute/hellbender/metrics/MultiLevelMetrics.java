@@ -14,9 +14,9 @@ public abstract class MultiLevelMetrics extends MetricBase implements Serializab
 
     /** The library to which these metrics apply.  If null, it means that the
      * metrics were accumulated at the sample level. */
-    public String LIBRARY = null;
+    public String LIBRARY;
 
     /** The read group to which these metrics apply.  If null, it means that
      * the metrics were accumulated at the library or sample level.*/
-    public String READ_GROUP = null;
+    public String READ_GROUP;
 }

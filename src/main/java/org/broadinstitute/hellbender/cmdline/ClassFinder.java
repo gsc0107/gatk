@@ -24,7 +24,7 @@ public final class ClassFinder {
     private final ClassLoader loader;
     private Class<?> parentType;
     // If not null, only look for classes in this jar
-    private String jarPath = null;
+    private String jarPath;
 
     private static final Logger log = LogManager.getLogger();
 

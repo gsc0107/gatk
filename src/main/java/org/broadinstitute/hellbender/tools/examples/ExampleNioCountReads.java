@@ -25,10 +25,10 @@ public class ExampleNioCountReads extends SparkCommandLineProgram {
     private static final long serialVersionUID = 1L;
 
     @Argument(fullName = StandardArgumentDefinitions.OUTPUT_LONG_NAME, shortName = StandardArgumentDefinitions.OUTPUT_SHORT_NAME, doc = "Output file (if not provided, defaults to STDOUT)", common = false, optional = true)
-    private File OUTPUT_FILE = null;
+    private File OUTPUT_FILE;
 
     @Argument(fullName = "inputPath", shortName = "P", doc = "Input path (eg. gs://foo/bar.bam)", optional = false)
-    private String path = null;
+    private String path;
 
     // Typically set to number of executors times number of cores per executor.
     @Argument(fullName = "parts", doc = "number of partitions", optional = false)

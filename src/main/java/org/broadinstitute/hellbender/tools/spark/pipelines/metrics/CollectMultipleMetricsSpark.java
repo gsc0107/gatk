@@ -116,7 +116,7 @@ public final class CollectMultipleMetricsSpark extends GATKSparkTool {
      * List of external collectors so that an outside developer can invoke this class programmatically
      * and provide alternative collectors to run by calling setCollectorsToRun().
      */
-    private List<SparkCollectorProvider> externalCollectors = null;
+    private List<SparkCollectorProvider> externalCollectors;
 
     /**
      * Use this method when invoking CollectMultipleMetricsSpark programmatically to run programs other

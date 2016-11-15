@@ -28,15 +28,15 @@ public class ExampleMultiMetricsCollectorSpark
     // This example collector has no actual parameters that are controlled by inputArguments,
     // but this field is retained to illustrate how input arguments flow through a typical
     // collector lifecycle.
-    private ExampleMultiMetricsArgumentCollection inputArgs = null;
+    private ExampleMultiMetricsArgumentCollection inputArgs;
 
     // Container for per-partition metrics
     private ExampleMultiMetricsCollector collector = new ExampleMultiMetricsCollector();
 
     // Container for final aggregate reduced/combined metrics
-    private ExampleMultiMetricsCollector reducedResultMetrics = null;
+    private ExampleMultiMetricsCollector reducedResultMetrics;
 
-    private MetricsFile<ExampleMultiMetrics, Integer> metricsFile = null;
+    private MetricsFile<ExampleMultiMetrics, Integer> metricsFile;
 
     /**
      * Initialize the collector with input arguments.

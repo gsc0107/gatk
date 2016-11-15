@@ -170,13 +170,13 @@ public final class AnalyzeCovariates extends CommandLineProgram {
      * File containing the recalibration tables from the first pass.
      */
     @Argument(shortName=BEFORE_ARG_SHORT_NAME,fullName="beforeReportFile", doc = "file containing the BQSR first-pass report file",optional = true)
-    protected File beforeFile = null;
+    protected File beforeFile;
 
     /**
      * File containing the recalibration tables from the second pass.
      */
     @Argument(shortName=AFTER_ARG_SHORT_NAME, fullName="afterReportFile", doc = "file containing the BQSR second-pass report file",optional = true)
-    protected File afterFile = null;
+    protected File afterFile;
 
     /**
      * If true, it won't show a warning if the last-modification time of the before and after input files suggest that they have been reversed.
@@ -188,13 +188,13 @@ public final class AnalyzeCovariates extends CommandLineProgram {
      * Output report file name.
      */
     @Argument(shortName=PDF_ARG_SHORT_NAME, fullName="plotsReportFile" ,doc = "location of the output report",optional = true)
-    protected File pdfFile = null;
+    protected File pdfFile;
 
     /**
      * Output csv file name.
      */
     @Argument(shortName=CSV_ARG_SHORT_NAME,fullName="intermediateCsvFile" ,doc = "location of the csv intermediate file",optional = true)
-    protected File csvFile = null;
+    protected File csvFile;
 
     /**
      * Enables recalibration of base qualities, intended primarily for use with BaseRecalibrator and ApplyBQSR
@@ -202,7 +202,7 @@ public final class AnalyzeCovariates extends CommandLineProgram {
      * Please be aware that you should only run recalibration with the covariates file created on the same input bam(s).
      */
     @Argument(fullName= StandardArgumentDefinitions.BQSR_TABLE_LONG_NAME, shortName=StandardArgumentDefinitions.BQSR_TABLE_SHORT_NAME, optional=true, doc="Input covariates table file for on-the-fly base quality score recalibration")
-    public File BQSR_RECAL_FILE = null;
+    public File BQSR_RECAL_FILE;
 
     /**
      * Checks inputs and argument values.

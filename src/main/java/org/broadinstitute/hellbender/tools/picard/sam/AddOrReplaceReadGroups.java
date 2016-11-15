@@ -30,11 +30,11 @@ public final class AddOrReplaceReadGroups extends PicardCommandLineProgram {
 
     @Argument(fullName = StandardArgumentDefinitions.INPUT_LONG_NAME, shortName = StandardArgumentDefinitions.INPUT_SHORT_NAME,
          doc = "Input SAM/BAM/CRAM file.")
-    public File INPUT = null;
+    public File INPUT;
 
     @Argument(fullName = StandardArgumentDefinitions.OUTPUT_LONG_NAME, shortName = StandardArgumentDefinitions.OUTPUT_SHORT_NAME,
         doc = "Output SAM/BAM/CRAM file.")
-    public File OUTPUT = null;
+    public File OUTPUT;
 
     @Argument(shortName = StandardArgumentDefinitions.SORT_ORDER_SHORT_NAME, optional = true,
             doc = "Optional sort order to output in. If not supplied output is in the same order as input.")

@@ -58,7 +58,7 @@ public final class CachingIndexedFastaSequenceFile extends IndexedFastaSequenceF
     /** Represents a specific cached sequence, with a specific start and stop, as well as the bases */
     private static class Cache {
         long start = -1, stop = -1;
-        ReferenceSequence seq = null;
+        ReferenceSequence seq;
     }
 
     private final Cache cache = new Cache();

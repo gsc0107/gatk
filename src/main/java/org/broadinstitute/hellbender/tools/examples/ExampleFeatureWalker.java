@@ -27,12 +27,12 @@ import java.io.PrintStream;
 public final class ExampleFeatureWalker extends FeatureWalker<BEDFeature> {
 
     @Argument(fullName = StandardArgumentDefinitions.OUTPUT_LONG_NAME, shortName = StandardArgumentDefinitions.OUTPUT_SHORT_NAME, doc = "Output file (if not provided, defaults to STDOUT)", common = false, optional = true)
-    private File outputFile = null;
+    private File outputFile;
 
     @Argument(fullName="auxiliaryVariants", shortName="av", doc="Auxiliary set of variants", optional=true)
     private FeatureInput<VariantContext> auxiliaryVariants;
 
-    private PrintStream outputStream = null;
+    private PrintStream outputStream;
 
     @Argument(shortName = "F", fullName = "feature_file", doc = "Feature file (eg., VCF or BED file)")
     public File featuresFile;

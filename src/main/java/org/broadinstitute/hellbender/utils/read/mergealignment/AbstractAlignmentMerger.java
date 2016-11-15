@@ -49,7 +49,7 @@ public abstract class AbstractAlignmentMerger {
     private final File unmappedBamFile;
     private final File targetBamFile;
     private final SAMSequenceDictionary sequenceDictionary;
-    private ReferenceSequenceFileWalker refSeq = null;
+    private ReferenceSequenceFileWalker refSeq;
     private final boolean clipAdapters;
     private final boolean bisulfiteSequence;
     private SAMProgramRecord programRecord;
@@ -62,11 +62,11 @@ public abstract class AbstractAlignmentMerger {
     private final Integer read2BasesTrimmed;
     private final List<SamPairUtil.PairOrientation> expectedOrientations;
     private final SAMFileHeader.SortOrder sortOrder;
-    private MultiHitAlignedReadIterator alignedIterator = null;
+    private MultiHitAlignedReadIterator alignedIterator;
     private boolean clipOverlappingReads = true;
     private final PrimaryAlignmentSelectionStrategy primaryAlignmentSelectionStrategy;
-    private boolean keepAlignerProperPairFlags = false;
-    private boolean addMateCigar = false;
+    private boolean keepAlignerProperPairFlags;
+    private boolean addMateCigar;
 
     private final SamRecordFilter alignmentFilter = new SamRecordFilter() {
         @Override

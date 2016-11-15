@@ -28,12 +28,12 @@ import java.io.PrintStream;
 public final class ExampleAssemblyRegionWalker extends AssemblyRegionWalker {
 
     @Argument(fullName = StandardArgumentDefinitions.OUTPUT_LONG_NAME, shortName = StandardArgumentDefinitions.OUTPUT_SHORT_NAME, doc = "Output file (if not provided, defaults to STDOUT)", common = false, optional = true)
-    private File outputFile = null;
+    private File outputFile;
 
     @Argument(fullName="knownVariants", shortName="knownVariants", doc="Known set of variants", optional=true)
     private FeatureInput<VariantContext> knownVariants;
 
-    private PrintStream outputStream = null;
+    private PrintStream outputStream;
 
     @Override
     protected int defaultReadShardSize() { return 5000; }

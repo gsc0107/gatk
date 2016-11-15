@@ -23,9 +23,9 @@ public class ExampleSingleMetricsCollectorSpark
     // This example collector has no actual parameters that are controlled by input arguments, but
     // this field is retained to illustrate how such arguments are passed through a typical collector
     // lifecycle.
-    private ExampleSingleMetricsArgumentCollection args = null;
+    private ExampleSingleMetricsArgumentCollection args;
 
-    private MetricsFile<ExampleSingleMetrics, Integer> metricsFile = null;
+    private MetricsFile<ExampleSingleMetrics, Integer> metricsFile;
 
     /**
      * Initialize the collector with input arguments;

@@ -71,7 +71,7 @@ public class BaseRecalibratorSparkSharded extends SparkCommandLineProgram {
     // output can be local or GCS.
     @Argument(doc = "Path to save the final recalibration tables to.",
               shortName = StandardArgumentDefinitions.OUTPUT_SHORT_NAME, fullName = StandardArgumentDefinitions.OUTPUT_LONG_NAME, optional = false)
-    private String outputTablesPath = null;
+    private String outputTablesPath;
 
 
     private AuthHolder auth;

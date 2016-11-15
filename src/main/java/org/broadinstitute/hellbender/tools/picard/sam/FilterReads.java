@@ -58,7 +58,7 @@ public final class FilterReads extends PicardCommandLineProgram {
     public File INPUT;
 
     @Argument(doc = "Filter.", optional = false)
-    public Filter FILTER = null;
+    public Filter FILTER;
 
     @Argument(doc = "Read List File containing reads that will be included or excluded from the OUTPUT SAM/BAM/CRAM file.",
             optional = true,

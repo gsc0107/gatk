@@ -26,11 +26,11 @@ public class InsertSizeMetricsCollectorSpark
 {
     private static final long serialVersionUID = 1L;
 
-    private InsertSizeMetricsArgumentCollection inputArgs = null;
+    private InsertSizeMetricsArgumentCollection inputArgs;
     private InsertSizeMetricsCollector collector = new InsertSizeMetricsCollector();
 
-    private InsertSizeMetricsCollector resultMetrics = null;
-    private MetricsFile<InsertSizeMetrics, Integer> metricsFile = null;
+    private InsertSizeMetricsCollector resultMetrics;
+    private MetricsFile<InsertSizeMetrics, Integer> metricsFile;
 
     /**
      * Initialize the collector with input arguments;

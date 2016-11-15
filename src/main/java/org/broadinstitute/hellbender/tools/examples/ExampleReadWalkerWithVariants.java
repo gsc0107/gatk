@@ -37,7 +37,7 @@ public final class ExampleReadWalkerWithVariants extends ReadWalker {
     @Argument(fullName = "groupVariantsBySource", shortName = "groupVariantsBySource", doc = "If true, group overlapping variants by their source when outputting them", optional = true)
     private boolean groupVariantsBySource = false;
 
-    private PrintStream outputStream = null;
+    private PrintStream outputStream;
 
     @Override
     public void onTraversalStart() {
