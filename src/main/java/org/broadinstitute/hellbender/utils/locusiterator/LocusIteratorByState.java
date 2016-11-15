@@ -270,7 +270,7 @@ public final class LocusIteratorByState implements Iterable<AlignmentContext>, I
         if (!hasNext()) {
             throw new NoSuchElementException("LocusIteratorByState: out of elements.");
         }
-        AlignmentContext currentAlignmentContext = nextAlignmentContext;
+        final AlignmentContext currentAlignmentContext = nextAlignmentContext;
         nextAlignmentContext = null;
         return currentAlignmentContext;
     }

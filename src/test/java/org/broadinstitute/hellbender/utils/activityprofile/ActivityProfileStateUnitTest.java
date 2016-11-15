@@ -46,7 +46,7 @@ public final class ActivityProfileStateUnitTest {
     }
 
     @Test(dataProvider = "ActiveProfileResultProvider")
-    public void testActiveProfileResultProvider(SimpleInterval loc, final double prob, ActivityProfileState.Type maybeState, final Number maybeNumber) {
+    public void testActiveProfileResultProvider(final SimpleInterval loc, final double prob, final ActivityProfileState.Type maybeState, final Number maybeNumber) {
         final ActivityProfileState apr = maybeState == null
                 ? new ActivityProfileState(loc, prob)
                 : new ActivityProfileState(loc, prob, maybeState, maybeNumber);

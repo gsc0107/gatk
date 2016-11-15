@@ -19,7 +19,7 @@ public final class FeatureSupportIntegrationTest extends CommandLineProgramTest 
 
     @Test
     public void testFeatureSupportUsingVCF() throws IOException {
-        IntegrationTestSpec testSpec = new IntegrationTestSpec(
+        final IntegrationTestSpec testSpec = new IntegrationTestSpec(
                 " -R " + hg19MiniReference +
                 " -I " + FEATURE_INTEGRATION_TEST_DIRECTORY + "reads_data_source_test1.bam" +
                 " -V " + "TestFeatures:" + FEATURE_INTEGRATION_TEST_DIRECTORY + "feature_data_source_test.vcf" +
@@ -32,7 +32,7 @@ public final class FeatureSupportIntegrationTest extends CommandLineProgramTest 
 
     @Test
     public void testFeaturesAsIntervals() throws IOException {
-        IntegrationTestSpec testSpec = new IntegrationTestSpec(
+        final IntegrationTestSpec testSpec = new IntegrationTestSpec(
                 " -R " + hg19MiniReference +
                 " -I " + FEATURE_INTEGRATION_TEST_DIRECTORY + "reads_data_source_test1.bam" +
                 " -L " + publicTestDir + "org/broadinstitute/hellbender/utils/interval/intervals_from_features_test.vcf" +
@@ -44,7 +44,7 @@ public final class FeatureSupportIntegrationTest extends CommandLineProgramTest 
 
     @Test
     public void testFeaturesAsIntervalsWithExclusion() throws IOException {
-        IntegrationTestSpec testSpec = new IntegrationTestSpec(
+        final IntegrationTestSpec testSpec = new IntegrationTestSpec(
                 " -R " + hg19MiniReference +
                 " -I " + FEATURE_INTEGRATION_TEST_DIRECTORY + "reads_data_source_test1.bam" +
                 " -L " + publicTestDir + "org/broadinstitute/hellbender/utils/interval/intervals_from_features_test.vcf" +
@@ -58,7 +58,7 @@ public final class FeatureSupportIntegrationTest extends CommandLineProgramTest 
     @Test
     public void testFeaturesAsIntervalsNonExistentFile() throws IOException {
         // Non-existent files should be interpreted as interval strings and fail interval parsing
-        IntegrationTestSpec testSpec = new IntegrationTestSpec(
+        final IntegrationTestSpec testSpec = new IntegrationTestSpec(
                 " -R " + hg19MiniReference +
                 " -I " + FEATURE_INTEGRATION_TEST_DIRECTORY + "reads_data_source_test1.bam" +
                 " -L " + publicTestDir + "non_existent_file.vcf" +
@@ -71,7 +71,7 @@ public final class FeatureSupportIntegrationTest extends CommandLineProgramTest 
 
     @Test
     public void testFeaturesAsIntervalsUnrecognizedFormatFile() throws IOException {
-        IntegrationTestSpec testSpec = new IntegrationTestSpec(
+        final IntegrationTestSpec testSpec = new IntegrationTestSpec(
                 " -R " + hg19MiniReference +
                 " -I " + FEATURE_INTEGRATION_TEST_DIRECTORY + "reads_data_source_test1.bam" +
                 " -L " + publicTestDir + "org/broadinstitute/hellbender/utils/interval/unrecognized_format_file.xyz" +

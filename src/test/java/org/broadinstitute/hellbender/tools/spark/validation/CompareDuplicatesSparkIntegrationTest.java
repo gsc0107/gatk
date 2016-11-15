@@ -38,10 +38,10 @@ public class CompareDuplicatesSparkIntegrationTest extends CommandLineProgramTes
     }
 
     @Test(dataProvider = "CompareIdenticalDuplicatesProvider", groups = "spark")
-    public void identicalBamTest(File firstBam, File secondBam) throws Exception {
+    public void identicalBamTest(final File firstBam, final File secondBam) throws Exception {
         // These files are the same and should produce no diffs.
 
-        ArgumentsBuilder args = new ArgumentsBuilder();
+        final ArgumentsBuilder args = new ArgumentsBuilder();
         args.add("--" + StandardArgumentDefinitions.INPUT_LONG_NAME);
         args.add(firstBam.getCanonicalPath());
         args.add("--" + "I2");
@@ -53,9 +53,9 @@ public class CompareDuplicatesSparkIntegrationTest extends CommandLineProgramTes
     }
 
     @Test(dataProvider = "CompareDifferentDuplicatesProvider", expectedExceptions = UserException.class, groups = "spark")
-    public void differentBamTest(File firstBam, File secondBam) throws Exception {
+    public void differentBamTest(final File firstBam, final File secondBam) throws Exception {
         // These files are the same and should produce no diffs.
-        ArgumentsBuilder args = new ArgumentsBuilder();
+        final ArgumentsBuilder args = new ArgumentsBuilder();
         args.add("--" + StandardArgumentDefinitions.INPUT_LONG_NAME);
         args.add(firstBam.getCanonicalPath());
         args.add("--" + "I2");

@@ -39,7 +39,7 @@ public final class AlignmentUtilsUnitTest {
         readUnknownContig.setPosition("unknownContig", 3);
     }
 
-    private GATKRead createMappedRead(String name, int start) {
+    private GATKRead createMappedRead(final String name, final int start) {
         return ArtificialReadUtils.createArtificialRead(
                 header,
                 name,
@@ -86,7 +86,7 @@ public final class AlignmentUtilsUnitTest {
 
     @DataProvider(name = "ReadAlignedToRefData")
     public Object[][] makeReadAlignedToRefData() {
-        List<Object[]> tests = new ArrayList<>();
+        final List<Object[]> tests = new ArrayList<>();
 
         final String hapBases = "ACTGAAGGTTCC";
         final Haplotype allM = makeHaplotypeForAlignedToRefTest(hapBases, hapBases.length() + "M");
@@ -173,7 +173,7 @@ public final class AlignmentUtilsUnitTest {
         int pos, len;
         CigarOperator operator;
 
-        private Mutation(int pos, int len, CigarOperator operator) {
+        private Mutation(final int pos, final int len, final CigarOperator operator) {
             this.pos = pos;
             this.len = len;
             this.operator = operator;
@@ -181,7 +181,7 @@ public final class AlignmentUtilsUnitTest {
         public int getNMismatches() { return len; }
 
         @Override
-        public int compareTo(Mutation o) {
+        public int compareTo(final Mutation o) {
             return Integer.valueOf(pos).compareTo(o.pos);
         }
 
@@ -210,7 +210,7 @@ public final class AlignmentUtilsUnitTest {
         int numMismatches;
         String seq;
 
-        private MutatedSequence(int numMismatches, String seq) {
+        private MutatedSequence(final int numMismatches, final String seq) {
             this.numMismatches = numMismatches;
             this.seq = seq;
         }
@@ -229,7 +229,7 @@ public final class AlignmentUtilsUnitTest {
 
     @DataProvider(name = "ComplexReadAlignedToRef")
     public Object[][] makeComplexReadAlignedToRef() {
-        List<Object[]> tests = new ArrayList<>();
+        final List<Object[]> tests = new ArrayList<>();
 
         final List<Mutation> allMutations = Arrays.asList(
                 new Mutation(1, 1, CigarOperator.M),
@@ -280,7 +280,7 @@ public final class AlignmentUtilsUnitTest {
 
     @DataProvider(name = "CalcNumDifferentBasesData")
     public Object[][] makeCalcNumDifferentBasesData() {
-        List<Object[]> tests = new ArrayList<>();
+        final List<Object[]> tests = new ArrayList<>();
 
         tests.add(new Object[]{"5M", "ACGTA", "ACGTA", 0});
         tests.add(new Object[]{"5M", "ACGTA", "ACGTT", 1});
@@ -307,7 +307,7 @@ public final class AlignmentUtilsUnitTest {
 
     @DataProvider(name = "NumAlignedBasesCountingSoftClips")
     public Object[][] makeNumAlignedBasesCountingSoftClips() {
-        List<Object[]> tests = new ArrayList<>();
+        final List<Object[]> tests = new ArrayList<>();
 
         final EnumSet<CigarOperator> alignedToGenome = EnumSet.of(CigarOperator.M, CigarOperator.EQ, CigarOperator.X, CigarOperator.S);
         for ( final List<CigarElement> elements : makeCigarElementCombinations() ) {
@@ -330,7 +330,7 @@ public final class AlignmentUtilsUnitTest {
 
     @DataProvider(name = "CigarHasZeroElement")
     public Object[][] makeCigarHasZeroElement() {
-        List<Object[]> tests = new ArrayList<>();
+        final List<Object[]> tests = new ArrayList<>();
 
         for ( final List<CigarElement> elements : makeCigarElementCombinations() ) {
             boolean hasZero = false;
@@ -348,7 +348,7 @@ public final class AlignmentUtilsUnitTest {
 
     @DataProvider(name = "NumHardClipped")
     public Object[][] makeNumHardClipped() {
-        List<Object[]> tests = new ArrayList<>();
+        final List<Object[]> tests = new ArrayList<>();
 
         for ( final List<CigarElement> elements : makeCigarElementCombinations() ) {
             int n = 0;
@@ -370,7 +370,7 @@ public final class AlignmentUtilsUnitTest {
 
     @DataProvider(name = "NumAlignedBlocks")
     public Object[][] makeNumAlignedBlocks() {
-        List<Object[]> tests = new ArrayList<>();
+        final List<Object[]> tests = new ArrayList<>();
 
         for ( final List<CigarElement> elements : makeCigarElementCombinations() ) {
             int n = 0;
@@ -397,7 +397,7 @@ public final class AlignmentUtilsUnitTest {
 
     @DataProvider(name = "ConsolidateCigarData")
     public Object[][] makeConsolidateCigarData() {
-        List<Object[]> tests = new ArrayList<>();
+        final List<Object[]> tests = new ArrayList<>();
 
         // this functionality can be adapted to provide input data for whatever you might want in your data
         tests.add(new Object[]{"1M1M", "2M"});
@@ -440,7 +440,7 @@ public final class AlignmentUtilsUnitTest {
 
     @DataProvider(name = "SoftClipsDataProvider")
     public Object[][] makeSoftClipsDataProvider() {
-        List<Object[]> tests = new ArrayList<>();
+        final List<Object[]> tests = new ArrayList<>();
 
         // this functionality can be adapted to provide input data for whatever you might want in your data
         for ( final int lengthOfLeftClip : Arrays.asList(0, 1, 10) ) {
@@ -499,7 +499,7 @@ public final class AlignmentUtilsUnitTest {
 
     @DataProvider(name = "MismatchCountDataProvider")
     public Object[][] makeMismatchCountDataProvider() {
-        List<Object[]> tests = new ArrayList<>();
+        final List<Object[]> tests = new ArrayList<>();
 
         final int readLength = 20;
         final int lengthOfIndel = 2;
@@ -548,7 +548,7 @@ public final class AlignmentUtilsUnitTest {
 
         // Adding test to make sure soft-clipped reads go through the exceptions thrown at the beginning of the getMismatchCount method
         // todo: incorporate cigars with right-tail soft-clips in the systematic tests above.
-        GATKRead read = ArtificialReadUtils.createArtificialRead(header, "myRead", 0, 10, 20);
+        final GATKRead read = ArtificialReadUtils.createArtificialRead(header, "myRead", 0, 10, 20);
         read.setBases(reference);
         read.setBaseQualities(quals);
         read.setCigar("10S5M5S");
@@ -600,7 +600,7 @@ public final class AlignmentUtilsUnitTest {
 
     @DataProvider(name = "AlignmentByteArrayOffsetDataProvider")
     public Object[][] makeAlignmentByteArrayOffsetDataProvider() {
-        List<Object[]> tests = new ArrayList<>();
+        final List<Object[]> tests = new ArrayList<>();
 
         final int readLength = 20;
         final int lengthOfIndel = 2;
@@ -676,7 +676,7 @@ public final class AlignmentUtilsUnitTest {
 
     @DataProvider(name = "ReadToAlignmentByteArrayDataProvider")
     public Object[][] makeReadToAlignmentByteArrayDataProvider() {
-        List<Object[]> tests = new ArrayList<>();
+        final List<Object[]> tests = new ArrayList<>();
 
         final int readLength = 20;
         final int lengthOfIndel = 2;
@@ -729,7 +729,7 @@ public final class AlignmentUtilsUnitTest {
 
     @DataProvider(name = "LeftAlignIndelDataProvider")
     public Object[][] makeLeftAlignIndelDataProvider() {
-        List<Object[]> tests = new ArrayList<>();
+        final List<Object[]> tests = new ArrayList<>();
 
         final byte[] repeat1Reference = "ABCDEFGHIJKLMNOPXXXXXXXXXXABCDEFGHIJKLMNOP".getBytes();
         final byte[] repeat2Reference = "ABCDEFGHIJKLMNOPXYXYXYXYXYABCDEFGHIJKLMNOP".getBytes();
@@ -847,7 +847,7 @@ public final class AlignmentUtilsUnitTest {
 
     @DataProvider(name = "TrimCigarData")
     public Object[][] makeTrimCigarData() {
-        List<Object[]> tests = new ArrayList<>();
+        final List<Object[]> tests = new ArrayList<>();
 
         for ( final CigarOperator op : Arrays.asList(CigarOperator.D, CigarOperator.EQ, CigarOperator.X, CigarOperator.M) ) {
             for ( int myLength = 1; myLength < 6; myLength++ ) {
@@ -929,7 +929,7 @@ public final class AlignmentUtilsUnitTest {
 
     @DataProvider(name = "TrimCigarByBasesData")
     public Object[][] makeTrimCigarByBasesData() {
-        List<Object[]> tests = new ArrayList<>();
+        final List<Object[]> tests = new ArrayList<>();
 
         tests.add(new Object[]{"2M3I4M", 0, 8, "2M3I4M"});
         tests.add(new Object[]{"2M3I4M", 1, 8, "1M3I4M"});
@@ -968,7 +968,7 @@ public final class AlignmentUtilsUnitTest {
 
     @DataProvider(name = "ApplyCigarToCigarData")
     public Object[][] makeApplyCigarToCigarData() {
-        List<Object[]> tests = new ArrayList<>();
+        final List<Object[]> tests = new ArrayList<>();
 
         for ( int i = 1; i < 5; i++ )
             tests.add(new Object[]{i + "M", i + "M", i + "M"});
@@ -1021,7 +1021,7 @@ public final class AlignmentUtilsUnitTest {
 
     @DataProvider(name = "ReadOffsetFromCigarData")
     public Object[][] makeReadOffsetFromCigarData() {
-        List<Object[]> tests = new ArrayList<>();
+        final List<Object[]> tests = new ArrayList<>();
 
         final int SIZE = 10;
         for ( int i = 0; i < SIZE; i++ ) {
@@ -1075,7 +1075,7 @@ public final class AlignmentUtilsUnitTest {
 
     @DataProvider(name = "AddCigarElementsData")
     public Object[][] makeAddCigarElementsData() {
-        List<Object[]> tests = new ArrayList<>();
+        final List<Object[]> tests = new ArrayList<>();
 
         final int SIZE = 10;
         for ( final CigarOperator op : Arrays.asList(CigarOperator.I, CigarOperator.M, CigarOperator.S, CigarOperator.EQ, CigarOperator.X)) {
@@ -1108,7 +1108,7 @@ public final class AlignmentUtilsUnitTest {
 
     @DataProvider(name = "GetBasesCoveringRefIntervalData")
     public Object[][] makeGetBasesCoveringRefIntervalData() {
-        List<Object[]> tests = new ArrayList<>();
+        final List<Object[]> tests = new ArrayList<>();
 
         // matches
         // 0123
@@ -1164,7 +1164,7 @@ public final class AlignmentUtilsUnitTest {
 
     @DataProvider(name = "StartsOrEndsWithInsertionOrDeletionData")
     public Object[][] makeStartsOrEndsWithInsertionOrDeletionData() {
-        List<Object[]> tests = new ArrayList<>();
+        final List<Object[]> tests = new ArrayList<>();
 
         tests.add(new Object[]{"2M", false});
         tests.add(new Object[]{"1D2M", true});

@@ -126,13 +126,13 @@ public final class Pileup extends LocusWalker {
     public void onTraversalStart() {
         try {
             out = new PrintStream(outFile);
-        } catch (FileNotFoundException e) {
+        } catch (final FileNotFoundException e) {
             throw new UserException.CouldNotCreateOutputFile(outFile, e);
         }
     }
 
     @Override
-    public void apply(AlignmentContext alignmentContext, ReferenceContext referenceContext, FeatureContext featureContext) {
+    public void apply(final AlignmentContext alignmentContext, final ReferenceContext referenceContext, final FeatureContext featureContext) {
         final String features = getFeaturesString(featureContext);
         final ReadPileup basePileup = alignmentContext.getBasePileup();
         final StringBuilder s = new StringBuilder();

@@ -9,18 +9,18 @@ import java.io.IOException;
  * instead of potentially triggering early.
  */
 public abstract class HardThresholdingOutputStream extends ThresholdingOutputStream {
-    protected HardThresholdingOutputStream(int threshold) {
+    protected HardThresholdingOutputStream(final int threshold) {
         super(threshold);
     }
 
     @Override
-    public void write(byte[] b) throws IOException {
+    public void write(final byte[] b) throws IOException {
         write(b, 0, b.length);
     }
 
     @Override
-    public void write(byte[] b, int off, int len) throws IOException {
-        int remaining = this.getThreshold() - (int)this.getByteCount();
+    public void write(final byte[] b, final int off, final int len) throws IOException {
+        final int remaining = this.getThreshold() - (int)this.getByteCount();
         if (!isThresholdExceeded() && len > remaining) {
             super.write(b, off, remaining);
             super.write(b, off + remaining, len - remaining);

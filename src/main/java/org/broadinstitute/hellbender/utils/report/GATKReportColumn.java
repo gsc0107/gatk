@@ -76,7 +76,7 @@ public final class GATKReportColumn {
      * @return The string representation of the column
      */
     private String formatValue(final Object obj) {
-        String value;
+        final String value;
         if (obj == null) {
             value = "null";
         }

@@ -23,20 +23,20 @@ public final class InbreedingCoeffUnitTest {
     private final int[] hetPLs = {240, 0, 240};
     private final int[] homRefPLs = {0, 60, 600};
 
-    private Genotype makeG(String sample, Allele a1, Allele a2, int... pls) {
+    private Genotype makeG(final String sample, final Allele a1, final Allele a2, final int... pls) {
         return new GenotypeBuilder(sample, Arrays.asList(a1, a2)).PL(pls).make();
     }
 
-    private VariantContext makeVC(String source, List<Allele> alleles, Genotype... genotypes) {
-        int start = 10;
-        int stop = start; // alleles.contains(ATC) ? start + 3 : start;
+    private VariantContext makeVC(final String source, final List<Allele> alleles, final Genotype... genotypes) {
+        final int start = 10;
+        final int stop = start; // alleles.contains(ATC) ? start + 3 : start;
         return new VariantContextBuilder(source, "1", start, stop, alleles).genotypes(Arrays.asList(genotypes)).filters((Set<String>) null).make();
     }
 
     @Test
     public void testInbreedingCoeffForMultiallelicVC() {
         //make sure that compound hets (with no ref) don't add to het count
-        VariantContext test1 = makeVC("1", Arrays.asList(Aref, T, C),
+        final VariantContext test1 = makeVC("1", Arrays.asList(Aref, T, C),
                 makeG("s1",Aref,T,2530,0,7099,366,3056,14931),
                 makeG("s2",T,T,7099,2530,0,7099,366,3056,14931),
                 makeG("s3",T,C,7099,2530,7099,3056,0,14931),
@@ -55,7 +55,7 @@ public final class InbreedingCoeffUnitTest {
         Assert.assertEquals(ICresult1, -0.3333333, DELTA_PRECISION, "Pass");
 
         //make sure that hets with different alternate alleles all get counted
-        VariantContext test2 = makeVC("2", Arrays.asList(Aref, T, C),
+        final VariantContext test2 = makeVC("2", Arrays.asList(Aref, T, C),
             makeG("s1",Aref,C,4878,1623,11297,0,7970,8847),
             makeG("s2",Aref,T,2530,0,7099,366,3056,14931),
             makeG("s3",Aref,T,3382,0,6364,1817,5867,12246),
@@ -89,7 +89,7 @@ public final class InbreedingCoeffUnitTest {
     @Test
     public void testInbreedingCoeffForMultiallelicVC_AS() {
         //make sure that compound gets (with no ref) don't add to het count
-        VariantContext test1 = makeVC("1", Arrays.asList(Aref,T,C),
+        final VariantContext test1 = makeVC("1", Arrays.asList(Aref,T,C),
                 makeG("s1", Aref, T, 2530, 0, 7099, 366, 3056, 14931),
                 makeG("s2", T, T, 7099, 2530, 0, 7099, 366, 3056),
                 makeG("s3", T, C, 7099, 2530, 7099, 3056, 0, 14931),
@@ -108,7 +108,7 @@ public final class InbreedingCoeffUnitTest {
         Assert.assertEquals(ICresult1b, -0.05263, DELTA_PRECISION, "Pass");
 
         //make sure that hets with different alternate alleles all get counted
-        VariantContext test2 = makeVC("2", Arrays.asList(Aref,T,C),
+        final VariantContext test2 = makeVC("2", Arrays.asList(Aref,T,C),
                 makeG("s1", Aref, C, 4878, 1623, 11297, 0, 7970, 8847),
                 makeG("s2", Aref, T, 2530, 0, 7099, 366, 3056, 14931),
                 makeG("s3", Aref, T, 3382, 0, 6364, 1817, 5867, 12246),
@@ -148,7 +148,7 @@ public final class InbreedingCoeffUnitTest {
     @Test
     public void testInbreedingCoeffForMultiallelicVC_usingFounders() {
         //make sure that compound hets (with no ref) don't add to het count
-        VariantContext vc = makeVC("1", Arrays.asList(Aref, T, C),
+        final VariantContext vc = makeVC("1", Arrays.asList(Aref, T, C),
                 makeG("s1", Aref, T, 2530, 0, 7099, 366, 3056, 14931),
                 makeG("s2", T, T, 7099, 2530, 0, 7099, 366, 3056, 14931),
                 makeG("s3", T, C, 7099, 2530, 7099, 3056, 0, 14931),
@@ -183,7 +183,7 @@ public final class InbreedingCoeffUnitTest {
     @Test
     public void testInbreedingCoeffForMultiallelicVC_refAltFlip() {
         //make sure that compound hets (with no ref) don't add to het count
-        VariantContext test1 = makeVC("1", Arrays.asList(Aref, T, C),
+        final VariantContext test1 = makeVC("1", Arrays.asList(Aref, T, C),
                 makeG("s1", Aref, T, 2530, 0, 7099, 366, 3056, 14931),
                 makeG("s2", T, T, 7099, 2530, 0, 7099, 366, 3056, 14931),
                 makeG("s3", T, C, 7099, 2530, 7099, 3056, 0, 14931),
@@ -212,7 +212,7 @@ public final class InbreedingCoeffUnitTest {
         }
 
         allGTs.add(makeG("het0", Aref, T, hetPLs));
-        int numHetGTs = 1;
+        final int numHetGTs = 1;
 
         final VariantContext singleton = makeVC("singleton", Arrays.asList(Aref, T), allGTs.toArray(new Genotype[allGTs.size()]));
         final Pair<Integer, Double> p1 = new InbreedingCoeff().calculateIC(singleton, singleton.getGenotypes());
@@ -245,7 +245,7 @@ public final class InbreedingCoeffUnitTest {
         for ( int i = 0; i < numHomRefGTs; i++ )
             allGTs.add(makeG("ref" + i, Aref, Aref, homRefPLs));
 
-        int numHetGTs = 1;
+        final int numHetGTs = 1;
 
         final VariantContext singleton = makeVC("singleton", Arrays.asList(Aref, T), allGTs.toArray(new Genotype[allGTs.size()]));
 
@@ -273,7 +273,7 @@ public final class InbreedingCoeffUnitTest {
         }
 
         allGTs.add(makeG("het0", T, Aref, hetPLs));
-        int numHetGTs = 1;
+        final int numHetGTs = 1;
 
         final VariantContext singleton = makeVC("singleton", Arrays.asList(T, Aref), allGTs.toArray(new Genotype[allGTs.size()]));
         final Pair<Integer, Double> p1 = new InbreedingCoeff().calculateIC(singleton, singleton.getGenotypes());
@@ -413,7 +413,7 @@ public final class InbreedingCoeffUnitTest {
         singletonGTs.add(makeG("het0", Aref, T, hetPLs));
 
         final VariantContext singleton = makeVC("singleton", Arrays.asList(Aref, T), singletonGTs.toArray(new Genotype[singletonGTs.size()]));
-        AS_InbreedingCoeff testClass = new AS_InbreedingCoeff();
+        final AS_InbreedingCoeff testClass = new AS_InbreedingCoeff();
         final double ICsingleton = testClass.calculateIC(singleton, T);
 
         final List<Genotype> allHetGTs = new ArrayList<>();

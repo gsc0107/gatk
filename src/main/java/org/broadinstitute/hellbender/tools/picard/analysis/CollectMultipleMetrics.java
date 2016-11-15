@@ -118,7 +118,7 @@ public final class CollectMultipleMetrics extends PicardCommandLineProgram {
      * Use this method when invoking CollectMultipleMetrics programmatically to run programs other than the ones
      * available via enum.  This must be called before doWork().
      */
-    public void setProgramsToRun(List<ProgramInterface> programsToRun) {
+    public void setProgramsToRun(final List<ProgramInterface> programsToRun) {
         this.programsToRun = programsToRun;
     }
 
@@ -129,8 +129,8 @@ public final class CollectMultipleMetrics extends PicardCommandLineProgram {
         }
 
         final List<SinglePassSamProgram> programs = new ArrayList<>();
-        for (ProgramInterface program : new HashSet<>(programsToRun)) {
-            SinglePassSamProgram instance = program.makeInstance(OUTPUT);
+        for (final ProgramInterface program : new HashSet<>(programsToRun)) {
+            final SinglePassSamProgram instance = program.makeInstance(OUTPUT);
 
             // Generally programs should not be accessing these directly but it might make things smoother
             // to just set them anyway

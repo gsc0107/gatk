@@ -45,7 +45,7 @@ public class SVFastqUtils {
     public static void writeFastqFile(
             final String fileName,
             final PipelineOptions pipelineOptions,
-            List<byte[]> fastqRecordList ) {
+            final List<byte[]> fastqRecordList ) {
         try ( final OutputStream writer =
                       new BufferedOutputStream(BucketUtils.createFile(fileName, pipelineOptions)) ) {
             for ( final byte[] fastqRecord : fastqRecordList ) {

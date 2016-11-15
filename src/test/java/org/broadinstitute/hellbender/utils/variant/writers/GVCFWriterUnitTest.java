@@ -37,7 +37,7 @@ public class GVCFWriterUnitTest extends BaseTest {
         boolean error = false;
 
         @Override
-        public void writeHeader(VCFHeader header) {
+        public void writeHeader(final VCFHeader header) {
             headerWritten = true;
         }
 
@@ -52,7 +52,7 @@ public class GVCFWriterUnitTest extends BaseTest {
         }
 
         @Override
-        public void add(VariantContext vc) {
+        public void add(final VariantContext vc) {
             emitted.add(vc);
         }
     }
@@ -80,11 +80,11 @@ public class GVCFWriterUnitTest extends BaseTest {
         Assert.assertTrue(mockWriter.closed);
     }
 
-    public static VariantContext makeHomRef(int start) {
+    public static VariantContext makeHomRef(final int start) {
         return makeHomRef(start, 0);
     }
 
-    public static VariantContext makeHomRef(int start, int GQ) {
+    public static VariantContext makeHomRef(final int start, final int GQ) {
         return makeHomRef(CHR1, start, GQ);
     }
 
@@ -111,7 +111,7 @@ public class GVCFWriterUnitTest extends BaseTest {
         return makeVariantContext(vcb, Arrays.asList(vc.getReference(), vc.getAlternateAllele(0)), 50);
     }
 
-    private static VariantContext makeVariantContext(VariantContextBuilder vcb, List<Allele> alleles, int gq) {
+    private static VariantContext makeVariantContext(final VariantContextBuilder vcb, final List<Allele> alleles, final int gq) {
         final GenotypeBuilder gb = new GenotypeBuilder(SAMPLE_NAME, alleles);
         gb.GQ(gq);
         gb.DP(10);
@@ -349,7 +349,7 @@ public class GVCFWriterUnitTest extends BaseTest {
     }
 
     @Test(dataProvider = "GoodBandPartitionData")
-    public void testGoodPartitions(final List<Integer> partitions, List<Range<Integer>> expected) {
+    public void testGoodPartitions(final List<Integer> partitions, final List<Range<Integer>> expected) {
         final RangeMap<Integer, Range<Integer>> ranges = GVCFWriter.parsePartitions(partitions);
         Assert.assertEquals(new ArrayList<>(ranges.asMapOfRanges().keySet()), expected);
 
@@ -412,14 +412,14 @@ public class GVCFWriterUnitTest extends BaseTest {
         public final SimpleInterval location;
         public final int gq;
 
-        public MinimalData(String chr, int start, int end, int gq) {
+        public MinimalData(final String chr, final int start, final int end, final int gq) {
             this.location = new SimpleInterval(chr, start, end);
             this.gq = gq;
         }
     }
 
     @Test(dataProvider = "toWriteToDisk")
-    public void writeGVCFToDisk(List<VariantContext> variants, List<MinimalData> expected) {
+    public void writeGVCFToDisk(final List<VariantContext> variants, final List<MinimalData> expected) {
         final List<Integer> gqPartitions = Arrays.asList(1, 10, 30);
         final File outputFile =  createTempFile("generated", ".gvcf");
 
@@ -456,7 +456,7 @@ public class GVCFWriterUnitTest extends BaseTest {
         return new VCFHeader(headerlines, Collections.singleton(SAMPLE_NAME));
     }
 
-    private static void assertGVCFIsParseableAndVariantsMatch(File variantFile, List<MinimalData> expected) {
+    private static void assertGVCFIsParseableAndVariantsMatch(final File variantFile, final List<MinimalData> expected) {
         Assert.assertTrue(variantFile.exists());
         try ( FeatureDataSource<VariantContext> input = new FeatureDataSource<>(variantFile))
         {
@@ -471,7 +471,7 @@ public class GVCFWriterUnitTest extends BaseTest {
      * assert that actual and expected have the same length l and
      * assert that assertion(actual[i], expected[i]) is true for every 0 <= i < l
      */
-    public static <A, B> void assertForEachPair(Iterable<A> actual, Iterable<B> expected, BiPredicate<A,B> assertion){
+    public static <A, B> void assertForEachPair(final Iterable<A> actual, final Iterable<B> expected, final BiPredicate<A,B> assertion){
         final Iterator<A> iteratorActual = actual.iterator();
         final Iterator<B> iteratorExpected = expected.iterator();
         while( iteratorActual.hasNext() && iteratorExpected.hasNext()){

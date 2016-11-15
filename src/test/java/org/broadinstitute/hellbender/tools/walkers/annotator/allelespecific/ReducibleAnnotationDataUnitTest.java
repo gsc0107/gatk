@@ -14,7 +14,7 @@ public final class ReducibleAnnotationDataUnitTest extends BaseTest {
     public void testCreate() throws Exception {
         final Allele Aref= Allele.create("A", true);
         final Allele T= Allele.create("T", false);
-        String rawData= "1|2";
+        final String rawData= "1|2";
         final ReducibleAnnotationData<Integer> asad = new ReducibleAnnotationData<>(rawData);
         Assert.assertEquals(asad.getAlleles(), Arrays.asList(Allele.NO_CALL));
         Assert.assertNull(asad.getAttribute(Aref));

@@ -51,34 +51,34 @@ public class ReferenceMemorySourceTest {
 
     @BeforeTest
     public void init() {
-        List<SAMSequenceRecord> l = new ArrayList<>();
+        final List<SAMSequenceRecord> l = new ArrayList<>();
         l.add(new SAMSequenceRecord("chr1",1000000));
-        SAMSequenceDictionary seqDir = new SAMSequenceDictionary(l);
+        final SAMSequenceDictionary seqDir = new SAMSequenceDictionary(l);
         memorySource = new ReferenceMemorySource(ref1, seqDir);
     }
 
     @Test(dataProvider="data")
-    public void testQuery(SimpleInterval interval, byte[] bytes) throws Exception {
+    public void testQuery(final SimpleInterval interval, final byte[] bytes) throws Exception {
         checkEquals(memorySource.query(interval), bytes);
     }
 
     @Test(dataProvider="data")
-    public void testQueryAndPrefetch(SimpleInterval interval, byte[] bytes) throws Exception {
+    public void testQueryAndPrefetch(final SimpleInterval interval, final byte[] bytes) throws Exception {
         Assert.assertEquals(memorySource.queryAndPrefetch(interval).getBases(), bytes);
     }
 
     @Test(dataProvider="badIntervals", expectedExceptions = java.lang.IllegalArgumentException.class)
-    public void testQueryOutOfBounds(SimpleInterval interval) {
+    public void testQueryOutOfBounds(final SimpleInterval interval) {
         // we want to explode right away, not after going through the iterator for a while.
         memorySource.query(interval);
     }
 
     @Test(dataProvider="badIntervals", expectedExceptions = java.lang.IllegalArgumentException.class)
-    public void testQueryAndPrefetchOutOfBounds(SimpleInterval interval) {
+    public void testQueryAndPrefetchOutOfBounds(final SimpleInterval interval) {
         memorySource.queryAndPrefetch(interval);
     }
 
-    private void checkEquals(Iterator<Byte> actual, byte[] expected) {
+    private void checkEquals(final Iterator<Byte> actual, final byte[] expected) {
         for (int i=0; i<expected.length; i++) {
             Assert.assertTrue(actual.hasNext());
             Assert.assertEquals(actual.next().byteValue(), expected[i]);

@@ -21,10 +21,10 @@ public final class MetricsUtils {
      * @param metricsOutputPath the path (or uri) to write the metrics to
      * @param authHolder authentication for remote paths, can be null if the path is not remote
      */
-    public static void saveMetrics(final MetricsFile<?, ?> metricsFile, String metricsOutputPath, AuthHolder authHolder) {
+    public static void saveMetrics(final MetricsFile<?, ?> metricsFile, final String metricsOutputPath, final AuthHolder authHolder) {
         try(PrintWriter out = new PrintWriter(BucketUtils.createFile(metricsOutputPath, authHolder))) {
             metricsFile.write(out);
-        } catch (SAMException e ){
+        } catch (final SAMException e ){
             throw new UserException.CouldNotCreateOutputFile("Could not write metrics to file: " + metricsOutputPath, e);
         }
     }

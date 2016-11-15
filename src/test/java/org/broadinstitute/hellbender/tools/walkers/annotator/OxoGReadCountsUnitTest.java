@@ -124,7 +124,7 @@ public final class OxoGReadCountsUnitTest {
         Assert.assertFalse(gb1.make().hasAD());
     }
 
-    private Pair<VariantContext, ReadLikelihoods<Allele>> makeReads(int alt_F1R2, int alt_F2R1, int ref_F1R2, int ref_F2R1, Allele refAllele, Allele altAllele, List<Allele> alleles, Genotype g) {
+    private Pair<VariantContext, ReadLikelihoods<Allele>> makeReads(final int alt_F1R2, final int alt_F2R1, final int ref_F1R2, final int ref_F2R1, final Allele refAllele, final Allele altAllele, final List<Allele> alleles, final Genotype g) {
         final List<GATKRead> altReads = Stream.concat(IntStream.range(0, alt_F1R2).mapToObj(i -> makeRead(false, true, i)),
                 IntStream.range(0, alt_F2R1).mapToObj(i -> makeRead(false, false, i))).collect(Collectors.toList());
         final List<GATKRead> refReads = Stream.concat(IntStream.range(0, ref_F1R2).mapToObj(i -> makeRead(true, true, i)),
@@ -139,7 +139,7 @@ public final class OxoGReadCountsUnitTest {
                 likelihoods);
     }
 
-    private GATKRead makeRead(final boolean isRefRead, final boolean isF1R2Read, int name){
+    private GATKRead makeRead(final boolean isRefRead, final boolean isF1R2Read, final int name){
         final GATKRead read = ArtificialReadUtils.createArtificialRead(TextCigarCodec.decode(10 + "M"), "random_read_" + isRefRead + "_" + isF1R2Read + "_" + name);
         read.setMappingQuality(20);
         if (isF1R2Read){

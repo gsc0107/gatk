@@ -52,10 +52,10 @@ public final class PhysicalLocationForMateCigar implements OpticalDuplicateFinde
     public void setLibraryId(final short libraryId) { this.libraryId = libraryId; }
 
     @Override
-    public boolean equals(Object other) {
+    public boolean equals(final Object other) {
         if (other instanceof PhysicalLocationForMateCigar) {
             int cmp;
-            PhysicalLocationForMateCigar loc = (PhysicalLocationForMateCigar) other;
+            final PhysicalLocationForMateCigar loc = (PhysicalLocationForMateCigar) other;
             cmp = getLibraryId() - loc.getLibraryId();
             if (0 == cmp) cmp = getReadGroup() - loc.getReadGroup();
             if (0 == cmp) cmp = getTile() - loc.getTile();

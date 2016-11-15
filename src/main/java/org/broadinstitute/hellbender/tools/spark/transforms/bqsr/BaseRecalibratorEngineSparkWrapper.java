@@ -45,7 +45,7 @@ public final class BaseRecalibratorEngineSparkWrapper implements Serializable {
     /**
      * Takes in reads + contextual data (overlapping reference bases and variants), spits out RecalibrationTables.
      */
-    public BaseRecalibratorEngineSparkWrapper(Broadcast<SAMFileHeader> headerBcast, Broadcast<SAMSequenceDictionary> referenceSequenceDictionaryBcast, RecalibrationArgumentCollection recalArgs) {
+    public BaseRecalibratorEngineSparkWrapper(final Broadcast<SAMFileHeader> headerBcast, final Broadcast<SAMSequenceDictionary> referenceSequenceDictionaryBcast, final RecalibrationArgumentCollection recalArgs) {
         this.headerBcast = headerBcast;
         this.referenceSequenceDictionaryBcast = referenceSequenceDictionaryBcast;
         this.recalArgs = recalArgs;
@@ -55,24 +55,24 @@ public final class BaseRecalibratorEngineSparkWrapper implements Serializable {
     }
 
     // saves to output
-    public static void saveTextualReport(String output, SAMFileHeader header, RecalibrationTables rt, RecalibrationArgumentCollection recalArgs, AuthHolder auth) throws IOException {
-        OutputStream oStream = BucketUtils.createFile(output, auth);
-        QuantizationInfo qi = new QuantizationInfo(rt, recalArgs.QUANTIZING_LEVELS);
+    public static void saveTextualReport(final String output, final SAMFileHeader header, final RecalibrationTables rt, final RecalibrationArgumentCollection recalArgs, final AuthHolder auth) throws IOException {
+        final OutputStream oStream = BucketUtils.createFile(output, auth);
+        final QuantizationInfo qi = new QuantizationInfo(rt, recalArgs.QUANTIZING_LEVELS);
         if (recalArgs.FORCE_PLATFORM != null) {
             recalArgs.DEFAULT_PLATFORM = recalArgs.FORCE_PLATFORM;
         }
-        StandardCovariateList covariates = new StandardCovariateList(recalArgs, header);
+        final StandardCovariateList covariates = new StandardCovariateList(recalArgs, header);
         try ( PrintStream reportStream = new PrintStream(oStream) ) {
             RecalUtils.outputRecalibrationReport(reportStream, recalArgs, qi, rt, covariates);
         }
     }
 
-    public Iterator<RecalibrationTables> apply(Iterator<ContextShard> shards) throws Exception {
+    public Iterator<RecalibrationTables> apply(final Iterator<ContextShard> shards) throws Exception {
         this.header = headerBcast.value();
         this.referenceSequenceDictionary = referenceSequenceDictionaryBcast.value();
         recalibrationEngine = new BaseRecalibrationEngine(recalArgs, header);
         while (shards.hasNext()) {
-            ContextShard shard = shards.next();
+            final ContextShard shard = shards.next();
             for (int i=0; i<shard.reads.size(); i++) {
                 final GATKRead read = shard.reads.get(i);
                 // Reads are shipped without the header -- put it back in
@@ -85,7 +85,7 @@ public final class BaseRecalibratorEngineSparkWrapper implements Serializable {
                 recalibrationEngine.processRead(read, refDS, variants);
             }
         }
-        ArrayList<RecalibrationTables> ret = new ArrayList<>();
+        final ArrayList<RecalibrationTables> ret = new ArrayList<>();
         ret.add(recalibrationEngine.getRecalibrationTables());
         return ret.iterator();
     }

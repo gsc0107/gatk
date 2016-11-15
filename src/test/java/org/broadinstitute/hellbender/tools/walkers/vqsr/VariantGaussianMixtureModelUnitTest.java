@@ -22,12 +22,12 @@ public final class VariantGaussianMixtureModelUnitTest extends BaseTest {
     private final File EXPECTED_TRANCHES_OLD = new File(testDir + "tranches.4.txt");
 
     private ArrayList<VariantDatum> readData() throws java.io.IOException{
-        ArrayList<VariantDatum> vd = new ArrayList<VariantDatum>();
-        for ( String line : new XReadLines(QUAL_DATA, true) ) {
-            String[] parts = line.split("\t");
+        final ArrayList<VariantDatum> vd = new ArrayList<VariantDatum>();
+        for ( final String line : new XReadLines(QUAL_DATA, true) ) {
+            final String[] parts = line.split("\t");
             // QUAL,TRANSITION,ID,LOD,FILTER
             if ( ! parts[0].equals("QUAL") ) {
-                VariantDatum datum = new VariantDatum();
+                final VariantDatum datum = new VariantDatum();
                 datum.lod = Double.valueOf(parts[3]);
                 datum.isTransition = parts[1].equals("1");
                 datum.isKnown = ! parts[2].equals(".");
@@ -55,17 +55,17 @@ public final class VariantGaussianMixtureModelUnitTest extends BaseTest {
         read(EXPECTED_TRANCHES_OLD);
     }
 
-    public final List<Tranche> read(File f) throws java.io.FileNotFoundException, java.io.IOException {
+    public final List<Tranche> read(final File f) throws java.io.FileNotFoundException, java.io.IOException {
         return Tranche.readTranches(f);
     }
 
-    private static void assertTranchesAreTheSame(List<Tranche> newFormat, List<Tranche> oldFormat, boolean completeP, boolean includeName) {
+    private static void assertTranchesAreTheSame(final List<Tranche> newFormat, final List<Tranche> oldFormat, final boolean completeP, final boolean includeName) {
         Assert.assertEquals(oldFormat.size(), newFormat.size());
         Collections.sort(oldFormat, new Tranche.TrancheTruthSensitivityComparator());
         Collections.sort(newFormat, new Tranche.TrancheTruthSensitivityComparator());
         for ( int i = 0; i < newFormat.size(); i++ ) {
-            Tranche n = newFormat.get(i);
-            Tranche o = oldFormat.get(i);
+            final Tranche n = newFormat.get(i);
+            final Tranche o = oldFormat.get(i);
             Assert.assertEquals(n.targetTruthSensitivity, o.targetTruthSensitivity, 1e-3);
             Assert.assertEquals(n.numNovel, o.numNovel);
             Assert.assertEquals(n.novelTiTv, o.novelTiTv, 1e-3);
@@ -78,7 +78,7 @@ public final class VariantGaussianMixtureModelUnitTest extends BaseTest {
         }
     }
 
-    private static List<Tranche> findMyTranches(ArrayList<VariantDatum> vd, List<Double> tranches) {
+    private static List<Tranche> findMyTranches(final ArrayList<VariantDatum> vd, final List<Double> tranches) {
         final int nCallsAtTruth = TrancheManager.countCallsAtTruth( vd, Double.NEGATIVE_INFINITY );
         final TrancheManager.SelectionMetric metric = new TrancheManager.TruthSensitivityMetric( nCallsAtTruth );
         return TrancheManager.findTranches(vd, tranches, metric, VariantRecalibratorArgumentCollection.Mode.SNP);
@@ -86,15 +86,15 @@ public final class VariantGaussianMixtureModelUnitTest extends BaseTest {
 
     @Test
     public final void testFindTranches1() throws java.io.FileNotFoundException, java.io.IOException {
-        ArrayList<VariantDatum> vd = readData();
-        List<Tranche> tranches = findMyTranches(vd, TRUTH_SENSITIVITY_CUTS);
+        final ArrayList<VariantDatum> vd = readData();
+        final List<Tranche> tranches = findMyTranches(vd, TRUTH_SENSITIVITY_CUTS);
 
         assertTranchesAreTheSame(read(EXPECTED_TRANCHES_NEW), tranches, true, false);
     }
 
     @Test(expectedExceptions = {UserException.class})
     public final void testBadFDR() throws java.io.IOException, java.io.FileNotFoundException {
-        ArrayList<VariantDatum> vd = readData();
+        final ArrayList<VariantDatum> vd = readData();
         findMyTranches(vd, new ArrayList<Double>(Arrays.asList(-1.0)));
     }
 }

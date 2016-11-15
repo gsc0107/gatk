@@ -15,13 +15,13 @@ public interface ReadTransformer extends UnaryOperator<GATKRead>, SerializableFu
 
     //HACK: These methods are a hack to get to get the type system to accept compositions of ReadTransformers.
     @SuppressWarnings("overloads")
-    default ReadTransformer andThen(ReadTransformer after) {
+    default ReadTransformer andThen(final ReadTransformer after) {
         Objects.requireNonNull(after);
         return (GATKRead r) -> after.apply(apply(r));
     }
 
     @SuppressWarnings("overloads")
-    default ReadTransformer compose(ReadTransformer before) {
+    default ReadTransformer compose(final ReadTransformer before) {
         Objects.requireNonNull(before);
         return (GATKRead r) -> apply(before.apply(r));
     }

@@ -22,7 +22,7 @@ public final class TableWriterUnitTest extends BaseTest {
         final TableColumnCollection columnNames = new TableColumnCollection("col1", "col2", "col3");
         final TableWriter<Object> writer = new TableWriter<Object>(testFile, columnNames) {
             @Override
-            protected void composeLine(Object record, final DataLine dataLine) {
+            protected void composeLine(final Object record, final DataLine dataLine) {
                 dataLine.append(record.toString());
             }
         };
@@ -39,7 +39,7 @@ public final class TableWriterUnitTest extends BaseTest {
         final TableColumnCollection columnNames = new TableColumnCollection("col1", "col2", "col3");
         final TableWriter<Object> writer = new TableWriter<Object>(testFile, columnNames) {
             @Override
-            protected void composeLine(Object record, final DataLine dataLine) {
+            protected void composeLine(final Object record, final DataLine dataLine) {
                 dataLine.append(record.toString());
             }
         };
@@ -67,7 +67,7 @@ public final class TableWriterUnitTest extends BaseTest {
         final TableColumnCollection columnNames = new TableColumnCollection("col1", "col2", "col3");
         final TableWriter<Object> writer = new TableWriter<Object>(testFile, columnNames) {
             @Override
-            protected void composeLine(Object record, final DataLine dataLine) {
+            protected void composeLine(final Object record, final DataLine dataLine) {
                 dataLine.append(record.toString());
             }
         };
@@ -217,7 +217,7 @@ public final class TableWriterUnitTest extends BaseTest {
         };
     }
 
-    private List<String> outputLines(File testFile) throws FileNotFoundException {
+    private List<String> outputLines(final File testFile) throws FileNotFoundException {
         final BufferedReader bufferedReader = new BufferedReader(new FileReader(testFile));
         return bufferedReader.lines().collect(Collectors.toList());
     }

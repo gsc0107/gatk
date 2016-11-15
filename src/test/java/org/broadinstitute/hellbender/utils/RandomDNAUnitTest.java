@@ -62,7 +62,7 @@ public final class RandomDNAUnitTest {
         Assert.assertTrue(mean > expectedMean-2*s/Math.sqrt(n*m), "unexpected mean:" +mean);
     }
 
-    private int[] pairwiseAdd(int[] a, int[] b) {
+    private int[] pairwiseAdd(final int[] a, final int[] b) {
         Utils.validateArg(a.length == b.length, "lengths must be equal");
         return IntStream.range(0, a.length).map(n -> a[n] + b[n]).toArray();
     }

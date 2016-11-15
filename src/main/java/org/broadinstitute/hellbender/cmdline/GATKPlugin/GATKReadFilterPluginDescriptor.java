@@ -26,7 +26,7 @@ public class GATKReadFilterPluginDescriptor extends GATKCommandLinePluginDescrip
 
     protected transient Logger logger = LogManager.getLogger(this.getClass());
 
-    private void readObject(java.io.ObjectInputStream in)
+    private void readObject(final java.io.ObjectInputStream in)
             throws IOException, ClassNotFoundException {
         in.defaultReadObject();
         logger = LogManager.getLogger(this.getClass()); // Logger is not serializable (even by Kryo)
@@ -150,8 +150,8 @@ public class GATKReadFilterPluginDescriptor extends GATKCommandLinePluginDescrip
     public boolean isDependentArgumentAllowed(final Class<?> dependentClass) {
         // make sure the predecessor for this dependent class was either specified
         // on the command line or is a tool default, otherwise reject it
-        String predecessorName = dependentClass.getSimpleName();
-        boolean isAllowed = userReadFilterNames.contains(predecessorName)
+        final String predecessorName = dependentClass.getSimpleName();
+        final boolean isAllowed = userReadFilterNames.contains(predecessorName)
                 || (toolDefaultReadFilters.get(predecessorName) != null);
         if (isAllowed) {
             // keep track of the ones we allow so we can validate later that they
@@ -181,7 +181,7 @@ public class GATKReadFilterPluginDescriptor extends GATKCommandLinePluginDescrip
         // list returned by this method since it will be merged in later by the merge method.
         final ArrayList<ReadFilter> filters = new ArrayList<>(userReadFilterNames.size());
         userReadFilterNames.forEach(s -> {
-            ReadFilter rf = readFilters.get(s);
+            final ReadFilter rf = readFilters.get(s);
             if (rf != null) {
                 filters.add(rf);
             }
@@ -241,7 +241,7 @@ public class GATKReadFilterPluginDescriptor extends GATKCommandLinePluginDescrip
         // throw if a filter name was specified that has no corresponding instance
         final Map<String, ReadFilter> requestedReadFilters = new HashMap<>();
         userReadFilterNames.forEach(s -> {
-            ReadFilter trf = readFilters.get(s);
+            final ReadFilter trf = readFilters.get(s);
             if (null == trf) {
                 if (!toolDefaultReadFilters.containsKey(s)) {
                     throw new UserException.CommandLineException("Unrecognized read filter name: " + s);

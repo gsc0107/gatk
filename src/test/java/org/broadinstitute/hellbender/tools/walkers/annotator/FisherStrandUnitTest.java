@@ -74,7 +74,7 @@ public final class FisherStrandUnitTest {
     }
 
     @Test(dataProvider = "UsingTable")
-    public void testUsingTableData(final int refpos, final int refneg, final int altpos, final int altneg, double expectedPvalue) {
+    public void testUsingTableData(final int refpos, final int refneg, final int altpos, final int altneg, final double expectedPvalue) {
         final int[][] contingencyTable = new int[2][2];
         contingencyTable[0][0] = refpos;
         contingencyTable[0][1] = refneg;
@@ -146,7 +146,7 @@ public final class FisherStrandUnitTest {
     }
 
     private GATKRead makeRead(final boolean forward) {
-        Cigar cigar = TextCigarCodec.decode("10M");
+        final Cigar cigar = TextCigarCodec.decode("10M");
         final GATKRead read = ArtificialReadUtils.createUniqueArtificialRead(cigar);
         read.setIsReverseStrand(!forward);
         return read;
@@ -221,8 +221,8 @@ public final class FisherStrandUnitTest {
 
     @Test
     public void testEmptyIfNonVariant() {
-        FisherStrand fs = new FisherStrand();
-        Map<String, Object> ann = fs.annotate(null, when(mock(VariantContext.class).isVariant()).thenReturn(false).getMock(), null);
+        final FisherStrand fs = new FisherStrand();
+        final Map<String, Object> ann = fs.annotate(null, when(mock(VariantContext.class).isVariant()).thenReturn(false).getMock(), null);
         Assert.assertTrue(ann.isEmpty());
     }
 }

@@ -85,7 +85,7 @@ public final class ReferenceFileSource implements ReferenceDataSource {
         try {
             reference.close();
         }
-        catch ( IOException e ) {
+        catch ( final IOException e ) {
             throw new GATKException("Error closing reference file", e);
         }
     }

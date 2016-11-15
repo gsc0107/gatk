@@ -29,18 +29,18 @@ public class ListFileUtils {
      * @param values Original values
      * @return entries from values or the files listed in values
      */
-    public static Set<String> unpackSet(Collection<String> values) {
+    public static Set<String> unpackSet(final Collection<String> values) {
         Utils.nonNull(values);
         final Set<String> unpackedValues = new LinkedHashSet<String>();
         // Let's first go through the list and see if we were given any files.
         // We'll add every entry in the file to our set, and treat the entries as
         // if they had been specified on the command line.
-        for (String value : values) {
+        for (final String value : values) {
             if (isListFile(value)) {
-                File file = new File(value);
+                final File file = new File(value);
                 try (final Reader rdr = new FileReader(file)) {
                     unpackedValues.addAll(new XReadLines(rdr, true, LIST_FILE_COMMENT_START).readLines());
-                } catch (IOException e) {
+                } catch (final IOException e) {
                     throw new UserException.CouldNotReadInputFile(file, e);
                 }
             } else {
@@ -64,7 +64,7 @@ public class ListFileUtils {
      * @param exactMatch If true match filters exactly, otherwise use as both exact and regular expressions
      * @return entries from values or the files listed in values, filtered by filters
      */
-    public static Set<String> includeMatching(Collection<String> values, Collection<String> filters, boolean exactMatch) {
+    public static Set<String> includeMatching(final Collection<String> values, final Collection<String> filters, final boolean exactMatch) {
         return includeMatching(values, IDENTITY_STRING_CONVERTER, filters, exactMatch);
     }
 
@@ -90,7 +90,7 @@ public class ListFileUtils {
      * @param exactMatch If true match filters exactly, otherwise use as both exact and regular expressions
      * @return entries from values including only values matching filters
      */
-    public static <T> Set<T> includeMatching(Collection<T> values, StringConverter<T> converter, Collection<String> filters, boolean exactMatch) {
+    public static <T> Set<T> includeMatching(final Collection<T> values, final StringConverter<T> converter, final Collection<String> filters, final boolean exactMatch) {
         Utils.nonNull(values);
         Utils.nonNull(converter);
         Utils.nonNull(filters);
@@ -114,7 +114,7 @@ public class ListFileUtils {
      * @param exactMatch If true match filters exactly, otherwise use as both exact and regular expressions
      * @return entries from values exluding any values matching filters
      */
-    public static <T> Set<T> excludeMatching(Collection<T> values, StringConverter<T> converter, Collection<String> filters, boolean exactMatch) {
+    public static <T> Set<T> excludeMatching(final Collection<T> values, final StringConverter<T> converter, final Collection<String> filters, final boolean exactMatch) {
         Utils.nonNull(values);
         Utils.nonNull(converter);
         Utils.nonNull(filters);
@@ -127,11 +127,11 @@ public class ListFileUtils {
 
     private static <T> void doMatching
         (
-            Consumer<T> actionMethod,  // Set::add or Set::remove (add or remove) on match
-            Collection<T> values,
-            StringConverter<T> converter,
-            Collection<String> filters,
-            boolean exactMatch
+                final Consumer<T> actionMethod,  // Set::add or Set::remove (add or remove) on match
+                final Collection<T> values,
+                final StringConverter<T> converter,
+                final Collection<String> filters,
+                final boolean exactMatch
         )
     {
         Utils.nonNull(values);
@@ -143,12 +143,12 @@ public class ListFileUtils {
         if (!exactMatch) {
             patterns = compilePatterns(unpackedFilters);
         }
-        for (T value : values) {
-            String converted = converter.convert(value);
+        for (final T value : values) {
+            final String converted = converter.convert(value);
             if (unpackedFilters.contains(converted)) {
                 actionMethod.accept(value);
             } else if (!exactMatch) {
-                for (Pattern pattern : patterns) {
+                for (final Pattern pattern : patterns) {
                     if (pattern.matcher(converted).find()) {
                         actionMethod.accept(value);
                     }
@@ -161,11 +161,11 @@ public class ListFileUtils {
      * @param listFileName
      * @return true if listFileName looks like a conforming list file name, an the file exists otherwise false
      */
-     public static boolean isListFile(String listFileName) {
+     public static boolean isListFile(final String listFileName) {
        return listFileName.toLowerCase().endsWith(".list") && new File(listFileName).exists();
     }
 
-    private static Collection<Pattern> compilePatterns(Collection<String> filters) {
+    private static Collection<Pattern> compilePatterns(final Collection<String> filters) {
         final Collection<Pattern> patterns = new ArrayList<Pattern>();
         for (final String filter: filters) {
             patterns.add(Pattern.compile(filter));
@@ -175,7 +175,7 @@ public class ListFileUtils {
 
     protected static final StringConverter<String> IDENTITY_STRING_CONVERTER = new StringConverter<String>() {
         @Override
-        public String convert(String value) {
+        public String convert(final String value) {
             return value;
         }
     };

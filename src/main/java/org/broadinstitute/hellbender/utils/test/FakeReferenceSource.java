@@ -16,14 +16,14 @@ public class FakeReferenceSource {
      * @param interval the interval on the fake contig
      * @return the fake bases.
      */
-    public static ReferenceBases bases(SimpleInterval interval) {
-        int start = interval.getStart();
-        int end = interval.getEnd();
+    public static ReferenceBases bases(final SimpleInterval interval) {
+        final int start = interval.getStart();
+        final int end = interval.getEnd();
 
-        int chunkStart = 4*(Math.floorDiv(start, 4));
-        int chunkEnd = 4*(Math.floorDiv(end + 1, 4) + 1);
-        String full = StringUtils.repeat("tagc", chunkEnd - chunkStart);
-        String substring = full.substring(start - chunkStart, end - chunkStart + 1);
+        final int chunkStart = 4*(Math.floorDiv(start, 4));
+        final int chunkEnd = 4*(Math.floorDiv(end + 1, 4) + 1);
+        final String full = StringUtils.repeat("tagc", chunkEnd - chunkStart);
+        final String substring = full.substring(start - chunkStart, end - chunkStart + 1);
 
         return new ReferenceBases(substring.getBytes(Charset.forName("UTF-8")), interval);
     }

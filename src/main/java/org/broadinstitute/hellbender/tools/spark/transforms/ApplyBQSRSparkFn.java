@@ -13,7 +13,7 @@ import java.util.stream.StreamSupport;
 
 public class ApplyBQSRSparkFn {
 
-    public static JavaRDD<GATKRead> apply(JavaRDD<GATKRead> reads, final Broadcast<RecalibrationReport> reportBroadcast, final SAMFileHeader readsHeader, ApplyBQSRArgumentCollection args) {
+    public static JavaRDD<GATKRead> apply(final JavaRDD<GATKRead> reads, final Broadcast<RecalibrationReport> reportBroadcast, final SAMFileHeader readsHeader, final ApplyBQSRArgumentCollection args) {
         return reads.mapPartitions(readsIterator -> {
             final RecalibrationReport report = reportBroadcast.getValue();
             final BQSRReadTransformer transformer = new BQSRReadTransformer(readsHeader, report, args);//reuse this for all reads in the partition

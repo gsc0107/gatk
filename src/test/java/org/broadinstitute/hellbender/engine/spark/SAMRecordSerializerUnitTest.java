@@ -14,14 +14,14 @@ public class SAMRecordSerializerUnitTest {
     public static class TestGATKRegistrator implements KryoRegistrator {
         @SuppressWarnings("unchecked")
         @Override
-        public void registerClasses(Kryo kryo) {
+        public void registerClasses(final Kryo kryo) {
             kryo.register(SAMRecord.class, new SAMRecordSerializer());
         }
     }
 
     @Test
     public void testSerializerRoundTripHeaderlessSAMRecord() {
-        SparkConf conf = new SparkConf().set("spark.kryo.registrator",
+        final SparkConf conf = new SparkConf().set("spark.kryo.registrator",
                 "org.broadinstitute.hellbender.engine.spark.SAMRecordSerializerUnitTest$TestGATKRegistrator");
 
         // check round trip with no header

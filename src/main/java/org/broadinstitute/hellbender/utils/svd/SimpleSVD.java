@@ -11,7 +11,7 @@ public final class SimpleSVD implements SVD {
     private double [] singularValues;
     private RealMatrix pinv;
 
-    public SimpleSVD(final RealMatrix u, double [] singularValues, final RealMatrix v, final RealMatrix pinv) {
+    public SimpleSVD(final RealMatrix u, final double [] singularValues, final RealMatrix v, final RealMatrix pinv) {
         this.v = v;
         this.u = u;
         this.singularValues = singularValues;

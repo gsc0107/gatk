@@ -22,7 +22,7 @@ public final class RecalUtilsUnitTest extends BaseTest {
             this(copy.rg, copy.qual, copy.ne, copy.no);
         }
 
-        private Row(int rg, int qual, int ne, int no) {
+        private Row(final int rg, final int qual, final int ne, final int no) {
             this.rg = rg;
             this.qual = qual;
             this.ne = ne;
@@ -42,7 +42,7 @@ public final class RecalUtilsUnitTest extends BaseTest {
 
     @DataProvider(name = "CombineTablesProvider")
     public Object[][] createCombineTablesProvider() {
-        List<Object[]> tests = new ArrayList<>();
+        final List<Object[]> tests = new ArrayList<>();
 
         final List<Row> rows = new ArrayList<>();
         for ( final int rg : Arrays.asList(0, 1) ) {
@@ -53,7 +53,7 @@ public final class RecalUtilsUnitTest extends BaseTest {
 
         logger.warn("Number of rows " + rows.size());
 
-        List<List<Row>> permutations = new LinkedList<>();
+        final List<List<Row>> permutations = new LinkedList<>();
         permutations.addAll(Utils.makePermutations(rows, 1, false));
         permutations.addAll(Utils.makePermutations(rows, 2, false));
         permutations.addAll(Utils.makePermutations(rows, 3, false));

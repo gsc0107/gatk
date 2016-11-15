@@ -15,7 +15,7 @@ public final class RScriptLibraryUnitTest {
 
     @Test(groups = {"R"})
     public void testWriteTemp() {
-        File file = RScriptLibrary.GSALIB.writeTemp();
+        final File file = RScriptLibrary.GSALIB.writeTemp();
         Assert.assertTrue(file.exists(), "R library was not written to temp file: " + file);
         FileUtils.deleteQuietly(file);
     }

@@ -36,13 +36,13 @@ public final class BAQUnitTest extends BaseTest {
     @Test //regression test for https://github.com/broadinstitute/gatk/issues/1234
     public void testGetReferenceWindowForReadStopsAtContigStart() throws Exception {
         final int bandwidth = 7;
-        GATKRead read = ArtificialReadUtils.createArtificialRead("10M");
+        final GATKRead read = ArtificialReadUtils.createArtificialRead("10M");
 
         final int start = 2;
         final Locatable pos = new SimpleInterval("1", start, start + read.getLength());
         read.setPosition(pos);
         final SimpleInterval referenceWindowForRead = BAQ.getReferenceWindowForRead(read, bandwidth);
-        SimpleInterval refWindow = new SimpleInterval("1", 1, read.getEnd() + (bandwidth / 2));  //start is at 1 because we hit the front end of the reference
+        final SimpleInterval refWindow = new SimpleInterval("1", 1, read.getEnd() + (bandwidth / 2));  //start is at 1 because we hit the front end of the reference
         Assert.assertEquals(referenceWindowForRead, refWindow);
     }
     private class BAQTest {
@@ -53,15 +53,15 @@ public final class BAQUnitTest extends BaseTest {
         int pos;
         ReferenceDataSource rds;
 
-        public BAQTest(String _refBases, String _readBases, String _quals, String _expected) {
+        public BAQTest(final String _refBases, final String _readBases, final String _quals, final String _expected) {
             this(_refBases, _readBases, _quals, _expected, null);
         }
 
-        public BAQTest(String _refBases, String _readBases, String _quals, String _expected, ReferenceDataSource rds) {
+        public BAQTest(final String _refBases, final String _readBases, final String _quals, final String _expected, final ReferenceDataSource rds) {
             this(0, -1, null, _readBases, _refBases, _quals, _expected, rds);
         }
 
-        public BAQTest(int _refOffset, long _pos, String _cigar, String _refBases, String _readBases, String _quals, String _expected, ReferenceDataSource rds) {
+        public BAQTest(final int _refOffset, final long _pos, final String _cigar, final String _refBases, final String _readBases, final String _quals, final String _expected, final ReferenceDataSource rds) {
             refOffset = _refOffset;
             pos = (int) _pos;
             cigar = _cigar;
@@ -82,7 +82,7 @@ public final class BAQUnitTest extends BaseTest {
         }
 
         public GATKRead createRead() {
-            GATKRead read = ArtificialReadUtils.createArtificialRead(createHeader(), "foo", 0, pos > 0 ? pos + (refOffset > 0 ? refOffset : 0) : 1, readBases.getBytes(), quals);
+            final GATKRead read = ArtificialReadUtils.createArtificialRead(createHeader(), "foo", 0, pos > 0 ? pos + (refOffset > 0 ? refOffset : 0) : 1, readBases.getBytes(), quals);
             read.setCigar(cigar == null ? String.format("%dM", quals.length) : cigar);
             return read;
         }
@@ -91,9 +91,9 @@ public final class BAQUnitTest extends BaseTest {
 
     @DataProvider(name = "data")
     public Object[][] createData1() {
-        List<BAQTest> params = new ArrayList<>();
+        final List<BAQTest> params = new ArrayList<>();
 
-        SAMSequenceDictionary dict= new SAMSequenceDictionary();
+        final SAMSequenceDictionary dict= new SAMSequenceDictionary();
         dict.addSequence(new SAMSequenceRecord("1", Integer.MAX_VALUE));
 
         params.add(new BAQTest(
@@ -141,21 +141,21 @@ public final class BAQUnitTest extends BaseTest {
                 "33'/(7+270&4),(&&-)$&,%7$',-/61(,6?8",
                 rds3));
 
-        List<Object[]> params2 = new ArrayList<>();
-        for (BAQTest x : params) params2.add(new Object[]{x});
+        final List<Object[]> params2 = new ArrayList<>();
+        for (final BAQTest x : params) params2.add(new Object[]{x});
         return params2.toArray(new Object[][]{});
     }
 
 
     @Test(dataProvider = "data")
-    public void testBAQWithProvidedReference(BAQTest test) {
+    public void testBAQWithProvidedReference(final BAQTest test) {
         if (test.refBases != null) {
             testBAQ(test, false, null);
         }
     }
 
     @Test(dataProvider = "data")
-    public void testBAQWithCigarAndRefLookup(BAQTest test) {
+    public void testBAQWithCigarAndRefLookup(final BAQTest test) {
         if (test.cigar != null) {
             testBAQ(test, true, test.rds);
         }
@@ -163,7 +163,7 @@ public final class BAQUnitTest extends BaseTest {
 
     @Test
     public void testBAQQualRange() {
-        BAQ baq = new BAQ(1.0e-3, 0.1, 7, (byte) 4);         // matches current samtools parameters
+        final BAQ baq = new BAQ(1.0e-3, 0.1, 7, (byte) 4);         // matches current samtools parameters
         final byte ref = (byte) 'A';
         final byte alt = (byte) 'A';
 
@@ -192,7 +192,7 @@ public final class BAQUnitTest extends BaseTest {
         Assert.assertFalse(read.hasAttribute("BQ"));
     }
 
-    private void testBAQ(BAQTest test, boolean lookupWithFasta, ReferenceDataSource rds) {
+    private void testBAQ(final BAQTest test, final boolean lookupWithFasta, final ReferenceDataSource rds) {
         final int bandWidth = 7;
         final BAQ baqHMM = new BAQ(1.0e-3, 0.1, bandWidth, (byte) 4);         // matches current samtools parameters
 
@@ -216,7 +216,7 @@ public final class BAQUnitTest extends BaseTest {
 
     }
 
-    private static void printQuals(PrintStream out, String prefix, byte[] quals, boolean asInt) {
+    private static void printQuals(final PrintStream out, final String prefix, final byte[] quals, final boolean asInt) {
         out.print(prefix);
         for (int i = 0; i < quals.length; i++) {
             if (asInt) {

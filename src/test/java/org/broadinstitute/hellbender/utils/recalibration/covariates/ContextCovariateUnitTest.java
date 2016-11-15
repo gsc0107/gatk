@@ -46,7 +46,7 @@ public final class ContextCovariateUnitTest extends BaseTest {
         }
     }
 
-    public static void verifyCovariateArray(int[][] values, int contextSize, GATKRead read, Covariate contextCovariate, final byte lowQualTail) {
+    public static void verifyCovariateArray(final int[][] values, final int contextSize, final GATKRead read, final Covariate contextCovariate, final byte lowQualTail) {
         for (int i = 0; i < values.length; i++) {
             Assert.assertEquals(contextCovariate.formatKey(values[i][0]), expectedContext(read, i, contextSize, lowQualTail), "offset " + i);
         }

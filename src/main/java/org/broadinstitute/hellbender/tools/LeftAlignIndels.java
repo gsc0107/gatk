@@ -64,7 +64,7 @@ public final class LeftAlignIndels extends ReadWalker {
     }
 
     @Override
-    public void apply( GATKRead read, ReferenceContext ref, FeatureContext featureContext ) {
+    public void apply(final GATKRead read, final ReferenceContext ref, final FeatureContext featureContext ) {
         // we can not deal with screwy records
         if ( read.isUnmapped() || read.numCigarElements() == 0 ) {
             outputWriter.addRead(read);
@@ -72,7 +72,7 @@ public final class LeftAlignIndels extends ReadWalker {
         }
 
         // move existing indels (for 1 indel reads only) to leftmost position within identical sequence
-        int numBlocks = AlignmentUtils.getNumAlignmentBlocks(read);
+        final int numBlocks = AlignmentUtils.getNumAlignmentBlocks(read);
         if ( numBlocks == 2 ) {
             // We checked in onTraversalStart() that a reference is present, so ref.get() is safe
             Cigar newCigar = AlignmentUtils.leftAlignIndel(CigarUtils.trimReadToUnclippedBases(read.getCigar()), ref.getBases(), read.getBases(), 0, 0, true);

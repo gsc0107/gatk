@@ -25,11 +25,11 @@ public class TwoPassReadsWalkerUnitTest extends CommandLineProgramTest{
         public int secondPass = 0;
         boolean betweenTraversals = false;
         @Override
-        protected void firstPassApply(GATKRead read, ReferenceContext referenceContext, FeatureContext featureContext) {
+        protected void firstPassApply(final GATKRead read, final ReferenceContext referenceContext, final FeatureContext featureContext) {
             firstPass++;
         }
         @Override
-        protected void secondPassApply(GATKRead read, ReferenceContext referenceContext, FeatureContext featureContext) {
+        protected void secondPassApply(final GATKRead read, final ReferenceContext referenceContext, final FeatureContext featureContext) {
             secondPass++;
         }
         @Override
@@ -39,7 +39,7 @@ public class TwoPassReadsWalkerUnitTest extends CommandLineProgramTest{
     }
 
     @Test(dataProvider = "unsortedFiles")
-    public void testDifferentFormatEquivalentBehavior(String file) throws IOException {
+    public void testDifferentFormatEquivalentBehavior(final String file) throws IOException {
         final TwoPassReadsWalkerUnitTest.dummyTwoPassReadsWalker tool = new TwoPassReadsWalkerUnitTest.dummyTwoPassReadsWalker();
 
         final String[] args = {
@@ -60,7 +60,7 @@ public class TwoPassReadsWalkerUnitTest extends CommandLineProgramTest{
     }
 
     @Test(dataProvider = "sortedFiles")
-    public void testIntervalFiltering(String file) {
+    public void testIntervalFiltering(final String file) {
         final TwoPassReadsWalkerUnitTest.dummyTwoPassReadsWalker tool = new TwoPassReadsWalkerUnitTest.dummyTwoPassReadsWalker();
 
         final String[] args = {

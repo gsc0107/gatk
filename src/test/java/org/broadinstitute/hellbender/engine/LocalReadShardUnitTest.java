@@ -96,7 +96,7 @@ public class LocalReadShardUnitTest extends BaseTest {
         final ReadFilter keepReadBOnly = new ReadFilter() {
             private static final long serialVersionUID = 1l;
             @Override
-            public boolean test( GATKRead read ) { return read.getName().equals("b"); };
+            public boolean test(final GATKRead read ) { return read.getName().equals("b"); };
         };
         final LocalReadShard filteredShard = new LocalReadShard(new SimpleInterval("1", 200, 210), new SimpleInterval("1", 200, 210), readsSource);
         filteredShard.setReadFilter(keepReadBOnly);
@@ -273,7 +273,7 @@ public class LocalReadShardUnitTest extends BaseTest {
     }
 
     @Test(dataProvider = "DivideIntervalIntoShardsTestData")
-    public void testDivideIntervalIntoShards( final SimpleInterval originalInterval, final int shardSize, final int shardStep, final int shardPadding, final ReadsDataSource readsSource, final SAMSequenceDictionary dictionary, List<Shard<GATKRead>> expectedShards  ) {
+    public void testDivideIntervalIntoShards(final SimpleInterval originalInterval, final int shardSize, final int shardStep, final int shardPadding, final ReadsDataSource readsSource, final SAMSequenceDictionary dictionary, final List<Shard<GATKRead>> expectedShards  ) {
         // If we're invoked with shardSize == shardStep, invoke the version of divideIntervalIntoShards() that does
         // not take a shardStep parameter, in order to give it test coverage.
         final List<LocalReadShard> shards = (shardSize == shardStep) ?
@@ -332,12 +332,12 @@ public class LocalReadShardUnitTest extends BaseTest {
         }
 
         @Override
-        public void signalNoMoreReadsBefore( GATKRead read ) {
+        public void signalNoMoreReadsBefore(final GATKRead read ) {
             // no-op
         }
 
         @Override
-        public void submit( GATKRead item ) {
+        public void submit(final GATKRead item ) {
             if ( item.getName() != null && (item.getName().equals("b") || item.getName().equals("c")) ) {
                 finalizedReads.add(item);
             }

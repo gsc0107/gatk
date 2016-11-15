@@ -83,20 +83,20 @@ public class MarkDuplicatesSparkIntegrationTest extends AbstractMarkDuplicatesCo
 
     @Test(groups = "spark", dataProvider = "md")
     public void testMarkDuplicatesSparkIntegrationTestLocal(
-        final File input, final long totalExpected, final long dupsExpected,
-        Map<String, List<String>> metricsExpected) throws IOException {
+            final File input, final long totalExpected, final long dupsExpected,
+            final Map<String, List<String>> metricsExpected) throws IOException {
 
-        ArgumentsBuilder args = new ArgumentsBuilder();
+        final ArgumentsBuilder args = new ArgumentsBuilder();
         args.add("--"+ StandardArgumentDefinitions.INPUT_LONG_NAME);
         args.add(input.getPath());
         args.add("--"+StandardArgumentDefinitions.OUTPUT_LONG_NAME);
 
-        File outputFile = createTempFile("markdups", ".bam");
+        final File outputFile = createTempFile("markdups", ".bam");
         outputFile.delete();
         args.add(outputFile.getAbsolutePath());
 
         args.add("--METRICS_FILE");
-        File metricsFile = createTempFile("markdups_metrics", ".txt");
+        final File metricsFile = createTempFile("markdups_metrics", ".txt");
         args.add(metricsFile.getAbsolutePath());
 
         runCommandLine(args.getArgsArray());
@@ -106,7 +106,7 @@ public class MarkDuplicatesSparkIntegrationTest extends AbstractMarkDuplicatesCo
         int totalReads = 0;
         int duplicateReads = 0;
         try ( final ReadsDataSource outputReads = new ReadsDataSource(outputFile.toPath()) ) {
-            for ( GATKRead read : outputReads ) {
+            for ( final GATKRead read : outputReads ) {
                 ++totalReads;
 
                 if ( read.isDuplicate() ) {
@@ -140,7 +140,7 @@ public class MarkDuplicatesSparkIntegrationTest extends AbstractMarkDuplicatesCo
                             "Wrong number of metrics with non-zero fields.");
         for (int i = 0; i < nonEmptyMetrics.size(); i++ ){
             final DuplicationMetrics observedMetrics = nonEmptyMetrics.get(i);
-            List<?> expectedList = metricsExpected.get(observedMetrics.LIBRARY);
+            final List<?> expectedList = metricsExpected.get(observedMetrics.LIBRARY);
             Assert.assertNotNull(expectedList, "Unexpected library found: " + observedMetrics.LIBRARY);
             Assert.assertEquals(observedMetrics.UNPAIRED_READS_EXAMINED, expectedList.get(0));
             Assert.assertEquals(observedMetrics.READ_PAIRS_EXAMINED, expectedList.get(1));

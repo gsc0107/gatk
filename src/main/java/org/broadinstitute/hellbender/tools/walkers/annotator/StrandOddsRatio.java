@@ -105,7 +105,7 @@ public final class StrandOddsRatio extends StrandBiasTest implements StandardAnn
         return Collections.singletonMap(getKeyNames().get(0), formattedValue(sor));
     }
 
-    public static String formattedValue(double sor) {
+    public static String formattedValue(final double sor) {
         return String.format("%.3f", sor);
     }
 

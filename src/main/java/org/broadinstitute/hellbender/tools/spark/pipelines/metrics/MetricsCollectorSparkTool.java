@@ -59,7 +59,7 @@ public abstract class MetricsCollectorSparkTool<T extends MetricsArgumentCollect
      * @param ctx our Spark context
      */
     @Override
-    protected void runTool( JavaSparkContext ctx ) {
+    protected void runTool(final JavaSparkContext ctx ) {
         if (requiresReference()) { //TODO: temporary until references are implemented
             throw new UnsupportedOperationException("Requires reference for collector not yet implemented");
         }
@@ -71,7 +71,7 @@ public abstract class MetricsCollectorSparkTool<T extends MetricsArgumentCollect
         );
 
         // Execute the collector lifecycle
-        T collectorArgs = getInputArguments();
+        final T collectorArgs = getInputArguments();
         if (null == collectorArgs) {
             // Indicates an incorrectly written collector. Metrics collector arg objects are derived
             // from MetricsArgumentCollection, so they always have at least an output argument.

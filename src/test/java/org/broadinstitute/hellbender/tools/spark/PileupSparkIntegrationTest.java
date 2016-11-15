@@ -26,7 +26,7 @@ public final class PileupSparkIntegrationTest extends CommandLineProgramTest {
     }
 
     @Test(dataProvider = "shuffle")
-    public void testSimplePileup(boolean useShuffle) throws Exception {
+    public void testSimplePileup(final boolean useShuffle) throws Exception {
         final File out = createTempFile();
         final ArgumentsBuilder args = new ArgumentsBuilder();
         args.add("--input");
@@ -40,12 +40,12 @@ public final class PileupSparkIntegrationTest extends CommandLineProgramTest {
             args.add("--shuffle");
         }
         this.runCommandLine(args.getArgsArray());
-        File expected = new File(TEST_DATA_DIR, "expectedSimplePileup.txt");
+        final File expected = new File(TEST_DATA_DIR, "expectedSimplePileup.txt");
         IntegrationTestSpec.assertEqualTextFiles(new File(out, "part-00000"), expected);
     }
 
     @Test(dataProvider = "shuffle")
-    public void testVerbosePileup(boolean useShuffle) throws Exception {
+    public void testVerbosePileup(final boolean useShuffle) throws Exception {
         final File out = createTempFile();
         final ArgumentsBuilder args = new ArgumentsBuilder();
         args.add("--input");
@@ -60,12 +60,12 @@ public final class PileupSparkIntegrationTest extends CommandLineProgramTest {
             args.add("--shuffle");
         }
         this.runCommandLine(args.getArgsArray());
-        File expected = new File(TEST_DATA_DIR, "expectedVerbosePileup.txt");
+        final File expected = new File(TEST_DATA_DIR, "expectedVerbosePileup.txt");
         IntegrationTestSpec.assertEqualTextFiles(new File(out, "part-00000"), expected);
     }
 
     @Test(dataProvider = "shuffle")
-    public void testFeaturesPileup(boolean useShuffle) throws Exception {
+    public void testFeaturesPileup(final boolean useShuffle) throws Exception {
         final File out = createTempFile();
         final ArgumentsBuilder args = new ArgumentsBuilder();
         args.add("--input");
@@ -80,12 +80,12 @@ public final class PileupSparkIntegrationTest extends CommandLineProgramTest {
             args.add("--shuffle");
         }
         this.runCommandLine(args.getArgsArray());
-        File expected = new File(TEST_DATA_DIR, "expectedFeaturesPileup.txt");
+        final File expected = new File(TEST_DATA_DIR, "expectedFeaturesPileup.txt");
         IntegrationTestSpec.assertEqualTextFiles(new File(out, "part-00000"), expected);
     }
     
     @Test(dataProvider = "shuffle")
-    public void testInsertLengthPileup(boolean useShuffle) throws Exception {
+    public void testInsertLengthPileup(final boolean useShuffle) throws Exception {
         final File out = createTempFile();
         final ArgumentsBuilder args = new ArgumentsBuilder();
         args.add("--input");
@@ -100,7 +100,7 @@ public final class PileupSparkIntegrationTest extends CommandLineProgramTest {
             args.add("--shuffle");
         }
         this.runCommandLine(args.getArgsArray());
-        File expected = new File(TEST_DATA_DIR, "expectedInsertLengthPileup.txt");
+        final File expected = new File(TEST_DATA_DIR, "expectedInsertLengthPileup.txt");
         IntegrationTestSpec.assertEqualTextFiles(new File(out, "part-00000"), expected);
     }
 

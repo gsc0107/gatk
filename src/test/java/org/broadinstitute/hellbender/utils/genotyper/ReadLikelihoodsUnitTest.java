@@ -424,7 +424,7 @@ public final class ReadLikelihoodsUnitTest {
         testLikelihoodMatrixQueries(samples,result,newLikelihoods);
     }
 
-    private void testLikelihoodMatrixQueries(String[] samples, ReadLikelihoods<Allele> result, final double[][][] likelihoods) {
+    private void testLikelihoodMatrixQueries(final String[] samples, final ReadLikelihoods<Allele> result, final double[][][] likelihoods) {
         for (final String sample : samples) {
             final int indexOfSample = result.indexOfSample(sample);
             final int sampleReadCount = result.sampleReadCount(indexOfSample);
@@ -439,7 +439,7 @@ public final class ReadLikelihoodsUnitTest {
         }
     }
 
-    private void testAlleleQueries(Allele[] alleles, ReadLikelihoods<Allele> result) {
+    private void testAlleleQueries(final Allele[] alleles, final ReadLikelihoods<Allele> result) {
         final Set<Integer> alleleIndices = new LinkedHashSet<>();
         for (final Allele allele : alleles) {
             final int indexOfAllele = result.indexOfAllele(allele);
@@ -450,7 +450,7 @@ public final class ReadLikelihoodsUnitTest {
         }
     }
 
-    private void testSampleQueries(String[] samples, Map<String, List<GATKRead>> reads, ReadLikelihoods<Allele> result) {
+    private void testSampleQueries(final String[] samples, final Map<String, List<GATKRead>> reads, final ReadLikelihoods<Allele> result) {
         final Set<Integer> sampleIds = new LinkedHashSet<>(samples.length);
         for (final String sample : samples) {
             final int indexOfSample = result.indexOfSample(sample);
@@ -646,7 +646,7 @@ public final class ReadLikelihoodsUnitTest {
     private final Random rnd = Utils.getRandomGenerator();
 
     private void testLikelihoodMatrixQueries(final AlleleList<Allele> alleles, final SampleList samples,
-                                             final Map<String,List<GATKRead>> sampleToReads, ReadLikelihoods<Allele> result, final double expectedLik) {
+                                             final Map<String,List<GATKRead>> sampleToReads, final ReadLikelihoods<Allele> result, final double expectedLik) {
         for (final String sample : samples.asListOfSamples()) {
             final int indexOfSample = result.indexOfSample(sample);
             final LikelihoodMatrix<Allele> likelihoodMatrix = result.sampleMatrix(indexOfSample);
@@ -664,7 +664,7 @@ public final class ReadLikelihoodsUnitTest {
         }
     }
 
-    private void testAlleleQueries(final AlleleList<Allele> alleles, ReadLikelihoods<Allele> result) {
+    private void testAlleleQueries(final AlleleList<Allele> alleles, final ReadLikelihoods<Allele> result) {
         final Set<Integer> alleleIndices = new LinkedHashSet<>();
         for (final Allele allele : alleles.asListOfAlleles()) {
             final int indexOfAllele = result.indexOfAllele(allele);
@@ -675,7 +675,7 @@ public final class ReadLikelihoodsUnitTest {
         }
     }
 
-    private void testSampleQueries(final SampleList samples, Map<String, List<GATKRead>> reads,
+    private void testSampleQueries(final SampleList samples, final Map<String, List<GATKRead>> reads,
                                    final ReadLikelihoods<Allele> result) {
         final Set<Integer> sampleIds = new LinkedHashSet<>(samples.numberOfSamples());
         for (final String sample : samples.asListOfSamples()) {

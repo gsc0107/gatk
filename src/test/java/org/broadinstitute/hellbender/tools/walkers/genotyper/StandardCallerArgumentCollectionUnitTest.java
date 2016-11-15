@@ -93,7 +93,7 @@ public final class StandardCallerArgumentCollectionUnitTest {
         return result;
     }
 
-    private Class<?> mapWrappersToPrimitives(Class<?> type) {
+    private Class<?> mapWrappersToPrimitives(final Class<?> type) {
         if (type == Boolean.class)
             return Boolean.TYPE;
         else if (type == Integer.class)

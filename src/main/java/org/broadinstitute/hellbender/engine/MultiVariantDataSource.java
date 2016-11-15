@@ -203,7 +203,7 @@ public final class MultiVariantDataSource implements GATKDataSource<VariantConte
         featureDataSources.forEach(dataSource -> dataSource.close());
     }
 
-    private SAMSequenceDictionary getMergedSequenceDictionary(VCFHeader header) {
+    private SAMSequenceDictionary getMergedSequenceDictionary(final VCFHeader header) {
         return header != null ? header.getSequenceDictionary() : null;
     }
 

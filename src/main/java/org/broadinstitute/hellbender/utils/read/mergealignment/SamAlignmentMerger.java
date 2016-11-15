@@ -242,7 +242,7 @@ public final class SamAlignmentMerger extends AbstractAlignmentMerger {
         private final PeekableIterator<SAMRecord> read2Iterator;
         private final SAMFileHeader header;
 
-        public SeparateEndAlignmentIterator(final List<File> read1Alignments, final List<File> read2Alignments, File referenceFasta) {
+        public SeparateEndAlignmentIterator(final List<File> read1Alignments, final List<File> read2Alignments, final File referenceFasta) {
             final List<SAMFileHeader> headers = new ArrayList<>();
             final List<SamReader> read1 = new ArrayList<>(read1Alignments.size());
             final List<SamReader> read2 = new ArrayList<>(read2Alignments.size());

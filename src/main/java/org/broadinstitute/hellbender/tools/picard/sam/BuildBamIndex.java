@@ -55,7 +55,7 @@ public final class BuildBamIndex extends PicardCommandLineProgram {
     protected Object doWork() {
         try {
             inputUrl = new URL(INPUT);
-        } catch (MalformedURLException e) {
+        } catch (final MalformedURLException e) {
             inputFile = new File(INPUT);
         }
 

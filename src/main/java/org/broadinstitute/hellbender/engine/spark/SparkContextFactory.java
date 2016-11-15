@@ -97,7 +97,7 @@ public final class SparkContextFactory {
      *
      * @param overridingProperties properties to set on the spark context, possibly overriding values already set
      */
-    public static synchronized JavaSparkContext getTestSparkContext(Map<String, String> overridingProperties) {
+    public static synchronized JavaSparkContext getTestSparkContext(final Map<String, String> overridingProperties) {
         if (testContextEnabled && testContext == null) {
             testContext = createTestSparkContext(overridingProperties);
             Runtime.getRuntime().addShutdownHook(new Thread() {
@@ -144,13 +144,13 @@ public final class SparkContextFactory {
         return sparkConf;
     }
     
-    private static JavaSparkContext createSparkContext(final String appName, Map<String,String> overridingProperties, final String master) {
+    private static JavaSparkContext createSparkContext(final String appName, final Map<String,String> overridingProperties, final String master) {
         final SparkConf sparkConf = setupSparkConf(appName, master, DEFAULT_PROPERTIES, overridingProperties);
 
         return new JavaSparkContext(sparkConf);
     }
 
-    private static JavaSparkContext createTestSparkContext(Map<String, String> overridingProperties) {
+    private static JavaSparkContext createTestSparkContext(final Map<String, String> overridingProperties) {
         final SparkConf sparkConf = setupSparkConf("TestContext", DEFAULT_SPARK_MASTER, DEFAULT_TEST_PROPERTIES, overridingProperties);
         return new JavaSparkContext(sparkConf);
     }
@@ -165,16 +165,16 @@ public final class SparkContextFactory {
      */
     private static String determineDefaultSparkMaster() {
 	final String defaultSparkMasterString = "local[*]";
-	String sparkMasterString;
+	final String sparkMasterString;
 
-	String sparkSpecFromEnvironment = System.getenv( SPARK_CORES_ENV_VARIABLE );
+	final String sparkSpecFromEnvironment = System.getenv( SPARK_CORES_ENV_VARIABLE );
 	if ( null == sparkSpecFromEnvironment ) {
 	    sparkMasterString = defaultSparkMasterString;
 	} else {
 	    int numSparkCoresFromEnv = 0;
 	    try {
 		numSparkCoresFromEnv = Integer.parseInt( sparkSpecFromEnvironment );
-	    } catch ( NumberFormatException e ) {
+	    } catch ( final NumberFormatException e ) {
 		throw new UserException("Illegal number of cores specified in " + SPARK_CORES_ENV_VARIABLE + ". Positive integers only");
 	    }
 	    

@@ -56,7 +56,7 @@ public final class ReadFilterLibraryUnitTest {
     private GATKRead simpleGoodRead( final SAMFileHeader header ) {
         final String cigarString = "101M";
         final Cigar cigar = TextCigarCodec.decode(cigarString);
-        GATKRead read = createRead(header, cigar, 1, 0, 10);
+        final GATKRead read = createRead(header, cigar, 1, 0, 10);
         read.setMappingQuality(50);
         return read;
     }
@@ -72,7 +72,7 @@ public final class ReadFilterLibraryUnitTest {
     }
 
     @Test(dataProvider = "UnsupportedCigarOperatorDataProvider")
-    public void testCigarNOperatorFilter(String cigarString) {
+    public void testCigarNOperatorFilter(final String cigarString) {
         final SAMFileHeader header = createHeaderWithReadGroups();
         final ReadFilter filter = new WellformedReadFilter(header);
         final GATKRead read = createRead(header, cigarString);
@@ -188,7 +188,7 @@ public final class ReadFilterLibraryUnitTest {
         samWithUnmappedPosition.setAlignmentStart(0);
 
         // Reads with a start position of 0 are considered unmapped in our Read interface
-        GATKRead readWithUnmappedPosition = new SAMRecordToGATKReadAdapter(samWithUnmappedPosition);
+        final GATKRead readWithUnmappedPosition = new SAMRecordToGATKReadAdapter(samWithUnmappedPosition);
         Assert.assertTrue(VALID_ALIGNMENT_START.test(readWithUnmappedPosition), "VALID_ALIGNMENT_START failed on an unmapped read (with start position == 0)");
     }
 
@@ -316,14 +316,14 @@ public final class ReadFilterLibraryUnitTest {
         };
     }
     @Test(dataProvider = "badCigars")
-    public void testWonkyCigars (String cigarString) {
-        GATKRead read = ReadClipperTestUtils.makeReadFromCigar(cigarString);
+    public void testWonkyCigars (final String cigarString) {
+        final GATKRead read = ReadClipperTestUtils.makeReadFromCigar(cigarString);
         Assert.assertFalse(GOOD_CIGAR.test(read), read.getCigar().toString());
     }
 
     @Test
     public void testReadCigarLengthMismatch() {
-        GATKRead read = ReadClipperTestUtils.makeReadFromCigar("4M", 1);
+        final GATKRead read = ReadClipperTestUtils.makeReadFromCigar("4M", 1);
         Assert.assertFalse(READLENGTH_EQUALS_CIGARLENGTH.test(read), read.getCigar().toString());
     }
 
@@ -347,7 +347,7 @@ public final class ReadFilterLibraryUnitTest {
 
     @Test
     public void testEmptyCigar(){
-        GATKRead read = ReadClipperTestUtils.makeReadFromCigar("");
+        final GATKRead read = ReadClipperTestUtils.makeReadFromCigar("");
         Assert.assertTrue(GOOD_CIGAR.test(read), read.getCigar().toString());
     }
 
@@ -362,16 +362,16 @@ public final class ReadFilterLibraryUnitTest {
     }
 
     @Test(dataProvider = "goodCigars")
-    public void testGoodCigars (String cigarString) {
-        GATKRead read = ReadClipperTestUtils.makeReadFromCigar(cigarString);
+    public void testGoodCigars (final String cigarString) {
+        final GATKRead read = ReadClipperTestUtils.makeReadFromCigar(cigarString);
         Assert.assertTrue(GOOD_CIGAR.test(read), read.getCigar().toString());
     }
     @Test
     public void testGoodCigarsUpToSize() {
         //Note: not using data providers here because it's super slow to print (many minutes vs few seconds).
-        List<Cigar> cigarList = ReadClipperTestUtils.generateCigarList(10);
-        for (Cigar cigar : cigarList) {
-            GATKRead read = ReadClipperTestUtils.makeReadFromCigar(cigar);
+        final List<Cigar> cigarList = ReadClipperTestUtils.generateCigarList(10);
+        for (final Cigar cigar : cigarList) {
+            final GATKRead read = ReadClipperTestUtils.makeReadFromCigar(cigar);
             Assert.assertTrue(GOOD_CIGAR.test(read), read.getCigar().toString());
         }
     }
@@ -451,7 +451,7 @@ public final class ReadFilterLibraryUnitTest {
     public void testPlatformFilter() {
         final SAMFileHeader header = createHeaderWithReadGroups();
         final GATKRead read = simpleGoodRead(header);
-        PlatformReadFilter f = new PlatformReadFilter(header);
+        final PlatformReadFilter f = new PlatformReadFilter(header);
 
         f.PLFilterNames = new LinkedHashSet<>(Arrays.asList("PL1", "PL2"));
         header.getReadGroup(read.getReadGroup()).setPlatform("PL1");
@@ -472,7 +472,7 @@ public final class ReadFilterLibraryUnitTest {
     public void testReadLengthFilter() {
         final SAMFileHeader header = createHeaderWithReadGroups();
         final GATKRead read = simpleGoodRead(header);
-        ReadLengthReadFilter f = new ReadLengthReadFilter();
+        final ReadLengthReadFilter f = new ReadLengthReadFilter();
         f.minReadLength = 10;
         f.maxReadLength = 20;
 
@@ -496,7 +496,7 @@ public final class ReadFilterLibraryUnitTest {
     public void testReadNameFilter() {
         final SAMFileHeader header = createHeaderWithReadGroups();
         final GATKRead read = simpleGoodRead(header);
-        ReadNameReadFilter f = new ReadNameReadFilter();
+        final ReadNameReadFilter f = new ReadNameReadFilter();
 
         final String fred= "fred";
         f.readName = fred;
@@ -511,7 +511,7 @@ public final class ReadFilterLibraryUnitTest {
     public void testReadStrandFilter() {
         final SAMFileHeader header = createHeaderWithReadGroups();
         final GATKRead read = simpleGoodRead(header);
-        ReadStrandFilter f = new ReadStrandFilter();
+        final ReadStrandFilter f = new ReadStrandFilter();
 
         f.keepOnlyReverse = false;
         read.setIsReverseStrand(false);
@@ -532,7 +532,7 @@ public final class ReadFilterLibraryUnitTest {
     public void testSampleFilter() {
         final SAMFileHeader header = createHeaderWithReadGroups();
         final GATKRead read = simpleGoodRead(header);
-        SampleReadFilter f = new SampleReadFilter(header);
+        final SampleReadFilter f = new SampleReadFilter(header);
 
         final String fred = "fred";
         f.samplesToKeep = Collections.emptySet();
@@ -562,7 +562,7 @@ public final class ReadFilterLibraryUnitTest {
         final GATKRead read = simpleGoodRead(header);
         final String fred = "fred";
 
-        ReadGroupReadFilter f = new ReadGroupReadFilter();
+        final ReadGroupReadFilter f = new ReadGroupReadFilter();
 
         f.readGroup = "";
         read.setReadGroup(fred);

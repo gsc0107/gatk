@@ -218,7 +218,7 @@ public class Main {
         return null;
     }
 
-    public static CommandLineProgramProperties getProgramProperty(Class<?> clazz) {
+    public static CommandLineProgramProperties getProgramProperty(final Class<?> clazz) {
         return clazz.getAnnotation(CommandLineProgramProperties.class);
     }
 
@@ -336,7 +336,7 @@ public class Main {
             bestDistance = HELP_SIMILARITY_FLOOR + 1;
         }
 
-        StringBuilder message = new StringBuilder();
+        final StringBuilder message = new StringBuilder();
         // Output similar matches
         message.append(String.format("'%s' is not a valid command.", command));
         message.append(System.lineSeparator());

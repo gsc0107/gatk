@@ -15,7 +15,7 @@ public final class AFCalculationResultUnitTest extends BaseTest {
     private static class MyTest {
         final double[] Ls, expectedPosteriors;
 
-        private MyTest(double[] ls, double[] expectedPosteriors) {
+        private MyTest(final double[] ls, final double[] expectedPosteriors) {
             Ls = ls;
             this.expectedPosteriors = expectedPosteriors;
         }
@@ -28,7 +28,7 @@ public final class AFCalculationResultUnitTest extends BaseTest {
 
     @DataProvider(name = "TestComputePosteriors")
     public Object[][] makeTestCombineGLs() {
-        List<Object[]> tests = new ArrayList<>();
+        final List<Object[]> tests = new ArrayList<>();
 
         tests.add(new Object[]{new MyTest(log10Even, log10Even)});
 
@@ -98,7 +98,7 @@ public final class AFCalculationResultUnitTest extends BaseTest {
 
     @DataProvider(name = "TestIsPolymorphic")
     public Object[][] makeTestIsPolymorphic() {
-        List<Object[]> tests = new ArrayList<>();
+        final List<Object[]> tests = new ArrayList<>();
 
         final List<Double> pValues = new LinkedList<>();
         for ( final double p : Arrays.asList(0.01, 0.1, 0.9, 0.99, 0.999, 1 - 1e-4, 1 - 1e-5, 1 - 1e-6) )

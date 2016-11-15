@@ -30,10 +30,10 @@ public final class TextFileParsersTest {
     };
 
     @Test(dataProvider = "basicInputParserData")
-    public void testTextFileParser(Object fileOrStream) throws IOException {
-        FormatUtil format = new FormatUtil();
+    public void testTextFileParser(final Object fileOrStream) throws IOException {
+        final FormatUtil format = new FormatUtil();
 
-        List<String> expected = new ArrayList<>();
+        final List<String> expected = new ArrayList<>();
         if (fileOrStream instanceof File) {
             try (BufferedReader reader = new BufferedReader(new FileReader((File)fileOrStream))) {
                 String line = null;
@@ -43,13 +43,13 @@ public final class TextFileParsersTest {
             }
         }
 
-        BasicInputParser parser = fileOrStream instanceof File
+        final BasicInputParser parser = fileOrStream instanceof File
             ? new BasicInputParser(true, (File)fileOrStream )
             : new BasicInputParser(true, (InputStream)fileOrStream);
         int index = 0;
         while (parser.hasNext())
         {
-            String parts[] = parser.next();
+            final String[] parts = parser.next();
             if (fileOrStream instanceof File) {
                 // Can't have the parser and the reader workking with an InputStream at the same time
                 // so we only do this test with the file
@@ -83,10 +83,10 @@ public final class TextFileParsersTest {
     }
 
     @Test(dataProvider = "multiFileParsingData")
-    public void testMultiFileParsing(Object fileOrStream1, Object fileOrStream2) throws IOException {
-        FormatUtil format = new FormatUtil();
+    public void testMultiFileParsing(final Object fileOrStream1, final Object fileOrStream2) throws IOException {
+        final FormatUtil format = new FormatUtil();
 
-        List<String> expected = new ArrayList<>();
+        final List<String> expected = new ArrayList<>();
         if (fileOrStream1 instanceof File) {
             try (final BufferedReader reader = new BufferedReader(new FileReader((File)fileOrStream1))) {
                 String line = null;
@@ -102,15 +102,15 @@ public final class TextFileParsersTest {
             }
         }
 
-        BasicInputParser parser = fileOrStream1 instanceof File
+        final BasicInputParser parser = fileOrStream1 instanceof File
             ? new BasicInputParser(true, (File)fileOrStream1, (File)fileOrStream2 )
             : new BasicInputParser(true, (InputStream)fileOrStream1, (InputStream)fileOrStream2);
         int index = 0;
         // Line 4 is a comment, so there's a gap in the line numbers
-        int expectedLineNumbers[] = {1,2,3,5,6,1,2,3,5,6};
+        final int[] expectedLineNumbers = {1,2,3,5,6,1,2,3,5,6};
         while (parser.hasNext())
         {
-            String parts[] = parser.next();
+            final String[] parts = parser.next();
             if (fileOrStream1 instanceof File) {
                 // Can't have the parser and the reader working with an InputStream at the same time
                 // so we only test the files
@@ -118,7 +118,7 @@ public final class TextFileParsersTest {
             }
             Assert.assertEquals(parser.getCurrentLineNumber(), expectedLineNumbers[index]);
             Assert.assertEquals(parts.length, 4);
-            int indexIntoTestData = (index<5) ? index : index-5;
+            final int indexIntoTestData = (index<5) ? index : index-5;
             if (index != 4 && index != 9) {
                 for (int i = 0; i < parts.length; i++) {
                     Assert.assertEquals(parts, testFile1Data[indexIntoTestData]);
@@ -144,13 +144,13 @@ public final class TextFileParsersTest {
     }
 
     @Test(dataProvider = "noGroupingData")
-    public void testTextFileParserNoGrouping(Object fileOrStream) {
-        BasicInputParser parser = fileOrStream instanceof File
+    public void testTextFileParserNoGrouping(final Object fileOrStream) {
+        final BasicInputParser parser = fileOrStream instanceof File
             ? new BasicInputParser(true, (File)fileOrStream)
             : new BasicInputParser(true, (InputStream)fileOrStream);
         parser.setTreatGroupedDelimitersAsOne(false);
         while (parser.hasNext()) {
-            String parts[] = parser.next();
+            final String[] parts = parser.next();
             for (int i = 0; i < parts.length; i++) {
                 if (parts[i] != null) {
                     Assert.assertEquals(Integer.parseInt(parts[i]), i + 1);
@@ -170,13 +170,13 @@ public final class TextFileParsersTest {
 
 
     @Test(dataProvider = "leadingWhiteSpaceData")
-    public void testTextFileParserLeadingWhitespace(Object fileOrStream) {
-        BasicInputParser parser = fileOrStream instanceof File
+    public void testTextFileParserLeadingWhitespace(final Object fileOrStream) {
+        final BasicInputParser parser = fileOrStream instanceof File
             ? new BasicInputParser(true, (File)fileOrStream)
             : new BasicInputParser(true, (InputStream)fileOrStream);
         while (parser.hasNext())
         {
-            String parts[] = parser.next();
+            final String[] parts = parser.next();
             Assert.assertEquals(parts.length, 1);
             Assert.assertEquals("1", parts[0]);
         }
@@ -193,12 +193,12 @@ public final class TextFileParsersTest {
 
 
     @Test(expectedExceptions= RuntimeIOException.class, dataProvider = "tooManyWordsData")
-    public void testTooManyWords(Object fileOrStream) {
-        BasicInputParser parser = fileOrStream instanceof File
+    public void testTooManyWords(final Object fileOrStream) {
+        final BasicInputParser parser = fileOrStream instanceof File
             ? new BasicInputParser(true, 3, (File)fileOrStream)
             : new BasicInputParser(true, 3, (InputStream)fileOrStream);
         if (parser.hasNext()) {
-            String parts[] = parser.next();
+            final String[] parts = parser.next();
         }
         Assert.fail("Attempt to parse extra-long file should have failed but didn't.");
     }
@@ -213,12 +213,12 @@ public final class TextFileParsersTest {
     }
 
     @Test(dataProvider = "tabbedData")
-    public void testTabbedFileParser(Object fileOrStream) {
-        TabbedInputParser parser = fileOrStream instanceof File
+    public void testTabbedFileParser(final Object fileOrStream) {
+        final TabbedInputParser parser = fileOrStream instanceof File
             ? new TabbedInputParser(false, (File)fileOrStream)
             : new TabbedInputParser(false, (InputStream)fileOrStream);
         while (parser.hasNext()) {
-            String parts[] = parser.next();
+            final String[] parts = parser.next();
             for (int i = 0; i < parts.length; i++) {
                 if (parts[i] != null && !parts[i].equals("")) {
                     Assert.assertEquals(parts[i].trim(), String.valueOf(i + 1));
@@ -237,9 +237,9 @@ public final class TextFileParsersTest {
     }
 
     @Test(dataProvider="data")
-    public void testWordCountCalculation(String line, boolean groupDelimiters, String name) {
+    public void testWordCountCalculation(final String line, final boolean groupDelimiters, final String name) {
 
-        WordCountTestParser parser = new WordCountTestParser();
+        final WordCountTestParser parser = new WordCountTestParser();
         parser.setDelimiter("\t ");
         parser.setTreatGroupedDelimitersAsOne(groupDelimiters);
         parser.calculateWordCount(line.getBytes());
@@ -271,7 +271,7 @@ public final class TextFileParsersTest {
         public WordCountTestParser() {
         }
 
-        public void setDelimiter(String delim) {
+        public void setDelimiter(final String delim) {
             delimiters = delim.toCharArray();
         }
 

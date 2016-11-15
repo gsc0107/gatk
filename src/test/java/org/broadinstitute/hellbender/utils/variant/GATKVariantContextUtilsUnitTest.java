@@ -52,38 +52,38 @@ public final class GATKVariantContextUtilsUnitTest extends BaseTest {
         GT = Allele.create("GT",false);
     }
 
-    private Genotype makeG(String sample, Allele a1, Allele a2, double log10pError, int... pls) {
+    private Genotype makeG(final String sample, final Allele a1, final Allele a2, final double log10pError, final int... pls) {
         return new GenotypeBuilder(sample, Arrays.asList(a1, a2)).log10PError(log10pError).PL(pls).make();
     }
 
 
-    private Genotype makeG(String sample, Allele a1, Allele a2, double log10pError) {
+    private Genotype makeG(final String sample, final Allele a1, final Allele a2, final double log10pError) {
         return new GenotypeBuilder(sample, Arrays.asList(a1, a2)).log10PError(log10pError).make();
     }
 
-    private VariantContext makeVC(String source, List<Allele> alleles) {
+    private VariantContext makeVC(final String source, final List<Allele> alleles) {
         return makeVC(source, alleles, null, null);
     }
 
-    private VariantContext makeVC(String source, List<Allele> alleles, Genotype... g1) {
+    private VariantContext makeVC(final String source, final List<Allele> alleles, final Genotype... g1) {
         return makeVC(source, alleles, Arrays.asList(g1));
     }
 
-    private VariantContext makeVC(String source, List<Allele> alleles, String filter) {
+    private VariantContext makeVC(final String source, final List<Allele> alleles, final String filter) {
         return makeVC(source, alleles, filter.equals(".") ? null : new LinkedHashSet<>(Collections.singletonList(filter)));
     }
 
-    private VariantContext makeVC(String source, List<Allele> alleles, Set<String> filters) {
+    private VariantContext makeVC(final String source, final List<Allele> alleles, final Set<String> filters) {
         return makeVC(source, alleles, null, filters);
     }
 
-    private VariantContext makeVC(String source, List<Allele> alleles, Collection<Genotype> genotypes) {
+    private VariantContext makeVC(final String source, final List<Allele> alleles, final Collection<Genotype> genotypes) {
         return makeVC(source, alleles, genotypes, null);
     }
 
-    private VariantContext makeVC(String source, List<Allele> alleles, Collection<Genotype> genotypes, Set<String> filters) {
-        int start = 10;
-        int stop = start + alleles.get(0).length() - 1; // alleles.contains(ATC) ? start + 3 : start;
+    private VariantContext makeVC(final String source, final List<Allele> alleles, final Collection<Genotype> genotypes, final Set<String> filters) {
+        final int start = 10;
+        final int stop = start + alleles.get(0).length() - 1; // alleles.contains(ATC) ? start + 3 : start;
         return new VariantContextBuilder(source, "1", start, stop, alleles).genotypes(genotypes).filters(filters).make();
     }
 
@@ -105,9 +105,9 @@ public final class GATKVariantContextUtilsUnitTest extends BaseTest {
 
         @SafeVarargs
         @SuppressWarnings("varargs")
-        private MergeAllelesTest(List<Allele>... arg) {
+        private MergeAllelesTest(final List<Allele>... arg) {
             super(MergeAllelesTest.class);
-            LinkedList<List<Allele>> all = new LinkedList<>(Arrays.asList(arg));
+            final LinkedList<List<Allele>> all = new LinkedList<>(Arrays.asList(arg));
             expected = all.pollLast();
             inputs = all;
         }
@@ -169,7 +169,7 @@ public final class GATKVariantContextUtilsUnitTest extends BaseTest {
     }
 
     @Test( dataProvider = "mergeAlleles")
-    public void testMergeAlleles(MergeAllelesTest cfg) {
+    public void testMergeAlleles(final MergeAllelesTest cfg) {
         final List<VariantContext> inputs = new ArrayList<>();
 
         int i = 0;
@@ -199,9 +199,9 @@ public final class GATKVariantContextUtilsUnitTest extends BaseTest {
         List<String> inputs;
         String expected;
 
-        private SimpleMergeRSIDTest(String... arg) {
+        private SimpleMergeRSIDTest(final String... arg) {
             super(SimpleMergeRSIDTest.class);
-            LinkedList<String> allStrings = new LinkedList<>(Arrays.asList(arg));
+            final LinkedList<String> allStrings = new LinkedList<>(Arrays.asList(arg));
             expected = allStrings.pollLast();
             inputs = allStrings;
         }
@@ -231,8 +231,8 @@ public final class GATKVariantContextUtilsUnitTest extends BaseTest {
     }
 
     @Test(dataProvider = "simplemergersiddata")
-    public void testRSIDMerge(SimpleMergeRSIDTest cfg) {
-        VariantContext snpVC1 = makeVC("snpvc1", Arrays.asList(Aref, T));
+    public void testRSIDMerge(final SimpleMergeRSIDTest cfg) {
+        final VariantContext snpVC1 = makeVC("snpvc1", Arrays.asList(Aref, T));
         final List<VariantContext> inputs = cfg.inputs.stream()
                 .map(id -> new VariantContextBuilder(snpVC1).id(id).make())
                 .collect(Collectors.toList());
@@ -257,13 +257,13 @@ public final class GATKVariantContextUtilsUnitTest extends BaseTest {
         GATKVariantContextUtils.FilteredRecordMergeType type;
 
 
-        private MergeFilteredTest(String name, VariantContext input1, VariantContext input2, VariantContext expected, String setExpected) {
+        private MergeFilteredTest(final String name, final VariantContext input1, final VariantContext input2, final VariantContext expected, final String setExpected) {
             this(name, input1, input2, expected, GATKVariantContextUtils.FilteredRecordMergeType.KEEP_IF_ANY_UNFILTERED, setExpected);
         }
 
-        private MergeFilteredTest(String name, VariantContext input1, VariantContext input2, VariantContext expected, GATKVariantContextUtils.FilteredRecordMergeType type, String setExpected) {
+        private MergeFilteredTest(final String name, final VariantContext input1, final VariantContext input2, final VariantContext expected, final GATKVariantContextUtils.FilteredRecordMergeType type, final String setExpected) {
             super(MergeFilteredTest.class, name);
-            LinkedList<VariantContext> all = new LinkedList<>(Arrays.asList(input1, input2));
+            final LinkedList<VariantContext> all = new LinkedList<>(Arrays.asList(input1, input2));
             this.expected = expected;
             this.type = type;
             inputs = all;
@@ -352,7 +352,7 @@ public final class GATKVariantContextUtilsUnitTest extends BaseTest {
     }
 
     @Test(dataProvider = "mergeFiltered")
-    public void testMergeFiltered(MergeFilteredTest cfg) {
+    public void testMergeFiltered(final MergeFilteredTest cfg) {
         final List<String> priority = vcs2priority(cfg.inputs);
         final VariantContext merged = GATKVariantContextUtils.simpleMerge(
                 cfg.inputs, priority, cfg.type, GATKVariantContextUtils.GenotypeMergeType.PRIORITIZE, true, false, "set", false, false);
@@ -392,9 +392,9 @@ public final class GATKVariantContextUtilsUnitTest extends BaseTest {
         VariantContext expected;
         List<String> priority;
 
-        private MergeGenotypesTest(String name, String priority, VariantContext... arg) {
+        private MergeGenotypesTest(final String name, final String priority, final VariantContext... arg) {
             super(MergeGenotypesTest.class, name);
-            LinkedList<VariantContext> all = new LinkedList<>(Arrays.asList(arg));
+            final LinkedList<VariantContext> all = new LinkedList<>(Arrays.asList(arg));
             this.expected = all.pollLast();
             inputs = all;
             this.priority = Arrays.asList(priority.split(","));
@@ -493,7 +493,7 @@ public final class GATKVariantContextUtilsUnitTest extends BaseTest {
     }
 
     @Test(dataProvider = "mergeGenotypes")
-    public void testMergeGenotypes(MergeGenotypesTest cfg) {
+    public void testMergeGenotypes(final MergeGenotypesTest cfg) {
         final VariantContext merged = GATKVariantContextUtils.simpleMerge(
                 cfg.inputs, cfg.priority, GATKVariantContextUtils.FilteredRecordMergeType.KEEP_IF_ANY_UNFILTERED,
                 GATKVariantContextUtils.GenotypeMergeType.PRIORITIZE, true, false, "set", false, false);
@@ -506,7 +506,7 @@ public final class GATKVariantContextUtilsUnitTest extends BaseTest {
     }
 
     // necessary to not overload equals for genotypes
-    private void assertGenotypesAreMostlyEqual(GenotypesContext actual, GenotypesContext expected) {
+    private void assertGenotypesAreMostlyEqual(final GenotypesContext actual, final GenotypesContext expected) {
         if (actual == expected) {
             return;
         }
@@ -519,8 +519,8 @@ public final class GATKVariantContextUtilsUnitTest extends BaseTest {
             Assert.fail("Maps do not have the same size:" + actual.size() + " != " + expected.size());
         }
 
-        for (Genotype value : actual) {
-            Genotype expectedValue = expected.get(value.getSampleName());
+        for (final Genotype value : actual) {
+            final Genotype expectedValue = expected.get(value.getSampleName());
 
             Assert.assertEquals(value.getAlleles(), expectedValue.getAlleles(), "Alleles in Genotype aren't equal");
             Assert.assertEquals(value.getGQ(), expectedValue.getGQ(), "GQ values aren't equal");
@@ -565,8 +565,8 @@ public final class GATKVariantContextUtilsUnitTest extends BaseTest {
         for ( final boolean annotate : Arrays.asList(true, false)) {
             for ( final String set : Arrays.asList("set", "combine", "x")) {
                 final List<String> priority = Arrays.asList("1", "2");
-                VariantContext vc1 = makeVC("1", Arrays.asList(Aref, T), VariantContext.PASSES_FILTERS);
-                VariantContext vc2 = makeVC("2", Arrays.asList(Aref, T), VariantContext.PASSES_FILTERS);
+                final VariantContext vc1 = makeVC("1", Arrays.asList(Aref, T), VariantContext.PASSES_FILTERS);
+                final VariantContext vc2 = makeVC("2", Arrays.asList(Aref, T), VariantContext.PASSES_FILTERS);
 
                 final VariantContext merged = GATKVariantContextUtils.simpleMerge(
                         Arrays.asList(vc1, vc2), priority, GATKVariantContextUtils.FilteredRecordMergeType.KEEP_IF_ANY_UNFILTERED,
@@ -628,8 +628,8 @@ public final class GATKVariantContextUtilsUnitTest extends BaseTest {
     }
 
     @Test(dataProvider = "ReverseClippingPositionTestProvider")
-    public void testReverseClippingPositionTestProvider(ReverseClippingPositionTestProvider cfg) {
-        int result = GATKVariantContextUtils.computeReverseClipping(cfg.alleles, cfg.ref.getBytes());
+    public void testReverseClippingPositionTestProvider(final ReverseClippingPositionTestProvider cfg) {
+        final int result = GATKVariantContextUtils.computeReverseClipping(cfg.alleles, cfg.ref.getBytes());
         Assert.assertEquals(result, cfg.expectedClip);
     }
 
@@ -642,7 +642,7 @@ public final class GATKVariantContextUtilsUnitTest extends BaseTest {
 
     @DataProvider(name = "SplitBiallelics")
     public Object[][] makeSplitBiallelics() throws CloneNotSupportedException {
-        List<Object[]> tests = new ArrayList<>();
+        final List<Object[]> tests = new ArrayList<>();
 
         final VariantContextBuilder root = new VariantContextBuilder("x", "20", 10, 10, Arrays.asList(Aref, C));
 
@@ -726,12 +726,12 @@ public final class GATKVariantContextUtilsUnitTest extends BaseTest {
         boolean isTrueRepeat;
         VariantContext vc;
 
-        private RepeatDetectorTest(boolean isTrueRepeat, String ref, String refAlleleString, String ... altAlleleStrings) {
+        private RepeatDetectorTest(final boolean isTrueRepeat, final String ref, final String refAlleleString, final String ... altAlleleStrings) {
             super(RepeatDetectorTest.class);
             this.isTrueRepeat = isTrueRepeat;
             this.ref = ref;
 
-            List<Allele> alleles = new LinkedList<>();
+            final List<Allele> alleles = new LinkedList<>();
             final Allele refAllele = Allele.create(refAlleleString, true);
             alleles.add(refAllele);
             for ( final String altString: altAlleleStrings) {
@@ -739,7 +739,7 @@ public final class GATKVariantContextUtilsUnitTest extends BaseTest {
                 alleles.add(alt);
             }
 
-            VariantContextBuilder builder = new VariantContextBuilder("test", "chr1", 1, refAllele.length(), alleles);
+            final VariantContextBuilder builder = new VariantContextBuilder("test", "chr1", 1, refAllele.length(), alleles);
             this.vc = builder.make();
         }
 
@@ -780,7 +780,7 @@ public final class GATKVariantContextUtilsUnitTest extends BaseTest {
     }
 
     @Test( dataProvider = "RepeatDetectorTest")
-    public void testRepeatDetectorTest(RepeatDetectorTest cfg) {
+    public void testRepeatDetectorTest(final RepeatDetectorTest cfg) {
 
         // test alleles are equal
         Assert.assertEquals(GATKVariantContextUtils.isTandemRepeat(cfg.vc, cfg.ref.getBytes()), cfg.isTrueRepeat);
@@ -852,23 +852,23 @@ public final class GATKVariantContextUtilsUnitTest extends BaseTest {
 
     @Test
     public void testRepeatAllele() {
-        Allele nullR = Aref;
-        Allele nullA = Allele.create("A", false);
-        Allele atc   = Allele.create("AATC", false);
-        Allele atcatc   = Allele.create("AATCATC", false);
-        Allele ccccR = Allele.create("ACCCC", true);
-        Allele cc   = Allele.create("ACC", false);
-        Allele cccccc   = Allele.create("ACCCCCC", false);
-        Allele gagaR   = Allele.create("AGAGA", true);
-        Allele gagagaga   = Allele.create("AGAGAGAGA", false);
+        final Allele nullR = Aref;
+        final Allele nullA = Allele.create("A", false);
+        final Allele atc   = Allele.create("AATC", false);
+        final Allele atcatc   = Allele.create("AATCATC", false);
+        final Allele ccccR = Allele.create("ACCCC", true);
+        final Allele cc   = Allele.create("ACC", false);
+        final Allele cccccc   = Allele.create("ACCCCCC", false);
+        final Allele gagaR   = Allele.create("AGAGA", true);
+        final Allele gagagaga   = Allele.create("AGAGAGAGA", false);
 
         // - / ATC [ref] from 20-22
-        String delLoc = "chr1";
+        final String delLoc = "chr1";
 
         // - [ref] / ATC from 20-20
-        String insLoc = "chr1";
-        int insLocStart = 20;
-        int insLocStop = 20;
+        final String insLoc = "chr1";
+        final int insLocStart = 20;
+        final int insLocStop = 20;
 
         Pair<List<Integer>,byte[]> result;
         byte[] refBytes = "TATCATCATCGGA".getBytes();
@@ -933,7 +933,7 @@ public final class GATKVariantContextUtilsUnitTest extends BaseTest {
 
     @DataProvider(name = "ForwardClippingData")
     public Object[][] makeForwardClippingData() {
-        List<Object[]> tests = new ArrayList<>();
+        final List<Object[]> tests = new ArrayList<>();
 
         // this functionality can be adapted to provide input data for whatever you might want in your data
         tests.add(new Object[]{Collections.singletonList("A"), -1});
@@ -979,7 +979,7 @@ public final class GATKVariantContextUtilsUnitTest extends BaseTest {
 
     @DataProvider(name = "ClipAlleleTest")
     public Object[][] makeClipAlleleTest() {
-        List<Object[]> tests = new ArrayList<>();
+        final List<Object[]> tests = new ArrayList<>();
 
         // this functionality can be adapted to provide input data for whatever you might want in your data
         tests.add(new Object[]{Arrays.asList("ACC", "AC"), Arrays.asList("AC", "A"), 0});
@@ -1021,7 +1021,7 @@ public final class GATKVariantContextUtilsUnitTest extends BaseTest {
 
     @DataProvider(name = "PrimitiveAlleleSplittingData")
     public Object[][] makePrimitiveAlleleSplittingData() {
-        List<Object[]> tests = new ArrayList<>();
+        final List<Object[]> tests = new ArrayList<>();
 
         // no split
         tests.add(new Object[]{"A", "C", 0, null});
@@ -1071,7 +1071,7 @@ public final class GATKVariantContextUtilsUnitTest extends BaseTest {
 
     @DataProvider(name = "AlleleRemappingData")
     public Object[][] makeAlleleRemappingData() {
-        List<Object[]> tests = new ArrayList<>();
+        final List<Object[]> tests = new ArrayList<>();
 
         final Allele originalBase1 = Allele.create((byte)'A');
         final Allele originalBase2 = Allele.create((byte)'T');
@@ -1079,7 +1079,7 @@ public final class GATKVariantContextUtilsUnitTest extends BaseTest {
         for ( final byte base1 : BaseUtils.BASES ) {
             for ( final byte base2 : BaseUtils.BASES ) {
                 for ( final int numGenotypes : Arrays.asList(0, 1, 2, 5) ) {
-                    Map<Allele, Allele> map = new LinkedHashMap<>(2);
+                    final Map<Allele, Allele> map = new LinkedHashMap<>(2);
                     map.put(originalBase1, Allele.create(base1));
                     map.put(originalBase2, Allele.create(base2));
 
@@ -1137,7 +1137,7 @@ public final class GATKVariantContextUtilsUnitTest extends BaseTest {
 
     @DataProvider(name = "SubsetAllelesData")
     public Object[][] makesubsetAllelesData() {
-        List<Object[]> tests = new ArrayList<>();
+        final List<Object[]> tests = new ArrayList<>();
 
         final List<Allele> AA = Arrays.asList(Aref,Aref);
         final List<Allele> AC = Arrays.asList(Aref,C);
@@ -1524,7 +1524,7 @@ public final class GATKVariantContextUtilsUnitTest extends BaseTest {
         return generateAllParameterCombinationsForOverlapWithData(locs, events);
     }
 
-    private Object[][] generateAllParameterCombinationsForOverlapWithData(GenomeLoc[] locs, VariantContext[] events) {
+    private Object[][] generateAllParameterCombinationsForOverlapWithData(final GenomeLoc[] locs, final VariantContext[] events) {
         final List<Object[]> result = new LinkedList<>();
         for (final GenomeLoc loc : locs)
             for (final VariantContext event : events)
@@ -1632,7 +1632,7 @@ public final class GATKVariantContextUtilsUnitTest extends BaseTest {
         final File tmpDir = createTempDir("createVCFTest");
         final File outputFile = new File(tmpDir.getAbsolutePath(), "createVCFTest" + outputExtension);
 
-        Options options[] = createIndex ?
+        final Options[] options = createIndex ?
                 new Options[] {Options.INDEX_ON_THE_FLY} :
                 new Options[] {};
         try (final VariantContextWriter writer = GATKVariantContextUtils.createVCFWriter(
@@ -1695,7 +1695,7 @@ public final class GATKVariantContextUtilsUnitTest extends BaseTest {
         final File tmpDir = createTempDir("createVCFTest");
         final File outputFile = new File(tmpDir.getAbsolutePath(), "createVCFTest" + outputExtension);
 
-        Options options[] = createIndex ?
+        final Options[] options = createIndex ?
                 new Options[] {Options.ALLOW_MISSING_FIELDS_IN_HEADER, Options.INDEX_ON_THE_FLY} :
                 new Options[] {Options.ALLOW_MISSING_FIELDS_IN_HEADER};
         try (final VariantContextWriter vcw = GATKVariantContextUtils.createVCFWriter(
@@ -1725,7 +1725,7 @@ public final class GATKVariantContextUtilsUnitTest extends BaseTest {
         final File tmpDir = createTempDir("createVCFTest");
         final File outputFile = new File(tmpDir.getAbsolutePath(), "createVCFTest" + outputExtension);
 
-        Options options[] = createIndex ?
+        final Options[] options = createIndex ?
                 new Options[] {Options.INDEX_ON_THE_FLY} :
                 new Options[] {};
         try (final VariantContextWriter vcw = GATKVariantContextUtils.createVCFWriter(
@@ -1777,7 +1777,7 @@ public final class GATKVariantContextUtilsUnitTest extends BaseTest {
 
     @DataProvider(name = "setFilteredGenotypeToNocallTest")
     public Object[][] makeSetFilteredGenotypeToNocallTest() {
-        List<Object[]> tests = new ArrayList<>();
+        final List<Object[]> tests = new ArrayList<>();
 
         tests.add(new Object[]{new ArrayList<>(Arrays.asList(Aref, C)), true, Arrays.asList(0), 0, Arrays.asList(0.5)});
         tests.add(new Object[]{new ArrayList<>(Arrays.asList(Aref, C)), false, Arrays.asList(1), 2, Arrays.asList(0.5)});
@@ -1805,7 +1805,7 @@ public final class GATKVariantContextUtilsUnitTest extends BaseTest {
                 attribute(VCFConstants.ALLELE_NUMBER_KEY, 2).
                 attribute(VCFConstants.ALLELE_FREQUENCY_KEY, new double[]{0.5});
         GATKVariantContextUtils.setFilteredGenotypeToNocall(builder, builder.make(), setFilteredGenotypesToNocall, this::getGenotypeFilters);
-        VariantContext vc = builder.make();
+        final VariantContext vc = builder.make();
         if ( vc.hasAttribute((VCFConstants.ALLELE_COUNT_KEY)) ) {
             Assert.assertEquals(vc.getAttribute(VCFConstants.ALLELE_COUNT_KEY), calledAltAlleles.toArray());
         }

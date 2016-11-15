@@ -26,7 +26,7 @@ public class ActivityProfileUnitTest extends BaseTest {
     @BeforeClass
     public void init() throws FileNotFoundException {
         // sequence
-        ReferenceSequenceFile seq = new CachingIndexedFastaSequenceFile(new File(b37_reference_20_21));
+        final ReferenceSequenceFile seq = new CachingIndexedFastaSequenceFile(new File(b37_reference_20_21));
         genomeLocParser = new GenomeLocParser(seq);
         startLoc = genomeLocParser.createGenomeLoc("20", 0, 1, 100);
         header = new SAMFileHeader();
@@ -46,7 +46,7 @@ public class ActivityProfileUnitTest extends BaseTest {
         GenomeLoc regionStart = startLoc;
         final ProfileType type;
 
-        public BasicActivityProfileTestProvider(final ProfileType type, final List<Double> probs, boolean startActive, int ... startsAndStops) {
+        public BasicActivityProfileTestProvider(final ProfileType type, final List<Double> probs, final boolean startActive, final int ... startsAndStops) {
             super(BasicActivityProfileTestProvider.class);
             this.type = type;
             this.probs = probs;
@@ -68,13 +68,13 @@ public class ActivityProfileUnitTest extends BaseTest {
             }
         }
 
-        private List<AssemblyRegion> toRegions(boolean isActive, int[] startsAndStops) {
-            List<AssemblyRegion> l = new ArrayList<>();
+        private List<AssemblyRegion> toRegions(boolean isActive, final int[] startsAndStops) {
+            final List<AssemblyRegion> l = new ArrayList<>();
             for ( int i = 0; i < startsAndStops.length - 1; i++) {
-                int start = regionStart.getStart() + startsAndStops[i];
-                int end = regionStart.getStart() + startsAndStops[i+1] - 1;
-                GenomeLoc activeLoc = genomeLocParser.createGenomeLoc(regionStart.getContig(), start, end);
-                AssemblyRegion r = new AssemblyRegion(new SimpleInterval(activeLoc), Collections.<ActivityProfileState>emptyList(), isActive, extension, header);
+                final int start = regionStart.getStart() + startsAndStops[i];
+                final int end = regionStart.getStart() + startsAndStops[i+1] - 1;
+                final GenomeLoc activeLoc = genomeLocParser.createGenomeLoc(regionStart.getContig(), start, end);
+                final AssemblyRegion r = new AssemblyRegion(new SimpleInterval(activeLoc), Collections.<ActivityProfileState>emptyList(), isActive, extension, header);
                 l.add(r);
                 isActive = ! isActive;
             }
@@ -100,14 +100,14 @@ public class ActivityProfileUnitTest extends BaseTest {
     }
 
     @Test(dataProvider = "BasicActivityProfileTestProvider")
-    public void testBasicActivityProfile(BasicActivityProfileTestProvider cfg) {
-        ActivityProfile profile = cfg.makeProfile();
+    public void testBasicActivityProfile(final BasicActivityProfileTestProvider cfg) {
+        final ActivityProfile profile = cfg.makeProfile();
 
         Assert.assertTrue(profile.isEmpty());
 
         for ( int i = 0; i < cfg.probs.size(); i++ ) {
-            double p = cfg.probs.get(i);
-            GenomeLoc loc = genomeLocParser.createGenomeLoc(cfg.regionStart.getContig(), cfg.regionStart.getStart() + i, cfg.regionStart.getStart() + i);
+            final double p = cfg.probs.get(i);
+            final GenomeLoc loc = genomeLocParser.createGenomeLoc(cfg.regionStart.getContig(), cfg.regionStart.getStart() + i, cfg.regionStart.getStart() + i);
             profile.add(new ActivityProfileState(new SimpleInterval(loc), p));
             Assert.assertFalse(profile.isEmpty(), "Profile shouldn't be empty after adding a state");
         }
@@ -120,7 +120,7 @@ public class ActivityProfileUnitTest extends BaseTest {
         //assertRegionsAreEqual(profile.createActiveRegions(0, 100), cfg.expectedRegions);
     }
 
-    private void assertProbsAreEqual(List<ActivityProfileState> actual, List<Double> expected) {
+    private void assertProbsAreEqual(final List<ActivityProfileState> actual, final List<Double> expected) {
         Assert.assertEquals(actual.size(), expected.size());
         for ( int i = 0; i < actual.size(); i++ ) {
             Assert.assertEquals(actual.get(i).isActiveProb(), expected.get(i));
@@ -144,9 +144,9 @@ public class ActivityProfileUnitTest extends BaseTest {
         final List<Object[]> tests = new LinkedList<>();
 
         final int contigLength = genomeLocParser.getSequenceDictionary().getSequences().get(0).getSequenceLength();
-        for ( int start : Arrays.asList(1, 10, 100, contigLength - 100, contigLength - 10) ) {
+        for ( final int start : Arrays.asList(1, 10, 100, contigLength - 100, contigLength - 10) ) {
             for ( int regionSize : Arrays.asList(1, 10, 100, 1000, 10000) ) {
-                for ( int maxRegionSize : Arrays.asList(10, 50, 200) ) {
+                for ( final int maxRegionSize : Arrays.asList(10, 50, 200) ) {
                     for ( final boolean waitUntilEnd : Arrays.asList(false, true) ) {
                         for ( final boolean forceConversion : Arrays.asList(false, true) ) {
                             // what do I really want to test here?  I'd like to test a few cases:
@@ -154,7 +154,7 @@ public class ActivityProfileUnitTest extends BaseTest {
                             // -- region is all inactive (0.0)
                             // -- cut the interval into 1, 2, 3, 4, 5 ... 10 regions, each with alternating activity values
                             for ( final boolean startWithActive : Arrays.asList(true, false) ) {
-                                for ( int nParts : Arrays.asList(1, 2, 3, 4, 5, 7, 10, 11, 13) ) {
+                                for ( final int nParts : Arrays.asList(1, 2, 3, 4, 5, 7, 10, 11, 13) ) {
 
 //        for ( int start : Arrays.asList(1) ) {
 //            for ( int regionSize : Arrays.asList(100) ) {
@@ -196,7 +196,7 @@ public class ActivityProfileUnitTest extends BaseTest {
 
 
     @Test(dataProvider = "RegionCreationTests")
-    public void testRegionCreation(final int start, final List<Boolean> probs, int maxRegionSize, final int nParts, final boolean forceConversion, final boolean waitUntilEnd) {
+    public void testRegionCreation(final int start, final List<Boolean> probs, final int maxRegionSize, final int nParts, final boolean forceConversion, final boolean waitUntilEnd) {
         final ActivityProfile profile = new ActivityProfile(MAX_PROB_PROPAGATION_DISTANCE, ACTIVE_PROB_THRESHOLD, header);
         Assert.assertNotNull(profile.toString());
 
@@ -265,10 +265,10 @@ public class ActivityProfileUnitTest extends BaseTest {
         final List<Object[]> tests = new LinkedList<Object[]>();
 
         final int contigLength = genomeLocParser.getSequenceDictionary().getSequences().get(0).getSequenceLength();
-        for ( int start : Arrays.asList(1, 10, 100, contigLength - 100, contigLength - 10, contigLength - 1) ) {
-            for ( int precedingSites: Arrays.asList(0, 1, 10) ) {
+        for ( final int start : Arrays.asList(1, 10, 100, contigLength - 100, contigLength - 10, contigLength - 1) ) {
+            for ( final int precedingSites: Arrays.asList(0, 1, 10) ) {
                 if ( precedingSites + start < contigLength ) {
-                    for ( int softClipSize : Arrays.asList(1, 2, 10, 100) ) {
+                    for ( final int softClipSize : Arrays.asList(1, 2, 10, 100) ) {
 //        for ( int start : Arrays.asList(10) ) {
 //            for ( int precedingSites: Arrays.asList(10) ) {
 //                for ( int softClipSize : Arrays.asList(1) ) {
@@ -282,7 +282,7 @@ public class ActivityProfileUnitTest extends BaseTest {
     }
 
     @Test(dataProvider = "SoftClipsTest")
-    public void testSoftClips(final int start, int nPrecedingSites, final int softClipSize) {
+    public void testSoftClips(final int start, final int nPrecedingSites, final int softClipSize) {
         final ActivityProfile profile = new ActivityProfile(MAX_PROB_PROPAGATION_DISTANCE, ACTIVE_PROB_THRESHOLD, header);
 
         final int contigLength = genomeLocParser.getSequenceDictionary().getSequences().get(0).getSequenceLength();
@@ -424,9 +424,9 @@ public class ActivityProfileUnitTest extends BaseTest {
 
     private int findCutSiteForTwoMaxPeaks(final List<Double> probs, final int minRegionSize) {
         for ( int i = probs.size() - 2; i > minRegionSize; i-- ) {
-            double prev = probs.get(i - 1);
-            double next = probs.get(i + 1);
-            double cur = probs.get(i);
+            final double prev = probs.get(i - 1);
+            final double next = probs.get(i + 1);
+            final double cur = probs.get(i);
             if ( cur < next && cur < prev )
                 return i + 1;
         }

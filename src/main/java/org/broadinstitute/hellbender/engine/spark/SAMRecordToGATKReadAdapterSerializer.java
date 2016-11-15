@@ -16,8 +16,8 @@ public final class SAMRecordToGATKReadAdapterSerializer extends Serializer<SAMRe
     private SAMRecordSparkCodec lazyCodec = new SAMRecordSparkCodec();
 
     @Override
-    public void write(Kryo kryo, Output output, SAMRecordToGATKReadAdapter adapter) {
-        SAMRecord record = adapter.getEncapsulatedSamRecord();
+    public void write(final Kryo kryo, final Output output, final SAMRecordToGATKReadAdapter adapter) {
+        final SAMRecord record = adapter.getEncapsulatedSamRecord();
         // The underlying read is likely to already be headerless, but as a defensive
         // measure in case it's not, set the header to null explicitly.
         record.setHeaderStrict(null);
@@ -33,7 +33,7 @@ public final class SAMRecordToGATKReadAdapterSerializer extends Serializer<SAMRe
     }
 
     @Override
-    public SAMRecordToGATKReadAdapter read(Kryo kryo, Input input, Class<SAMRecordToGATKReadAdapter> type) {
+    public SAMRecordToGATKReadAdapter read(final Kryo kryo, final Input input, final Class<SAMRecordToGATKReadAdapter> type) {
         final String referenceName = input.readString();
         final String mateReferenceName = input.readString();
         lazyCodec.setInputStream(input);

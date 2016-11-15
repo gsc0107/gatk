@@ -50,11 +50,11 @@ public final class RecalibrationReportUnitTest extends BaseTest {
     }
 
     @Test(dataProvider = "tables")
-    public void testGatherBQSR(List<File> inputTables, File expectedOutputTable) {
+    public void testGatherBQSR(final List<File> inputTables, final File expectedOutputTable) {
         testGatherReports(inputTables, expectedOutputTable);
     }
 
-    public static void testGatherReports(List<File> inputFiles, File expectedResult) {
+    public static void testGatherReports(final List<File> inputFiles, final File expectedResult) {
         final File output = BaseTest.createTempFile("BQSRgathererTest", ".table");
         RecalibrationReport.gatherReportsIntoOneFile(inputFiles, output);
 
@@ -96,7 +96,7 @@ public final class RecalibrationReportUnitTest extends BaseTest {
 
     }
 
-    private static void testReportsForTable(GATKReport originalReport, GATKReport calculatedReport, List<String> columnsToTest, String argumentReportTableTitle) {
+    private static void testReportsForTable(final GATKReport originalReport, final GATKReport calculatedReport, final List<String> columnsToTest, final String argumentReportTableTitle) {
         final GATKReportTable originalTable = originalReport.getTable(argumentReportTableTitle);
         final GATKReportTable calculatedTable = calculatedReport.getTable(argumentReportTableTitle);
         testTablesWithColumns(originalTable, calculatedTable, columnsToTest);
@@ -109,9 +109,9 @@ public final class RecalibrationReportUnitTest extends BaseTest {
      * @param calculated the calculated table
      * @param columnsToTest list of columns to test. All columns will be tested with the same criteria
      */
-    private static void testTablesWithColumns(GATKReportTable original, GATKReportTable calculated, List<String> columnsToTest) {
+    private static void testTablesWithColumns(final GATKReportTable original, final GATKReportTable calculated, final List<String> columnsToTest) {
         for (int row = 0; row < original.getNumRows(); row++ ) {
-            for (String column : columnsToTest) {
+            for (final String column : columnsToTest) {
                 final Object actual = calculated.get(row, column);
                 final Object expected = original.get(row, column);
                 //if ( !actual.equals(expected) )
@@ -134,7 +134,7 @@ public final class RecalibrationReportUnitTest extends BaseTest {
         Assert.assertTrue(report12.equals(report21), "GATK reports are different when gathered in a different order.");
     }
 
-    private static RecalDatum createRandomRecalDatum(int maxObservations, int maxErrors) {
+    private static RecalDatum createRandomRecalDatum(final int maxObservations, final int maxErrors) {
         final Random random = new Random();
         final int nObservations = random.nextInt(maxObservations);
         final int nErrors = Math.min(random.nextInt(maxErrors), nObservations);
@@ -144,7 +144,7 @@ public final class RecalibrationReportUnitTest extends BaseTest {
 
     @Test(expectedExceptions = UserException.class)
     public void testUnsupportedCovariates(){
-        File file = new File(publicTestDir + "org/broadinstitute/hellbender/tools/" + "unsupported-covariates.table.gz");
+        final File file = new File(publicTestDir + "org/broadinstitute/hellbender/tools/" + "unsupported-covariates.table.gz");
         new RecalibrationReport(file);
     }
 
@@ -152,8 +152,8 @@ public final class RecalibrationReportUnitTest extends BaseTest {
     public void testOutput() {
         final int length = 100;
 
-        List<Byte> quals = new ArrayList<>(QualityUtils.MAX_SAM_QUAL_SCORE + 1);
-        List<Long> counts = new ArrayList<>(QualityUtils.MAX_SAM_QUAL_SCORE + 1);
+        final List<Byte> quals = new ArrayList<>(QualityUtils.MAX_SAM_QUAL_SCORE + 1);
+        final List<Long> counts = new ArrayList<>(QualityUtils.MAX_SAM_QUAL_SCORE + 1);
 
         for (int i = 0;  i<= QualityUtils.MAX_SAM_QUAL_SCORE; i++) {
             quals.add((byte) i);
@@ -189,7 +189,7 @@ public final class RecalibrationReportUnitTest extends BaseTest {
 
         for (int offset = 0; offset < length; offset++) {
 
-            for (EventType errorMode : EventType.values()) {
+            for (final EventType errorMode : EventType.values()) {
 
                 final int[] covariates = rc.getKeySet(offset, errorMode);
                 final int randomMax = errorMode == EventType.BASE_SUBSTITUTION ? 10000 : 100000;
@@ -197,8 +197,8 @@ public final class RecalibrationReportUnitTest extends BaseTest {
                 rgTable.put(createRandomRecalDatum(randomMax, 10), covariates[0], errorMode.ordinal());
                 qualTable.put(createRandomRecalDatum(randomMax, 10), covariates[0], covariates[1], errorMode.ordinal());
                 nKeys += 2;
-                for (NestedIntegerArray<RecalDatum> covTable : recalibrationTables.getAdditionalTables()){
-                    Covariate cov = recalibrationTables.getCovariateForTable(covTable);
+                for (final NestedIntegerArray<RecalDatum> covTable : recalibrationTables.getAdditionalTables()){
+                    final Covariate cov = recalibrationTables.getCovariateForTable(covTable);
                     final int covValue = covariates[covariateList.indexByClass(cov.getClass())];
                     if ( covValue >= 0 ) {
                         covTable.put(createRandomRecalDatum(randomMax, 10), covariates[0], covariates[1], covValue, errorMode.ordinal());
@@ -210,7 +210,7 @@ public final class RecalibrationReportUnitTest extends BaseTest {
         Assert.assertEquals(nKeys, expectedKeys);
     }
 
-    private static int expectedNumberOfKeys (int readLength, int indelContextSize, int mismatchesContextSize) {
+    private static int expectedNumberOfKeys (final int readLength, final int indelContextSize, final int mismatchesContextSize) {
         final int numCovariates = 4;
         final int numTables = 3;
         final int mismatchContextPadding = mismatchesContextSize - 1;

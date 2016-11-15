@@ -40,7 +40,7 @@ public final class RecalibrationTables implements Serializable, Iterable<NestedI
         this(covariates, covariates.getReadGroupCovariate().maximumKeyValue() + 1);
     }
 
-    public RecalibrationTables(StandardCovariateList covariates, final int numReadGroups) {
+    public RecalibrationTables(final StandardCovariateList covariates, final int numReadGroups) {
         this.covariates = covariates;
         this.additionalTables = new ArrayList<>();
         this.allTables = new ArrayList<>();
@@ -62,7 +62,7 @@ public final class RecalibrationTables implements Serializable, Iterable<NestedI
         tableToCovariate.put(qualityScoreTable, covariates.getQualityScoreCovariate());
 
         //Non-special tables
-        for (Covariate cov : covariates.getAdditionalCovariates()){
+        for (final Covariate cov : covariates.getAdditionalCovariates()){
             final NestedIntegerArray<RecalDatum> table = new NestedIntegerArray<>(numReadGroups, qualDimension, cov.maximumKeyValue() + 1, eventDimension);
             additionalTables.add(table);
             allTables.add(table);
@@ -71,27 +71,27 @@ public final class RecalibrationTables implements Serializable, Iterable<NestedI
         }
     }
 
-    public NestedIntegerArray<RecalDatum> getTableForCovariate(Covariate cov) {
+    public NestedIntegerArray<RecalDatum> getTableForCovariate(final Covariate cov) {
         return covariateToTable.get(cov);
     }
 
-    public Covariate getCovariateForTable(NestedIntegerArray<RecalDatum> table) {
+    public Covariate getCovariateForTable(final NestedIntegerArray<RecalDatum> table) {
         return tableToCovariate.get(table);
     }
 
-    public boolean isReadGroupTable(NestedIntegerArray<RecalDatum> table) {
+    public boolean isReadGroupTable(final NestedIntegerArray<RecalDatum> table) {
         //Note: NestedIntegerArray does not implement equals so we use reference identity to check equality
         //to explicitly check identity (and future-proof against an equals method in NestedIntegerArray).
         return table == getReadGroupTable();
     }
 
-    public boolean isQualityScoreTable(NestedIntegerArray<RecalDatum> table) {
+    public boolean isQualityScoreTable(final NestedIntegerArray<RecalDatum> table) {
         //Note: NestedIntegerArray does not implement equals so we use reference identity to check equality
         //to explicitly check identity (and future-proof against an equals method in NestedIntegerArray).
         return table == getQualityScoreTable();
     }
 
-    public boolean isAdditionalCovariateTable(NestedIntegerArray<RecalDatum> table) {
+    public boolean isAdditionalCovariateTable(final NestedIntegerArray<RecalDatum> table) {
         return additionalTables.contains(table);
     }
 
@@ -179,7 +179,7 @@ public final class RecalibrationTables implements Serializable, Iterable<NestedI
     }
 
     //XXX this should not be accessible by index
-    public NestedIntegerArray<RecalDatum> getTable(int index) {
+    public NestedIntegerArray<RecalDatum> getTable(final int index) {
         return allTables.get(index);
     }
 

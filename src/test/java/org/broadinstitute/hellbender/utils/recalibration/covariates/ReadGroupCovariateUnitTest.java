@@ -19,7 +19,7 @@ public final class ReadGroupCovariateUnitTest {
         final String id = "MY.ID";
         final String expected = "SAMPLE.1";
         final ReadGroupCovariate covariate = new ReadGroupCovariate(new RecalibrationArgumentCollection(), Arrays.asList(expected));
-        SAMReadGroupRecord rg = new SAMReadGroupRecord(id);
+        final SAMReadGroupRecord rg = new SAMReadGroupRecord(id);
         rg.setPlatformUnit(expected);
         runTest(rg, expected, covariate);
     }
@@ -29,7 +29,7 @@ public final class ReadGroupCovariateUnitTest {
         final String id = "MY.ID";
         final String expected = "SAMPLE.1";
         final ReadGroupCovariate covariate = new ReadGroupCovariate(new RecalibrationArgumentCollection(), Arrays.asList(expected));
-        SAMReadGroupRecord rg = new SAMReadGroupRecord(id);
+        final SAMReadGroupRecord rg = new SAMReadGroupRecord(id);
         rg.setPlatformUnit(expected);
         Assert.assertEquals(covariate.maximumKeyValue(), 0);//there's just 1 read group, so 0 is the max value
     }
@@ -64,25 +64,25 @@ public final class ReadGroupCovariateUnitTest {
     public void testMissingPlatformUnit() {
         final String expected = "MY.7";
         final ReadGroupCovariate covariate = new ReadGroupCovariate(new RecalibrationArgumentCollection(), Arrays.asList(expected));
-        SAMReadGroupRecord rg = new SAMReadGroupRecord(expected);
+        final SAMReadGroupRecord rg = new SAMReadGroupRecord(expected);
         runTest(rg, expected, covariate);
     }
 
     private static void runTest(final SAMReadGroupRecord rg, final String expected, final ReadGroupCovariate covariate) {
         final SAMFileHeader header = ArtificialReadUtils.createArtificialSamHeaderWithReadGroup(rg);
 
-        GATKRead read = ArtificialReadUtils.createRandomRead(header, 10);
+        final GATKRead read = ArtificialReadUtils.createRandomRead(header, 10);
         read.setReadGroup(rg.getReadGroupId());
 
-        ReadCovariates readCovariates = new ReadCovariates(read.getLength(), 1, new CovariateKeyCache());
+        final ReadCovariates readCovariates = new ReadCovariates(read.getLength(), 1, new CovariateKeyCache());
         covariate.recordValues(read, header, readCovariates, true);
         verifyCovariateArray(readCovariates.getMismatchesKeySet(), expected, covariate);
 
     }
 
     private static void verifyCovariateArray(final int[][] values, final String expected, final ReadGroupCovariate covariate) {
-        for (int[] value : values) {
-            String actual = covariate.formatKey(value[0]);
+        for (final int[] value : values) {
+            final String actual = covariate.formatKey(value[0]);
             Assert.assertEquals(actual, expected);
         }
     }

@@ -48,7 +48,7 @@ public class BasicInputParser extends AbstractInputParser {
      */
     public BasicInputParser(final boolean treatGroupedDelimitersAsOne, final File... files) {
         this(treatGroupedDelimitersAsOne, filesToInputStreams(files));
-        for (File f : files) fileNames.add(f.getAbsolutePath());
+        for (final File f : files) fileNames.add(f.getAbsolutePath());
         this.currentFileName = fileNames.remove(0);
     }
 

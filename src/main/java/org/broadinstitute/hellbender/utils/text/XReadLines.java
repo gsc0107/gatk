@@ -60,7 +60,7 @@ public final class XReadLines implements Iterator<String>, Iterable<String>, Aut
         this.commentPrefix = commentPrefix;
         try {
             this.nextLine = readNextLine();
-        } catch(IOException e) {
+        } catch(final IOException e) {
             throw new IllegalArgumentException(e);
         }
     }
@@ -71,8 +71,8 @@ public final class XReadLines implements Iterator<String>, Iterable<String>, Aut
      * @return all of the lines in the file.
      */
     public List<String> readLines() {
-        List<String> lines = new LinkedList<>();
-        for ( String line : this ) {
+        final List<String> lines = new LinkedList<>();
+        for ( final String line : this ) {
             lines.add(line);
         }
         return lines;
@@ -120,7 +120,7 @@ public final class XReadLines implements Iterator<String>, Iterable<String>, Aut
     @Override
     public String next() {
         try {
-            String result = this.nextLine;
+            final String result = this.nextLine;
             this.nextLine = readNextLine();
 
             // If we haven't reached EOF yet
@@ -130,7 +130,7 @@ public final class XReadLines implements Iterator<String>, Iterable<String>, Aut
 
             // Return the line we read last time through.
             return result;
-        } catch(IOException e) {
+        } catch(final IOException e) {
             throw new IllegalArgumentException(e);
         }
     }

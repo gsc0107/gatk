@@ -72,7 +72,7 @@ public final class MeanQualityByCycleSparkIntegrationTest extends CommandLinePro
         final File unsortedBam = new File(TEST_DATA_DIR, "first5000a.bam");
         final File expectedFile = new File(TEST_DATA_DIR, "meanqualbycycle.txt");
         final File outfile = BaseTest.createTempFile("testMeanQualityByCycle", ".metrics");
-        ArgumentsBuilder args = new ArgumentsBuilder();
+        final ArgumentsBuilder args = new ArgumentsBuilder();
         args.add("--" + StandardArgumentDefinitions.INPUT_LONG_NAME);
         args.add(unsortedBam.getCanonicalPath());
         args.add("--" + StandardArgumentDefinitions.OUTPUT_LONG_NAME);
@@ -89,7 +89,7 @@ public final class MeanQualityByCycleSparkIntegrationTest extends CommandLinePro
         final File adamFile = new File(TEST_DATA_DIR, "first5000a.adam");
         final File expectedFile = new File(TEST_DATA_DIR, "meanqualbycycle.txt");
         final File outfile = BaseTest.createTempFile("testMeanQualityByCycleADAM", ".metrics");
-        ArgumentsBuilder args = new ArgumentsBuilder();
+        final ArgumentsBuilder args = new ArgumentsBuilder();
         args.add("--" + StandardArgumentDefinitions.INPUT_LONG_NAME);
         args.add(adamFile.getCanonicalPath());
         args.add("--" + StandardArgumentDefinitions.OUTPUT_LONG_NAME);
@@ -105,7 +105,7 @@ public final class MeanQualityByCycleSparkIntegrationTest extends CommandLinePro
         final File unsortedBam = new File(TEST_DATA_DIR, "example_pfFail_reads.bam");
         final File expectedFile = new File(TEST_DATA_DIR, "pfFailBam.pf.txt");
         final File outfile = BaseTest.createTempFile("pfFailBam.pf.", ".metrics");
-        ArgumentsBuilder args = new ArgumentsBuilder();
+        final ArgumentsBuilder args = new ArgumentsBuilder();
         args.add("--" + StandardArgumentDefinitions.INPUT_LONG_NAME);
         args.add(unsortedBam.getCanonicalPath());
         args.add("--" + StandardArgumentDefinitions.OUTPUT_LONG_NAME);
@@ -123,7 +123,7 @@ public final class MeanQualityByCycleSparkIntegrationTest extends CommandLinePro
         final File unsortedBam = new File(TEST_DATA_DIR, "example_pfFail_reads.bam");
         final File expectedFile = new File(TEST_DATA_DIR, "pfFailBam.pfOnly.txt");
         final File outfile = BaseTest.createTempFile("pfFailBam.pf.", ".metrics");
-        ArgumentsBuilder args = new ArgumentsBuilder();
+        final ArgumentsBuilder args = new ArgumentsBuilder();
         args.add("--" + StandardArgumentDefinitions.INPUT_LONG_NAME);
         args.add(unsortedBam.getCanonicalPath());
         args.add("--" + StandardArgumentDefinitions.OUTPUT_LONG_NAME);
@@ -141,7 +141,7 @@ public final class MeanQualityByCycleSparkIntegrationTest extends CommandLinePro
         final File unsortedBam = new File(TEST_DATA_DIR, "unmapped.bam");
         final File expectedFile = new File(TEST_DATA_DIR, "unmappedBam.ALIGNED_READS_ONLY_false.txt");
         final File outfile = BaseTest.createTempFile("unmappedBam.ALIGNED_READS_ONLY_false.", ".metrics");
-        ArgumentsBuilder args = new ArgumentsBuilder();
+        final ArgumentsBuilder args = new ArgumentsBuilder();
         args.add("--" + StandardArgumentDefinitions.INPUT_LONG_NAME);
         args.add(unsortedBam.getCanonicalPath());
         args.add("--" + StandardArgumentDefinitions.OUTPUT_LONG_NAME);
@@ -159,7 +159,7 @@ public final class MeanQualityByCycleSparkIntegrationTest extends CommandLinePro
         final File unsortedBam = new File(TEST_DATA_DIR, "unmapped.bam");
         final File expectedFile = new File(TEST_DATA_DIR, "unmappedBam.ALIGNED_READS_ONLY_true.txt");
         final File outfile = BaseTest.createTempFile("unmappedBam.ALIGNED_READS_ONLY_true.", ".metrics");
-        ArgumentsBuilder args = new ArgumentsBuilder();
+        final ArgumentsBuilder args = new ArgumentsBuilder();
         args.add("--" + StandardArgumentDefinitions.INPUT_LONG_NAME);
         args.add(unsortedBam.getCanonicalPath());
         args.add("--" + StandardArgumentDefinitions.OUTPUT_LONG_NAME);

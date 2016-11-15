@@ -432,7 +432,7 @@ public final class SamComparison {
     }
 
     private <T> boolean compareValues(final T v1, final T v2, final String label) {
-        boolean eq = Objects.equals(v1, v2);
+        final boolean eq = Objects.equals(v1, v2);
         if (eq) {
             return true;
         } else {

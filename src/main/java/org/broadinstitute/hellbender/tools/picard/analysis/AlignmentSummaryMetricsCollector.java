@@ -51,7 +51,7 @@ public final class AlignmentSummaryMetricsCollector extends SAMRecordAndReferenc
     private static final int MAX_ADAPTER_ERRORS = 1;
 
     public AlignmentSummaryMetricsCollector(final Set<MetricAccumulationLevel> accumulationLevels, final List<SAMReadGroupRecord> samRgRecords,
-                                            final boolean doRefMetrics, final List<String> adapterSequence, final int maxInsertSize, boolean isBisulfiteSequenced) {
+                                            final boolean doRefMetrics, final List<String> adapterSequence, final int maxInsertSize, final boolean isBisulfiteSequenced) {
         this.doRefMetrics       = doRefMetrics;
         this.adapterSequence    = adapterSequence;
         this.adapterKmers = prepareAdapterSequences();
@@ -61,7 +61,7 @@ public final class AlignmentSummaryMetricsCollector extends SAMRecordAndReferenc
     }
 
     @Override
-    protected PerUnitMetricCollector<AlignmentSummaryMetrics, Long, SAMRecordAndReference> makeChildCollector(String sample, String library, String readGroup) {
+    protected PerUnitMetricCollector<AlignmentSummaryMetrics, Long, SAMRecordAndReference> makeChildCollector(final String sample, final String library, final String readGroup) {
         return new GroupAlignmentSummaryMetricsPerUnitMetricCollector(sample, library, readGroup);
     }
 

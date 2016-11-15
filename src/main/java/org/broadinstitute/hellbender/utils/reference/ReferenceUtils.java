@@ -23,7 +23,7 @@ public final class ReferenceUtils {
      * Given a fasta filename, return the name of the corresponding index file.
      * (This also works if the file is in gs://)
      */
-    public static String getFastaIndexFileName(String fastaFilename) {
+    public static String getFastaIndexFileName(final String fastaFilename) {
         return fastaFilename + ".fai";
     }
 
@@ -31,8 +31,8 @@ public final class ReferenceUtils {
      * Given a fasta filename, return the name of the corresponding dictionary file.
      * (This also works if the file is in gs://)
      */
-    public static String getFastaDictionaryFileName(String fastaFilename) {
-        int lastDot = fastaFilename.lastIndexOf('.');
+    public static String getFastaDictionaryFileName(final String fastaFilename) {
+        final int lastDot = fastaFilename.lastIndexOf('.');
         return fastaFilename.substring(0, lastDot) + ".dict";
     }
 
@@ -46,7 +46,7 @@ public final class ReferenceUtils {
         try ( final FileInputStream fastaDictionaryStream = new FileInputStream(fastaDictionaryFile) ) {
             return loadFastaDictionary(fastaDictionaryStream);
         }
-        catch ( IOException e ) {
+        catch ( final IOException e ) {
             throw new UserException.CouldNotReadInputFile("Error loading fasta dictionary file " + fastaDictionaryFile, e);
         }
     }

@@ -72,7 +72,7 @@ public abstract class StrandBiasTest extends InfoFieldAnnotation {
             }
 
             foundData = true;
-            int[] data;
+            final int[] data;
             if ( g.getAnyAttribute(GATKVCFConstants.STRAND_BIAS_BY_SAMPLE_KEY).getClass().equals(String.class)) {
                 final String sbbsString = (String)g.getAnyAttribute(GATKVCFConstants.STRAND_BIAS_BY_SAMPLE_KEY);
                 data = encodeSBBS(sbbsString);
@@ -199,7 +199,7 @@ public abstract class StrandBiasTest extends InfoFieldAnnotation {
     private static int[] encodeSBBS( final List<Integer> arrayList ) {
         final int[] array = new int[ARRAY_SIZE];
         int index = 0;
-        for ( Integer item : arrayList ) {
+        for ( final Integer item : arrayList ) {
             array[index++] = item;
         }
 

@@ -37,19 +37,19 @@ public final class RScriptExecutor {
     private final List<File> scriptFiles = new ArrayList<>();
     private final List<String> args = new ArrayList<>();
 
-    public void setIgnoreExceptions(boolean ignoreExceptions) {
+    public void setIgnoreExceptions(final boolean ignoreExceptions) {
         this.ignoreExceptions = ignoreExceptions;
     }
 
-    public void addLibrary(RScriptLibrary library) {
+    public void addLibrary(final RScriptLibrary library) {
         this.libraries.add(library);
     }
 
-    public void addScript(Resource script) {
+    public void addScript(final Resource script) {
         this.scriptResources.add(script);
     }
 
-    public void addScript(File script) {
+    public void addScript(final File script) {
         this.scriptFiles.add(script);
     }
 
@@ -58,18 +58,18 @@ public final class RScriptExecutor {
      * @param args the args.
      * @throws NullPointerException if any of the args are null.
      */
-    public void addArgs(Object... args) {
-        for (Object arg: args)
+    public void addArgs(final Object... args) {
+        for (final Object arg: args)
             this.args.add(arg.toString());
     }
 
     public String getApproximateCommandLine() {
-        StringBuilder command = new StringBuilder("Rscript");
-        for (Resource script: this.scriptResources)
+        final StringBuilder command = new StringBuilder("Rscript");
+        for (final Resource script: this.scriptResources)
             command.append(" (resource)").append(script.getFullPath());
-        for (File script: this.scriptFiles)
+        for (final File script: this.scriptFiles)
             command.append(" ").append(script.getAbsolutePath());
-        for (String arg: this.args)
+        for (final String arg: this.args)
             command.append(" ").append(arg);
         return command.toString();
     }
@@ -84,19 +84,19 @@ public final class RScriptExecutor {
             }
         }
 
-        List<File> tempFiles = new ArrayList<>();
+        final List<File> tempFiles = new ArrayList<>();
         try {
-            File tempLibSourceDir  = IOUtils.tempDir("RlibSources.", "");
-            File tempLibInstallationDir = IOUtils.tempDir("Rlib.", "");
+            final File tempLibSourceDir  = IOUtils.tempDir("RlibSources.", "");
+            final File tempLibInstallationDir = IOUtils.tempDir("Rlib.", "");
             tempFiles.add(tempLibSourceDir);
             tempFiles.add(tempLibInstallationDir);
 
-            StringBuilder expression = new StringBuilder("tempLibDir = '").append(tempLibInstallationDir).append("';");
+            final StringBuilder expression = new StringBuilder("tempLibDir = '").append(tempLibInstallationDir).append("';");
 
             if (!this.libraries.isEmpty()) {
-                List<String> tempLibraryPaths = new ArrayList<>();
-                for (RScriptLibrary library: this.libraries) {
-                    File tempLibrary = library.writeLibrary(tempLibSourceDir);
+                final List<String> tempLibraryPaths = new ArrayList<>();
+                for (final RScriptLibrary library: this.libraries) {
+                    final File tempLibrary = library.writeLibrary(tempLibSourceDir);
                     tempFiles.add(tempLibrary);
                     tempLibraryPaths.add(tempLibrary.getAbsolutePath());
                 }
@@ -107,30 +107,30 @@ public final class RScriptExecutor {
                 expression.append("INSTALL_opts=c('--no-libs', '--no-data', '--no-help', '--no-demo', '--no-exec')");
                 expression.append(");");
 
-                for (RScriptLibrary library: this.libraries) {
+                for (final RScriptLibrary library: this.libraries) {
                     expression.append("library('").append(library.getLibraryName()).append("', lib.loc=tempLibDir);");
                 }
             }
 
-            for (Resource script: this.scriptResources) {
-                File tempScript = IOUtils.writeTempResource(script);
+            for (final Resource script: this.scriptResources) {
+                final File tempScript = IOUtils.writeTempResource(script);
                 tempFiles.add(tempScript);
                 expression.append("source('").append(tempScript.getAbsolutePath()).append("');");
             }
 
-            for (File script: this.scriptFiles) {
+            for (final File script: this.scriptFiles) {
                 expression.append("source('").append(script.getAbsolutePath()).append("');");
             }
 
-            String[] cmd = new String[this.args.size() + 3];
+            final String[] cmd = new String[this.args.size() + 3];
             int i = 0;
             cmd[i++] = RSCRIPT_BINARY;
             cmd[i++] = "-e";
             cmd[i++] = expression.toString();
-            for (String arg: this.args)
+            for (final String arg: this.args)
                 cmd[i++] = arg;
 
-            ProcessSettings processSettings = new ProcessSettings(cmd);
+            final ProcessSettings processSettings = new ProcessSettings(cmd);
             //if debug is enabled, output the stdout and stdder, otherwise capture it to a buffer
             if (logger.isDebugEnabled()) {
                 processSettings.getStdoutSettings().printStandard(true);
@@ -140,19 +140,19 @@ public final class RScriptExecutor {
                 processSettings.getStderrSettings().setBufferSize(8192);
             }
 
-            ProcessController controller = ProcessController.getThreadLocal();
+            final ProcessController controller = ProcessController.getThreadLocal();
 
             if (logger.isDebugEnabled()) {
                 logger.debug("Executing:");
-                for (String arg: cmd)
+                for (final String arg: cmd)
                     logger.debug("  " + arg);
             }
-            ProcessOutput po = controller.exec(processSettings);
-            int exitValue = po.getExitValue();
+            final ProcessOutput po = controller.exec(processSettings);
+            final int exitValue = po.getExitValue();
             logger.debug("Result: " + exitValue);
 
             if (exitValue != 0){
-                StringBuilder message = new StringBuilder();
+                final StringBuilder message = new StringBuilder();
                 message.append(String.format("\nRscript exited with %d\nCommand Line: %s", exitValue,String.join(" ", cmd)));
                 //if debug was enabled the stdout/error were already output somewhere
                 if (!logger.isDebugEnabled()){
@@ -164,7 +164,7 @@ public final class RScriptExecutor {
             }
 
             return true;
-        } catch (GATKException e) {
+        } catch (final GATKException e) {
             if (!ignoreExceptions) {
                 throw e;
             } else {
@@ -172,7 +172,7 @@ public final class RScriptExecutor {
                 return false;
             }
         } finally {
-            for (File temp: tempFiles)
+            for (final File temp: tempFiles)
                 FileUtils.deleteQuietly(temp);
         }
     }

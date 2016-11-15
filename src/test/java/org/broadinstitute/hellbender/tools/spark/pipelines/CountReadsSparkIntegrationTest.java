@@ -51,7 +51,7 @@ public final class CountReadsSparkIntegrationTest extends CommandLineProgramTest
     public void test() throws Exception {
         final File unsortedBam = new File(getTestDataDir(), "count_reads.bam");
         final File outputTxt = createTempFile("count_reads", ".txt");
-        ArgumentsBuilder args = new ArgumentsBuilder();
+        final ArgumentsBuilder args = new ArgumentsBuilder();
         args.addInput(unsortedBam);
         args.addOutput(outputTxt);
         this.runCommandLine(args.getArgsArray());
@@ -83,7 +83,7 @@ public final class CountReadsSparkIntegrationTest extends CommandLineProgramTest
     public void testCountReadsWithIntervals(final String interval_args, final long expectedCount) throws Exception {
         final File ORIG_BAM = new File(getTestDataDir(), "count_reads_sorted.bam");
         final File outputFile = createTempFile("count_reads_spark","count");
-        ArgumentsBuilder args = new ArgumentsBuilder();
+        final ArgumentsBuilder args = new ArgumentsBuilder();
         args.addInput(ORIG_BAM);
         args.add(interval_args);
         args.addOutput(outputFile);
@@ -97,7 +97,7 @@ public final class CountReadsSparkIntegrationTest extends CommandLineProgramTest
 
     @Test(groups = "spark")
     public void testNoNPRWhenOutputIsUnspecified(){
-        ArgumentsBuilder args = new ArgumentsBuilder();
+        final ArgumentsBuilder args = new ArgumentsBuilder();
         args.addInput(new File(getTestDataDir(), "count_reads.bam"));
         this.runCommandLine(args.getArgsArray());
     }

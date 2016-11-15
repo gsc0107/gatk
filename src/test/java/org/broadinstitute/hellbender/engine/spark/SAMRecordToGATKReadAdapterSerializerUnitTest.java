@@ -15,18 +15,18 @@ public class SAMRecordToGATKReadAdapterSerializerUnitTest {
     public static class TestGATKRegistrator implements KryoRegistrator {
         @SuppressWarnings("unchecked")
         @Override
-        public void registerClasses(Kryo kryo) {
+        public void registerClasses(final Kryo kryo) {
             kryo.register(SAMRecordToGATKReadAdapter.class, new SAMRecordToGATKReadAdapterSerializer());
         }
     }
 
     @Test
     public void testSerializerRoundTripHeaderlessRead() {
-        SparkConf conf = new SparkConf().set("spark.kryo.registrator",
+        final SparkConf conf = new SparkConf().set("spark.kryo.registrator",
                 "org.broadinstitute.hellbender.engine.spark.SAMRecordToGATKReadAdapterSerializerUnitTest$TestGATKRegistrator");
 
         // check round trip with no header
-        GATKRead read = ArtificialReadUtils.createHeaderlessSamBackedRead("read1", "1", 100, 50);
+        final GATKRead read = ArtificialReadUtils.createHeaderlessSamBackedRead("read1", "1", 100, 50);
         final GATKRead roundTrippedRead = SparkTestUtils.roundTripInKryo(read, GATKRead.class, conf);
         Assert.assertEquals(roundTrippedRead, read);
     }

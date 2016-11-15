@@ -49,7 +49,7 @@ public final class ReadUtilsUnitTest extends BaseTest {
         final byte[] bases = {'A', 'C', 'G', 'T', 'A', 'C', 'G', 'T'};
         final byte[] quals = {30, 30, 30, 30, 30, 30, 30, 30};
         final String cigar = "8M";
-        GATKRead read = ArtificialReadUtils.createArtificialRead(bases, quals, cigar);
+        final GATKRead read = ArtificialReadUtils.createArtificialRead(bases, quals, cigar);
         read.setIsProperlyPaired(true);
         read.setIsPaired(true);
         read.setMatePosition(read.getContig(), mateStart);
@@ -172,13 +172,13 @@ public final class ReadUtilsUnitTest extends BaseTest {
     @Test
     public void testGetBasesReverseComplement() {
         int iterations = 1000;
-        Random random = Utils.getRandomGenerator();
+        final Random random = Utils.getRandomGenerator();
         while(iterations-- > 0) {
             final int l = random.nextInt(1000);
-            GATKRead read = ArtificialReadUtils.createRandomRead(l);
-            byte [] original = read.getBases();
-            byte [] reconverted = new byte[l];
-            String revComp = ReadUtils.getBasesReverseComplement(read);
+            final GATKRead read = ArtificialReadUtils.createRandomRead(l);
+            final byte [] original = read.getBases();
+            final byte [] reconverted = new byte[l];
+            final String revComp = ReadUtils.getBasesReverseComplement(read);
             for (int i=0; i<l; i++) {
                 reconverted[l-1-i] = BaseUtils.getComplement((byte) revComp.charAt(i));
             }
@@ -410,20 +410,20 @@ public final class ReadUtilsUnitTest extends BaseTest {
     @Test
     public void testSetReadsAsSupplemental() {
         final SAMFileHeader header = ArtificialReadUtils.createArtificialSamHeader();
-        GATKRead primarySup = ArtificialReadUtils.createArtificialRead(header, "read1", 1, 10000, new byte[] {}, new byte[] {}, "4M");
+        final GATKRead primarySup = ArtificialReadUtils.createArtificialRead(header, "read1", 1, 10000, new byte[] {}, new byte[] {}, "4M");
         primarySup.setMappingQuality(100);
         primarySup.setAttribute("NM",20);
         primarySup.setIsReverseStrand(true);
-        GATKRead secondarySup = ArtificialReadUtils.createArtificialRead(header, "read2", 2, 10001, new byte[] {}, new byte[] {}, "4S");
+        final GATKRead secondarySup = ArtificialReadUtils.createArtificialRead(header, "read2", 2, 10001, new byte[] {}, new byte[] {}, "4S");
         secondarySup.setMappingQuality(200);
-        List<GATKRead> sups = new ArrayList<>();
+        final List<GATKRead> sups = new ArrayList<>();
         sups.add(secondarySup);
         ReadUtils.setReadsAsSupplemental(primarySup,sups);
         Assert.assertEquals(primarySup.getAttributeAsString("SA"), "3,10001,+,4S,200,0;");
         Assert.assertEquals(primarySup.isSupplementaryAlignment(), false);
         Assert.assertEquals(secondarySup.getAttributeAsString("SA"), "2,10000,-,4M,100,20;");
         Assert.assertEquals(secondarySup.isSupplementaryAlignment(), true);
-        GATKRead tertiarySup = ArtificialReadUtils.createArtificialRead(header, "read3", 3, 10003, new byte[] {}, new byte[] {}, "4D");
+        final GATKRead tertiarySup = ArtificialReadUtils.createArtificialRead(header, "read3", 3, 10003, new byte[] {}, new byte[] {}, "4D");
         tertiarySup.setMappingQuality(200);
         sups.add(tertiarySup);
         ReadUtils.setReadsAsSupplemental(primarySup,sups);
@@ -432,7 +432,7 @@ public final class ReadUtilsUnitTest extends BaseTest {
         Assert.assertTrue(sups.get(1).getAttributeAsString("SA").startsWith("2,10000,-,4M,100,20;"));
         Assert.assertTrue(primarySup.getAttributeAsString("SA").contains("4,10003,+,4D,200,0;"));
         Assert.assertTrue(primarySup.getAttributeAsString("SA").contains("3,10001,+,4S,200,0;"));
-        GATKRead unmappedSup = ArtificialReadUtils.createArtificialUnmappedRead(header,new byte[] {}, new byte[] {});
+        final GATKRead unmappedSup = ArtificialReadUtils.createArtificialUnmappedRead(header,new byte[] {}, new byte[] {});
         sups.clear();
         sups.add(unmappedSup);
         ReadUtils.setReadsAsSupplemental(primarySup,sups);
@@ -568,7 +568,7 @@ public final class ReadUtilsUnitTest extends BaseTest {
         final SAMFileHeader header = ArtificialReadUtils.createArtificialSamHeader(5, 1, 100);
         final List<SAMReadGroupRecord> readGroups = new ArrayList<>();
         for ( int i = 1; i <= 5; ++i ) {
-            SAMReadGroupRecord readGroup = new SAMReadGroupRecord("ReadGroup" + i);
+            final SAMReadGroupRecord readGroup = new SAMReadGroupRecord("ReadGroup" + i);
             readGroup.setSample("Sample" + i);
             readGroups.add(readGroup);
         }
@@ -618,7 +618,7 @@ public final class ReadUtilsUnitTest extends BaseTest {
             final SAMFileHeader.SortOrder expectedSortOrder,
             final boolean assumeSorted,
             final boolean expectedValid) {
-        boolean isValid = ReadUtils.validateExpectedSortOrder(
+        final boolean isValid = ReadUtils.validateExpectedSortOrder(
                 actualSortOrder,
                 expectedSortOrder,
                 assumeSorted,

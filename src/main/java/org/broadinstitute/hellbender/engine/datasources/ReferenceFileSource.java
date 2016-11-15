@@ -36,17 +36,17 @@ public class ReferenceFileSource implements ReferenceSource, Serializable {
     @Override
     public ReferenceBases getReferenceBases(final PipelineOptions pipelineOptions, final SimpleInterval interval) throws IOException {
         try ( ReferenceSequenceFile referenceSequenceFile = ReferenceSequenceFileFactory.getReferenceSequenceFile(new File(referencePath)) ) {
-            ReferenceSequence sequence = referenceSequenceFile.getSubsequenceAt(interval.getContig(), interval.getStart(), interval.getEnd());
+            final ReferenceSequence sequence = referenceSequenceFile.getSubsequenceAt(interval.getContig(), interval.getStart(), interval.getEnd());
             return new ReferenceBases(sequence.getBases(), interval);
         }
     }
 
     public Map<String, ReferenceBases> getAllReferenceBases() throws IOException {
         try ( ReferenceSequenceFile referenceSequenceFile = ReferenceSequenceFileFactory.getReferenceSequenceFile(new File(referencePath)) ) {
-            Map<String, ReferenceBases> bases = new LinkedHashMap<>();
+            final Map<String, ReferenceBases> bases = new LinkedHashMap<>();
             ReferenceSequence seq;
             while ( (seq = referenceSequenceFile.nextSequence()) != null ) {
-                String name = seq.getName();
+                final String name = seq.getName();
                 bases.put(name, new ReferenceBases(seq.getBases(), new SimpleInterval(name, 1, seq.length())));
             }
             return bases;

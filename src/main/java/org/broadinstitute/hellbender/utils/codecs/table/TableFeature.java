@@ -21,7 +21,7 @@ public final class TableFeature implements Feature {
     // our location
     private final Locatable position;
 
-    public TableFeature(Locatable position, List<String> values, List<String> keys) {
+    public TableFeature(final Locatable position, final List<String> values, final List<String> keys) {
         this.values = values;
         this.keys = keys;
         this.position = position;
@@ -54,7 +54,7 @@ public final class TableFeature implements Feature {
         return values.size();
     }
 
-    public String getValue(int columnPosition) {
+    public String getValue(final int columnPosition) {
         Utils.validateArg(columnPosition < columnCount(), () -> "We only have " + columnCount() + " columns, the requested column = " + columnPosition);
         return values.get(columnPosition);
     }
@@ -63,8 +63,8 @@ public final class TableFeature implements Feature {
         return String.format("%s\t%s", position.toString(), Utils.join("\t", values));
     }
 
-    public String get(String columnName) {
-        int position = keys.indexOf(columnName);
+    public String get(final String columnName) {
+        final int position = keys.indexOf(columnName);
         Utils.validateArg(position >= 0, () -> "We don't have a column named " + columnName);
         return values.get(position);
     }
@@ -77,7 +77,7 @@ public final class TableFeature implements Feature {
         return getValuesTo(values.size());
     }
 
-    public List<String> getValuesTo(int columnPosition) {
+    public List<String> getValuesTo(final int columnPosition) {
         return values.subList(0, columnPosition);
     }
 

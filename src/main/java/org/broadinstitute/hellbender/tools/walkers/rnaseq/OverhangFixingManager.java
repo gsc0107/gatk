@@ -185,8 +185,8 @@ public class OverhangFixingManager {
 
         // if the new read is on a different contig or we have too many reads, then we need to flush the queue and clear the map
         final boolean tooManyReads = getNReadsInQueue() >= maxRecordsInMemory;
-        GATKRead topRead = ((getNReadsInQueue()>0)? waitingReadGroups.peek().get(0).read : null);
-        GATKRead firstNewGroup = readGroup.get(0);
+        final GATKRead topRead = ((getNReadsInQueue()>0)? waitingReadGroups.peek().get(0).read : null);
+        final GATKRead firstNewGroup = readGroup.get(0);
         final boolean encounteredNewContig = getNReadsInQueue() > 0
                 && !topRead.isUnmapped()
                 && !firstNewGroup.isUnmapped()
@@ -201,7 +201,7 @@ public class OverhangFixingManager {
             writeReads(targetQueueSize);
         }
 
-        List<SplitRead> newReadGroup = readGroup.stream().map(SplitRead::new).collect(Collectors.toList());
+        final List<SplitRead> newReadGroup = readGroup.stream().map(SplitRead::new).collect(Collectors.toList());
 
         // Check every stored read for an overhang with the new splice
         for ( final Splice splice : splices) {
@@ -243,8 +243,8 @@ public class OverhangFixingManager {
             return;
         }
 
-        GenomeLoc readLoc = splitRead.unclippedLoc;
-        GATKRead read = splitRead.read;
+        final GenomeLoc readLoc = splitRead.unclippedLoc;
+        final GATKRead read = splitRead.read;
         final int readReferenceLength = read.getEnd() - read.getStart() + 1;
 
         if ( isLeftOverhang(readLoc, splice.loc) ) {
@@ -334,10 +334,10 @@ public class OverhangFixingManager {
      * target queue size. If outputToFile == false, then the it will instead mark the first item to setMateChanged in
      * mateChagnedReads
      */
-    private void writeReads(int targetQueueSize) {
+    private void writeReads(final int targetQueueSize) {
         // write out all of the remaining reads
         while ( getNReadsInQueue() > targetQueueSize ) {
-            List<SplitRead> waitingGroup = waitingReadGroups.poll();
+            final List<SplitRead> waitingGroup = waitingReadGroups.poll();
             waitingReads = waitingReads - waitingGroup.size();
 
             // Repair the supplementary groups together and add them into the writer
@@ -345,7 +345,7 @@ public class OverhangFixingManager {
                 SplitNCigarReads.repairSupplementaryTags(waitingGroup.stream()
                         .map( r -> r.read )
                         .collect(Collectors.toList()), header);
-                for (SplitRead splitRead : waitingGroup) {
+                for (final SplitRead splitRead : waitingGroup) {
                     writer.addRead(splitRead.read);
                 }
 
@@ -413,7 +413,7 @@ public class OverhangFixingManager {
     }
 
     // Generates the string key to be used for
-    private static String makeKey(String name, boolean firstOfPair, int mateStart) {
+    private static String makeKey(final String name, final boolean firstOfPair, final int mateStart) {
         return name + (firstOfPair ? 1 : 0) + mateStart;
     }
     /**
@@ -422,14 +422,14 @@ public class OverhangFixingManager {
      *
      * @param read the read to be edited
      */
-    public boolean setPredictedMateInformation(GATKRead read) {
+    public boolean setPredictedMateInformation(final GATKRead read) {
         if (!outputToFile) {
             return false;
         }
         if (!read.isEmpty() && read.isPaired()) {
-            String keystring = makeKey(read.getName(), read.isFirstOfPair(), read.getMateStart());
+            final String keystring = makeKey(read.getName(), read.isFirstOfPair(), read.getMateStart());
             if (mateChangedReads.containsKey(keystring)) {
-                Tuple<Integer, String> value = mateChangedReads.get(keystring);
+                final Tuple<Integer, String> value = mateChangedReads.get(keystring);
 
                 // update the start position so it is accurate
                 read.setMatePosition(read.getMateContig(), value.a);

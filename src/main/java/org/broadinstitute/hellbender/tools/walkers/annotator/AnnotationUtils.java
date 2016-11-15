@@ -14,8 +14,8 @@ public final class AnnotationUtils {
      * @return the array used by the per-sample Strand Bias annotation
      */
     public static String encodeValueList(final List<Double> valueList, final String precisionFormat ) {
-        List<String> outputList = new ArrayList<>();
-        for (Double d : valueList) {
+        final List<String> outputList = new ArrayList<>();
+        for (final Double d : valueList) {
             outputList.add(String.format(precisionFormat, d));
         }
         return StringUtils.join(outputList, ",");

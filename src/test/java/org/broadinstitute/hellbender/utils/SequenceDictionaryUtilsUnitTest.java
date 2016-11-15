@@ -223,7 +223,7 @@ public final class SequenceDictionaryUtilsUnitTest extends BaseTest {
                     requireSuperset,
                     checkContigOrdering);
         }
-        catch ( Exception e ) {
+        catch ( final Exception e ) {
             exceptionThrown = e;
         }
         if ( expectedExceptionUponValidation != null ) {
@@ -335,7 +335,7 @@ public final class SequenceDictionaryUtilsUnitTest extends BaseTest {
 
         // Clone the individual SAMSequenceRecords to avoid contig-index issues with shared objects
         // across multiple dictionaries in tests
-        for ( SAMSequenceRecord contig : contigs ) {
+        for ( final SAMSequenceRecord contig : contigs ) {
             clonedContigs.add(contig.clone());
         }
 

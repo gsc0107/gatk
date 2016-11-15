@@ -20,14 +20,14 @@ public class SampleUtils {
      * @param files list of files with sample names in
      * @return a collection of unique samples from all files
      */
-    public static Collection<String> getSamplesFromFiles (Collection<File> files) {
+    public static Collection<String> getSamplesFromFiles (final Collection<File> files) {
         final Set<String> samplesFromFiles = new LinkedHashSet<>();
         if (files != null) {
             for (final File file : files) {
                 try (XReadLines reader = new XReadLines(file)) {
-                    List<String> lines = reader.readLines();
+                    final List<String> lines = reader.readLines();
                     samplesFromFiles.addAll(lines.stream().collect(Collectors.toList()));
-                } catch (IOException e) {
+                } catch (final IOException e) {
                     throw new UserException.CouldNotReadInputFile(file, e);
                 }
             }

@@ -362,7 +362,7 @@ public final class SamToFastq extends PicardCommandLineProgram {
             } else {
                 try {
                     Integer.parseInt(CLIPPING_ACTION);
-                } catch (NumberFormatException nfe) {
+                } catch (final NumberFormatException nfe) {
                     return new String[]{"CLIPPING ACTION must be one of: N, X, or an integer"};
                 }
             }

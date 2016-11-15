@@ -101,7 +101,7 @@ public final class CheckPileup extends LocusWalker {
     public void onTraversalStart() {
         try {
             out = (outFile == null) ? System.out : new PrintStream(outFile);
-        } catch (FileNotFoundException e) {
+        } catch (final FileNotFoundException e) {
             throw new UserException.CouldNotCreateOutputFile(outFile, e.getMessage());
         }
     }

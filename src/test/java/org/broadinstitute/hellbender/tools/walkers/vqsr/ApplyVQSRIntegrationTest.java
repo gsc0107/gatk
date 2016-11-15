@@ -82,8 +82,8 @@ public class ApplyVQSRIntegrationTest extends CommandLineProgramTest {
 
     @Test
     public void testApplyRecalibrationSnpAndIndelTogetherExcludeFiltered() throws Exception {
-        ArgumentsBuilder args = new ArgumentsBuilder();
-        File tempOut = createTempFile("testApplyRecalibrationSnpAndIndelTogetherExcludeFiltered", ".vcf");
+        final ArgumentsBuilder args = new ArgumentsBuilder();
+        final File tempOut = createTempFile("testApplyRecalibrationSnpAndIndelTogetherExcludeFiltered", ".vcf");
 
         args.add("--variant");
         args.add(new File(getToolTestDataDir() + "VQSR.mixedTest.input.vcf"));
@@ -103,7 +103,7 @@ public class ApplyVQSRIntegrationTest extends CommandLineProgramTest {
         runCommandLine(args);
 
         try (FeatureDataSource<VariantContext> featureSource = new FeatureDataSource<>(tempOut)) {
-            for (VariantContext feature : featureSource) {
+            for (final VariantContext feature : featureSource) {
                 // there should only be unfiltered records in the output VCF file
                 Assert.assertTrue(feature.isNotFiltered());
             }

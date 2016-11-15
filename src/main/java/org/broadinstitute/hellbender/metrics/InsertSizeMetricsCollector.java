@@ -57,7 +57,7 @@ public final class InsertSizeMetricsCollector
      * @return ReadFilter to be used to filter records
      */
     public List<ReadFilter> getDefaultReadFilters() {
-        List<ReadFilter> readFilters = new ArrayList<>();
+        final List<ReadFilter> readFilters = new ArrayList<>();
 
         readFilters.add(new WellformedReadFilter());
         readFilters.add(ReadFilterLibrary.MAPPED);
@@ -76,7 +76,7 @@ public final class InsertSizeMetricsCollector
     // We will pass insertSize and PairOrientation with the DefaultPerRecordCollectorArgs passed to
     // the record collectors. This method is called once per samRecord
     @Override
-    protected InsertSizeMetricsCollectorArgs makeArg(SAMRecord samRecord, ReferenceSequence refSeq) {
+    protected InsertSizeMetricsCollectorArgs makeArg(final SAMRecord samRecord, final ReferenceSequence refSeq) {
         // inferred insert size is negative if the mate maps to lower position than the read, so use abs
         final int insertSize = Math.abs(samRecord.getInferredInsertSize());
         final SamPairUtil.PairOrientation orientation = SamPairUtil.getPairOrientation(samRecord);
@@ -107,7 +107,7 @@ public final class InsertSizeMetricsCollector
      * @param source source of metrics to be combined into target. May not be null.
      * @return single object representing the combined source and target objects
      */
-    public InsertSizeMetricsCollector combine(InsertSizeMetricsCollector target, InsertSizeMetricsCollector source) {
+    public InsertSizeMetricsCollector combine(final InsertSizeMetricsCollector target, final InsertSizeMetricsCollector source) {
         Utils.nonNull(target);
         Utils.nonNull(source);
         target.combine(source);
@@ -123,8 +123,8 @@ public final class InsertSizeMetricsCollector
      */
     @Override
     public PerUnitInsertSizeMetricsCollector combineUnit(
-            PerUnitInsertSizeMetricsCollector collector1,
-            PerUnitInsertSizeMetricsCollector collector2) {
+            final PerUnitInsertSizeMetricsCollector collector1,
+            final PerUnitInsertSizeMetricsCollector collector2) {
         Utils.nonNull(collector1);
         Utils.nonNull(collector2);
         return collector1.combine(collector2);
@@ -174,7 +174,7 @@ public final class InsertSizeMetricsCollector
         // path to Picard R script for producing histograms in PDF files.
         final String R_SCRIPT = "insertSizeHistogram.R";
 
-        File histFile = new File(inputArgs.histogramPlotFile);
+        final File histFile = new File(inputArgs.histogramPlotFile);
         IOUtil.assertFileIsWritable(histFile);
 
         final RScriptExecutor executor = new RScriptExecutor();

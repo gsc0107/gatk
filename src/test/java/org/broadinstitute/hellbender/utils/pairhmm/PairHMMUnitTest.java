@@ -104,7 +104,7 @@ public final class PairHMMUnitTest extends BaseTest {
             return 1E-9;
         }
 
-        public double calcLog10Likelihood(final PairHMM pairHMM, boolean anchorIndel) {
+        public double calcLog10Likelihood(final PairHMM pairHMM, final boolean anchorIndel) {
             pairHMM.initialize(readBasesWithContext.length, refBasesWithContext.length);
             return pairHMM.computeReadLikelihoodGivenHaplotypeLog10(
                     refBasesWithContext, readBasesWithContext,
@@ -172,7 +172,7 @@ public final class PairHMMUnitTest extends BaseTest {
                         for ( final byte base : BaseUtils.BASES ) {
                             final int expected = indelQual + (size - 2) * gcp;
 
-                            for ( boolean insertionP : Arrays.asList(true, false)) {
+                            for ( final boolean insertionP : Arrays.asList(true, false)) {
                                 final String small = Utils.dupChar((char) base, 1);
                                 final String big = Utils.dupChar((char) base, size);
 
@@ -233,7 +233,7 @@ public final class PairHMMUnitTest extends BaseTest {
     }
 
     @Test(enabled = !DEBUG, dataProvider = "BasicLikelihoodTestProvider")
-    public void testBasicLikelihoods(BasicLikelihoodTestProvider cfg) {
+    public void testBasicLikelihoods(final BasicLikelihoodTestProvider cfg) {
         if ( ALLOW_READS_LONGER_THAN_HAPLOTYPE || cfg.read.length() <= cfg.ref.length() ) {
             final double exactLogL = cfg.calcLog10Likelihood(exactHMM, true);
 
@@ -252,7 +252,7 @@ public final class PairHMMUnitTest extends BaseTest {
     }
 
     @Test(enabled = !DEBUG, dataProvider = "OptimizedLikelihoodTestProvider")
-    public void testOptimizedLikelihoods(BasicLikelihoodTestProvider cfg) {
+    public void testOptimizedLikelihoods(final BasicLikelihoodTestProvider cfg) {
         if ( ALLOW_READS_LONGER_THAN_HAPLOTYPE || cfg.read.length() <= cfg.ref.length() ) {
             final double exactLogL = cfg.calcLog10Likelihood(exactHMM, false);
 
@@ -323,7 +323,7 @@ public final class PairHMMUnitTest extends BaseTest {
 
     @DataProvider(name = "HMMProvider")
     public Object[][] makeHMMProvider() {
-        List<Object[]> tests = new ArrayList<>();
+        final List<Object[]> tests = new ArrayList<>();
 
         for ( final int readSize : Arrays.asList(1, 2, 5, 10) ) {
             for ( final int refSize : Arrays.asList(1, 2, 5, 10) ) {
@@ -357,7 +357,7 @@ public final class PairHMMUnitTest extends BaseTest {
 
     @DataProvider(name = "HMMProviderSimple")
     public Object[][] HMMProviderSimple() {
-        List<Object[]> tests = new ArrayList<>();
+        final List<Object[]> tests = new ArrayList<>();
 
         for ( final int readSize : Arrays.asList(1, 2, 5, 10) ) {
             for ( final PairHMM hmm : getHMMs() )
@@ -394,12 +394,12 @@ public final class PairHMMUnitTest extends BaseTest {
         final byte gcp = 100;
         hmm.initialize(readBases.length, refBases.length);
         // running HMM with no haplotype caching. Should therefore pass null in place of nextRef bases
-        double d = hmm.computeReadLikelihoodGivenHaplotypeLog10(refBases, readBases,
+        final double d = hmm.computeReadLikelihoodGivenHaplotypeLog10(refBases, readBases,
                 Utils.dupBytes(baseQual, readBases.length),
                 Utils.dupBytes(insQual, readBases.length),
                 Utils.dupBytes(delQual, readBases.length),
                 Utils.dupBytes(gcp, readBases.length), true, null);
-        double expected = getExpectedMatchingLogLikelihood(readBases, refBases, baseQual, insQual);
+        final double expected = getExpectedMatchingLogLikelihood(readBases, refBases, baseQual, insQual);
         Assert.assertEquals(d, expected, 1e-3, "Likelihoods should sum to just the error prob of the read " + String.format("readSize=%d refSize=%d", readSize, refSize));
     }
 
@@ -416,7 +416,7 @@ public final class PairHMMUnitTest extends BaseTest {
 
     @DataProvider(name = "HMMProviderWithBigReads")
     public Object[][] makeBigReadHMMProvider() {
-        List<Object[]> tests = new ArrayList<>();
+        final List<Object[]> tests = new ArrayList<>();
 
         final String read1 = "ACCAAGTAGTCACCGT";
         final String ref1  = "ACCAAGTAGTCACCGTAACG";
@@ -479,7 +479,7 @@ public final class PairHMMUnitTest extends BaseTest {
 
     @DataProvider(name = "JustHMMProvider")
     public Object[][] makeJustHMMProvider() {
-        List<Object[]> tests = new ArrayList<>();
+        final List<Object[]> tests = new ArrayList<>();
 
         for ( final PairHMM hmm : getHMMs() ) {
             tests.add(new Object[]{hmm});
@@ -545,22 +545,22 @@ public final class PairHMMUnitTest extends BaseTest {
             }
 
             @Override
-            public void set(int alleleIndex, int readIndex, double value) {
+            public void set(final int alleleIndex, final int readIndex, final double value) {
 //                throw new UnsupportedOperationException();
             }
 
             @Override
-            public double get(int alleleIndex, int readIndex) {
+            public double get(final int alleleIndex, final int readIndex) {
                 throw new UnsupportedOperationException();
             }
 
             @Override
-            public int indexOfAllele(Haplotype allele) {
+            public int indexOfAllele(final Haplotype allele) {
                 throw new UnsupportedOperationException();
             }
 
             @Override
-            public int indexOfRead(GATKRead read) {
+            public int indexOfRead(final GATKRead read) {
                 throw new UnsupportedOperationException();
             }
 
@@ -575,17 +575,17 @@ public final class PairHMMUnitTest extends BaseTest {
             }
 
             @Override
-            public Haplotype getAllele(int alleleIndex) {
+            public Haplotype getAllele(final int alleleIndex) {
                 throw new UnsupportedOperationException();
             }
 
             @Override
-            public GATKRead getRead(int readIndex) {
+            public GATKRead getRead(final int readIndex) {
                 throw new UnsupportedOperationException();
             }
 
             @Override
-            public void copyAlleleLikelihoods(int alleleIndex, double[] dest, int offset) {
+            public void copyAlleleLikelihoods(final int alleleIndex, final double[] dest, final int offset) {
                 throw new UnsupportedOperationException();
             }
         };
@@ -603,7 +603,7 @@ public final class PairHMMUnitTest extends BaseTest {
     
     @DataProvider(name = "HaplotypeIndexingProvider")
     public Object[][] makeHaplotypeIndexingProvider() {
-        List<Object[]> tests = new ArrayList<>();
+        final List<Object[]> tests = new ArrayList<>();
 
         // First difference (root2, root3) is the base position immediately following first difference (root1, root2)
         final String root1    = "ACGTGTCAAACCGGGTT";
@@ -668,7 +668,7 @@ public final class PairHMMUnitTest extends BaseTest {
         final byte[] insQuals = Utils.dupBytes((byte)45, readBases.length);
         final byte[] delQuals = Utils.dupBytes((byte)40, readBases.length);
         final byte[] gcp = Utils.dupBytes((byte) 10, readBases.length);
-        double d = hmm.computeReadLikelihoodGivenHaplotypeLog10(hap.getBytes(), readBases, baseQuals, insQuals, delQuals, gcp, recache, nextHapBases);
+        final double d = hmm.computeReadLikelihoodGivenHaplotypeLog10(hap.getBytes(), readBases, baseQuals, insQuals, delQuals, gcp, recache, nextHapBases);
         Assert.assertTrue(MathUtils.goodLog10Probability(d), "Likelihoods = " + d + " was bad for read " + read + " and ref " + hap + " with hapStart " + hapStart);
         return d;
     }
@@ -704,7 +704,7 @@ public final class PairHMMUnitTest extends BaseTest {
 
     @DataProvider(name = "UninitializedHMMs")
     public Object[][] makeUninitializedHMMs() {
-        List<Object[]> tests = new ArrayList<>();
+        final List<Object[]> tests = new ArrayList<>();
 
         final Log10PairHMM myLog10PairHMM = new Log10PairHMM(true);
         myLog10PairHMM.doNotUseTristateCorrection();
@@ -715,34 +715,34 @@ public final class PairHMMUnitTest extends BaseTest {
 
     @Test(enabled = true, expectedExceptions = IllegalStateException.class, dataProvider = "UninitializedHMMs")
     public void testNoInitializeCall(final PairHMM hmm) {
-        byte[] readBases = "A".getBytes();
-        byte[] refBases =  "AT".getBytes();
-        byte[] baseQuals = Utils.dupBytes((byte)30, readBases.length);
+        final byte[] readBases = "A".getBytes();
+        final byte[] refBases =  "AT".getBytes();
+        final byte[] baseQuals = Utils.dupBytes((byte)30, readBases.length);
 
         // didn't call initialize => should exception out
-        double d = hmm.computeReadLikelihoodGivenHaplotypeLog10(refBases, readBases,
+        final double d = hmm.computeReadLikelihoodGivenHaplotypeLog10(refBases, readBases,
                 baseQuals, baseQuals, baseQuals, baseQuals, true, null);
     }
 
     @Test(enabled = true, expectedExceptions = IllegalArgumentException.class, dataProvider = "JustHMMProvider")
     public void testHapTooLong(final PairHMM hmm) {
-        byte[] readBases = "AAA".getBytes();
-        byte[] refBases =  "AAAT".getBytes();
-        byte[] baseQuals = Utils.dupBytes((byte)30, readBases.length);
+        final byte[] readBases = "AAA".getBytes();
+        final byte[] refBases =  "AAAT".getBytes();
+        final byte[] baseQuals = Utils.dupBytes((byte)30, readBases.length);
 
         hmm.initialize(3, 3);
-        double d = hmm.computeReadLikelihoodGivenHaplotypeLog10(refBases, readBases,
+        final double d = hmm.computeReadLikelihoodGivenHaplotypeLog10(refBases, readBases,
                 baseQuals, baseQuals, baseQuals, baseQuals, true, null);
     }
 
     @Test(enabled = true, expectedExceptions = IllegalArgumentException.class, dataProvider = "JustHMMProvider")
     public void testReadTooLong(final PairHMM hmm) {
-        byte[] readBases = "AAA".getBytes();
-        byte[] refBases =  "AAAT".getBytes();
-        byte[] baseQuals = Utils.dupBytes((byte)30, readBases.length);
+        final byte[] readBases = "AAA".getBytes();
+        final byte[] refBases =  "AAAT".getBytes();
+        final byte[] baseQuals = Utils.dupBytes((byte)30, readBases.length);
 
         hmm.initialize(2, 3);
-        double d = hmm.computeReadLikelihoodGivenHaplotypeLog10(refBases, readBases,
+        final double d = hmm.computeReadLikelihoodGivenHaplotypeLog10(refBases, readBases,
                 baseQuals, baseQuals, baseQuals, baseQuals, true, null);
     }
 

@@ -41,14 +41,14 @@ public final class UtilsUnitTest extends BaseTest {
                 ImmutableList.of("a", "b", "c", "d"));
     }
 
-    private <T> void check(List<? extends Iterable<T>> input, List<T> expected) {
+    private <T> void check(final List<? extends Iterable<T>> input, final List<T> expected) {
         assertEquals(Lists.newArrayList(Utils.concatIterators(input.iterator())), expected);
     }
 
     @Test
     public void testTransformParallel() {
         final Iterator<Integer> integers = Utils.transformParallel(ImmutableList.of(5, 4, 3, 2, 1).iterator(), i -> {
-            try { Thread.sleep(i * 100); } catch (InterruptedException e) { }
+            try { Thread.sleep(i * 100); } catch (final InterruptedException e) { }
             return i;
         }, 2);
         assertEquals(Lists.newArrayList(integers), ImmutableList.of(5, 4, 3, 2, 1));
@@ -143,7 +143,7 @@ public final class UtilsUnitTest extends BaseTest {
 
     @Test
     public void testAppend() {
-        for ( int leftSize : asList(0, 1, 2, 3) ) {
+        for ( final int leftSize : asList(0, 1, 2, 3) ) {
             for ( final int rightSize : asList(0, 1, 2) ) {
                 final List<Integer> left = new LinkedList<>();
                 for ( int i = 0; i < leftSize; i++ ) left.add(i);
@@ -163,7 +163,7 @@ public final class UtilsUnitTest extends BaseTest {
 
     @Test
     public void testWarnUserLines(){
-        String message = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut" +
+        final String message = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut" +
                 " labore et dolore magna aliqua.";
         Assert.assertEquals(Utils.warnUserLines(message), new ArrayList<>(asList(
                 "**********************************************************************",
@@ -177,22 +177,22 @@ public final class UtilsUnitTest extends BaseTest {
 
     @Test(expectedExceptions = IllegalArgumentException.class)
     public void testJoinNullInts() {
-        int[] nullints = null;
+        final int[] nullints = null;
         Utils.join(",", nullints);
     }
 
     @Test(expectedExceptions = IllegalArgumentException.class)
     public void testJoinNullDoubles() {
-        double[] emptydbl = null;
+        final double[] emptydbl = null;
         Utils.join(",", emptydbl);
     }
 
     @Test
     public void testJoin(){
-        int[] ints = {1,2,3,4};
+        final int[] ints = {1,2,3,4};
         Assert.assertEquals(Utils.join(",", ints),"1,2,3,4");
 
-        double[] dbls = {1.0,2.0,3.0,4.0};
+        final double[] dbls = {1.0,2.0,3.0,4.0};
         Assert.assertEquals(Utils.join(",",dbls), "1.0,2.0,3.0,4.0");
 
         Assert.assertEquals(Utils.join(",", new Object[] {}),"");
@@ -379,12 +379,12 @@ public final class UtilsUnitTest extends BaseTest {
     }
 
     @Test(expectedExceptions = IllegalArgumentException.class, dataProvider = "emptyAndNull")
-    public void testNonEmptyThrows(Collection<?> collection) {
+    public void testNonEmptyThrows(final Collection<?> collection) {
         Utils.nonEmpty(collection);
     }
 
     @Test(expectedExceptions = IllegalArgumentException.class, dataProvider = "emptyAndNull")
-    public void testNonEmptyThrowsWithMessage(Collection<?> collection) {
+    public void testNonEmptyThrowsWithMessage(final Collection<?> collection) {
         Utils.nonEmpty(collection, "some message");
     }
 
@@ -495,7 +495,7 @@ public final class UtilsUnitTest extends BaseTest {
     }
 
     @Test(dataProvider = "booleanOccurrencesData")
-    public void testCountBooleanOccurrences(boolean element, boolean[] array, int expected) {
+    public void testCountBooleanOccurrences(final boolean element, final boolean[] array, final int expected) {
         Assert.assertEquals(Utils.countBooleanOccurrences(element, array), expected);
     }
 
@@ -512,8 +512,8 @@ public final class UtilsUnitTest extends BaseTest {
         // end of the tests. Also, since we're QUERYING the Log4j level, but we're SETTING the level using the
         // LoggingUtils API, we also need to verify here that the initial level is one of the narrower set of levels
         // that is supported by LoggingUtils, since those are the only ones we can restore through the LoggingUtils API.
-        Level initialLevel = logger.getLevel();
-        boolean goodInitialLevel =
+        final Level initialLevel = logger.getLevel();
+        final boolean goodInitialLevel =
                 initialLevel == Level.DEBUG ||
                 initialLevel == Level.WARN ||
                 initialLevel == Level.ERROR ||
@@ -598,7 +598,7 @@ public final class UtilsUnitTest extends BaseTest {
     }
 
     @Test(dataProvider = "testEqualRange")
-    public void testEqualRange(byte[] arr1, int from, int to, byte[] arr2, boolean expected) throws Exception {
+    public void testEqualRange(final byte[] arr1, final int from, final int to, final byte[] arr2, final boolean expected) throws Exception {
         //Note 'from' is inclusive, 'to' is exclusive
         Assert.assertEquals(Utils.equalRange(arr1, from, arr2, 0, to - from), expected);
     }
@@ -630,7 +630,7 @@ public final class UtilsUnitTest extends BaseTest {
         Assert.assertEquals(result, expected);
     }
 
-    private void randomByteString(Random rng, byte[] bytes) {
+    private void randomByteString(final Random rng, final byte[] bytes) {
         for (int i = 0; i < bytes.length; i++) {
             bytes[i] = (byte)(rng.nextInt(94) + 32);
         }
@@ -642,8 +642,8 @@ public final class UtilsUnitTest extends BaseTest {
         final int referenceLength = 1000;
         final int queryLength = 100;
         
-        byte [] reference = new byte[referenceLength];
-        byte [] query = new byte[queryLength];
+        final byte [] reference = new byte[referenceLength];
+        final byte [] query = new byte[queryLength];
 
         final Random rng = Utils.getRandomGenerator();
         
@@ -702,12 +702,12 @@ public final class UtilsUnitTest extends BaseTest {
     }
 
     @Test(dataProvider = "getNonNullCollections")
-    public void testContainsNoNull(Collection<?> collection){
+    public void testContainsNoNull(final Collection<?> collection){
         Utils.containsNoNull(collection, "bad");
     }
 
     @Test(dataProvider = "getCollectionsWithNulls", expectedExceptions = IllegalArgumentException.class)
-    public void testContainsNull( Collection<?> collection){
+    public void testContainsNull(final Collection<?> collection){
         Utils.containsNoNull(collection, "This was expected");
     }
 

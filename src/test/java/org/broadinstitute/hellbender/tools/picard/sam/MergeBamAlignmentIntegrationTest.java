@@ -151,10 +151,10 @@ public final class MergeBamAlignmentIntegrationTest extends CommandLineProgramTe
 
         SamAssertionUtils.assertCRAMContentsIfCRAM(output);
 
-        SamReader result = SamReaderFactory.makeDefault().referenceSequence(fasta).open(output);
+        final SamReader result = SamReaderFactory.makeDefault().referenceSequence(fasta).open(output);
         Assert.assertEquals(result.getFileHeader().getSequenceDictionary().getSequences().size(), 8,
                 "Number of sequences did not match");
-        SAMProgramRecord pg = result.getFileHeader().getProgramRecords().get(0);
+        final SAMProgramRecord pg = result.getFileHeader().getProgramRecords().get(0);
         Assert.assertEquals(pg.getProgramGroupId(), "0");
         Assert.assertEquals(pg.getProgramVersion(), "1.0");
         Assert.assertEquals(pg.getCommandLine(), "align!");
@@ -318,7 +318,7 @@ public final class MergeBamAlignmentIntegrationTest extends CommandLineProgramTe
                 SamPairUtil.PairOrientation.FR, null, null, null
         );
 
-        SamReaderFactory factory = SamReaderFactory.makeDefault();
+        final SamReaderFactory factory = SamReaderFactory.makeDefault();
         final SamReader result = factory.open(output);
         for (final SAMRecord sam : result) {
             // Get the alignment record
@@ -1591,14 +1591,14 @@ public final class MergeBamAlignmentIntegrationTest extends CommandLineProgramTe
 
     @Test
     public void testHelp() {
-        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        PrintStream ps= new PrintStream(baos);
+        final ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        final PrintStream ps= new PrintStream(baos);
         System.setErr(ps);
         runCommandLine(new String[]{
                 "--help",
         });
         final String s = baos.toString();
-        String[] lines = s.split("\n");
+        final String[] lines = s.split("\n");
         for (int i = 0; i < lines.length; i++) {
             Assert.assertFalse(lines[i].contains("READ2_ALIGNED_BAM (R2_ALIGNED) READ2_ALIGNED_BAM"), lines[i]); //Same option twice!
         }

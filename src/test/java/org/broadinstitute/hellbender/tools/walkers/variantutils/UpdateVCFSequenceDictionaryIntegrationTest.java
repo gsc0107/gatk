@@ -59,7 +59,7 @@ public class UpdateVCFSequenceDictionaryIntegrationTest extends CommandLineProgr
         // UR attributes). However, htsjdk doesn't propagate these attributes to the VCF header properly
         // (https://github.com/samtools/htsjdk/issues/730), and many are stripped out. In order to ensure the
         // roundtrip comparison succeeds, roundtrip it through a VCF header to match what htsjdk will have written out.
-        VCFHeader sourceVCFHeader = new VCFHeader();
+        final VCFHeader sourceVCFHeader = new VCFHeader();
         sourceVCFHeader.setSequenceDictionary(sourceDictionary);
         sourceDictionary = sourceVCFHeader.getSequenceDictionary();
         Assert.assertEquals(sourceDictionary, resultingDictionary);
@@ -93,7 +93,7 @@ public class UpdateVCFSequenceDictionaryIntegrationTest extends CommandLineProgr
         final File inputReferenceFile,
         final boolean replace)
     {
-        ArgumentsBuilder argBuilder = new ArgumentsBuilder();
+        final ArgumentsBuilder argBuilder = new ArgumentsBuilder();
 
         argBuilder.addVCF(inputVariantsFile);
         if (inputReferenceFile != null) {
@@ -106,7 +106,7 @@ public class UpdateVCFSequenceDictionaryIntegrationTest extends CommandLineProgr
             argBuilder.addArgument("replace", Boolean.toString(replace));
         }
 
-        File outFile = createTempFile("updateSequenceDictionary", ".vcf");
+        final File outFile = createTempFile("updateSequenceDictionary", ".vcf");
         argBuilder.addOutput(outFile);
         runCommandLine(argBuilder.getArgsList());
 

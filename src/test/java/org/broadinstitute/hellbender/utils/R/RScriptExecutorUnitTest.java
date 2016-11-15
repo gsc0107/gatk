@@ -23,9 +23,9 @@ public final class RScriptExecutorUnitTest extends BaseTest {
 
     @Test(groups = {"R"}, dependsOnMethods = "testRscriptExists")
     public void testExistingScript() {
-        File script = writeScript(HELLO_WORLD_SCRIPT);
+        final File script = writeScript(HELLO_WORLD_SCRIPT);
         try {
-            RScriptExecutor executor = new RScriptExecutor();
+            final RScriptExecutor executor = new RScriptExecutor();
             executor.addScript(script);
             Assert.assertTrue(executor.exec(), "Exec failed");
         } finally {
@@ -35,7 +35,7 @@ public final class RScriptExecutorUnitTest extends BaseTest {
 
     @Test(groups = {"R"}, dependsOnMethods = "testRscriptExists", expectedExceptions = RScriptExecutorException.class)
     public void testNonExistantScriptException() {
-        RScriptExecutor executor = new RScriptExecutor();
+        final RScriptExecutor executor = new RScriptExecutor();
         executor.addScript(new File("does_not_exists.R"));
         executor.exec();
     }
@@ -43,7 +43,7 @@ public final class RScriptExecutorUnitTest extends BaseTest {
     @Test(groups = {"R"}, dependsOnMethods = "testRscriptExists")
     public void testNonExistantScriptNoException() {
         logger.warn("Testing that warning is printed an no exception thrown for missing script.");
-        RScriptExecutor executor = new RScriptExecutor();
+        final RScriptExecutor executor = new RScriptExecutor();
         executor.addScript(new File("does_not_exists.R"));
         executor.setIgnoreExceptions(true);
         Assert.assertFalse(executor.exec(), "Exec should have returned false when the job failed");
@@ -51,9 +51,9 @@ public final class RScriptExecutorUnitTest extends BaseTest {
 
     @Test(groups = {"R"}, dependsOnMethods = "testRscriptExists")
     public void testLibrary() {
-        File script = writeScript(GSALIB_LOADED_SCRIPT);
+        final File script = writeScript(GSALIB_LOADED_SCRIPT);
         try {
-            RScriptExecutor executor = new RScriptExecutor();
+            final RScriptExecutor executor = new RScriptExecutor();
             executor.addScript(script);
             executor.addLibrary(RScriptLibrary.GSALIB);
             Assert.assertTrue(executor.exec(), "Exec failed");
@@ -64,9 +64,9 @@ public final class RScriptExecutorUnitTest extends BaseTest {
 
     @Test(groups = {"R"}, dependsOnMethods = "testRscriptExists", expectedExceptions = RScriptExecutorException.class)
     public void testLibraryMissing() {
-        File script = writeScript(GSALIB_LOADED_SCRIPT);
+        final File script = writeScript(GSALIB_LOADED_SCRIPT);
         try {
-            RScriptExecutor executor = new RScriptExecutor();
+            final RScriptExecutor executor = new RScriptExecutor();
             executor.addScript(script);
             // GSALIB is not added nor imported in the script
             executor.exec();
@@ -75,7 +75,7 @@ public final class RScriptExecutorUnitTest extends BaseTest {
         }
     }
 
-    private File writeScript(String content) {
+    private File writeScript(final String content) {
         return IOUtils.writeTempFile(content, "myTestScript", ".R");
     }
 }

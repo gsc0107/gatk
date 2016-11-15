@@ -82,7 +82,7 @@ public final class SplitReads extends ReadWalker {
     }
 
     @Override
-    public void apply( GATKRead read, ReferenceContext referenceContext, FeatureContext featureContext ) {
+    public void apply(final GATKRead read, final ReferenceContext referenceContext, final FeatureContext featureContext ) {
         outs.computeIfAbsent(getKey(splitters, read), this::createUnknownOutOnDemand).addRead(read);
     }
 
@@ -95,7 +95,7 @@ public final class SplitReads extends ReadWalker {
 
     // Create an output stream on demand for holding any reads that do not have a value for one or more of the
     // attributes we're grouping by
-    private SAMFileGATKReadWriter createUnknownOutOnDemand(String attributeValue) {
+    private SAMFileGATKReadWriter createUnknownOutOnDemand(final String attributeValue) {
         if (!attributeValue.equals("."+UNKNOWN_OUT_PREFIX)) {
             // the only attribute value we should ever discover at runtime is the string ".unknown" which is
             // synthesized by "getkey" below when a splitter returns null because we're splitting on some
@@ -110,8 +110,8 @@ public final class SplitReads extends ReadWalker {
 
     //  Create a new output file and prepare and return the corresponding SAMFileGATKReadWriter.
     private SAMFileGATKReadWriter prepareSAMFileWriter(
-            SAMFileWriterFactory samFileWriterFactory,
-            SAMFileHeader samFileHeaderIn,
+            final SAMFileWriterFactory samFileWriterFactory,
+            final SAMFileHeader samFileHeaderIn,
             final String keyName) {
         final String base = FilenameUtils.getBaseName(readArguments.getReadFiles().get(0).getName());
         final String extension = "." + FilenameUtils.getExtension(readArguments.getReadFiles().get(0).getName());

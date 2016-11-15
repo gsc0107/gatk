@@ -41,7 +41,7 @@ public final class SortSam extends PicardCommandLineProgram {
         IOUtil.assertFileIsReadable(INPUT);
         IOUtil.assertFileIsWritable(OUTPUT);
         final SamReader reader = SamReaderFactory.makeDefault().validationStringency(VALIDATION_STRINGENCY).referenceSequence(REFERENCE_SEQUENCE).open(INPUT);
-        SAMFileHeader writeHeader = reader.getFileHeader().clone();
+        final SAMFileHeader writeHeader = reader.getFileHeader().clone();
         writeHeader.setSortOrder(SORT_ORDER);
         try (final SAMFileWriter writer = createSAMWriter(OUTPUT, REFERENCE_SEQUENCE, writeHeader, false)) {
             writer.setProgressLogger(

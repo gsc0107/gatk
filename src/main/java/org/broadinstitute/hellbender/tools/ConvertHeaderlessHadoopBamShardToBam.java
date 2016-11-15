@@ -43,7 +43,7 @@ public final class ConvertHeaderlessHadoopBamShardToBam extends CommandLineProgr
         try ( final SamReader headerReader = SamReaderFactory.makeDefault().validationStringency(ValidationStringency.SILENT).open(bamWithHeader) ) {
             header = headerReader.getFileHeader();
         }
-        catch ( IOException e ) {
+        catch ( final IOException e ) {
             throw new UserException("Error reading header from " + bamWithHeader.getAbsolutePath(), e);
         }
 

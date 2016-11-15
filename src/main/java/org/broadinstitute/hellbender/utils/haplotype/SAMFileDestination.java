@@ -20,7 +20,7 @@ public final class SAMFileDestination extends HaplotypeBAMDestination {
      * @param sourceHeader SAMFileHeader used to seed the output SAMFileHeader for this destination, must not be null
      * @param haplotypeReadGroupID read group ID used when writing haplotypes as reads
      */
-    public SAMFileDestination(File outFile, SAMFileHeader sourceHeader, String haplotypeReadGroupID) {
+    public SAMFileDestination(final File outFile, final SAMFileHeader sourceHeader, final String haplotypeReadGroupID) {
         super(sourceHeader, haplotypeReadGroupID);
         samWriter = new SAMFileWriterFactory().makeSAMOrBAMWriter(getBAMOutputHeader(), false, outFile);
     }

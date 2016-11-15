@@ -380,7 +380,7 @@ public final class GenotypeLikelihoodCalculators {
         throw new GATKException("Code should never reach here.");
     }
 
-    private int calculateGenotypeCountUsingTables(int ploidy, int alleleCount) {
+    private int calculateGenotypeCountUsingTables(final int ploidy, final int alleleCount) {
         checkPloidyAndMaximumAllele(ploidy, alleleCount);
         if (ploidy > maximumPloidy || alleleCount > maximumAllele) {
             ensureCapacity(alleleCount, ploidy);

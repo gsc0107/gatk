@@ -20,15 +20,15 @@ import java.util.Arrays;
 public final class BaseRecalibratorSparkFn {
 
     public static RecalibrationReport apply( final JavaPairRDD<GATKRead, ReadContextData> readsWithContext, final SAMFileHeader header, final SAMSequenceDictionary referenceDictionary, final RecalibrationArgumentCollection recalArgs ) {
-        JavaRDD<RecalibrationTables> unmergedTables = readsWithContext.mapPartitions(readWithContextIterator -> {
+        final JavaRDD<RecalibrationTables> unmergedTables = readsWithContext.mapPartitions(readWithContextIterator -> {
             final BaseRecalibrationEngine bqsr = new BaseRecalibrationEngine(recalArgs, header);
             bqsr.logCovariatesUsed();
 
             while ( readWithContextIterator.hasNext() ) {
                 final Tuple2<GATKRead, ReadContextData> readWithData = readWithContextIterator.next();
-                Iterable<GATKVariant> variants = readWithData._2().getOverlappingVariants();
+                final Iterable<GATKVariant> variants = readWithData._2().getOverlappingVariants();
                 final ReferenceBases refBases = readWithData._2().getOverlappingReferenceBases();
-                ReferenceDataSource refDS = new ReferenceMemorySource(refBases, referenceDictionary);
+                final ReferenceDataSource refDS = new ReferenceMemorySource(refBases, referenceDictionary);
 
                 bqsr.processRead(readWithData._1(), refDS, variants);
             }

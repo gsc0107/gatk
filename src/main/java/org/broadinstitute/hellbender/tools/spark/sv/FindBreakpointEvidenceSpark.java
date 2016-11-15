@@ -290,14 +290,14 @@ public final class FindBreakpointEvidenceSpark extends GATKSparkTool {
             writer.write("coverage:\t"+readMetadata.getCoverage()+"\n");
             for ( final Map.Entry<String, ReadMetadata.ReadGroupFragmentStatistics> entry :
                     readMetadata.getAllGroupStatistics().entrySet() ) {
-                ReadMetadata.ReadGroupFragmentStatistics stats = entry.getValue();
+                final ReadMetadata.ReadGroupFragmentStatistics stats = entry.getValue();
                 String name = entry.getKey();
                 if ( name == null ) name = "NoGroup";
                 writer.write("group "+name+":\t"+stats.getMedianFragmentSize()+
                         "-"+stats.getMedianNegativeDeviation()+"+"+stats.getMedianPositiveDeviation()+"\n");
             }
         }
-        catch ( IOException ioe ) {
+        catch ( final IOException ioe ) {
             throw new GATKException("Can't write metadata file.", ioe);
         }
     }
@@ -1213,7 +1213,7 @@ public final class FindBreakpointEvidenceSpark extends GATKSparkTool {
 
         @Override
         public Iterator<Tuple2<SVKmer, String>> apply(final GATKRead read ) {
-            List<Tuple2<SVKmer, String>> results = new ArrayList<>();
+            final List<Tuple2<SVKmer, String>> results = new ArrayList<>();
             SVKmerizerWithLowComplexityFilter.stream(read.getBases(), kSize, minEntropy)
                     .map( kmer -> kmer.canonical(kSize) )
                     .forEach( kmer -> {
@@ -1243,7 +1243,7 @@ public final class FindBreakpointEvidenceSpark extends GATKSparkTool {
         }
 
         public Iterable<QNameAndInterval> call( final Iterator<Tuple2<SVKmer, String>> pairItr ) {
-            HopscotchMap<SVKmer, List<String>, Map.Entry<SVKmer, List<String>>> kmerQNamesMap =
+            final HopscotchMap<SVKmer, List<String>, Map.Entry<SVKmer, List<String>>> kmerQNamesMap =
                     new HopscotchMap<>(kmerMapSize);
             while ( pairItr.hasNext() ) {
                 final Tuple2<SVKmer, String> pair = pairItr.next();
@@ -1255,7 +1255,7 @@ public final class FindBreakpointEvidenceSpark extends GATKSparkTool {
                     entry = new AbstractMap.SimpleEntry<>(kmer, new ArrayList<>());
                     kmerQNamesMap.add(entry);
                 }
-                List<String> qNames = entry.getValue();
+                final List<String> qNames = entry.getValue();
                 // if we're still growing the list
                 if ( qNames != null ) {
                     // if the list becomes too long, discard it
@@ -1266,12 +1266,12 @@ public final class FindBreakpointEvidenceSpark extends GATKSparkTool {
 
             final int qNameCount =
                     kmerQNamesMap.stream().mapToInt(entry -> entry.getValue()==null ? 0 : entry.getValue().size()).sum();
-            HopscotchSet<QNameAndInterval> qNameAndIntervals = new HopscotchSet<>(qNameCount);
-            for ( Map.Entry<SVKmer, List<String>> entry : kmerQNamesMap ) {
+            final HopscotchSet<QNameAndInterval> qNameAndIntervals = new HopscotchSet<>(qNameCount);
+            for ( final Map.Entry<SVKmer, List<String>> entry : kmerQNamesMap ) {
                 final List<String> qNames = entry.getValue();
                 // if the list hasn't been discarded for having grown too big
                 if ( qNames != null ) {
-                    Iterator<KmerAndInterval> intervalItr = kmerMultiMap.findEach(entry.getKey());
+                    final Iterator<KmerAndInterval> intervalItr = kmerMultiMap.findEach(entry.getKey());
                     while ( intervalItr.hasNext() ) {
                         final int intervalId = intervalItr.next().getIntervalId();
                         for ( final String qName : qNames ) {

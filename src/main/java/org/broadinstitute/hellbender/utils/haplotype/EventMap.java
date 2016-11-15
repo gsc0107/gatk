@@ -372,7 +372,7 @@ public final class EventMap extends TreeMap<Integer, VariantContext> {
         private static final long serialVersionUID = -2549166273822365485L;
 
         @Override
-        public int compare(VariantContext vc1, VariantContext vc2) {
+        public int compare(final VariantContext vc1, final VariantContext vc2) {
             return vc1.getStart() - vc2.getStart();
         }
     }

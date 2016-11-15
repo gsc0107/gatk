@@ -71,7 +71,7 @@ public class CigarConversionUtilsUnitTest extends BaseTest {
         try {
             final CigarElement convertedElement = CigarConversionUtils.convertCigarUnitToSAMCigarElement(invalidCigarUnit);
         }
-        catch ( Exception e ) {
+        catch ( final Exception e ) {
             sawException = true;
             Assert.assertEquals(e.getClass(), exceptionClass, "Wrong class of exception thrown for invalid CigarUnit");
         }
@@ -95,7 +95,7 @@ public class CigarConversionUtilsUnitTest extends BaseTest {
         try {
             final CigarUnit convertedUnit = CigarConversionUtils.convertSAMCigarElementToCigarUnit(invalidCigarElement);
         }
-        catch ( Exception e ) {
+        catch ( final Exception e ) {
             sawException = true;
             Assert.assertEquals(e.getClass(), exceptionClass, "Wrong class of exception thrown for invalid CigarElement");
         }

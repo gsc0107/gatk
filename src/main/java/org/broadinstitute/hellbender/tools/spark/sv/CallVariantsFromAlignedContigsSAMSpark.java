@@ -89,7 +89,7 @@ public final class CallVariantsFromAlignedContigsSAMSpark extends GATKSparkTool 
             SequenceUtil.reverseComplement(bases, 0, bases.length);
         }
 
-        Iterable<AlignmentRegion> alignmentRegionIterable = IteratorUtils.asIterable(gatkReads.stream()
+        final Iterable<AlignmentRegion> alignmentRegionIterable = IteratorUtils.asIterable(gatkReads.stream()
                 .filter(r -> !r.isSecondaryAlignment()).map(AlignmentRegion::new).iterator());
         return new Tuple2<>(alignmentRegionIterable, bases);
     }

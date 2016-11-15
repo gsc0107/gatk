@@ -22,7 +22,7 @@ public final class RecalDatumUnitTest extends BaseTest {
     private class RecalDatumTestProvider extends TestDataProvider {
         int exError, exTotal, reportedQual;
 
-        private RecalDatumTestProvider(int E, int N, int reportedQual) {
+        private RecalDatumTestProvider(final int E, final int N, final int reportedQual) {
             super(RecalDatumTestProvider.class);
 
             this.exError = E;
@@ -53,9 +53,9 @@ public final class RecalDatumUnitTest extends BaseTest {
     @DataProvider(name = "RecalDatumTestProvider")
     public Object[][] makeRecalDatumTestProvider() {
         if ( !createdDatumTestProviders ) {
-            for ( int E : Arrays.asList(1, 10, 100, 1000, 10000) )
-                for ( int N : Arrays.asList(10, 100, 1000, 10000, 100000, 1000000) )
-                    for ( int reportedQual : Arrays.asList(10, 20) )
+            for ( final int E : Arrays.asList(1, 10, 100, 1000, 10000) )
+                for ( final int N : Arrays.asList(10, 100, 1000, 10000, 100000, 1000000) )
+                    for ( final int reportedQual : Arrays.asList(10, 20) )
                         if ( E <= N )
                             new RecalDatumTestProvider(E, N, reportedQual);
             createdDatumTestProviders = true;
@@ -65,7 +65,7 @@ public final class RecalDatumUnitTest extends BaseTest {
     }
 
     @Test(dataProvider = "RecalDatumTestProvider")
-    public void testRecalDatumBasics(RecalDatumTestProvider cfg) {
+    public void testRecalDatumBasics(final RecalDatumTestProvider cfg) {
         final RecalDatum datum = cfg.makeRecalDatum();
         assertBasicFeaturesOfRecalDatum(datum, cfg);
     }
@@ -84,18 +84,18 @@ public final class RecalDatumUnitTest extends BaseTest {
     }
 
     @Test(dataProvider = "RecalDatumTestProvider")
-    public void testRecalDatumCopyAndCombine(RecalDatumTestProvider cfg) {
+    public void testRecalDatumCopyAndCombine(final RecalDatumTestProvider cfg) {
         final RecalDatum datum = cfg.makeRecalDatum();
         final RecalDatum copy = new RecalDatum(datum);
         assertBasicFeaturesOfRecalDatum(copy, cfg);
 
-        RecalDatumTestProvider combinedCfg = new RecalDatumTestProvider(cfg.exError * 2, cfg.exTotal * 2, cfg.reportedQual);
+        final RecalDatumTestProvider combinedCfg = new RecalDatumTestProvider(cfg.exError * 2, cfg.exTotal * 2, cfg.reportedQual);
         copy.combine(datum);
         assertBasicFeaturesOfRecalDatum(copy, combinedCfg);
     }
 
     @Test(dataProvider = "RecalDatumTestProvider")
-    public void testRecalDatumModification(RecalDatumTestProvider cfg) {
+    public void testRecalDatumModification(final RecalDatumTestProvider cfg) {
         RecalDatum datum = cfg.makeRecalDatum();
         datum.setEmpiricalQuality(10.1);
         Assert.assertEquals(datum.getEmpiricalQuality(), 10.1);
@@ -203,9 +203,9 @@ public final class RecalDatumUnitTest extends BaseTest {
         final int[] observations = new int[] {0, 10, 1000, 1000000};
         final int[] errors = new int[] {0, 10, 1000, 1000000};
 
-        for ( double Qemp : Qemps ) {
-            for ( int observation : observations ) {
-                for ( int error : errors ) {
+        for ( final double Qemp : Qemps ) {
+            for ( final int observation : observations ) {
+                for ( final int error : errors ) {
                     if ( error > observation )
                         continue;
 

@@ -23,7 +23,7 @@ public class ReadsPipelineSparkIntegrationTest extends CommandLineProgramTest {
         final String args;
         final String expectedFileName;
 
-        private PipelineTest(String referenceURL, String bam, String outputExtension, String knownSites, String args, String expectedFileName) {
+        private PipelineTest(final String referenceURL, final String bam, final String outputExtension, final String knownSites, final String args, final String expectedFileName) {
             this.referenceURL = referenceURL;
             this.bam = bam;
             this.outputExtension = outputExtension;
@@ -84,8 +84,8 @@ public class ReadsPipelineSparkIntegrationTest extends CommandLineProgramTest {
     }
 
     @Test(dataProvider = "ReadsPipeline", groups = "spark")
-    public void testReadsPipelineSpark(PipelineTest params) throws IOException {
-        File outFile = BaseTest.createTempFile("readSparkPipelineTest", params.outputExtension);
+    public void testReadsPipelineSpark(final PipelineTest params) throws IOException {
+        final File outFile = BaseTest.createTempFile("readSparkPipelineTest", params.outputExtension);
         final ArrayList<String> args = new ArrayList<>();
 
         args.add("-I");

@@ -156,7 +156,7 @@ public final class BaseRecalibrator extends ReadWalker {
     // contexts (shared by BaseRecalibratorSpark and BaseRecalibratorSparkSharded).
     public static ReadFilter getStandardBQSRReadFilter(final SAMFileHeader header ) {
         //Note: the order is deliberate - we first check the cheap conditions that do not require decoding the read
-        List<ReadFilter> bqsrFilters =  makeBQSRSpecificReadFilters();
+        final List<ReadFilter> bqsrFilters =  makeBQSRSpecificReadFilters();
         bqsrFilters.add(new WellformedReadFilter(header));
         return bqsrFilters.stream().reduce(ReadFilterLibrary.ALLOW_ALL_READS, (f1, f2) -> f1.and(f2));
     }
@@ -165,7 +165,7 @@ public final class BaseRecalibrator extends ReadWalker {
     // This ReadFilter shouldn't be a CountingReadFilter as it is also used in Spark
     // contexts (shared by ReadsPipelineSpark and BQSRPipelineSpark).
     public static List<ReadFilter> makeBQSRSpecificReadFilters() {
-        List<ReadFilter> filters = new ArrayList<>(6);
+        final List<ReadFilter> filters = new ArrayList<>(6);
         filters.add(ReadFilterLibrary.MAPPING_QUALITY_NOT_ZERO);
         filters.add(ReadFilterLibrary.MAPPING_QUALITY_AVAILABLE);
         filters.add(ReadFilterLibrary.MAPPED);
@@ -180,7 +180,7 @@ public final class BaseRecalibrator extends ReadWalker {
      * whether or not the base matches the reference at this particular location
      */
     @Override
-    public void apply( GATKRead read, ReferenceContext ref, FeatureContext featureContext ) {
+    public void apply(final GATKRead read, final ReferenceContext ref, final FeatureContext featureContext ) {
         recalibrationEngine.processRead(read, referenceDataSource, featureContext.getValues(knownSites));
     }
 

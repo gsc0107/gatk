@@ -39,7 +39,7 @@ public class ReferenceMultiSource implements ReferenceSource, Serializable {
         if (ReferenceTwoBitSource.isTwoBit(referenceURL)) {
             try {
                 referenceSource = new ReferenceTwoBitSource(pipelineOptions, referenceURL);
-            } catch (IOException e) {
+            } catch (final IOException e) {
                 throw new UserException("Failed to create a ReferenceTwoBitSource object" + e.getMessage());
             }
         } else if (isFasta(referenceURL)) {
@@ -64,7 +64,7 @@ public class ReferenceMultiSource implements ReferenceSource, Serializable {
         this(auth.asPipelineOptionsDeprecated(), referenceURL, referenceWindowFunction);
     }
 
-    private static boolean isFasta(String reference) {
+    private static boolean isFasta(final String reference) {
         for (final String ext : ReferenceSequenceFileFactory.FASTA_EXTENSIONS) {
             if (reference.endsWith(ext)) {
                 return true;
@@ -109,7 +109,7 @@ public class ReferenceMultiSource implements ReferenceSource, Serializable {
         try {
             return referenceSource.getReferenceSequenceDictionary(optReadSequenceDictionaryToMatch);
         }
-        catch ( IOException e ) {
+        catch ( final IOException e ) {
             throw new GATKException("Error getting reference sequence dictionary");
         }
     }

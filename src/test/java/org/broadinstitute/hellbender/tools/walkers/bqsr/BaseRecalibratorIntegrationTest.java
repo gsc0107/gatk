@@ -23,7 +23,7 @@ public final class BaseRecalibratorIntegrationTest extends CommandLineProgramTes
         final String args;
         final String expectedFileName;
 
-        private BQSRTest(String reference, String bam, String knownSites, String args, String expectedFileName) {
+        private BQSRTest(final String reference, final String bam, final String knownSites, final String args, final String expectedFileName) {
             this.reference = reference;
             this.bam = bam;
             this.knownSites = knownSites;
@@ -97,8 +97,8 @@ public final class BaseRecalibratorIntegrationTest extends CommandLineProgramTes
         };
     }
     @Test(dataProvider = "BQSRTest")
-    public void testBQSR(BQSRTest params) throws IOException {
-        IntegrationTestSpec spec = new IntegrationTestSpec(
+    public void testBQSR(final BQSRTest params) throws IOException {
+        final IntegrationTestSpec spec = new IntegrationTestSpec(
                 params.getCommandLine(),
                 Arrays.asList(params.expectedFileName));
         spec.executeTest("testBQSR-" + params.args, this);
@@ -142,7 +142,7 @@ public final class BaseRecalibratorIntegrationTest extends CommandLineProgramTes
         final String  NO_DBSNP = "";
         final String  NO_ARGS = "";
         final BQSRTest params = new BQSRTest(hg18Reference, HiSeqBam_chr17, NO_DBSNP, NO_ARGS, resourceDir + "expected.NA12878.chr17_69k_70k.txt");
-        IntegrationTestSpec spec = new IntegrationTestSpec(
+        final IntegrationTestSpec spec = new IntegrationTestSpec(
                 params.getCommandLine(),
                 1,
                 UserException.CommandLineException.class);
@@ -157,7 +157,7 @@ public final class BaseRecalibratorIntegrationTest extends CommandLineProgramTes
 
         final String  NO_ARGS = "";
         final BQSRTest params = new BQSRTest(hg19MiniReference, HiSeqBam_Hg18, hg19_chr1_1M_dbSNP, NO_ARGS, resourceDir + "expected.txt");
-        IntegrationTestSpec spec = new IntegrationTestSpec(
+        final IntegrationTestSpec spec = new IntegrationTestSpec(
                 params.getCommandLine(),
                 1,
                 UserException.IncompatibleSequenceDictionaries.class);
@@ -173,7 +173,7 @@ public final class BaseRecalibratorIntegrationTest extends CommandLineProgramTes
 
         final String  NO_ARGS = "";
         final BQSRTest params = new BQSRTest(b37_reference_20_21, bam_chr20, dbSNPb37_chr17, NO_ARGS, resourceDir + "expected.txt");
-        IntegrationTestSpec spec = new IntegrationTestSpec(
+        final IntegrationTestSpec spec = new IntegrationTestSpec(
                 params.getCommandLine(),
                 1,
                 UserException.IncompatibleSequenceDictionaries.class);

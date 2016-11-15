@@ -11,7 +11,7 @@ public final class LRUCache<K,V> extends LinkedHashMap<K,V> {
     private static final long serialVersionUID = 1L;
     private final int maxCapacity; // Maximum number of items in the cache.
 
-    public LRUCache(int maxCapacity) {
+    public LRUCache(final int maxCapacity) {
         super(maxCapacity+1, 1.0f, true); // Pass 'true' for accessOrder.
         this.maxCapacity = maxCapacity;
     }

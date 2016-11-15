@@ -385,7 +385,7 @@ public final class FeatureManager implements AutoCloseable {
         // If we still have multiple candidate codecs, it's a configuration error on the part of the codec authors
         if ( candidateCodecs.size() > 1 ) {
             final StringBuilder multiCodecMatches = new StringBuilder();
-            for ( FeatureCodec<? extends Feature, ?> candidateCodec : candidateCodecs ) {
+            for ( final FeatureCodec<? extends Feature, ?> candidateCodec : candidateCodecs ) {
                 multiCodecMatches.append(candidateCodec.getClass().getCanonicalName());
                 multiCodecMatches.append(' ');
             }

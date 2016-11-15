@@ -45,7 +45,7 @@ public final class ChromosomeCounts extends InfoFieldAnnotation implements Stand
     @Override
     public Map<String, Object> annotate(final ReferenceContext ref,
                                         final VariantContext vc,
-                                        ReadLikelihoods<Allele> likelihoods) {
+                                        final ReadLikelihoods<Allele> likelihoods) {
         Utils.nonNull(vc);
         if ( ! vc.hasGenotypes() ) {
             return Collections.emptyMap();

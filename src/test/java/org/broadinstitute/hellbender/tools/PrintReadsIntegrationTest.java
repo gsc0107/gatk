@@ -32,8 +32,8 @@ public final class PrintReadsIntegrationTest extends CommandLineProgramTest{
         return PrintReads.class.getSimpleName();
     }
 
-    public void doFileToFile(String fileIn, String extOut, String reference, boolean testMD5) throws Exception {
-        String samFile = fileIn;
+    public void doFileToFile(final String fileIn, final String extOut, final String reference, final boolean testMD5) throws Exception {
+        final String samFile = fileIn;
         final File outFile = BaseTest.createTempFile(samFile + ".", extOut);
         final File ORIG_BAM = new File(TEST_DATA_DIR, samFile);
         final File refFile;
@@ -73,12 +73,12 @@ public final class PrintReadsIntegrationTest extends CommandLineProgramTest{
     }
 
     @Test(dataProvider="testingData")
-    public void testFileToFile(String fileIn, String extOut, String reference) throws Exception {
+    public void testFileToFile(final String fileIn, final String extOut, final String reference) throws Exception {
         doFileToFile(fileIn, extOut, reference, false);
     }
 
     @Test(dataProvider="testingData")
-    public void testFileToFileWithMD5(String fileIn, String extOut, String reference) throws Exception {
+    public void testFileToFileWithMD5(final String fileIn, final String extOut, final String reference) throws Exception {
         doFileToFile(fileIn, extOut, reference, true);
     }
 
@@ -313,9 +313,9 @@ public final class PrintReadsIntegrationTest extends CommandLineProgramTest{
         }
         int count = 0;
         try (final SamReader reader = factory.open(outFile)) {
-            Iterator<SAMRecord> it = reader.iterator();
+            final Iterator<SAMRecord> it = reader.iterator();
             while (it.hasNext()) {
-                SAMRecord rec = it.next();
+                final SAMRecord rec = it.next();
                 count++;
             }
         }
@@ -327,7 +327,7 @@ public final class PrintReadsIntegrationTest extends CommandLineProgramTest{
         final File inCram = new File(TEST_DATA_DIR, "print_reads.sorted.cram");
         final File outCram = BaseTest.createTempFile("print_reads_bad_reference", ".cram");
 
-        ArgumentsBuilder args = new ArgumentsBuilder();
+        final ArgumentsBuilder args = new ArgumentsBuilder();
         args.add("--" + StandardArgumentDefinitions.INPUT_LONG_NAME);
         args.add(inCram.getCanonicalPath());
         args.add("--" + StandardArgumentDefinitions.OUTPUT_LONG_NAME);

@@ -42,7 +42,7 @@ public final class GATKReport {
      *
      * @param filename the path to the file to load
      */
-    public GATKReport(String filename) {
+    public GATKReport(final String filename) {
         this(BucketUtils.openFile(filename, null));
     }
 
@@ -51,11 +51,11 @@ public final class GATKReport {
      *
      * @param file the file to load
      */
-    public GATKReport(File file) {
+    public GATKReport(final File file) {
         this(file.getPath());
     }
 
-    public GATKReport(InputStream in){
+    public GATKReport(final InputStream in){
         loadReport(new InputStreamReader(in));
     }
 
@@ -63,8 +63,8 @@ public final class GATKReport {
      * Create a new GATK report from GATK report tables
      * @param tables Any number of tables that you want to add to the report
      */
-    public GATKReport(GATKReportTable... tables) {
-        for( GATKReportTable table: tables)
+    public GATKReport(final GATKReportTable... tables) {
+        for( final GATKReportTable table: tables)
             addTable(table);
     }
 
@@ -87,12 +87,12 @@ public final class GATKReport {
      *
      * @param in the reader to load from
      */
-    private void loadReport(Reader in) {
-        BufferedReader reader = new BufferedReader(in);
-        String reportHeader;
+    private void loadReport(final Reader in) {
+        final BufferedReader reader = new BufferedReader(in);
+        final String reportHeader;
         try {
             reportHeader = reader.readLine();
-        } catch (IOException e) {
+        } catch (final IOException e) {
             throw new UserException("Couldn't read RecalibrationReport", e);
         }
 
@@ -103,7 +103,7 @@ public final class GATKReport {
                 version.equals(GATKReportVersion.V0_2))
             throw new UserException("The GATK no longer supports reading legacy GATK Reports. Please use v1.0 or newer.");
 
-        int nTables = Integer.parseInt(reportHeader.split(":")[2]);
+        final int nTables = Integer.parseInt(reportHeader.split(":")[2]);
 
         // Read each table according ot the number of tables
         for (int i = 0; i < nTables; i++) {
@@ -132,7 +132,7 @@ public final class GATKReport {
      * @param sortingWay       way to sort table
      */
     public void addTable(final String tableName, final String tableDescription, final int numColumns, final GATKReportTable.Sorting sortingWay) {
-        GATKReportTable table = new GATKReportTable(tableName, tableDescription, numColumns, sortingWay);
+        final GATKReportTable table = new GATKReportTable(tableName, tableDescription, numColumns, sortingWay);
         tables.put(tableName, table);
     }
 
@@ -141,12 +141,12 @@ public final class GATKReport {
      *
      * @param table the table to add
      */
-    public void addTable(GATKReportTable table) {
+    public void addTable(final GATKReportTable table) {
         tables.put(table.getTableName(), table);
     }
 
-    public void addTables(List<GATKReportTable> gatkReportTableV2s) {
-        for ( GATKReportTable table : gatkReportTableV2s )
+    public void addTables(final List<GATKReportTable> gatkReportTableV2s) {
+        for ( final GATKReportTable table : gatkReportTableV2s )
             addTable(table);
     }
 
@@ -156,8 +156,8 @@ public final class GATKReport {
      * @param tableName the name of the table
      * @return the table object
      */
-    public GATKReportTable getTable(String tableName) {
-        GATKReportTable table = tables.get(tableName);
+    public GATKReportTable getTable(final String tableName) {
+        final GATKReportTable table = tables.get(tableName);
         if (table == null)
             throw new GATKException("Table is not in GATKReport: " + tableName);
         return table;
@@ -168,9 +168,9 @@ public final class GATKReport {
      *
      * @param out the PrintStream to which the tables should be written
      */
-    public void print(PrintStream out) {
+    public void print(final PrintStream out) {
         out.println(GATKREPORT_HEADER_PREFIX + getVersion() + SEPARATOR + getTables().size());
-        for (GATKReportTable table : tables.values()) {
+        for (final GATKReportTable table : tables.values()) {
             table.write(out);
         }
     }
@@ -180,9 +180,9 @@ public final class GATKReport {
      *
      * @param out the PrintStream to which the tables should be written
      */
-    public void print(PrintStream out, GATKReportTable.Sorting sortingWay) {
+    public void print(final PrintStream out, final GATKReportTable.Sorting sortingWay) {
         out.println(GATKREPORT_HEADER_PREFIX + getVersion() + SEPARATOR + getTables().size());
-        for (GATKReportTable table : tables.values()) {
+        for (final GATKReportTable table : tables.values()) {
             table.write(out, sortingWay);
         }
     }
@@ -199,13 +199,13 @@ public final class GATKReport {
      *
      * @param input another GATKReport of the same format
      */
-    public void concat(GATKReport input) {
+    public void concat(final GATKReport input) {
 
         if ( !isSameFormat(input) ) {
             throw new GATKException("Failed to combine GATKReport, format doesn't match!");
         }
 
-        for ( Map.Entry<String, GATKReportTable> table : tables.entrySet() ) {
+        for ( final Map.Entry<String, GATKReportTable> table : tables.entrySet() ) {
             table.getValue().concat(input.getTable(table.getKey()));
         }
     }
@@ -222,14 +222,14 @@ public final class GATKReport {
      * @param report another GATK report
      * @return true if the the reports are gatherable
      */
-    public boolean isSameFormat(GATKReport report) {
+    public boolean isSameFormat(final GATKReport report) {
         if (!version.equals(report.version)) {
             return false;
         }
         if (!tables.keySet().equals(report.tables.keySet())) {
             return false;
         }
-        for (String tableName : tables.keySet()) {
+        for (final String tableName : tables.keySet()) {
             if (!getTable(tableName).isSameFormat(report.getTable(tableName)))
                 return false;
         }
@@ -242,14 +242,14 @@ public final class GATKReport {
      * @param report another GATK report
      * @return true if all field in the reports, tables, and columns are equal.
      */
-    public boolean equals(GATKReport report) {
+    public boolean equals(final GATKReport report) {
         if (!version.equals(report.version)) {
             return false;
         }
         if (!tables.keySet().equals(report.tables.keySet())) {
             return false;
         }
-        for (String tableName : tables.keySet()) {
+        for (final String tableName : tables.keySet()) {
             if (!getTable(tableName).equals(report.getTable(tableName)))
                 return false;
         }
@@ -278,21 +278,21 @@ public final class GATKReport {
      * @param columns   The names of the columns in your table
      * @return a simplified GATK report
      */
-    public static GATKReport newSimpleReport(final String tableName, GATKReportTable.Sorting sorting, final String... columns) {
+    public static GATKReport newSimpleReport(final String tableName, final GATKReportTable.Sorting sorting, final String... columns) {
         return newSimpleReportWithDescription(tableName, "A simplified GATK table report", sorting, columns);
     }
 
     /**
      * @see #newSimpleReport(String, GATKReportTable.Sorting, String...) but with a customized description
      */
-    public static GATKReport newSimpleReportWithDescription(final String tableName, final String desc, GATKReportTable.Sorting sorting, final String... columns) {
-        GATKReportTable table = new GATKReportTable(tableName, desc, columns.length, sorting);
+    public static GATKReport newSimpleReportWithDescription(final String tableName, final String desc, final GATKReportTable.Sorting sorting, final String... columns) {
+        final GATKReportTable table = new GATKReportTable(tableName, desc, columns.length, sorting);
 
-        for (String column : columns) {
+        for (final String column : columns) {
             table.addColumn(column, "");
         }
 
-        GATKReport output = new GATKReport();
+        final GATKReport output = new GATKReport();
         output.addTable(table);
 
         return output;
@@ -310,7 +310,7 @@ public final class GATKReport {
         if ( tables.size() != 1 )
             throw new GATKException("Cannot write a row to a complex GATK Report");
 
-        GATKReportTable table = tables.firstEntry().getValue();
+        final GATKReportTable table = tables.firstEntry().getValue();
         if ( table.getNumColumns() != values.length )
             throw new GATKException("The number of arguments in writeRow (" + values.length + ") must match the number of columns in the table (" + table.getNumColumns() + ")" );
 

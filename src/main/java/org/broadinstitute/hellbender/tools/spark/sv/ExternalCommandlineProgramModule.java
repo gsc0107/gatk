@@ -96,7 +96,7 @@ public abstract class ExternalCommandlineProgramModule {
                            final boolean enableSTDIOCapture,
                            final String... workingEnvironmentArgs) {
 
-        List<String> commands = initializeCommands(pathToProgram);
+        final List<String> commands = initializeCommands(pathToProgram);
         if(null!=runtimeArguments && !runtimeArguments.isEmpty()){
             commands.addAll(runtimeArguments);
         }

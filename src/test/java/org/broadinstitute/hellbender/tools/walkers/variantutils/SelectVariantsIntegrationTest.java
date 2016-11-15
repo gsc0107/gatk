@@ -13,7 +13,7 @@ import java.util.Collections;
 
 public class SelectVariantsIntegrationTest extends CommandLineProgramTest {
 
-    private static String baseTestString(String args, String testFile) {
+    private static String baseTestString(final String args, final String testFile) {
         return " --variant " + testFile
                     + " -O %s "
                     + args;
@@ -364,7 +364,7 @@ public class SelectVariantsIntegrationTest extends CommandLineProgramTest {
 
         final String cmd = baseTestString(" -sn NA12892 " + (expectedException == null ? " --lenient" : ""), testFile);
 
-        IntegrationTestSpec spec =
+        final IntegrationTestSpec spec =
                 expectedException != null
                         ? new IntegrationTestSpec(cmd, 1, expectedException)
                         : new IntegrationTestSpec(cmd, Collections.singletonList(outFile));

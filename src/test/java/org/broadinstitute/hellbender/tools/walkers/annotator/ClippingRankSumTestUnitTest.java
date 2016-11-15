@@ -37,7 +37,7 @@ public final class ClippingRankSumTestUnitTest {
     }
 
     private static GATKRead makeRead(final int hardClip) {
-        Cigar cigar = hardClip == 0 ? TextCigarCodec.decode("10M") : TextCigarCodec.decode("10M" + hardClip + "H");
+        final Cigar cigar = hardClip == 0 ? TextCigarCodec.decode("10M") : TextCigarCodec.decode("10M" + hardClip + "H");
         final GATKRead read = ArtificialReadUtils.createArtificialRead(cigar);
         read.setMappingQuality(30);
         return read;

@@ -48,17 +48,17 @@ public final class VariantsSparkSink {
         }
 
         @Override
-        public RecordWriter<NullWritable, VariantContextWritable> getRecordWriter(TaskAttemptContext ctx) throws IOException {
+        public RecordWriter<NullWritable, VariantContextWritable> getRecordWriter(final TaskAttemptContext ctx) throws IOException {
             setHeader(vcfHeader);
             // don't add an extension, since FileOutputFormat will add a compression extension automatically (e.g. .bgz)
             return super.getRecordWriter(ctx);
         }
 
         @Override
-        public void checkOutputSpecs(JobContext job) throws IOException {
+        public void checkOutputSpecs(final JobContext job) throws IOException {
             try {
                 super.checkOutputSpecs(job);
-            } catch (FileAlreadyExistsException e) {
+            } catch (final FileAlreadyExistsException e) {
                 // delete existing files before overwriting them
                 final Path outDir = getOutputPath(job);
                 outDir.getFileSystem(job.getConfiguration()).delete(outDir, true);
@@ -68,7 +68,7 @@ public final class VariantsSparkSink {
 
     public static class SparkHeaderlessVCFOutputFormat extends SparkVCFOutputFormat {
         @Override
-        public RecordWriter<NullWritable, VariantContextWritable> getRecordWriter(TaskAttemptContext ctx) throws IOException {
+        public RecordWriter<NullWritable, VariantContextWritable> getRecordWriter(final TaskAttemptContext ctx) throws IOException {
             ctx.getConfiguration().setBoolean(WRITE_HEADER_PROPERTY, false);
             return super.getRecordWriter(ctx);
         }
@@ -101,7 +101,7 @@ public final class VariantsSparkSink {
     public static void writeVariants(
             final JavaSparkContext ctx, final String outputFile, final JavaRDD<VariantContext> variants,
             final VCFHeader header, final int numReducers) throws IOException {
-        String absoluteOutputFile = BucketUtils.makeFilePathAbsolute(outputFile);
+        final String absoluteOutputFile = BucketUtils.makeFilePathAbsolute(outputFile);
         writeVariantsSingle(ctx, absoluteOutputFile, variants, header, numReducers);
     }
 
@@ -143,7 +143,7 @@ public final class VariantsSparkSink {
     }
 
     private static void saveAsShardedHadoopFiles(
-            final JavaSparkContext ctx, final Configuration conf, final String outputFile, JavaRDD<VariantContext> variants,
+            final JavaSparkContext ctx, final Configuration conf, final String outputFile, final JavaRDD<VariantContext> variants,
             final VCFHeader header, final boolean writeHeader) throws IOException {
         // Set the static header on the driver thread.
         SparkVCFOutputFormat.setVCFHeader(header);
@@ -166,7 +166,7 @@ public final class VariantsSparkSink {
         });
     }
 
-    private static JavaPairRDD<VariantContext, VariantContextWritable> pairVariantsWithVariantContextWritables(JavaRDD<VariantContext> records) {
+    private static JavaPairRDD<VariantContext, VariantContextWritable> pairVariantsWithVariantContextWritables(final JavaRDD<VariantContext> records) {
         return records.mapToPair(variantContext -> {
             final VariantContextWritable variantContextWritable = new VariantContextWritable();
             variantContextWritable.set(variantContext);

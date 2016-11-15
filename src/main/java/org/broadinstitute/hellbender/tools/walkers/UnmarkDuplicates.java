@@ -38,7 +38,7 @@ public class UnmarkDuplicates extends ReadWalker {
     }
 
     @Override
-    public void apply( GATKRead read, ReferenceContext referenceContext, FeatureContext featureContext ) {
+    public void apply(final GATKRead read, final ReferenceContext referenceContext, final FeatureContext featureContext ) {
         read.setIsDuplicate(false);
         outputWriter.addRead(read);
     }

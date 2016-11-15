@@ -115,7 +115,7 @@ public final class CollectRnaSeqMetrics extends SinglePassSamProgram {
         file.write(OUTPUT);
 
         boolean atLeastOneHistogram = false;
-        for (Histogram<Integer> histo : file.getAllHistograms()) {
+        for (final Histogram<Integer> histo : file.getAllHistograms()) {
             atLeastOneHistogram = atLeastOneHistogram || !histo.isEmpty();
         }
         // Generate the coverage by position plot

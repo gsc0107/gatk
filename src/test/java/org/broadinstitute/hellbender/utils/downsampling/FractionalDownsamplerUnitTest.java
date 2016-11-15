@@ -27,7 +27,7 @@ public final class FractionalDownsamplerUnitTest extends BaseTest {
 
         private static final double EXPECTED_ACCURACY = 0.05; // should be accurate to within +/- this percent
 
-        public FractionalDownsamplerTest(double fraction, int totalReads) {
+        public FractionalDownsamplerTest(final double fraction, final int totalReads) {
             super(FractionalDownsamplerTest.class);
 
             this.fraction = fraction;
@@ -56,9 +56,9 @@ public final class FractionalDownsamplerUnitTest extends BaseTest {
         }
 
         public Collection<GATKRead> createReads() {
-            Collection<GATKRead> reads = new ArrayList<>(totalReads);
+            final Collection<GATKRead> reads = new ArrayList<>(totalReads);
 
-            SAMFileHeader header = ArtificialReadUtils.createArtificialSamHeader(1, 1, 1000000);
+            final SAMFileHeader header = ArtificialReadUtils.createArtificialSamHeader(1, 1, 1000000);
             reads.addAll(ArtificialReadUtils.createIdenticalArtificialReads(totalReads, header, "foo", 0, 1, 100));
 
             return reads;
@@ -67,8 +67,8 @@ public final class FractionalDownsamplerUnitTest extends BaseTest {
 
     @DataProvider(name = "FractionalDownsamplerTestDataProvider")
     public Object[][] createFractionalDownsamplerTestData() {
-        for (double fraction : Arrays.asList(0.0, 0.25, 0.5, 0.75, 1.0)) {
-            for (int totalReads : Arrays.asList(0, 1000, 10000)) {
+        for (final double fraction : Arrays.asList(0.0, 0.25, 0.5, 0.75, 1.0)) {
+            for (final int totalReads : Arrays.asList(0, 1000, 10000)) {
                 new FractionalDownsamplerTest(fraction, totalReads);
             }
         }
@@ -77,7 +77,7 @@ public final class FractionalDownsamplerUnitTest extends BaseTest {
     }
 
     @Test(dataProvider = "FractionalDownsamplerTestDataProvider")
-    public void runFractionalDownsamplerTest(FractionalDownsamplerTest test) {
+    public void runFractionalDownsamplerTest(final FractionalDownsamplerTest test) {
         logger.warn("Running test: " + test);
 
         Utils.resetRandomGenerator();
@@ -112,7 +112,7 @@ public final class FractionalDownsamplerUnitTest extends BaseTest {
             Assert.assertTrue(downsampler.peekFinalized() == null && downsampler.peekPending() == null);
         }
 
-        List<GATKRead> downsampledReads = downsampler.consumeFinalizedItems();
+        final List<GATKRead> downsampledReads = downsampler.consumeFinalizedItems();
         Assert.assertFalse(downsampler.hasFinalizedItems() || downsampler.hasPendingItems());
         Assert.assertTrue(downsampler.peekFinalized() == null && downsampler.peekPending() == null);
 
@@ -168,7 +168,7 @@ public final class FractionalDownsamplerUnitTest extends BaseTest {
 
     @Test
     public void testSignalNoMoreReadsBefore() throws Exception {
-        FractionalDownsampler rd = new FractionalDownsampler(0.1);
+        final FractionalDownsampler rd = new FractionalDownsampler(0.1);
         final GATKRead r1 = ArtificialReadUtils.createArtificialRead("100M");
         final GATKRead r2 = ArtificialReadUtils.createArtificialRead("101M");
         rd.submit(r1);
@@ -178,7 +178,7 @@ public final class FractionalDownsamplerUnitTest extends BaseTest {
 
     @Test(expectedExceptions = IllegalArgumentException.class)
     public void testNoNullSignalNoMoreReadsBefore() throws Exception {
-        ReadsDownsampler rd = new FractionalDownsampler(0.1);
+        final ReadsDownsampler rd = new FractionalDownsampler(0.1);
         rd.signalNoMoreReadsBefore(null);
     }
 }

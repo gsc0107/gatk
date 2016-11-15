@@ -249,7 +249,7 @@ public class FeatureContext {
         }
 
         final List<T> features = new ArrayList<>();
-        for (FeatureInput<T> featureSource : featureDescriptors) {
+        for (final FeatureInput<T> featureSource : featureDescriptors) {
             features.addAll(getValues(featureSource));
         }
         return features;

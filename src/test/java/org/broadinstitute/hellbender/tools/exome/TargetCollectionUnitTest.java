@@ -262,7 +262,7 @@ public final class TargetCollectionUnitTest extends BaseTest {
                 this.intervals = Collections.emptyList();
                 return;
             }
-            List<SimpleInterval> intervals = new ArrayList<>(numberOfTargets);
+            final List<SimpleInterval> intervals = new ArrayList<>(numberOfTargets);
             final String contig = TargetsToolsTestUtils.REFERENCE_DICTIONARY.getSequence(0).getSequenceName();
             final int contigLength = TargetsToolsTestUtils.REFERENCE_DICTIONARY.getSequence(0).getSequenceLength();
             final float avgSlotSize = (float) contigLength / numberOfTargets;
@@ -299,7 +299,7 @@ public final class TargetCollectionUnitTest extends BaseTest {
         @Override
         public int index(final String name) {
             if (name.matches("^\\d+$")) {
-                int index = Integer.valueOf(name);
+                final int index = Integer.valueOf(name);
                 if (index >= intervals.size()) {
                     return -1;
                 } else {

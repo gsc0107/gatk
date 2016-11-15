@@ -11,23 +11,23 @@ public final class ReadInputArgumentCollectionTest {
 
     @Test(expectedExceptions = UserException.CommandLineException.class)
     public void testRequiredIsRequired(){
-        Object req = new Object(){
+        final Object req = new Object(){
             @ArgumentCollection
             private ReadInputArgumentCollection ric = new RequiredReadInputArgumentCollection();
         };
-        CommandLineParser clp = new CommandLineParser(req);
-        String[] args = {};
+        final CommandLineParser clp = new CommandLineParser(req);
+        final String[] args = {};
         clp.parseArguments(System.out, args);
     }
 
     @Test
     public void testOptionalIsOptional(){
-        Object req = new Object(){
+        final Object req = new Object(){
             @ArgumentCollection
             private ReadInputArgumentCollection ric = new OptionalReadInputArgumentCollection();
         };
-        CommandLineParser clp = new CommandLineParser(req);
-        String[] args = {};
+        final CommandLineParser clp = new CommandLineParser(req);
+        final String[] args = {};
         clp.parseArguments(System.out, args);
     }
 }

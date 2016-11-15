@@ -45,7 +45,7 @@ public final class FeatureContextUnitTest extends BaseTest {
 
     @Test(dataProvider = "EmptyFeatureContextDataProvider")
     public void testEmptyFeatureContext( final FeatureContext featureContext) {
-        ArtificialFeatureContainingCommandLineProgram toolInstance = new ArtificialFeatureContainingCommandLineProgram();
+        final ArtificialFeatureContainingCommandLineProgram toolInstance = new ArtificialFeatureContainingCommandLineProgram();
 
         Assert.assertFalse(featureContext.hasBackingDataSource() && featureContext.getInterval() != null,
                            "Empty FeatureContext reports having both a backing data source and an interval");

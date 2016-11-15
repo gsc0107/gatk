@@ -106,7 +106,7 @@ public class RunSGAViaProcessBuilderOnSparkUnitTest extends CommandLineProgramTe
 
         final String fileName = rawFASTQFiles.get(0)._2().getName();
 
-        File rawFASTQFile = new File(dir, fileName);
+        final File rawFASTQFile = new File(dir, fileName);
 
         final List<SGAModule.RuntimeInfo> runtimeInfo = new ArrayList<>();
 
@@ -142,7 +142,7 @@ public class RunSGAViaProcessBuilderOnSparkUnitTest extends CommandLineProgramTe
 
     @Test(groups = "sv")
     public void mapToListTest(){
-        Map<String, String> indexerArgsMap = new LinkedHashMap<>();
+        final Map<String, String> indexerArgsMap = new LinkedHashMap<>();
 
         List<String> convertedList = RunSGAViaProcessBuilderOnSpark.turnCmdLineArgsKeyValuePairIntoList(indexerArgsMap);
         Assert.assertTrue(convertedList.isEmpty());
@@ -354,7 +354,7 @@ public class RunSGAViaProcessBuilderOnSparkUnitTest extends CommandLineProgramTe
     }
 
     // utility function: for extracting read names and sequences from a fastq/fasta file
-    private static void extractNamesAndSeqFromFASTQ(final File FASTAFile, final boolean fastqFilesWellFormed, List<String> readNames, List<String> sequences) throws IOException{
+    private static void extractNamesAndSeqFromFASTQ(final File FASTAFile, final boolean fastqFilesWellFormed, final List<String> readNames, final List<String> sequences) throws IOException{
 
         if(fastqFilesWellFormed){
             try(final FastqReader reader = new FastqReader(FASTAFile)){

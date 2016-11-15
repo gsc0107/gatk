@@ -96,7 +96,7 @@ public final class GVCFWriter implements VariantContextWriter {
      * @param header a non-null header
      */
     @Override
-    public void writeHeader(VCFHeader header) {
+    public void writeHeader(final VCFHeader header) {
         Utils.nonNull(header, "header cannot be null");
 
         header.addMetaDataLine(VCFStandardHeaderLines.getInfoLine(VCFConstants.END_KEY));
@@ -109,7 +109,7 @@ public final class GVCFWriter implements VariantContextWriter {
         underlyingWriter.writeHeader(header);
     }
 
-    static VCFHeaderLine rangeToVCFHeaderLine(Range<Integer> genotypeQualityBand) {
+    static VCFHeaderLine rangeToVCFHeaderLine(final Range<Integer> genotypeQualityBand) {
         // Need to uniquify the key for the header line using the min/max GQ, since
         // VCFHeader does not allow lines with duplicate keys.
         final String key = String.format("GVCFBlock%d-%d", genotypeQualityBand.lowerEndpoint(), genotypeQualityBand.upperEndpoint());
@@ -212,7 +212,7 @@ public final class GVCFWriter implements VariantContextWriter {
      * @param vc a non-null VariantContext
      */
     @Override
-    public void add(VariantContext vc) {
+    public void add(final VariantContext vc) {
         Utils.nonNull(vc);
         Utils.validateArg(vc.hasGenotypes(), "GVCF assumes that the VariantContext has genotypes");
         Utils.validateArg(vc.getGenotypes().size() == 1, () -> "GVCF assumes that the VariantContext has exactly one genotype but saw " + vc.getGenotypes().size());

@@ -77,7 +77,7 @@ public final class ExampleAssemblyRegionWalker extends AssemblyRegionWalker {
     }
 
     @Override
-    public void apply( AssemblyRegion region, ReferenceContext referenceContext, FeatureContext featureContext ) {
+    public void apply(final AssemblyRegion region, final ReferenceContext referenceContext, final FeatureContext featureContext ) {
         outputStream.printf("%s assembly region at %s (%s with padding), containing %d reads.\n\n",
                 region.isActive() ? "ACTIVE" : "INACTIVE", region.getSpan(), region.getExtendedSpan(), region.getReads().size());
 

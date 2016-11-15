@@ -48,7 +48,7 @@ public final class ExampleFeatureWalker extends FeatureWalker<BEDFeature> {
     }
 
     @Override
-    protected boolean isAcceptableFeatureType(Class<? extends Feature> featureType) {
+    protected boolean isAcceptableFeatureType(final Class<? extends Feature> featureType) {
         return featureType.isAssignableFrom(BEDFeature.class);
     }
 
@@ -74,7 +74,7 @@ public final class ExampleFeatureWalker extends FeatureWalker<BEDFeature> {
         }
     }
 
-    private static String toBedFeatureString(Feature feature) {
+    private static String toBedFeatureString(final Feature feature) {
         //Note: BEDFeatures have no toString methods and render as useless pointers
         return feature.getClass().getCanonicalName()+ ":" + feature.getContig() + ":" + feature.getStart() + "-" + feature.getEnd();
     }

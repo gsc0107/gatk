@@ -30,7 +30,7 @@ public final class ReadTransformerTest {
 
     @Test(dataProvider = "UnmodifiedReadDataProvider")
     public void testAndThen( final GATKRead read ) {
-        ReadTransformer leftThen20 = moveLeft.andThen(moveTo20);
+        final ReadTransformer leftThen20 = moveLeft.andThen(moveTo20);
         leftThen20.apply(read);
         Assert.assertEquals(read.getStart(), 20);
         moveTo20.andThen(moveLeft).apply(read);
@@ -39,7 +39,7 @@ public final class ReadTransformerTest {
 
     @Test(dataProvider = "UnmodifiedReadDataProvider")
     public void testCompose( final GATKRead read ) {
-        ReadTransformer leftThen20 = moveLeft.compose(moveTo20);
+        final ReadTransformer leftThen20 = moveLeft.compose(moveTo20);
         leftThen20.apply(read);
         Assert.assertEquals(read.getStart(), 19);
         moveTo20.compose(moveLeft).apply(read);

@@ -31,7 +31,7 @@ public final class ArtificialReadQueryIterator extends ArtificialReadIterator {
      * @param readCount   the number of reads in each chromosome
      * @param header      the associated header
      */
-    ArtificialReadQueryIterator( int startingChr, int endingChr, int readCount, int unmappedReadCount, SAMFileHeader header ) {
+    ArtificialReadQueryIterator(final int startingChr, final int endingChr, final int readCount, final int unmappedReadCount, final SAMFileHeader header ) {
         super(startingChr, endingChr, readCount, unmappedReadCount, header);
         this.startingChr = startingChr;
     }
@@ -56,7 +56,7 @@ public final class ArtificialReadQueryIterator extends ArtificialReadIterator {
      * @param start  the start position
      * @param stop   the stop position
      */
-    public void queryContained( String contig, int start, int stop ) {
+    public void queryContained(final String contig, final int start, final int stop ) {
         this.overlapping = false;
         initialize(contig, start, stop);
     }
@@ -68,12 +68,12 @@ public final class ArtificialReadQueryIterator extends ArtificialReadIterator {
      * @param start  the start position
      * @param stop   the stop position
      */
-    public void queryOverlapping( String contig, int start, int stop ) {
+    public void queryOverlapping(final String contig, final int start, final int stop ) {
         this.overlapping = true;
         initialize(contig, start, stop);
     }
 
-    public void query( String contig, int start, int stop, boolean contained ) {
+    public void query(final String contig, final int start, final int stop, final boolean contained ) {
         if (contained)
             queryContained(contig, start, stop);
         else
@@ -88,7 +88,7 @@ public final class ArtificialReadQueryIterator extends ArtificialReadIterator {
      * @param start  the start position
      * @param stop   the stop postition
      */
-    private void initialize( String contig, int start, int stop ) {
+    private void initialize(final String contig, final int start, final int stop ) {
         // throw away data from the previous invocation, if one exists.
         ensureUntouched();
         reset();
@@ -100,8 +100,8 @@ public final class ArtificialReadQueryIterator extends ArtificialReadIterator {
         }
         // sanity check that we have the contig
         contigIndex = -1;
-        List<SAMSequenceRecord> list = header.getSequenceDictionary().getSequences();
-        for (SAMSequenceRecord rec : list) {
+        final List<SAMSequenceRecord> list = header.getSequenceDictionary().getSequences();
+        for (final SAMSequenceRecord rec : list) {
             if (rec.getSequenceName().equals(contig)) {
                 contigIndex = rec.getSequenceIndex();
             }
@@ -117,7 +117,7 @@ public final class ArtificialReadQueryIterator extends ArtificialReadIterator {
             super.next();
         }
         // sanity check that we have an actual matching read next
-        GATKRead rec = this.peek();
+        final GATKRead rec = this.peek();
         if (!matches(rec)) {
             throw new GATKException("The next read doesn't match");
         }
@@ -132,7 +132,7 @@ public final class ArtificialReadQueryIterator extends ArtificialReadIterator {
      *
      * @return true if it belongs in our region
      */
-    public boolean matches( GATKRead rec ) {
+    public boolean matches(final GATKRead rec ) {
         final int recReferenceIndex = ReadUtils.getReferenceIndex(rec, header);
 
         if (recReferenceIndex != this.contigIndex) {
@@ -165,7 +165,7 @@ public final class ArtificialReadQueryIterator extends ArtificialReadIterator {
      */
     @Override
     public boolean hasNext() {
-        boolean res = super.hasNext();
+        final boolean res = super.hasNext();
         if (!seeked) {
             return res;
         }

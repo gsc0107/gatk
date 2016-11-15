@@ -127,8 +127,8 @@ public class CallVariantsFromAlignedContigsSparkTest extends BaseTest {
     @Test
     public void testGetAssembledBreakpointFromAlignmentRegionsStrangeLeftBreakpoint() throws Exception {
         final byte[] sequence = LONG_CONTIG1.getBytes();
-        AlignmentRegion region1 = new AlignmentRegion("702700", "702700", TextCigarCodec.decode("1986S236M2D1572M1I798M5D730M1I347M4I535M"), false, new SimpleInterval("chr19", 20138007, 20142231), 60, 1, sequence.length - 1986, 36);
-        AlignmentRegion region2 = new AlignmentRegion("702700", "702700", TextCigarCodec.decode("3603H24M1I611M1I1970M"), true, new SimpleInterval("chr19", 20152030, 20154634), 60, 3604, sequence.length, 36);
+        final AlignmentRegion region1 = new AlignmentRegion("702700", "702700", TextCigarCodec.decode("1986S236M2D1572M1I798M5D730M1I347M4I535M"), false, new SimpleInterval("chr19", 20138007, 20142231), 60, 1, sequence.length - 1986, 36);
+        final AlignmentRegion region2 = new AlignmentRegion("702700", "702700", TextCigarCodec.decode("3603H24M1I611M1I1970M"), true, new SimpleInterval("chr19", 20152030, 20154634), 60, 3604, sequence.length, 36);
         final ArrayList<AlignmentRegion> alignmentRegionList = new ArrayList<>();
         alignmentRegionList.add(region1);
         alignmentRegionList.add(region2);
@@ -147,8 +147,8 @@ public class CallVariantsFromAlignedContigsSparkTest extends BaseTest {
 
     @Test
     public void testTreatAlignmentRegionAsInsertion() throws Exception {
-        AlignmentRegion overlappingRegion1 = new AlignmentRegion("overlap", "22", TextCigarCodec.decode("47S154M"), false, new SimpleInterval("19", 48699881, 48700035), 60, 1, 154, 0);
-        AlignmentRegion overlappingRegion2 = new AlignmentRegion("overlap", "22", TextCigarCodec.decode("116H85M"), true, new SimpleInterval("19", 48700584, 48700669), 60, 117, 201, 0);
+        final AlignmentRegion overlappingRegion1 = new AlignmentRegion("overlap", "22", TextCigarCodec.decode("47S154M"), false, new SimpleInterval("19", 48699881, 48700035), 60, 1, 154, 0);
+        final AlignmentRegion overlappingRegion2 = new AlignmentRegion("overlap", "22", TextCigarCodec.decode("116H85M"), true, new SimpleInterval("19", 48700584, 48700669), 60, 117, 201, 0);
 
         Assert.assertTrue(CallVariantsFromAlignedContigsSpark.treatNextAlignmentRegionInPairAsInsertion(overlappingRegion1, overlappingRegion2, 50));
     }

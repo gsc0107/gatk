@@ -586,7 +586,7 @@ public final class CommandLineParserTest {
         final ArgsCollectionHaver o = new ArgsCollectionHaver();
         final CommandLineParser clp = new CommandLineParser(o);
 
-        String[] args = {"--arg1", "42", "--somenumber", "12"};
+        final String[] args = {"--arg1", "42", "--somenumber", "12"};
         Assert.assertTrue(clp.parseArguments(System.err, args));
         Assert.assertEquals(o.someNumber, 12);
         Assert.assertEquals(o.default_args.Arg1, 42);
@@ -629,7 +629,7 @@ public final class CommandLineParserTest {
 
     @Test(expectedExceptions = GATKException.CommandLineParserInternalException.class)
     public void testBadFieldCausesException(){
-        WithBadField o = new WithBadField();
+        final WithBadField o = new WithBadField();
         final CommandLineParser clp = new CommandLineParser(o);
     }
 
@@ -649,7 +649,7 @@ public final class CommandLineParserTest {
 
     @Test
     public void testFlagWithPositionalFollowing(){
-        PrivateArgument o = new PrivateArgument();
+        final PrivateArgument o = new PrivateArgument();
         final CommandLineParser clp = new CommandLineParser(o);
         Assert.assertTrue(clp.parseArguments(System.err, new String[]{"--flag1","1","2" }));
         Assert.assertTrue(o.booleanFlags.flag1);
@@ -658,7 +658,7 @@ public final class CommandLineParserTest {
 
     @Test
     public void testPrivateArgument(){
-        PrivateArgument o = new PrivateArgument();
+        final PrivateArgument o = new PrivateArgument();
         final CommandLineParser clp = new CommandLineParser(o);
         Assert.assertTrue(clp.parseArguments(System.err, new String[]{"--privateArgument",
                 "--privateCollection", "1", "--privateCollection", "2", "--flag1"}));
@@ -677,7 +677,7 @@ public final class CommandLineParserTest {
         final CommandLineParser clp = new CommandLineParser(o);
 
         final String[] versionArgs = {"--" + SpecialArgumentsCollection.VERSION_FULLNAME};
-        String out = BaseTest.captureStderr(() -> {
+        final String out = BaseTest.captureStderr(() -> {
                     Assert.assertFalse(clp.parseArguments(System.err, versionArgs));
             });
         BaseTest.assertContains(out,"Version:");
@@ -696,7 +696,7 @@ public final class CommandLineParserTest {
         final CommandLineParser clp = new CommandLineParser(o);
 
         final String[] versionArgs = {"--" + SpecialArgumentsCollection.HELP_FULLNAME};
-        String out = BaseTest.captureStderr(() -> {
+        final String out = BaseTest.captureStderr(() -> {
             Assert.assertFalse(clp.parseArguments(System.err, versionArgs));
         });
         BaseTest.assertContains(out,"USAGE:");
@@ -844,7 +844,7 @@ public final class CommandLineParserTest {
     private static class GatherArgumentValuesTargetSuperType {
         private String value;
 
-        public GatherArgumentValuesTargetSuperType( String s ) {
+        public GatherArgumentValuesTargetSuperType(final String s ) {
             value = s;
         }
 
@@ -854,7 +854,7 @@ public final class CommandLineParserTest {
     }
 
     private static class GatherArgumentValuesTargetSubType extends GatherArgumentValuesTargetSuperType {
-        public GatherArgumentValuesTargetSubType( String s ) {
+        public GatherArgumentValuesTargetSubType(final String s ) {
             super(s);
         }
     }
@@ -879,10 +879,10 @@ public final class CommandLineParserTest {
                                                               "childCollectionNonTargetArgument", "parentCollectionNonTargetArgument",
                                                               "childNonTargetListArgument");
 
-        List<String> commandLineArguments = new ArrayList<>();
-        List<Pair<String, String>> sortedExpectedGatheredValues = new ArrayList<>();
+        final List<String> commandLineArguments = new ArrayList<>();
+        final List<Pair<String, String>> sortedExpectedGatheredValues = new ArrayList<>();
 
-        for ( String targetScalarArgument : targetScalarArguments ) {
+        for ( final String targetScalarArgument : targetScalarArguments ) {
             final String argumentValue = targetScalarArgument + "Value";
 
             commandLineArguments.add("--" + targetScalarArgument);
@@ -891,7 +891,7 @@ public final class CommandLineParserTest {
         }
 
         // Give each list argument multiple values
-        for ( String targetListArgument : targetListArguments ) {
+        for ( final String targetListArgument : targetListArguments ) {
             for ( int argumentNum = 1; argumentNum <= 3; ++argumentNum ) {
                 final String argumentValue = targetListArgument + "Value" + argumentNum;
 
@@ -903,13 +903,13 @@ public final class CommandLineParserTest {
 
         // Make sure the uninitialized args of the target type not included on the command line are
         // represented in the expected output
-        for ( String uninitializedTargetArgument : uninitializedTargetArguments ) {
+        for ( final String uninitializedTargetArgument : uninitializedTargetArguments ) {
             sortedExpectedGatheredValues.add(Pair.of(uninitializedTargetArgument, null));
         }
 
         // The non-target args are all of type int, so give them an arbitrary int value on the command line.
         // These should not be gathered at all, so are not added to the expected output.
-        for ( String nonTargetArgument : nonTargetArguments ) {
+        for ( final String nonTargetArgument : nonTargetArguments ) {
             commandLineArguments.add("--" + nonTargetArgument);
             commandLineArguments.add("1");
         }
@@ -923,27 +923,27 @@ public final class CommandLineParserTest {
 
     @Test(dataProvider = "gatherArgumentValuesOfTypeDataProvider")
     public void testGatherArgumentValuesOfType( final List<String> commandLineArguments, final List<Pair<String, String>> sortedExpectedGatheredValues ) {
-        GatherArgumentValuesTestSourceChild argumentSource = new GatherArgumentValuesTestSourceChild();
+        final GatherArgumentValuesTestSourceChild argumentSource = new GatherArgumentValuesTestSourceChild();
 
         // Parse the command line, and inject values into our test instance
-        CommandLineParser clp = new CommandLineParser(argumentSource);
+        final CommandLineParser clp = new CommandLineParser(argumentSource);
         clp.parseArguments(System.err, commandLineArguments.toArray(new String[commandLineArguments.size()]));
 
         // Gather all argument values of type GatherArgumentValuesTargetSuperType (or Collection<GatherArgumentValuesTargetSuperType>),
         // including subtypes.
-        List<Pair<Field, GatherArgumentValuesTargetSuperType>> gatheredArguments =
+        final List<Pair<Field, GatherArgumentValuesTargetSuperType>> gatheredArguments =
                 CommandLineParser.gatherArgumentValuesOfType(GatherArgumentValuesTargetSuperType.class, argumentSource);
 
         // Make sure we gathered the expected number of argument values
         Assert.assertEquals(gatheredArguments.size(), sortedExpectedGatheredValues.size(), "Gathered the wrong number of arguments");
 
         // Make sure actual gathered argument values match expected values
-        List<Pair<String, String>> sortedActualGatheredArgumentValues = new ArrayList<>();
-        for ( Pair<Field, GatherArgumentValuesTargetSuperType> gatheredArgument : gatheredArguments ) {
+        final List<Pair<String, String>> sortedActualGatheredArgumentValues = new ArrayList<>();
+        for ( final Pair<Field, GatherArgumentValuesTargetSuperType> gatheredArgument : gatheredArguments ) {
             Assert.assertNotNull(gatheredArgument.getKey().getAnnotation(Argument.class), "Gathered argument is not annotated with an @Argument annotation");
 
-            String argumentName = gatheredArgument.getKey().getAnnotation(Argument.class).fullName();
-            GatherArgumentValuesTargetSuperType argumentValue = gatheredArgument.getValue();
+            final String argumentName = gatheredArgument.getKey().getAnnotation(Argument.class).fullName();
+            final GatherArgumentValuesTargetSuperType argumentValue = gatheredArgument.getValue();
 
             sortedActualGatheredArgumentValues.add(Pair.of(argumentName, argumentValue != null ? argumentValue.getValue() : null));
         }
@@ -964,7 +964,7 @@ public final class CommandLineParserTest {
         private String value;
         private T foo;
 
-        public GatherArgumentValuesParameterizedTargetType( String s ) {
+        public GatherArgumentValuesParameterizedTargetType(final String s ) {
             value = s;
             foo = null;
         }
@@ -985,16 +985,16 @@ public final class CommandLineParserTest {
     @Test
     @SuppressWarnings("rawtypes")
     public void testGatherArgumentValuesOfTypeWithParameterizedType() {
-        GatherArgumentValuesParameterizedTypeSource argumentSource = new GatherArgumentValuesParameterizedTypeSource();
+        final GatherArgumentValuesParameterizedTypeSource argumentSource = new GatherArgumentValuesParameterizedTypeSource();
 
         // Parse the command line, and inject values into our test instance
-        CommandLineParser clp = new CommandLineParser(argumentSource);
+        final CommandLineParser clp = new CommandLineParser(argumentSource);
         clp.parseArguments(System.err, new String[]{"--parameterizedTypeArgument", "parameterizedTypeArgumentValue",
                                                     "--parameterizedTypeListArgument", "parameterizedTypeListArgumentValue"});
 
         // Gather argument values of the raw type GatherArgumentValuesParameterizedTargetType, and make
         // sure that we match fully-parameterized declarations
-        List<Pair<Field, GatherArgumentValuesParameterizedTargetType>> gatheredArguments =
+        final List<Pair<Field, GatherArgumentValuesParameterizedTargetType>> gatheredArguments =
                 CommandLineParser.gatherArgumentValuesOfType(GatherArgumentValuesParameterizedTargetType.class, argumentSource);
 
         Assert.assertEquals(gatheredArguments.size(), 2, "Wrong number of arguments gathered");

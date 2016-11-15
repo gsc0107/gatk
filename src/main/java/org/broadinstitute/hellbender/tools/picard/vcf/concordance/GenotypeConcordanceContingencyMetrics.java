@@ -25,7 +25,7 @@ public final class GenotypeConcordanceContingencyMetrics extends MetricBase {
         final GenotypeConcordanceScheme scheme = new GenotypeConcordanceScheme();
         concordanceCounts.validateCountsAgainstScheme(scheme);
 
-        Map<ContingencyState, Integer> counts = concordanceCounts.getContingencyStateCounts(scheme);
+        final Map<ContingencyState, Integer> counts = concordanceCounts.getContingencyStateCounts(scheme);
         this.TP_COUNT = counts.get(ContingencyState.TP);
         this.TN_COUNT = counts.get(ContingencyState.TN);
         this.FP_COUNT = counts.get(ContingencyState.FP);

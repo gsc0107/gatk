@@ -34,8 +34,8 @@ public final class LIBSTest {
     }
 
     public GATKRead makeRead() {
-        SAMFileHeader header = ArtificialReadUtils.createArtificialSamHeader(1, 1, 1000);
-        GATKRead read = ArtificialReadUtils.createArtificialRead(header, "read", 0, locus, readLength);
+        final SAMFileHeader header = ArtificialReadUtils.createArtificialSamHeader(1, 1, 1000);
+        final GATKRead read = ArtificialReadUtils.createArtificialRead(header, "read", 0, locus, readLength);
         read.setBases(Utils.dupBytes((byte) 'A', readLength));
         final byte[] quals = new byte[readLength];
         for ( int i = 0; i < readLength; i++ )

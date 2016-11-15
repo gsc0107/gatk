@@ -52,7 +52,7 @@ public class VariantRecalibratorEngine {
         if( !model.isModelReadyForEvaluation ) {
             try {
                 model.precomputeDenominatorForEvaluation();
-            } catch( Exception e ) {
+            } catch( final Exception e ) {
                 //TODO: what is this catching ?????
                 model.failedToConverge = true;
                 return;

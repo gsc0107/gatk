@@ -22,7 +22,7 @@ public final class OutputStreamSettings {
         return bufferSize;
     }
 
-    public void setBufferSize(int bufferSize) {
+    public void setBufferSize(final int bufferSize) {
         this.streamLocations.add(StreamLocation.Buffer);
         this.bufferSize = bufferSize;
     }
@@ -40,11 +40,11 @@ public final class OutputStreamSettings {
      *
      * @param outputFile File to overwrite.
      */
-    public void setOutputFile(File outputFile) {
+    public void setOutputFile(final File outputFile) {
         setOutputFile(outputFile, false);
     }
 
-    public void setOutputFile(File outputFile, boolean append) {
+    public void setOutputFile(final File outputFile, final boolean append) {
         if (outputFile == null)
             throw new IllegalArgumentException("outputFile cannot be null");
         streamLocations.add(StreamLocation.File);
@@ -52,7 +52,7 @@ public final class OutputStreamSettings {
         this.appendFile = append;
     }
 
-    public void printStandard(boolean print) {
+    public void printStandard(final boolean print) {
         if (print)
             this.streamLocations.add(StreamLocation.Standard);
         else

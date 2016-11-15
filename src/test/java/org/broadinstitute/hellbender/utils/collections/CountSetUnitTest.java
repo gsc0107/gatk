@@ -16,7 +16,7 @@ public final class CountSetUnitTest extends BaseTest {
     public void testSize(final int capacity) {
         final CountSet empty = new CountSet(capacity);
         Assert.assertEquals(empty.size(), 0);
-        CountSet nonEmpty = new CountSet(capacity);
+        final CountSet nonEmpty = new CountSet(capacity);
         for (int i = 0; i < capacity * 3; i++) {
             nonEmpty.add(i);
             Assert.assertEquals(nonEmpty.size(), i + 1);
@@ -31,9 +31,9 @@ public final class CountSetUnitTest extends BaseTest {
         final int REPEATS = 1000;
         final Random rnd = new Random(13);
         for (int i = 0; i < REPEATS; i++) {
-            int newInt = rnd.nextInt(500);
-            boolean expectedResult = reasuranceSet.add(newInt);
-            boolean result = subject.add(newInt);
+            final int newInt = rnd.nextInt(500);
+            final boolean expectedResult = reasuranceSet.add(newInt);
+            final boolean result = subject.add(newInt);
             Assert.assertEquals(result, expectedResult);
             Assert.assertEquals(subject.size(), reasuranceSet.size());
         }
@@ -84,7 +84,7 @@ public final class CountSetUnitTest extends BaseTest {
         final Random rnd = new Random(13);
         final int[] values = new int[REPEATS];
         for (int i = 0; i < REPEATS; i++) {
-            int newInt = rnd.nextInt(Integer.MAX_VALUE) * (rnd.nextBoolean() ? -1 : 1);
+            final int newInt = rnd.nextInt(Integer.MAX_VALUE) * (rnd.nextBoolean() ? -1 : 1);
             values[i] = newInt;
         }
         subject.setTo(values);
@@ -102,7 +102,7 @@ public final class CountSetUnitTest extends BaseTest {
         final Random rnd = new Random(13);
         final int[] values = new int[REPEATS];
         for (int i = 0; i < REPEATS; i++) {
-            int newInt = rnd.nextInt(Integer.MAX_VALUE) * (rnd.nextBoolean() ? -1 : 1);
+            final int newInt = rnd.nextInt(Integer.MAX_VALUE) * (rnd.nextBoolean() ? -1 : 1);
             values[i] = newInt;
         }
         subject.addAll(values);
@@ -121,7 +121,7 @@ public final class CountSetUnitTest extends BaseTest {
         final int[] values = new int[REPEATS];
         final Integer[] valueWrappers = new Integer[REPEATS];
         for (int i = 0; i < REPEATS; i++) {
-            int newInt = rnd.nextInt(500);
+            final int newInt = rnd.nextInt(500);
             values[i] = newInt;
             valueWrappers[i] = newInt;
         }
@@ -145,13 +145,13 @@ public final class CountSetUnitTest extends BaseTest {
         final int[] values = new int[REPEATS];
         final Integer[] valueWrappers = new Integer[REPEATS];
         for (int i = 0; i < REPEATS; i++) {
-            int newInt = rnd.nextInt(500);
+            final int newInt = rnd.nextInt(500);
             values[i] = newInt;
             valueWrappers[i] = newInt;
         }
 
-        boolean expectedResult = reasuranceSet.addAll(Arrays.asList(valueWrappers));
-        boolean result = subject.addAll(values);
+        final boolean expectedResult = reasuranceSet.addAll(Arrays.asList(valueWrappers));
+        final boolean result = subject.addAll(values);
         Assert.assertEquals(result, expectedResult);
         Assert.assertEquals(subject.size(), reasuranceSet.size());
 

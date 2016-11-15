@@ -25,25 +25,25 @@ class RangePartitionCoalescer implements PartitionCoalescer, Serializable {
      *                               coalesced partition {@code i} in the coalesced partitions is made up of partitions
      *                               from index {@code i} to {@code maxEndPartitionIndexes.get(i)} (inclusive)
      */
-    public RangePartitionCoalescer(List<Integer> maxEndPartitionIndexes) {
+    public RangePartitionCoalescer(final List<Integer> maxEndPartitionIndexes) {
         this.maxEndPartitionIndexes = maxEndPartitionIndexes;
     }
 
     @Override
-    public PartitionGroup[] coalesce(int maxPartitions, RDD<?> parent) {
+    public PartitionGroup[] coalesce(final int maxPartitions, final RDD<?> parent) {
         if (maxPartitions != parent.getNumPartitions()) {
             throw new IllegalArgumentException("Cannot use " + getClass().getSimpleName() +
                     " with a different number of partitions to the parent RDD.");
         }
-        List<Partition> partitions = Arrays.asList(parent.getPartitions());
-        PartitionGroup[] groups = new PartitionGroup[partitions.size()];
+        final List<Partition> partitions = Arrays.asList(parent.getPartitions());
+        final PartitionGroup[] groups = new PartitionGroup[partitions.size()];
 
         for (int i = 0; i < partitions.size(); i++) {
-            Seq<String> preferredLocations = parent.getPreferredLocations(partitions.get(i));
-            scala.Option<String> preferredLocation = scala.Option.apply
+            final Seq<String> preferredLocations = parent.getPreferredLocations(partitions.get(i));
+            final scala.Option<String> preferredLocation = scala.Option.apply
                     (preferredLocations.isEmpty() ? null : preferredLocations.apply(0));
-            PartitionGroup group = new PartitionGroup(preferredLocation);
-            List<Partition> partitionsInGroup =
+            final PartitionGroup group = new PartitionGroup(preferredLocation);
+            final List<Partition> partitionsInGroup =
                     partitions.subList(i, maxEndPartitionIndexes.get(i) + 1);
             group.partitions().append(JavaConversions.asScalaBuffer(partitionsInGroup));
             groups[i] = group;

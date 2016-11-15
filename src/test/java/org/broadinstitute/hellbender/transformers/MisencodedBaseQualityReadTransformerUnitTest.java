@@ -24,7 +24,7 @@ public final class MisencodedBaseQualityReadTransformerUnitTest extends BaseTest
 
     private GATKRead createRead(final byte[] quals) {
         final String readBases = "AAAAAAAAAA";
-        GATKRead read = ArtificialReadUtils.createArtificialRead(header, "foo", 0, 10, readBases.getBytes(), quals);
+        final GATKRead read = ArtificialReadUtils.createArtificialRead(header, "foo", 0, 10, readBases.getBytes(), quals);
         read.setCigar("10M");
         return read;
     }
@@ -33,8 +33,8 @@ public final class MisencodedBaseQualityReadTransformerUnitTest extends BaseTest
     public void testGoodQuals() {
         final byte[] goodQuals = { 60, 60, 60, 60, 60, 60, 60, 60, 60, 60 };
         final ReadTransformer tr = new MisencodedBaseQualityReadTransformer();
-        GATKRead read = createRead(goodQuals);
-        GATKRead newRead = tr.apply(read);
+        final GATKRead read = createRead(goodQuals);
+        final GATKRead newRead = tr.apply(read);
         Assert.assertEquals(read, newRead);
     }
 

@@ -66,7 +66,7 @@ public class SAMPileupCodec extends AsciiFeatureCodec<SAMPileupFeature> {
     }
 
     @Override
-    public SAMPileupFeature decode(String line) {
+    public SAMPileupFeature decode(final String line) {
         // Split the line
         final String[] tokens = SPLIT_PATTERN.split(line.trim(), -1);
         // check the number of fields
@@ -132,7 +132,7 @@ public class SAMPileupCodec extends AsciiFeatureCodec<SAMPileupFeature> {
                 throw new CodecLineParsingException("Not all bases/qualities have been parsed because of a malformed line");
             }
             return pileupElements;
-        } catch(IndexOutOfBoundsException e) {
+        } catch(final IndexOutOfBoundsException e) {
             throw new CodecLineParsingException("Malformed SAM pileup: Different number of bases and qualities found.");
         }
     }
@@ -142,7 +142,7 @@ public class SAMPileupCodec extends AsciiFeatureCodec<SAMPileupFeature> {
      */
     @Override
     public Feature decodeLoc(final LineIterator lineIterator) throws IOException {
-        String[] tokens = SPLIT_PATTERN.split(lineIterator.next(), -1);
+        final String[] tokens = SPLIT_PATTERN.split(lineIterator.next(), -1);
         final int pos = parseInteger(tokens[1], "position");
         return new SimpleFeature(tokens[0], pos, pos);
 
@@ -162,7 +162,7 @@ public class SAMPileupCodec extends AsciiFeatureCodec<SAMPileupFeature> {
     private int parseInteger(final String token, final String parsedValue) {
         try {
             return Integer.parseInt(token);
-        } catch(NumberFormatException e) {
+        } catch(final NumberFormatException e) {
             throw new CodecLineParsingException("The SAM pileup line had unexpected " + parsedValue + ": " + token);
         }
     }

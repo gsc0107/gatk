@@ -70,8 +70,8 @@ public final class DuplicationMetrics extends MetricBase implements Serializable
         final long readPairDuplicates = readPairs - uniqueReadPairs;
 
         if (readPairs > 0 && readPairDuplicates > 0) {
-            long n = readPairs;
-            long c = uniqueReadPairs;
+            final long n = readPairs;
+            final long c = uniqueReadPairs;
 
             double m = 1.0, M = 100.0;
 
@@ -84,8 +84,8 @@ public final class DuplicationMetrics extends MetricBase implements Serializable
             while( f(M*c, c, n) >= 0 ) M *= 10.0;
 
             for (int i=0; i<40; i++ ) {
-                double r = (m+M)/2.0;
-                double u = f( r * c, c, n );
+                final double r = (m+M)/2.0;
+                final double u = f( r * c, c, n );
                 if ( u == 0 ) break;
                 else if ( u > 0 ) m = r;
                 else if ( u < 0 ) M = r;
@@ -99,7 +99,7 @@ public final class DuplicationMetrics extends MetricBase implements Serializable
     }
 
     /** Method that is used in the computation of estimated library size. */
-    private static double f(double x, double c, double n) {
+    private static double f(final double x, final double c, final double n) {
         return c/x - 1 + Math.exp(-n/x);
     }
 
@@ -114,7 +114,7 @@ public final class DuplicationMetrics extends MetricBase implements Serializable
      * @return a number z <= x that estimates if you had pairs*x as your sequencing then you
      *         would observe uniquePairs*z unique pairs.
      */
-    public static double estimateRoi(long estimatedLibrarySize, double x, long pairs, long uniquePairs) {
+    public static double estimateRoi(final long estimatedLibrarySize, final double x, final long pairs, final long uniquePairs) {
         return estimatedLibrarySize * ( 1 - Math.exp(-(x*pairs)/estimatedLibrarySize) ) / uniquePairs;
     }
 
@@ -128,11 +128,11 @@ public final class DuplicationMetrics extends MetricBase implements Serializable
                 calculateDerivedMetrics();
                 if (ESTIMATED_LIBRARY_SIZE == null) return null;
             }
-            catch (IllegalStateException ise) { return null; }
+            catch (final IllegalStateException ise) { return null; }
         }
 
-        long uniquePairs = READ_PAIRS_EXAMINED - READ_PAIR_DUPLICATES;
-        Histogram<Double> histo = new Histogram<>();
+        final long uniquePairs = READ_PAIRS_EXAMINED - READ_PAIR_DUPLICATES;
+        final Histogram<Double> histo = new Histogram<>();
 
         for (double x=1; x<=100; x+=1) {
             histo.increment(x, estimateRoi(ESTIMATED_LIBRARY_SIZE, x, READ_PAIRS_EXAMINED, uniquePairs));

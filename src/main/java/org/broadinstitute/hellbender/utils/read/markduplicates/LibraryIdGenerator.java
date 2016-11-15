@@ -57,7 +57,7 @@ public final class LibraryIdGenerator {
      * or the library isn't denoted on the read group, a constant string is
      * returned.
      */
-    public static String getLibraryName(final SAMFileHeader header, String readGroupId) {
+    public static String getLibraryName(final SAMFileHeader header, final String readGroupId) {
       if (readGroupId != null) {
             final SAMReadGroupRecord rg = header.getReadGroup(readGroupId);
             if (rg != null) {

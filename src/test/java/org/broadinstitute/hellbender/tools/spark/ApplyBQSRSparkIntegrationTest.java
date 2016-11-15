@@ -26,7 +26,7 @@ public final class ApplyBQSRSparkIntegrationTest extends CommandLineProgramTest 
         final String outputExtension;
         final String expectedFile;
 
-        private ABQSRTest(String bam, String reference, String outputExtension, String args, String expectedFile) {
+        private ABQSRTest(final String bam, final String reference, final String outputExtension, final String args, final String expectedFile) {
             this.bam= bam;
             this.reference = reference;
             this.outputExtension = outputExtension;
@@ -47,7 +47,7 @@ public final class ApplyBQSRSparkIntegrationTest extends CommandLineProgramTest 
 
     @DataProvider(name = "ApplyBQSRTest")
     public Object[][] createABQSRTestData() {
-        List<Object[]> tests = new ArrayList<>();
+        final List<Object[]> tests = new ArrayList<>();
 
         tests.add(new Object[]{new ABQSRTest(hiSeqBam, null, ".bam", "-qq -1", resourceDir + "expected.HiSeq.1mb.1RG.2k_lines.alternate_allaligned.recalibrated.DIQ.qq-1.bam")});
         tests.add(new Object[]{new ABQSRTest(hiSeqBam, null, ".bam", "-qq 6", resourceDir + "expected.HiSeq.1mb.1RG.2k_lines.alternate_allaligned.recalibrated.DIQ.qq6.bam")});
@@ -67,7 +67,7 @@ public final class ApplyBQSRSparkIntegrationTest extends CommandLineProgramTest 
         final String resourceDirGCS = getGCPTestInputPath() + THIS_TEST_FOLDER;
         final String hiSeqBamGCS = resourceDirGCS + "HiSeq.1mb.1RG.2k_lines.alternate_allaligned.bam";
 
-        List<Object[]> tests = new ArrayList<>();
+        final List<Object[]> tests = new ArrayList<>();
 
         tests.add(new Object[]{new ABQSRTest(hiSeqBamGCS, null, ".bam", "", resourceDir + "expected.HiSeq.1mb.1RG.2k_lines.alternate_allaligned.recalibrated.DIQ.bam")});
 
@@ -77,8 +77,8 @@ public final class ApplyBQSRSparkIntegrationTest extends CommandLineProgramTest 
     }
 
     @Test(dataProvider = "ApplyBQSRTest", groups = "spark")
-    public void testApplyBQSR(ABQSRTest params) throws IOException {
-        File outFile = BaseTest.createTempFile("applyBQSRTest", params.outputExtension);
+    public void testApplyBQSR(final ABQSRTest params) throws IOException {
+        final File outFile = BaseTest.createTempFile("applyBQSRTest", params.outputExtension);
         final ArrayList<String> args = new ArrayList<>();
         File refFile = null;
 
@@ -103,29 +103,29 @@ public final class ApplyBQSRSparkIntegrationTest extends CommandLineProgramTest 
     //TODO: This is disabled because we can't read a google bucket as a hadoop file system outside of the dataproc environment yet
     //Renable when we've figured out how to setup the google hadoop fs connector
     @Test(dataProvider = "ApplyBQSRTestGCS", groups = {"spark", "bucket"}, enabled = false)
-    public void testPR_GCS(ABQSRTest params) throws IOException {
-        String args =
+    public void testPR_GCS(final ABQSRTest params) throws IOException {
+        final String args =
                 " -I " + params.bam +
                         " --apiKey " + getGCPTestApiKey() +
                         " --bqsr_recal_file " + resourceDir + "HiSeq.20mb.1RG.table.gz " +
                         params.args +
                         " -O %s";
-        ArgumentsBuilder ab = new ArgumentsBuilder().add(args);
-        IntegrationTestSpec spec = new IntegrationTestSpec(
+        final ArgumentsBuilder ab = new ArgumentsBuilder().add(args);
+        final IntegrationTestSpec spec = new IntegrationTestSpec(
                 ab.getString(),
                 Arrays.asList(params.expectedFile));
         spec.executeTest("testPrintReads-" + params.args, this);
     }
 
     @Test(dataProvider = "ApplyBQSRTestGCS", groups = {"spark", "cloud"}, enabled = false)
-    public void testPR_Cloud(ABQSRTest params) throws IOException {
-        String args =
+    public void testPR_Cloud(final ABQSRTest params) throws IOException {
+        final String args =
                 " -I " + params.bam +
                         " --apiKey " + getGCPTestApiKey() +
                         " --bqsr_recal_file " + getGCPTestInputPath() + THIS_TEST_FOLDER + "HiSeq.20mb.1RG.table.gz " +
                         params.args +
                         " -O %s";
-        IntegrationTestSpec spec = new IntegrationTestSpec(
+        final IntegrationTestSpec spec = new IntegrationTestSpec(
                 args,
                 Arrays.asList(params.expectedFile));
         spec.executeTest("testPrintReads-" + params.args, this);
@@ -133,12 +133,12 @@ public final class ApplyBQSRSparkIntegrationTest extends CommandLineProgramTest 
 
     @Test(groups = "spark")
     public void testPRNoFailWithHighMaxCycle() throws IOException {
-        String args = " -I " + hiSeqBam +
+        final String args = " -I " + hiSeqBam +
                 " --bqsr_recal_file " + resourceDir + "HiSeq.1mb.1RG.highMaxCycle.table.gz" +
                 "" +
                 " -O " + createTempFile("ignore",".me");
-        ArgumentsBuilder ab = new ArgumentsBuilder().add(args);
-        IntegrationTestSpec spec = new IntegrationTestSpec(
+        final ArgumentsBuilder ab = new ArgumentsBuilder().add(args);
+        final IntegrationTestSpec spec = new IntegrationTestSpec(
                 ab.getString() ,
                 Arrays.<String>asList());
         spec.executeTest("testPRNoFailWithHighMaxCycle", this);      //this just checks that the tool does not blow up
@@ -146,11 +146,11 @@ public final class ApplyBQSRSparkIntegrationTest extends CommandLineProgramTest 
 
     @Test(groups = "spark")
     public void testPRFailWithLowMaxCycle() throws IOException {
-        String args =  " -I " + hiSeqBam +
+        final String args =  " -I " + hiSeqBam +
                 " --bqsr_recal_file " + resourceDir + "HiSeq.1mb.1RG.lowMaxCycle.table.gz" +
                 " -O /dev/null";
-        ArgumentsBuilder ab = new ArgumentsBuilder().add(args);
-        IntegrationTestSpec spec = new IntegrationTestSpec(
+        final ArgumentsBuilder ab = new ArgumentsBuilder().add(args);
+        final IntegrationTestSpec spec = new IntegrationTestSpec(
                 ab.getString(),
                 0,
                 UserException.class);

@@ -18,7 +18,7 @@ public final class GatherVcfsUnitTest {
 
     @DataProvider(name = "files")
     public Object[][] files(){
-        File nullFile = null;
+        final File nullFile = null;
 
 
         return new Object[][]{
@@ -31,7 +31,7 @@ public final class GatherVcfsUnitTest {
     }
 
     @Test(dataProvider = "files")
-    public void testareAllBlockCompressed(List<File> files, boolean expected) throws IOException {
+    public void testareAllBlockCompressed(final List<File> files, final boolean expected) throws IOException {
         Assert.assertEquals(GatherVcfs.areAllBlockCompressed(files), expected);
     }
 

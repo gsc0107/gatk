@@ -33,7 +33,7 @@ public final class CleanSamTester extends SamFileTester {
             validator.setIgnoreWarnings(true);
             validator.setVerbose(true, 1000);
             validator.setErrorsToIgnore(Collections.singletonList(SAMValidationError.Type.MISSING_READ_GROUP));
-            SamReaderFactory factory = SamReaderFactory.makeDefault().validationStringency(ValidationStringency.LENIENT);
+            final SamReaderFactory factory = SamReaderFactory.makeDefault().validationStringency(ValidationStringency.LENIENT);
             SamReader samReader = factory.open(getOutput());
             final SAMRecordIterator iterator = samReader.iterator();
             while (iterator.hasNext()) {

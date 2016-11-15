@@ -47,17 +47,17 @@ public final class ReadsSparkSink {
         }
 
         @Override
-        public RecordWriter<NullWritable, SAMRecordWritable> getRecordWriter(TaskAttemptContext ctx) throws IOException {
+        public RecordWriter<NullWritable, SAMRecordWritable> getRecordWriter(final TaskAttemptContext ctx) throws IOException {
             setSAMHeader(bamHeader);
             // use BAM extension for part files since they are valid BAM files
             return getRecordWriter(ctx, getDefaultWorkFile(ctx, BamFileIoUtils.BAM_FILE_EXTENSION));
         }
 
         @Override
-        public void checkOutputSpecs(JobContext job) throws IOException {
+        public void checkOutputSpecs(final JobContext job) throws IOException {
             try {
                 super.checkOutputSpecs(job);
-            } catch (FileAlreadyExistsException e) {
+            } catch (final FileAlreadyExistsException e) {
                 // delete existing files before overwriting them
                 final Path outDir = getOutputPath(job);
                 outDir.getFileSystem(job.getConfiguration()).delete(outDir, true);
@@ -80,19 +80,19 @@ public final class ReadsSparkSink {
         }
 
         @Override
-        public RecordWriter<NullWritable, SAMRecordWritable> getRecordWriter(TaskAttemptContext ctx) throws IOException {
+        public RecordWriter<NullWritable, SAMRecordWritable> getRecordWriter(final TaskAttemptContext ctx) throws IOException {
             setSAMHeader(bamHeader);
             // use CRAM extension for part files since they are valid CRAM files
             return getRecordWriter(ctx, getDefaultWorkFile(ctx, CramIO.CRAM_FILE_EXTENSION));
         }
 
         @Override
-        public void checkOutputSpecs(JobContext job) throws IOException {
+        public void checkOutputSpecs(final JobContext job) throws IOException {
             try {
                 super.checkOutputSpecs(job);
-            } catch (FileAlreadyExistsException e) {
+            } catch (final FileAlreadyExistsException e) {
                 // delete existing files before overwriting them
-                Path outDir = getOutputPath(job);
+                final Path outDir = getOutputPath(job);
                 outDir.getFileSystem(job.getConfiguration()).delete(outDir, true);
             }
         }
@@ -115,7 +115,7 @@ public final class ReadsSparkSink {
      */
     public static void writeReads(
             final JavaSparkContext ctx, final String outputFile, final String referenceFile, final JavaRDD<GATKRead> reads,
-            final SAMFileHeader header, ReadsWriteFormat format) throws IOException {
+            final SAMFileHeader header, final ReadsWriteFormat format) throws IOException {
         writeReads(ctx, outputFile, referenceFile, reads, header, format, 0);
     }
 
@@ -132,12 +132,12 @@ public final class ReadsSparkSink {
      */
     public static void writeReads(
             final JavaSparkContext ctx, final String outputFile, final String referenceFile, final JavaRDD<GATKRead> reads,
-            final SAMFileHeader header, ReadsWriteFormat format, final int numReducers) throws IOException {
+            final SAMFileHeader header, final ReadsWriteFormat format, final int numReducers) throws IOException {
 
-        SAMFormat samOutputFormat = IOUtils.isCramFileName(outputFile) ? SAMFormat.CRAM : SAMFormat.BAM;
+        final SAMFormat samOutputFormat = IOUtils.isCramFileName(outputFile) ? SAMFormat.CRAM : SAMFormat.BAM;
 
-        String absoluteOutputFile = BucketUtils.makeFilePathAbsolute(outputFile);
-        String absoluteReferenceFile = referenceFile != null ?
+        final String absoluteOutputFile = BucketUtils.makeFilePathAbsolute(outputFile);
+        final String absoluteReferenceFile = referenceFile != null ?
                                         BucketUtils.makeFilePathAbsolute(referenceFile) :
                                         referenceFile;
         setHadoopBAMConfigurationProperties(ctx, absoluteOutputFile, absoluteReferenceFile, format);
@@ -269,7 +269,7 @@ public final class ReadsSparkSink {
         }
     }
 
-    private static JavaPairRDD<SAMRecord, SAMRecordWritable> pairReadsWithSAMRecordWritables(Broadcast<SAMFileHeader> headerBroadcast, JavaRDD<SAMRecord> records) {
+    private static JavaPairRDD<SAMRecord, SAMRecordWritable> pairReadsWithSAMRecordWritables(final Broadcast<SAMFileHeader> headerBroadcast, final JavaRDD<SAMRecord> records) {
         return records.mapToPair(read -> {
             read.setHeaderStrict(headerBroadcast.getValue());
             final SAMRecordWritable samRecordWritable = new SAMRecordWritable();
@@ -278,7 +278,7 @@ public final class ReadsSparkSink {
         });
     }
 
-    private static void deleteHadoopFile(String fileToObliterate, Configuration conf) throws IOException {
+    private static void deleteHadoopFile(final String fileToObliterate, final Configuration conf) throws IOException {
         final Path pathToDelete = new Path(fileToObliterate);
         pathToDelete.getFileSystem(conf).delete(pathToDelete, true);
     }
@@ -313,7 +313,7 @@ public final class ReadsSparkSink {
                     throw new UserException("A 2bit file cannot be used as a CRAM file reference");
                 }
                 else { // Hadoop-BAM requires the reference to be a URI, including scheme
-                    String referenceURI =
+                    final String referenceURI =
                             null == new Path(referenceName).toUri().getScheme() ?
                                 "file://" + new File(referenceName).getAbsolutePath() :
                                 referenceName;

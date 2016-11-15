@@ -20,7 +20,7 @@ public final class ReadRecalibrationInfoUnitTest extends BaseTest {
 
     @DataProvider(name = "InfoProvider")
     public Object[][] createCombineTablesProvider() {
-        List<Object[]> tests = new ArrayList<>();
+        final List<Object[]> tests = new ArrayList<>();
 
         for ( final int readLength: Arrays.asList(10, 100, 1000) ) {
             for ( final boolean includeIndelErrors : Arrays.asList(true, false) ) {

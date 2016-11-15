@@ -81,7 +81,7 @@ public class AnnotationArtificialData {
         return likelihoods;
     }
 
-    private static ReadLikelihoods<Allele> initializeReadLikelihoods(String sample, Allele refAllele, Allele altAllele, List<GATKRead> reads) {
+    private static ReadLikelihoods<Allele> initializeReadLikelihoods(final String sample, final Allele refAllele, final Allele altAllele, final List<GATKRead> reads) {
         final Map<String, List<GATKRead>> readsBySample = ImmutableMap.of(sample, reads);
         final org.broadinstitute.hellbender.utils.genotyper.SampleList sampleList = new IndexedSampleList(Arrays.asList(sample));
         final AlleleList<Allele> alleleList = new IndexedAlleleList<>(Arrays.asList(refAllele, altAllele));

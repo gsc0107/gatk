@@ -35,7 +35,7 @@ public final class ReadCoordinateComparatorUnitTest extends BaseTest{
         try ( final ReadsDataSource readsSource = new ReadsDataSource(IOUtils.getPath(inputBam)) ) {
             header = readsSource.getHeader();
 
-            for ( GATKRead read : readsSource ) {
+            for ( final GATKRead read : readsSource ) {
                 reads.add(read);
             }
         }
@@ -60,7 +60,7 @@ public final class ReadCoordinateComparatorUnitTest extends BaseTest{
     @Test
     public void testEqual() throws Exception {
         final SAMFileHeader header = ArtificialReadUtils.createArtificialSamHeader();
-        ReadCoordinateComparator comp= new ReadCoordinateComparator(header);
+        final ReadCoordinateComparator comp= new ReadCoordinateComparator(header);
         final GATKRead r1 = ArtificialReadUtils.createArtificialRead(header, "10M");
         final GATKRead r2 = ArtificialReadUtils.createArtificialRead(header, "10M");
         Assert.assertEquals(comp.compare(r1, r2), 0);
@@ -70,7 +70,7 @@ public final class ReadCoordinateComparatorUnitTest extends BaseTest{
     @Test
     public void testReverse() throws Exception {
         final SAMFileHeader header = ArtificialReadUtils.createArtificialSamHeader();
-        ReadCoordinateComparator comp= new ReadCoordinateComparator(header);
+        final ReadCoordinateComparator comp= new ReadCoordinateComparator(header);
         final GATKRead r1 = ArtificialReadUtils.createArtificialRead(header, "10M");
         r1.setIsReverseStrand(true);
         final GATKRead r2 = ArtificialReadUtils.createArtificialRead(header, "10M");
@@ -81,7 +81,7 @@ public final class ReadCoordinateComparatorUnitTest extends BaseTest{
     @Test
     public void testPaired() throws Exception {
         final SAMFileHeader header = ArtificialReadUtils.createArtificialSamHeader();
-        ReadCoordinateComparator comp= new ReadCoordinateComparator(header);
+        final ReadCoordinateComparator comp= new ReadCoordinateComparator(header);
         final GATKRead r1 = ArtificialReadUtils.createArtificialRead(header, "10M");
         r1.setIsPaired(true);
         r1.setMatePosition(r1.getContig(), r1.getStart() + 10);
@@ -96,7 +96,7 @@ public final class ReadCoordinateComparatorUnitTest extends BaseTest{
     @Test
     public void testPairedVsUnpaired() throws Exception {
         final SAMFileHeader header = ArtificialReadUtils.createArtificialSamHeader();
-        ReadCoordinateComparator comp= new ReadCoordinateComparator(header);
+        final ReadCoordinateComparator comp= new ReadCoordinateComparator(header);
         final GATKRead r1 = ArtificialReadUtils.createArtificialRead(header, "10M");
         r1.setIsPaired(true);
         r1.setMatePosition(r1.getContig(), r1.getStart() + 10);
@@ -109,7 +109,7 @@ public final class ReadCoordinateComparatorUnitTest extends BaseTest{
     @Test
     public void testMappedVsUnmapped() throws Exception {
         final SAMFileHeader header = ArtificialReadUtils.createArtificialSamHeader();
-        ReadCoordinateComparator comp = new ReadCoordinateComparator(header);
+        final ReadCoordinateComparator comp = new ReadCoordinateComparator(header);
 
         final GATKRead r1 = ArtificialReadUtils.createArtificialRead(header, "10M");
         final GATKRead r2 = ArtificialReadUtils.createArtificialUnmappedRead(header, new byte[]{'A'}, new byte[]{30});
@@ -122,7 +122,7 @@ public final class ReadCoordinateComparatorUnitTest extends BaseTest{
     @Test
     public void testBothUnmapped() throws Exception {
         final SAMFileHeader header = ArtificialReadUtils.createArtificialSamHeader();
-        ReadCoordinateComparator comp= new ReadCoordinateComparator(header);
+        final ReadCoordinateComparator comp= new ReadCoordinateComparator(header);
 
         final GATKRead r1 = ArtificialReadUtils.createArtificialUnmappedRead(header, new byte[]{'A'}, new byte[]{30});
         final GATKRead r2 = ArtificialReadUtils.createArtificialUnmappedRead(header, new byte[]{'A'}, new byte[]{30});
@@ -135,7 +135,7 @@ public final class ReadCoordinateComparatorUnitTest extends BaseTest{
     @Test
     public void testUnmappedWithAssignedPositionVsMapped() {
         final SAMFileHeader header = ArtificialReadUtils.createArtificialSamHeader();
-        ReadCoordinateComparator comp= new ReadCoordinateComparator(header);
+        final ReadCoordinateComparator comp= new ReadCoordinateComparator(header);
 
         final GATKRead r1 = ArtificialReadUtils.createArtificialRead(header, "10M");
         final GATKRead r2 = ArtificialReadUtils.createArtificialUnmappedReadWithAssignedPosition(header,r1.getContig(), r1.getStart() - 1, new byte[]{'A'}, new byte[]{30});
@@ -153,7 +153,7 @@ public final class ReadCoordinateComparatorUnitTest extends BaseTest{
     @Test
     public void testUnmappedWithAssignedPositionVsUnmapped() {
         final SAMFileHeader header = ArtificialReadUtils.createArtificialSamHeader();
-        ReadCoordinateComparator comp = new ReadCoordinateComparator(header);
+        final ReadCoordinateComparator comp = new ReadCoordinateComparator(header);
 
         final GATKRead r1 = ArtificialReadUtils.createArtificialUnmappedReadWithAssignedPosition(header, "1", 1, new byte[]{'A'}, new byte[]{30});
         final GATKRead r2 = ArtificialReadUtils.createArtificialUnmappedRead(header, new byte[]{'A'}, new byte[]{30});
@@ -166,7 +166,7 @@ public final class ReadCoordinateComparatorUnitTest extends BaseTest{
     @Test
     public void testPosition() throws Exception {
         final SAMFileHeader header = ArtificialReadUtils.createArtificialSamHeader();
-        ReadCoordinateComparator comp= new ReadCoordinateComparator(header);
+        final ReadCoordinateComparator comp= new ReadCoordinateComparator(header);
         final GATKRead r1 = ArtificialReadUtils.createArtificialRead(header, "10M");
         r1.setPosition(r1.getContig(), r1.getStart() + 10);
         final GATKRead r2 = ArtificialReadUtils.createArtificialRead(header, "10M");
@@ -177,7 +177,7 @@ public final class ReadCoordinateComparatorUnitTest extends BaseTest{
     @Test
     public void testContigs() throws Exception {
         final SAMFileHeader header = ArtificialReadUtils.createArtificialSamHeader();
-        ReadCoordinateComparator comp= new ReadCoordinateComparator(header);
+        final ReadCoordinateComparator comp= new ReadCoordinateComparator(header);
         final GATKRead r1 = ArtificialReadUtils.createArtificialRead(header, "10M");
         final GATKRead r2 = ArtificialReadUtils.createArtificialRead(header, "10M");
         r2.setPosition(header.getSequence(1).getSequenceName(), r2.getStart());

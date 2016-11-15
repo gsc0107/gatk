@@ -21,7 +21,7 @@ public final class TableCodecUnitTest extends BaseTest {
 
     @DataProvider(name = "badNames")
     public Object[][] badNames() {
-        List<Object[]> params = new ArrayList<>();
+        final List<Object[]> params = new ArrayList<>();
         params.add(new String[]{"a.tsv"});
         params.add(new String[]{"a.table.gz"});
         params.add(new String[]{"a.bed"});
@@ -33,27 +33,27 @@ public final class TableCodecUnitTest extends BaseTest {
     }
 
     @Test(dataProvider = "badNames")
-    public void testBadNames(String badName){
-        TableCodec tc = new TableCodec();
+    public void testBadNames(final String badName){
+        final TableCodec tc = new TableCodec();
         Assert.assertFalse(tc.canDecode(badName), badName);
     }
 
     @DataProvider(name = "goodNames")
     public Object[][] goodNames() {
-        List<Object[]> params = new ArrayList<>();
+        final List<Object[]> params = new ArrayList<>();
         params.add(new String[]{"a.table"});
         return params.toArray(new Object[][]{});
     }
 
     @Test(dataProvider = "goodNames")
-    public void testGoodNames(String goodName){
-        TableCodec tc = new TableCodec();
+    public void testGoodNames(final String goodName){
+        final TableCodec tc = new TableCodec();
         Assert.assertTrue(tc.canDecode(goodName), goodName);
     }
 
     @Test
     public void testChrs(){
-        TableCodec tc = new TableCodec();
+        final TableCodec tc = new TableCodec();
         Assert.assertEquals(tc.decode("1:1  1   2   3").getContig(), "1");
         Assert.assertEquals(tc.decode("chr1:1  1   2   3").getContig(), "chr1");
         Assert.assertEquals(tc.decode("1:1+  1   2   3").getContig(), "1");
@@ -64,7 +64,7 @@ public final class TableCodecUnitTest extends BaseTest {
 
     @DataProvider(name = "dataLines")
     public Object[][] dataLines() {
-        List<Object[]> params = new ArrayList<>();
+        final List<Object[]> params = new ArrayList<>();
         params.add(new Object[]{"1:1  1   2   3", "1", 1, 1, emptyList(), asList("1:1", "1", "2", "3")});
         params.add(new Object[]{"1:1-2  1   2   3", "1", 1, 2, emptyList(), asList("1:1-2", "1", "2", "3")});
         params.add(new Object[]{"1  1   2   3", "1", 1, Integer.MAX_VALUE, emptyList(), asList("1", "1", "2", "3")});
@@ -73,8 +73,8 @@ public final class TableCodecUnitTest extends BaseTest {
     }
 
     @Test(dataProvider = "dataLines")
-    public void testDecode1(String str, String contig, int start, int end, List<String> header, List<String> vals){
-        TableCodec tc = new TableCodec();
+    public void testDecode1(final String str, final String contig, final int start, final int end, final List<String> header, final List<String> vals){
+        final TableCodec tc = new TableCodec();
         final TableFeature decode = tc.decode(str);
         Assert.assertEquals(decode.getContig(), contig, "contig");
         Assert.assertEquals(decode.getStart(), start, "start");
@@ -89,20 +89,20 @@ public final class TableCodecUnitTest extends BaseTest {
 
     @Test
     public void testDecodeHeader(){
-        TableCodec tc = new TableCodec();
-        LineReader reader= makeReader(asList("HEADER a b c"));
-        LineIterator li= new LineIteratorImpl(reader);
-        List<String> hd = tc.readActualHeader(li);
+        final TableCodec tc = new TableCodec();
+        final LineReader reader= makeReader(asList("HEADER a b c"));
+        final LineIterator li= new LineIteratorImpl(reader);
+        final List<String> hd = tc.readActualHeader(li);
         Assert.assertEquals(hd, asList("HEADER", "a", "b", "c"));
     }
 
     @Test
     public void testDecodeHeader2(){
-        TableCodec tc = new TableCodec();
+        final TableCodec tc = new TableCodec();
         final String str2= "1:1  1   2   3";
-        LineReader reader= makeReader(asList("HEADER a b c", str2));
-        LineIterator li= new LineIteratorImpl(reader);
-        List<String> hd = tc.readActualHeader(li);
+        final LineReader reader= makeReader(asList("HEADER a b c", str2));
+        final LineIterator li= new LineIteratorImpl(reader);
+        final List<String> hd = tc.readActualHeader(li);
         Assert.assertEquals(hd, asList("HEADER", "a", "b", "c"));
 
         final TableFeature decode = tc.decode(str2);
@@ -117,33 +117,33 @@ public final class TableCodecUnitTest extends BaseTest {
 
     @Test(expectedExceptions = UserException.MalformedFile.class)
     public void testDecodeFailsNoHeader(){
-        TableCodec tc = new TableCodec();
-        LineReader reader= makeReader(asList("1:1  1   2   3"));
-        LineIterator li= new LineIteratorImpl(reader);
+        final TableCodec tc = new TableCodec();
+        final LineReader reader= makeReader(asList("1:1  1   2   3"));
+        final LineIterator li= new LineIteratorImpl(reader);
         tc.readActualHeader(li);
     }
 
     @Test
     public void testDecodeOnlyComments(){
-        TableCodec tc = new TableCodec();
-        LineReader reader= makeReader(asList("#HEADER a b c", "#HEADER d e f"));
-        LineIterator li= new LineIteratorImpl(reader);
+        final TableCodec tc = new TableCodec();
+        final LineReader reader= makeReader(asList("#HEADER a b c", "#HEADER d e f"));
+        final LineIterator li= new LineIteratorImpl(reader);
         final List<String> strings = tc.readActualHeader(li);
         Assert.assertEquals(strings, emptyList());
     }
 
     @Test
     public void testTwoHeaders(){
-        TableCodec tc = new TableCodec();
-        LineReader reader= makeReader(asList("HEADER a b c", "HEADER d e f"));
-        LineIterator li= new LineIteratorImpl(reader);
+        final TableCodec tc = new TableCodec();
+        final LineReader reader= makeReader(asList("HEADER a b c", "HEADER d e f"));
+        final LineIterator li= new LineIteratorImpl(reader);
         final List<String> strings = tc.readActualHeader(li);
         Assert.assertEquals(strings, asList("HEADER", "a", "b", "c"));
     }
 
     @Test(expectedExceptions =  UserException.MalformedFile.class)
     public void testTwoHeadersFailsOnRepeat(){
-        TableCodec tc = new TableCodec();
+        final TableCodec tc = new TableCodec();
         Assert.assertEquals(tc.readActualHeader(new LineIteratorImpl(makeReader(asList("HEADER a b c")))), asList("HEADER", "a", "b", "c"));
 
         Assert.assertEquals(tc.readActualHeader(new LineIteratorImpl(makeReader(asList("HEADER a b c")))), asList("HEADER", "a", "b", "c"));
@@ -151,14 +151,14 @@ public final class TableCodecUnitTest extends BaseTest {
 
     @Test
     public void testDecodeComment(){
-        TableCodec tc = new TableCodec();
-        LineReader reader= makeReader(asList("#HEADER a b c", "HEADER d e f"));
-        LineIterator li= new LineIteratorImpl(reader);
-        List<String> hd = tc.readActualHeader(li);
+        final TableCodec tc = new TableCodec();
+        final LineReader reader= makeReader(asList("#HEADER a b c", "HEADER d e f"));
+        final LineIterator li= new LineIteratorImpl(reader);
+        final List<String> hd = tc.readActualHeader(li);
         Assert.assertEquals(hd, asList("HEADER", "d", "e", "f"));
     }
 
-    private LineReader makeReader(List<String> strings) {
+    private LineReader makeReader(final List<String> strings) {
         return new LineReader() {
             private Iterator<String> iterator = strings.iterator();
             @Override
@@ -174,7 +174,7 @@ public final class TableCodecUnitTest extends BaseTest {
 
     @DataProvider(name = "stringNull")
     public Object[][] stringNull() {
-        List<Object[]> params = new ArrayList<>();
+        final List<Object[]> params = new ArrayList<>();
         params.add(new String[]{TableCodec.HEADER_DELIMITER + " foo"});
         params.add(new String[]{TableCodec.HEADER_DELIMITER + " bar"});
         params.add(new String[]{TableCodec.IGV_HEADER_DELIMITER + " baz"});
@@ -182,15 +182,15 @@ public final class TableCodecUnitTest extends BaseTest {
     }
 
     @Test(dataProvider = "stringNull")
-    public void testDecodeNull(String stringNull){
-        TableCodec tc = new TableCodec();
+    public void testDecodeNull(final String stringNull){
+        final TableCodec tc = new TableCodec();
         final TableFeature decode = tc.decode(stringNull);
         Assert.assertNull(decode, stringNull);
     }
 
     @DataProvider(name = "stringNotNull")
     public Object[][] stringNotNull() {
-        List<Object[]> params = new ArrayList<>();
+        final List<Object[]> params = new ArrayList<>();
         params.add(new String[]{"foo " + TableCodec.HEADER_DELIMITER});
         params.add(new String[]{"foo " + TableCodec.HEADER_DELIMITER});
         params.add(new String[]{"foo " + TableCodec.IGV_HEADER_DELIMITER});
@@ -198,8 +198,8 @@ public final class TableCodecUnitTest extends BaseTest {
     }
 
     @Test(dataProvider = "stringNotNull")
-    public void testDecodeNotNull(String stringNotNull){
-        TableCodec tc = new TableCodec();
+    public void testDecodeNotNull(final String stringNotNull){
+        final TableCodec tc = new TableCodec();
         final TableFeature decode = tc.decode(stringNotNull);
         Assert.assertNotNull(decode, stringNotNull);
     }

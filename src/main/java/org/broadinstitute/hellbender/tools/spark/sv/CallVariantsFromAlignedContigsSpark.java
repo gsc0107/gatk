@@ -82,7 +82,7 @@ public final class CallVariantsFromAlignedContigsSpark extends GATKSparkTool {
 
     @Override
     protected void runTool(final JavaSparkContext ctx) {
-        Broadcast<ReferenceMultiSource> broadcastReference = ctx.broadcast(getReference());
+        final Broadcast<ReferenceMultiSource> broadcastReference = ctx.broadcast(getReference());
 
         final JavaPairRDD<Tuple2<String, String>, Tuple2<Iterable<AlignmentRegion>, byte[]>> alignmentRegionsWithContigSequences = prepAlignmentRegionsForCalling(ctx);
 
@@ -164,7 +164,7 @@ public final class CallVariantsFromAlignedContigsSpark extends GATKSparkTool {
     protected static JavaRDD<VariantContext> callVariantsFromAlignmentRegions(final Broadcast<ReferenceMultiSource> broadcastReference,
                                                                               final JavaPairRDD<Tuple2<String, String>, Tuple2<Iterable<AlignmentRegion>, byte[]>> alignmentRegionsWithContigSequences,
                                                                               final Integer minAlignLength) {
-        JavaPairRDD<Tuple2<String, String>, BreakpointAlignment> assembledBreakpointsByBreakpointIdAndContigId =
+        final JavaPairRDD<Tuple2<String, String>, BreakpointAlignment> assembledBreakpointsByBreakpointIdAndContigId =
                 alignmentRegionsWithContigSequences.flatMapValues(alignmentRegionsAndSequences ->
                         CallVariantsFromAlignedContigsSpark.assembledBreakpointsFromAlignmentRegions(alignmentRegionsAndSequences._2, alignmentRegionsAndSequences._1, minAlignLength));
 
@@ -211,8 +211,8 @@ public final class CallVariantsFromAlignedContigsSpark extends GATKSparkTool {
 
                 final byte[] sequenceCopy = Arrays.copyOf(sequence, sequence.length);
 
-                String homology = getHomology(current, previous, sequenceCopy);
-                String insertedSequence = getInsertedSequence(current, previous, sequenceCopy);
+                final String homology = getHomology(current, previous, sequenceCopy);
+                final String insertedSequence = getInsertedSequence(current, previous, sequenceCopy);
 
                 final BreakpointAlignment breakpointAlignment = new BreakpointAlignment(current.contigId, previous, current, insertedSequence, homology, insertionAlignmentRegions);
 
@@ -258,7 +258,7 @@ public final class CallVariantsFromAlignedContigsSpark extends GATKSparkTool {
     }
 
     @VisibleForTesting
-    static boolean treatNextAlignmentRegionInPairAsInsertion(AlignmentRegion current, AlignmentRegion next, final Integer minAlignLength) {
+    static boolean treatNextAlignmentRegionInPairAsInsertion(final AlignmentRegion current, final AlignmentRegion next, final Integer minAlignLength) {
         return treatAlignmentRegionAsInsertion(next) ||
                 (next.referenceInterval.size() - current.overlapOnContig(next) < minAlignLength) ||
                 current.referenceInterval.contains(next.referenceInterval) ||
@@ -303,7 +303,7 @@ public final class CallVariantsFromAlignedContigsSpark extends GATKSparkTool {
             variantsArrayList.forEach(vcfWriter::add);
             vcfWriter.close();
 
-        } catch (IOException e) {
+        } catch (final IOException e) {
             throw new GATKException("Could not create output file", e);
         }
     }
@@ -318,7 +318,7 @@ public final class CallVariantsFromAlignedContigsSpark extends GATKSparkTool {
         }
         // todo: remove this when things are solid?
         vcWriterBuilder = vcWriterBuilder.setOption(Options.ALLOW_MISSING_FIELDS_IN_HEADER);
-        for (Options opt : new Options[]{}) {
+        for (final Options opt : new Options[]{}) {
             vcWriterBuilder = vcWriterBuilder.setOption(opt);
         }
 

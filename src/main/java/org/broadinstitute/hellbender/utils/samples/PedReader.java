@@ -151,17 +151,17 @@ public final class PedReader {
 
     public PedReader() { }
 
-    public final List<Sample> parse(File source, EnumSet<MissingPedField> missingFields, SampleDB sampleDB) throws FileNotFoundException {
+    public final List<Sample> parse(final File source, final EnumSet<MissingPedField> missingFields, final SampleDB sampleDB) throws FileNotFoundException {
         logger.info("Reading PED file " + source + " with missing fields: " + missingFields);
         return parse(new FileReader(source), missingFields, sampleDB);
     }
 
-    public final List<Sample> parse(final String source, EnumSet<MissingPedField> missingFields, SampleDB sampleDB) {
+    public final List<Sample> parse(final String source, final EnumSet<MissingPedField> missingFields, final SampleDB sampleDB) {
         logger.warn("Reading PED string: \"" + source + "\" with missing fields: " + missingFields);
         return parse(new StringReader(source.replace(";", String.format("%n"))), missingFields, sampleDB);
     }
 
-    private List<String[]> splitLines(Reader reader, List<String> lines, int nExpectedFields) {
+    private List<String[]> splitLines(final Reader reader, final List<String> lines, final int nExpectedFields) {
         int lineNo = 1;
         final List<String[]> splits = new ArrayList<>(lines.size());
         for (final String line : lines) {
@@ -178,7 +178,7 @@ public final class PedReader {
         return splits;
     }
 
-    private boolean isQT(List<String[]> lineParts, int phenotypePos) {
+    private boolean isQT(final List<String[]> lineParts, final int phenotypePos) {
         boolean isQT = false;
         for (final String[] parts : lineParts) {
             if (phenotypePos != -1) {
@@ -189,7 +189,7 @@ public final class PedReader {
         return isQT;
     }
 
-    private Sex determineSex(String[] parts, int sexPos) {
+    private Sex determineSex(final String[] parts, final int sexPos) {
         Sex gender = Sex.UNKNOWN;
         if (sexPos != -1) {
             switch (parts[sexPos]) {
@@ -207,7 +207,7 @@ public final class PedReader {
         return gender;
     }
 
-    public final List<Sample> parse(Reader reader, EnumSet<MissingPedField> missingFields, SampleDB sampleDB) {
+    public final List<Sample> parse(final Reader reader, final EnumSet<MissingPedField> missingFields, final SampleDB sampleDB) {
 
         // Determine field position ordinals
         final int familyPos = missingFields.contains(MissingPedField.NO_FAMILY_ID) ? -1 : 0;
@@ -218,25 +218,25 @@ public final class PedReader {
         final int phenotypePos = missingFields.contains(MissingPedField.NO_PHENOTYPE) ? -1 : Math.max(sexPos, Math.max(maternalPos, samplePos)) + 1;
         final int nExpectedFields = IntStream.of(samplePos, paternalPos, maternalPos, sexPos, phenotypePos).max().getAsInt() + 1;
 
-        List<String> lines;
+        final List<String> lines;
         try (final XReadLines sourceReader = new XReadLines(reader, false, commentMarker)) {
             lines = sourceReader.readLines();
         }
-        catch (IOException e) {
+        catch (final IOException e) {
             throw new UserException.CouldNotReadInputFile("Error reading pedigree input");
         }
 
         final List<String[]> lineParts = splitLines(reader, lines, nExpectedFields);
-        boolean isQT = isQT(lineParts, phenotypePos);
+        final boolean isQT = isQT(lineParts, phenotypePos);
 
         int lineNo = 1;
         final List<Sample> samples = new ArrayList<>(lineParts.size());
         for (final String[] parts : lineParts) {
-            String individualID = parts[samplePos];
-            String familyID = familyPos == -1 ? null : maybeMissing(parts[familyPos]);
-            String paternalID = paternalPos == -1 ? null : maybeMissing(parts[paternalPos]);
-            String maternalID = maternalPos == -1 ? null : maybeMissing(parts[maternalPos]);
-            Sex sex = determineSex(parts, sexPos);
+            final String individualID = parts[samplePos];
+            final String familyID = familyPos == -1 ? null : maybeMissing(parts[familyPos]);
+            final String paternalID = paternalPos == -1 ? null : maybeMissing(parts[paternalPos]);
+            final String maternalID = maternalPos == -1 ? null : maybeMissing(parts[maternalPos]);
+            final Sex sex = determineSex(parts, sexPos);
 
             Affection affection = Affection.UNKNOWN;
             String quantitativePhenotype = null;
@@ -296,9 +296,9 @@ public final class PedReader {
             return string;
     }
 
-    private Sample maybeAddImplicitSample(SampleDB sampleDB, final String id, final String familyID, final Sex gender) {
+    private Sample maybeAddImplicitSample(final SampleDB sampleDB, final String id, final String familyID, final Sex gender) {
         if (id != null && sampleDB.getSample(id) == null) {
-            Sample s = new Sample(id, familyID, null, null, gender);
+            final Sample s = new Sample(id, familyID, null, null, gender);
             sampleDB.addSample(s);
             return s;
         }
@@ -321,7 +321,7 @@ public final class PedReader {
         for (final String tag : tags) {
             try {
                 missingFields.add(MissingPedField.valueOf(tag));
-            } catch ( IllegalArgumentException e ) {
+            } catch ( final IllegalArgumentException e ) {
                 throw new UserException.BadArgumentValue(arg.toString(), "Unknown tag " + tag + " allowed values are " + MissingPedField.values());
             }
         }

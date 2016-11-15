@@ -36,11 +36,11 @@ public class ReadContextData implements Serializable {
     }
 
     @Override
-    public boolean equals(Object o) {
+    public boolean equals(final Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        ReadContextData that = (ReadContextData) o;
+        final ReadContextData that = (ReadContextData) o;
 
         if (!referenceBases.equals(that.referenceBases)) return false;
         return variants.equals(that.variants);
@@ -56,9 +56,9 @@ public class ReadContextData implements Serializable {
 
     @Override
     public String toString() {
-        StringBuilder builder = new StringBuilder();
+        final StringBuilder builder = new StringBuilder();
         builder.append("<");
-        for (GATKVariant v : variants) {
+        for (final GATKVariant v : variants) {
             builder.append(v).append(",");
         }
         builder.append(">");

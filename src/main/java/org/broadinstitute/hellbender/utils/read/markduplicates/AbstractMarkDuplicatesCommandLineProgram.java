@@ -238,7 +238,7 @@ public abstract class AbstractMarkDuplicatesCommandLineProgram extends AbstractO
      * Looks through the set of reads and identifies how many of the duplicates are
      * in fact optical duplicates, and stores the data in the instance level histogram.
      */
-    public static void trackOpticalDuplicates(List<? extends ReadEnds> ends,
+    public static void trackOpticalDuplicates(final List<? extends ReadEnds> ends,
                                               final OpticalDuplicateFinder opticalDuplicateFinder,
                                               final LibraryIdGenerator libraryIdGenerator) {
         boolean hasFR = false, hasRF = false;

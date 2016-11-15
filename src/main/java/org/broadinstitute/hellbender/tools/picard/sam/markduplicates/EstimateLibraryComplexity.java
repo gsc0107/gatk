@@ -176,7 +176,7 @@ public final class EstimateLibraryComplexity extends AbstractOpticalDuplicateFin
                 this.out.write(val.read1);
                 this.out.writeInt(val.read2.length);
                 this.out.write(val.read2);
-            } catch (IOException ioe) {
+            } catch (final IOException ioe) {
                 throw new GATKException("Error write out read pair.", ioe);
             }
         }
@@ -187,7 +187,7 @@ public final class EstimateLibraryComplexity extends AbstractOpticalDuplicateFin
                 final PairedReadSequence val = new PairedReadSequence();
                 try {
                     val.readGroup = this.in.readShort();
-                } catch (EOFException eof) {
+                } catch (final EOFException eof) {
                     return null;
                 }
 
@@ -208,7 +208,7 @@ public final class EstimateLibraryComplexity extends AbstractOpticalDuplicateFin
                 }
 
                 return val;
-            } catch (IOException ioe) {
+            } catch (final IOException ioe) {
                 throw new GATKException("Exception reading read pair.", ioe);
             }
         }

@@ -147,7 +147,7 @@ public final class RecalibrationArgumentCollection implements ArgumentCollection
     public File existingRecalibrationReport = null;
 
     public GATKReportTable generateReportTable(final String covariateNames) {
-        GATKReportTable argumentsTable;
+        final GATKReportTable argumentsTable;
         argumentsTable = new GATKReportTable("Arguments", "Recalibration argument collection values used in this run", 2, GATKReportTable.Sorting.SORT_BY_COLUMN);
         argumentsTable.addColumn("Argument", "%s");
         argumentsTable.addColumn(RecalUtils.ARGUMENT_VALUE_COLUMN_NAME, "");

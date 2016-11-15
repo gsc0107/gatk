@@ -495,7 +495,7 @@ public final class SelectVariants extends VariantWalker {
         Set<VCFHeaderLine> actualLines = null;
         SAMSequenceDictionary sequenceDictionary = null;
         if (hasReference()) {
-            File refFile = referenceArguments.getReferenceFile();
+            final File refFile = referenceArguments.getReferenceFile();
             sequenceDictionary= this.getReferenceDictionary();
             actualLines = VcfUtils.updateHeaderContigLines(headerLines, refFile, sequenceDictionary, suppressReferencePath);
         }
@@ -514,7 +514,7 @@ public final class SelectVariants extends VariantWalker {
     }
 
     @Override
-    public void apply(VariantContext vc, ReadsContext readsContext, ReferenceContext ref, FeatureContext featureContext) {
+    public void apply(VariantContext vc, final ReadsContext readsContext, final ReferenceContext ref, final FeatureContext featureContext) {
 
         if (fullyDecode) {
             vc = vc.fullyDecode(getHeaderForVariants(), lenientVCFProcessing);
@@ -576,13 +576,13 @@ public final class SelectVariants extends VariantWalker {
             boolean failedJexlMatch = false;
 
             try {
-                for (VariantContextUtils.JexlVCMatchExp jexl : jexls) {
+                for (final VariantContextUtils.JexlVCMatchExp jexl : jexls) {
                     if (invertLogic(!VariantContextUtils.match(filteredGenotypeToNocall, jexl), invertSelect)){
                         failedJexlMatch = true;
                         break;
                     }
                 }
-            } catch (IllegalArgumentException e) {
+            } catch (final IllegalArgumentException e) {
                 // The IAE thrown by htsjdk already includes an informative error message ("Invalid JEXL
                 //  expression detected...")
                 throw new UserException(e.getMessage() +
@@ -670,7 +670,7 @@ public final class SelectVariants extends VariantWalker {
     /**
      * Prepare the sample names to be included(/excluded) in the output by the names filter.
      */
-    private SortedSet<String> createSampleNameInclusionList(Map<String, VCFHeader> vcfHeaders) {
+    private SortedSet<String> createSampleNameInclusionList(final Map<String, VCFHeader> vcfHeaders) {
         final SortedSet<String> vcfSamples = VcfUtils.getSortedSampleSet(vcfHeaders, GATKVariantContextUtils.GenotypeMergeType.REQUIRE_UNIQUE);
         final Collection<String> samplesFromFile = SampleUtils.getSamplesFromFiles(sampleFiles);
         final Collection<String> samplesFromExpressions = matchSamplesExpressions(vcfSamples, sampleExpressions);
@@ -725,7 +725,7 @@ public final class SelectVariants extends VariantWalker {
         }
 
         if (!noSamplesSpecified) {
-            for (String sample : samples) {
+            for (final String sample : samples) {
                 logger.info("Including sample '" + sample + "'");
             }
         }
@@ -755,7 +755,7 @@ public final class SelectVariants extends VariantWalker {
     /**
      * Prepare the VCF header lines
      */
-    private Set<VCFHeaderLine> createVCFHeaderLineList(Map<String, VCFHeader> vcfHeaders) {
+    private Set<VCFHeaderLine> createVCFHeaderLineList(final Map<String, VCFHeader> vcfHeaders) {
 
         final Set<VCFHeaderLine> headerLines = VCFUtils.smartMergeHeaders(vcfHeaders.values(), true);
         headerLines.add(new VCFHeaderLine("source", this.getClass().getSimpleName()));
@@ -796,7 +796,7 @@ public final class SelectVariants extends VariantWalker {
      * @param sampleExpressions list of expressions to use for matching samples
      * @return the set of samples from originalSamples that satisfy at least one of the expressions in sampleExpressions
      */
-    private static Collection<String> matchSamplesExpressions (Collection<String> originalSamples, Collection<String> sampleExpressions) {
+    private static Collection<String> matchSamplesExpressions (final Collection<String> originalSamples, final Collection<String> sampleExpressions) {
         // Now, check the expressions that weren't used in the previous step, and use them as if they're regular expressions
         final Set<String> samples = new LinkedHashSet<>();
         if (sampleExpressions != null) {
@@ -815,11 +815,11 @@ public final class SelectVariants extends VariantWalker {
     private Set<String> getIDsFromFile(final File file){
         /** load in the IDs file to a hashset for matching */
         if (file != null) {
-            Set<String> ids = new LinkedHashSet<>();
+            final Set<String> ids = new LinkedHashSet<>();
             try (final XReadLines xrl = new XReadLines(file)) {
                 ids.addAll(xrl.readLines().stream().map(String::trim).collect(Collectors.toList()));
                 logger.info("Selecting only variants with one of " + ids.size() + " IDs from " + file);
-            } catch (IOException e) {
+            } catch (final IOException e) {
                 throw new UserException.CouldNotReadInputFile(file, e);
             }
             return ids;

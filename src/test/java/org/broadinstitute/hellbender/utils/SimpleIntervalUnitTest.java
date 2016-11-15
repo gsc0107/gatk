@@ -26,14 +26,14 @@ public final class SimpleIntervalUnitTest extends BaseTest {
     }
 
     @Test(dataProvider = "badIntervals", expectedExceptions = IllegalArgumentException.class)
-    public void badIntervals(String contig, int start, int end, String name){
-        SimpleInterval interval = new SimpleInterval(contig, start, end);
+    public void badIntervals(final String contig, final int start, final int end, final String name){
+        final SimpleInterval interval = new SimpleInterval(contig, start, end);
 
     }
 
     @Test(dataProvider = "badIntervals", expectedExceptions = IllegalArgumentException.class)
-    public void badIntervalsFromLocatable(String contig, int start, int end, String name){
-        Locatable l = getLocatable(contig, start, end);
+    public void badIntervalsFromLocatable(final String contig, final int start, final int end, final String name){
+        final Locatable l = getLocatable(contig, start, end);
         new SimpleInterval(l);
     }
 
@@ -57,8 +57,8 @@ public final class SimpleIntervalUnitTest extends BaseTest {
     }
 
     @Test(dataProvider = "goodIntervals")
-    public void testGoodIntervals(String str, String contig, int start, int end){
-        SimpleInterval interval = new SimpleInterval(str);
+    public void testGoodIntervals(final String str, final String contig, final int start, final int end){
+        final SimpleInterval interval = new SimpleInterval(str);
         Assert.assertEquals(interval.getContig(), contig, "contig");
         Assert.assertEquals(interval.getStart(), start, "start");
         Assert.assertEquals(interval.getGA4GHStart(), start-1, "GA4GH start");
@@ -67,10 +67,10 @@ public final class SimpleIntervalUnitTest extends BaseTest {
     }
 
     @Test(dataProvider = "goodIntervals")
-    public void testGoodIntervalsFromLocatable(String ignoreMe, String contig, int start, int end){
-        Locatable l = getLocatable(contig, start, end);
+    public void testGoodIntervalsFromLocatable(final String ignoreMe, final String contig, final int start, final int end){
+        final Locatable l = getLocatable(contig, start, end);
 
-        SimpleInterval interval = new SimpleInterval(l);
+        final SimpleInterval interval = new SimpleInterval(l);
         Assert.assertEquals(interval.getContig(), contig, "contig");
         Assert.assertEquals(interval.getStart(), start, "start");
         Assert.assertEquals(interval.getEnd(), end, "end");
@@ -204,7 +204,7 @@ public final class SimpleIntervalUnitTest extends BaseTest {
         };
     }
     @Test(dataProvider = "overlapsWithMargin")
-    public void testOverlapWithMargin( final SimpleInterval firstInterval, final SimpleInterval secondInterval, int margin, final boolean expectedOverlapResult ) {
+    public void testOverlapWithMargin(final SimpleInterval firstInterval, final SimpleInterval secondInterval, final int margin, final boolean expectedOverlapResult ) {
         Assert.assertEquals(firstInterval.overlapsWithMargin(secondInterval, margin), expectedOverlapResult,
                 "overlap() returned incorrect result for intervals " + firstInterval + " and " + secondInterval);
     }

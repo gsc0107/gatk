@@ -27,8 +27,8 @@ public final class ArtificialReadPileupTestProvider {
     Map<String, SAMReadGroupRecord> sample2RG = new LinkedHashMap<>();
     List<SAMReadGroupRecord> sampleRGs;
     List<String> sampleNames = new ArrayList<>();
-    private String sampleName(int i) { return sampleNames.get(i); }
-    private SAMReadGroupRecord sampleRG(String name) { return sample2RG.get(name); }
+    private String sampleName(final int i) { return sampleNames.get(i); }
+    private SAMReadGroupRecord sampleRG(final String name) { return sample2RG.get(name); }
     public final int locStart = 105; // start position where we desire artificial variant
     private final int readLength = 10; // desired read length in pileup
     public final int readOffset = 4;
@@ -54,7 +54,7 @@ public final class ArtificialReadPileupTestProvider {
 
         for ( int i = 0; i < numSamples; i++ ) {
             sampleNames.add(String.format("%s%04d", SAMPLE_PREFIX, i));
-            SAMReadGroupRecord rg = createRG(sampleName(i));
+            final SAMReadGroupRecord rg = createRG(sampleName(i));
             sampleRGs.add(rg);
             sample2RG.put(sampleName(i), rg);
         }
@@ -75,7 +75,7 @@ public final class ArtificialReadPileupTestProvider {
     public ReferenceContext getReferenceContext()   { return referenceContext;}
     public GenomeLocParser getGenomeLocParser()     { return genomeLocParser; }
 
-    public Map<String,AlignmentContext> getAlignmentContextFromAlleles(int eventLength, String altBases, int[] numReadsPerAllele) {
+    public Map<String,AlignmentContext> getAlignmentContextFromAlleles(final int eventLength, final String altBases, final int[] numReadsPerAllele) {
         return getAlignmentContextFromAlleles(eventLength, altBases, numReadsPerAllele, false, BASE_QUAL);
     }
     public Map<String,AlignmentContext> getAlignmentContextFromAlleles(final int eventLength,
@@ -85,7 +85,8 @@ public final class ArtificialReadPileupTestProvider {
                                                                        final int phredScaledBaseErrorRate) {
         final String refChar = new String(new byte[]{referenceContext.getBase()});
 
-        String refAllele, altAllele;
+        final String refAllele;
+        String altAllele;
         if (eventLength == 0)  {
             // SNP case
             refAllele = refChar;
@@ -102,10 +103,10 @@ public final class ArtificialReadPileupTestProvider {
             altAllele = refChar;
         }
 
-        Map<String,AlignmentContext> contexts = new LinkedHashMap<>();
+        final Map<String,AlignmentContext> contexts = new LinkedHashMap<>();
 
-        for (String sample: sampleNames) {
-            AlignmentContext context = new AlignmentContext(loc, generateRBPForVariant(loc, refAllele, altAllele, altBases, numReadsPerAllele, sample, addBaseErrors, phredScaledBaseErrorRate));
+        for (final String sample: sampleNames) {
+            final AlignmentContext context = new AlignmentContext(loc, generateRBPForVariant(loc, refAllele, altAllele, altBases, numReadsPerAllele, sample, addBaseErrors, phredScaledBaseErrorRate));
             contexts.put(sample,context);
 
         }
@@ -113,16 +114,16 @@ public final class ArtificialReadPileupTestProvider {
         return contexts;
     }
 
-    private SAMReadGroupRecord createRG(String name) {
-        SAMReadGroupRecord rg = new SAMReadGroupRecord(name);
+    private SAMReadGroupRecord createRG(final String name) {
+        final SAMReadGroupRecord rg = new SAMReadGroupRecord(name);
         rg.setPlatform("ILLUMINA");
         rg.setSample(name);
         return rg;
     }
 
-    private ReadPileup generateRBPForVariant( GenomeLoc loc, String refAllele, String altAllele, String altBases,
-                                                    int[] numReadsPerAllele, String sample, boolean addErrors, int phredScaledErrorRate) {
-        List<PileupElement> pileupElements = new ArrayList<>();
+    private ReadPileup generateRBPForVariant(final GenomeLoc loc, final String refAllele, final String altAllele, final String altBases,
+                                             final int[] numReadsPerAllele, final String sample, final boolean addErrors, final int phredScaledErrorRate) {
+        final List<PileupElement> pileupElements = new ArrayList<>();
         final int refAlleleLength = refAllele.length();
 
         pileupElements.addAll(createPileupElements(refAllele, loc, numReadsPerAllele[0], sample, readStart, altBases, addErrors, phredScaledErrorRate, refAlleleLength, true));
@@ -130,29 +131,29 @@ public final class ArtificialReadPileupTestProvider {
         return new ReadPileup(loc,pileupElements);
     }
 
-    private List<PileupElement> createPileupElements(String allele, GenomeLoc loc, int numReadsPerAllele, String sample, int readStart, String altBases, boolean addErrors, int phredScaledErrorRate, int refAlleleLength, boolean isReference) {
+    private List<PileupElement> createPileupElements(final String allele, final GenomeLoc loc, final int numReadsPerAllele, final String sample, final int readStart, final String altBases, final boolean addErrors, final int phredScaledErrorRate, final int refAlleleLength, final boolean isReference) {
 
-        int alleleLength = allele.length();
-        List<PileupElement> pileupElements = new ArrayList<>();
+        final int alleleLength = allele.length();
+        final List<PileupElement> pileupElements = new ArrayList<>();
 
         int readCounter = 0;
         for ( int d = 0; d < numReadsPerAllele; d++ ) {
-            byte[] readBases = trueHaplotype(allele, refAlleleLength, readLength);
+            final byte[] readBases = trueHaplotype(allele, refAlleleLength, readLength);
             if (addErrors)
                 addBaseErrors(readBases, phredScaledErrorRate);
 
-            byte[] readQuals = new byte[readBases.length];
+            final byte[] readQuals = new byte[readBases.length];
             Arrays.fill(readQuals, (byte) phredScaledErrorRate);
 
-            GATKRead read = ArtificialReadUtils.createArtificialRead(TextCigarCodec.decode(SAMRecord.NO_ALIGNMENT_CIGAR));
+            final GATKRead read = ArtificialReadUtils.createArtificialRead(TextCigarCodec.decode(SAMRecord.NO_ALIGNMENT_CIGAR));
             read.setBaseQualities(readQuals);
             read.setBases(readBases);
             read.setName(artificialReadName+readCounter++);
 
-            boolean isBeforeDeletion = alleleLength<refAlleleLength;
-            boolean isBeforeInsertion = alleleLength>refAlleleLength;
+            final boolean isBeforeDeletion = alleleLength<refAlleleLength;
+            final boolean isBeforeInsertion = alleleLength>refAlleleLength;
 
-            int eventLength = alleleLength - refAlleleLength;
+            final int eventLength = alleleLength - refAlleleLength;
             if (isReference)
                 read.setCigar(readBases.length + "M");
             else {
@@ -193,7 +194,7 @@ public final class ArtificialReadPileupTestProvider {
     }
 
     private void addBaseErrors(final byte[] readBases, final int phredScaledErrorRate) {
-        double errorProbability = QualityUtils.qualToErrorProb((byte) phredScaledErrorRate);
+        final double errorProbability = QualityUtils.qualToErrorProb((byte) phredScaledErrorRate);
 
         for (int k=0; k < readBases.length; k++) {
             if (Utils.getRandomGenerator().nextDouble() < errorProbability) {

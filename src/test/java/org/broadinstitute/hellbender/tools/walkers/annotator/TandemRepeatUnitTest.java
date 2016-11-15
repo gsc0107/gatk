@@ -86,17 +86,17 @@ public final class TandemRepeatUnitTest extends BaseTest {
     public void testUsingVCNotIndel() {
 
         // - [ref] / ATC from 20-20
-        String insLoc = "chr1";
-        int insLocStart = 2;
-        int insLocStop = 2;
+        final String insLoc = "chr1";
+        final int insLocStart = 2;
+        final int insLocStop = 2;
 
-        byte[] refBytes = "GTATCATCATCGGA".getBytes();
+        final byte[] refBytes = "GTATCATCATCGGA".getBytes();
 
-        Allele nullR = Allele.create("A", true);
-        Allele atc   = Allele.create("C", false);
+        final Allele nullR = Allele.create("A", true);
+        final Allele atc   = Allele.create("C", false);
 
         // A*,ATC, context = ATC ATC ATC : (ATC)3 -> (ATC)4
-        VariantContext vc = new VariantContextBuilder("foo", insLoc, insLocStart, insLocStop, Arrays.asList(nullR,atc)).make();
+        final VariantContext vc = new VariantContextBuilder("foo", insLoc, insLocStart, insLocStop, Arrays.asList(nullR,atc)).make();
 
         final SimpleInterval interval= new SimpleInterval("chr1", insLocStart, insLocStop);
         final String contigName = "chr1";

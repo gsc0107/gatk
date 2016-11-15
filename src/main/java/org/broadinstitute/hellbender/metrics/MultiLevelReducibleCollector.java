@@ -141,7 +141,7 @@ public abstract class MultiLevelReducibleCollector<
      *
      * @param source source MultiLevelReducibleCollector to be combined with this object. May not be null.
      */
-    public void combine(MultiLevelReducibleCollector<METRIC_TYPE, HISTOGRAM_KEY, ARGTYPE, UNIT_COLLECTOR> source)
+    public void combine(final MultiLevelReducibleCollector<METRIC_TYPE, HISTOGRAM_KEY, ARGTYPE, UNIT_COLLECTOR> source)
     {
         Utils.nonNull(source);
         if ((this.outputOrderedDistributors.size() != source.outputOrderedDistributors.size())) {
@@ -266,8 +266,8 @@ public abstract class MultiLevelReducibleCollector<
          *              is usually the combineUnit method of MultiLevelReducibleCollector.
          */
         public void combine(
-                Distributor<METRIC_TYPE, HISTOGRAM_KEY, ARGTYPE, UNIT_COLLECTOR> source,
-                BiFunction<UNIT_COLLECTOR, UNIT_COLLECTOR, UNIT_COLLECTOR> reMap) {
+                final Distributor<METRIC_TYPE, HISTOGRAM_KEY, ARGTYPE, UNIT_COLLECTOR> source,
+                final BiFunction<UNIT_COLLECTOR, UNIT_COLLECTOR, UNIT_COLLECTOR> reMap) {
             Utils.nonNull(source);
             Utils.nonNull(reMap);
             collectors.keySet().forEach(k -> collectors.merge(k, source.collectors.get(k), reMap));
@@ -311,7 +311,7 @@ public abstract class MultiLevelReducibleCollector<
         }
 
         @Override
-        protected String getKey(SAMReadGroupRecord rg) {
+        protected String getKey(final SAMReadGroupRecord rg) {
             return ALL_READS_COLLECTOR_KEY;
         }
 
@@ -342,12 +342,12 @@ public abstract class MultiLevelReducibleCollector<
         }
 
         @Override
-        protected String getKey(SAMReadGroupRecord rg) {
+        protected String getKey(final SAMReadGroupRecord rg) {
             return rg.getSample();
         }
 
         @Override
-        protected UNIT_COLLECTOR makeCollector(SAMReadGroupRecord rg) {
+        protected UNIT_COLLECTOR makeCollector(final SAMReadGroupRecord rg) {
             return multiCollector.makeSampleCollector(rg);
         }
 
@@ -372,12 +372,12 @@ public abstract class MultiLevelReducibleCollector<
         }
 
         @Override
-        protected String getKey(SAMReadGroupRecord rg) {
+        protected String getKey(final SAMReadGroupRecord rg) {
             return rg.getLibrary();
         }
 
         @Override
-        protected UNIT_COLLECTOR makeCollector(SAMReadGroupRecord rg) {
+        protected UNIT_COLLECTOR makeCollector(final SAMReadGroupRecord rg) {
             return multiCollector.makeLibraryCollector(rg);
         }
 
@@ -405,12 +405,12 @@ public abstract class MultiLevelReducibleCollector<
         }
 
         @Override
-        protected String getKey(SAMReadGroupRecord rg) {
+        protected String getKey(final SAMReadGroupRecord rg) {
             return rg.getPlatformUnit();
         }
 
         @Override
-        protected UNIT_COLLECTOR makeCollector(SAMReadGroupRecord rg) {
+        protected UNIT_COLLECTOR makeCollector(final SAMReadGroupRecord rg) {
             return multiCollector.makeReadGroupCollector(rg);
         }
 
@@ -435,21 +435,21 @@ public abstract class MultiLevelReducibleCollector<
             outputOrderedDistributors.add(allReadsDistributor);
         }
         if (accumulationLevels.contains(MetricAccumulationLevel.SAMPLE)) {
-            SampleDistributor<METRIC_TYPE, HISTOGRAM_KEY, ARGTYPE, UNIT_COLLECTOR> sampleDistributor =
+            final SampleDistributor<METRIC_TYPE, HISTOGRAM_KEY, ARGTYPE, UNIT_COLLECTOR> sampleDistributor =
                     new SampleDistributor<>(this);
             sampleDistributor.initializeFromReadGroups(samRgRecords);
             outputOrderedDistributors.add(sampleDistributor);
         }
 
         if(accumulationLevels.contains(MetricAccumulationLevel.LIBRARY)) {
-            LibraryDistributor<METRIC_TYPE, HISTOGRAM_KEY, ARGTYPE, UNIT_COLLECTOR> libraryDistributor =
+            final LibraryDistributor<METRIC_TYPE, HISTOGRAM_KEY, ARGTYPE, UNIT_COLLECTOR> libraryDistributor =
                     new LibraryDistributor<>(this);
             libraryDistributor.initializeFromReadGroups(samRgRecords);
             outputOrderedDistributors.add(libraryDistributor);
         }
 
         if(accumulationLevels.contains(MetricAccumulationLevel.READ_GROUP)) {
-            ReadGroupDistributor<METRIC_TYPE, HISTOGRAM_KEY, ARGTYPE, UNIT_COLLECTOR> readGroupDistributor =
+            final ReadGroupDistributor<METRIC_TYPE, HISTOGRAM_KEY, ARGTYPE, UNIT_COLLECTOR> readGroupDistributor =
                     new ReadGroupDistributor<>(this);
             readGroupDistributor.initializeFromReadGroups(samRgRecords);
             outputOrderedDistributors.add(readGroupDistributor);

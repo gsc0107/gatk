@@ -66,7 +66,7 @@ public final class SampleCollectionUnitTest extends BaseTest {
         }
     }
 
-    private void addSampleReadGroups(Random rnd, SAMFileHeader header) {
+    private void addSampleReadGroups(final Random rnd, final SAMFileHeader header) {
         final int sampleCount = rnd.nextInt(maxMultiSampleCount - minMultiSampleCount) + minMultiSampleCount;
 
         for (int j = 0; j < sampleCount; j++) {

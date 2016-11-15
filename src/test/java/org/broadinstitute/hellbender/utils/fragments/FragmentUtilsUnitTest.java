@@ -40,7 +40,7 @@ public class FragmentUtilsUnitTest extends BaseTest {
 
     @DataProvider(name = "AdjustFragmentsTest")
     public Object[][] createAdjustFragmentsTest() throws Exception {
-        List<Object[]> tests = new ArrayList<>();
+        final List<Object[]> tests = new ArrayList<>();
 
         final String leftFlank = "CCC";
         final String rightFlank = "AAA";

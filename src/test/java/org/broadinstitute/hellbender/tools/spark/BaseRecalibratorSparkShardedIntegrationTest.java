@@ -27,7 +27,7 @@ public class BaseRecalibratorSparkShardedIntegrationTest extends CommandLineProg
         final String args;
         final String expectedFileName;
 
-        private BQSRTest(String referenceURL, String bam, String knownSites, String args, String expectedFileName) {
+        private BQSRTest(final String referenceURL, final String bam, final String knownSites, final String args, final String expectedFileName) {
             this.referenceURL = referenceURL;
             this.bam = bam;
             this.knownSites = knownSites;
@@ -109,9 +109,9 @@ public class BaseRecalibratorSparkShardedIntegrationTest extends CommandLineProg
 
     // "local", but we're still getting the reference from the cloud.
     @Test(dataProvider = "BQSRTest", groups = {"spark", "cloud"}, enabled = false) //FIXME: disabled because it fails. https://github.com/broadinstitute/gatk/issues/1119
-    public void testBQSRLocal(BQSRTest params) throws IOException {
-        ArgumentsBuilder ab = new ArgumentsBuilder().add(params.getCommandLine());
-        IntegrationTestSpec spec = new IntegrationTestSpec(
+    public void testBQSRLocal(final BQSRTest params) throws IOException {
+        final ArgumentsBuilder ab = new ArgumentsBuilder().add(params.getCommandLine());
+        final IntegrationTestSpec spec = new IntegrationTestSpec(
                 ab.getString(),
                 Arrays.asList(params.expectedFileName));
         spec.executeTest("testBQSR-" + params.args, this);
@@ -119,9 +119,9 @@ public class BaseRecalibratorSparkShardedIntegrationTest extends CommandLineProg
 
     // this one actually passes, but it takes too long (>10min)! Adding -L speeds it up but then the output's wrong (?)
     @Test(dataProvider = "BQSRTestBucket", groups = {"spark", "bucket"}, enabled = false)
-    public void testBQSRBucket(BQSRTest params) throws IOException {
-        ArgumentsBuilder ab = new ArgumentsBuilder().add(params.getCommandLine());
-        IntegrationTestSpec spec = new IntegrationTestSpec(
+    public void testBQSRBucket(final BQSRTest params) throws IOException {
+        final ArgumentsBuilder ab = new ArgumentsBuilder().add(params.getCommandLine());
+        final IntegrationTestSpec spec = new IntegrationTestSpec(
                 ab.getString(),
                 Arrays.asList(params.expectedFileName));
         spec.executeTest("testBQSR-" + params.args, this);
@@ -168,7 +168,7 @@ public class BaseRecalibratorSparkShardedIntegrationTest extends CommandLineProg
 
         final String  NO_DBSNP = "";
         final BQSRTest params = new BQSRTest(GRCh37Ref, HiSeqBam, NO_DBSNP, "-indelBQSR -enableBAQ ", localResources + BQSRTestData.EXPECTED_WGS_B37_CH20_1M_1M1K_RECAL);
-        IntegrationTestSpec spec = new IntegrationTestSpec(
+        final IntegrationTestSpec spec = new IntegrationTestSpec(
                 params.getCommandLine(),
                 1,
                 UserException.CommandLineException.class);
@@ -185,7 +185,7 @@ public class BaseRecalibratorSparkShardedIntegrationTest extends CommandLineProg
 
         final String dbSNPb37 =  getResourceDir() + "dbsnp_132.b37.excluding_sites_after_129.chr17_69k_70k.vcf";
         final BQSRTest params = new BQSRTest(hg19Ref, HiSeqBam, dbSNPb37, "-indelBQSR -enableBAQ ", localResources + BQSRTestData.EXPECTED_WGS_B37_CH20_1M_1M1K_RECAL);
-        IntegrationTestSpec spec = new IntegrationTestSpec(
+        final IntegrationTestSpec spec = new IntegrationTestSpec(
                 params.getCommandLine(),
                 1,
                 UserException.IncompatibleSequenceDictionaries.class);

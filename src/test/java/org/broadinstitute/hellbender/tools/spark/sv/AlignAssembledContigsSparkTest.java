@@ -20,7 +20,7 @@ public class AlignAssembledContigsSparkTest extends BaseTest {
                 "AAAAGGAAATATCTTCAGAAAAACTAGACAGAAGCTTTCTGAGAATATTCTTTGTGATATATGCATTCATCTCACAGAATTGAACGACCTCTTTGTTTGAGC" +
                 "AGTTTGGGAACAGCCTTTTTGTAGATTCTG";
 
-        ContigsCollection contigsCollection = ContigsCollection.fromPackedFasta(packedFasta);
+        final ContigsCollection contigsCollection = ContigsCollection.fromPackedFasta(packedFasta);
 
         Assert.assertEquals(contigsCollection.getContents().size(), 3);
     }

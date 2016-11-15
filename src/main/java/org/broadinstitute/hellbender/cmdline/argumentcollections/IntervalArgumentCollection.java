@@ -117,7 +117,7 @@ public abstract class IntervalArgumentCollection implements ArgumentCollectionDe
             throw new GATKException("Cannot call parseIntervals() without specifying either intervals to include or exclude.");
         }
 
-        GenomeLocSortedSet includeSortedSet;
+        final GenomeLocSortedSet includeSortedSet;
         if (getIntervalStrings().isEmpty()){
             // the -L argument isn't specified, which means that -XL was, since we checked intervalsSpecified()
             // therefore we set the include set to be the entire reference territory
@@ -125,7 +125,7 @@ public abstract class IntervalArgumentCollection implements ArgumentCollectionDe
         } else {
             try {
                 includeSortedSet = IntervalUtils.loadIntervals(getIntervalStrings(), intervalSetRule, intervalMerging, intervalPadding, genomeLocParser);
-            } catch( UserException.EmptyIntersection e) {
+            } catch( final UserException.EmptyIntersection e) {
                 throw new UserException.BadArgumentValue("-L, --interval_set_rule", getIntervalStrings()+","+intervalSetRule, "The specified intervals had an empty intersection");
             }
         }
@@ -135,7 +135,7 @@ public abstract class IntervalArgumentCollection implements ArgumentCollectionDe
             throw new UserException("-XL unmapped is not currently supported");
         }
 
-        GenomeLocSortedSet intervals;
+        final GenomeLocSortedSet intervals;
         // if no exclude arguments, can return the included set directly
         if ( excludeSortedSet.isEmpty() ) {
             intervals = includeSortedSet;

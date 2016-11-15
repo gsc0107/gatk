@@ -112,7 +112,7 @@ public final class TableUtils {
             }
 
             @Override
-            protected R createRecord(DataLine dataLine) {
+            protected R createRecord(final DataLine dataLine) {
                 return recordExtractor.apply(dataLine);
             }
         };
@@ -157,7 +157,7 @@ public final class TableUtils {
             }
 
             @Override
-            protected R createRecord(DataLine dataLine) {
+            protected R createRecord(final DataLine dataLine) {
                 return recordExtractor.apply(dataLine);
             }
         };
@@ -204,7 +204,7 @@ public final class TableUtils {
             }
 
             @Override
-            protected R createRecord(DataLine dataLine) {
+            protected R createRecord(final DataLine dataLine) {
                 return recordExtractor.apply(dataLine);
             }
         };
@@ -267,7 +267,7 @@ public final class TableUtils {
         }
 
         @Override
-        protected void composeLine(R record, DataLine dataLine) {
+        protected void composeLine(final R record, final DataLine dataLine) {
             dataLineComposer.accept(record, dataLine);
         }
     }

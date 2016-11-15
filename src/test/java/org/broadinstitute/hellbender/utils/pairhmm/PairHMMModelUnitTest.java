@@ -124,7 +124,7 @@ public final class PairHMMModelUnitTest extends BaseTest {
             @Override
             public Object[] next() {
                 final int readLength = readLengthIterator.next();
-                double[][] matrix = new double[readLength+1][PairHMMModel.TRANS_PROB_ARRAY_LENGTH];
+                final double[][] matrix = new double[readLength+1][PairHMMModel.TRANS_PROB_ARRAY_LENGTH];
                 final byte[] insQuals = new byte[readLength];
                 final byte[] delQuals = new byte[readLength];
                 final byte[] gapQuals = new byte[readLength];

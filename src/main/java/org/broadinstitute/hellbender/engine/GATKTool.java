@@ -458,7 +458,7 @@ public abstract class GATKTool extends CommandLineProgram {
 
         final SAMSequenceDictionary sequenceDictionary = getBestAvailableSequenceDictionary();
 
-        List<Options> options = new ArrayList<>();
+        final List<Options> options = new ArrayList<>();
         if (lenientVCFProcessing) {
             options.add(Options.ALLOW_MISSING_FIELDS_IN_HEADER);
         }

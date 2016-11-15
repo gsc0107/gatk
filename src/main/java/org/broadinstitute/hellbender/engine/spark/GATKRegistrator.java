@@ -27,7 +27,7 @@ public class GATKRegistrator implements KryoRegistrator {
 
     @SuppressWarnings({"unchecked", "rawtypes"})
     @Override
-    public void registerClasses(Kryo kryo) {
+    public void registerClasses(final Kryo kryo) {
 
         // JsonSerializer is needed for the Google Genomics classes like Read and Reference.
         kryo.register(Read.class, new JsonSerializer<Read>());

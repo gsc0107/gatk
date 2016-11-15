@@ -51,7 +51,7 @@ public final class PassThroughDownsamplerUnitTest extends BaseTest {
 
     @Test
     public void testSignalNoMoreReadsBefore() throws Exception {
-        ReadsDownsampler rd = new PassThroughDownsampler();
+        final ReadsDownsampler rd = new PassThroughDownsampler();
         final GATKRead r1 = ArtificialReadUtils.createArtificialRead("100M");
         final GATKRead r2 = ArtificialReadUtils.createArtificialRead("101M");
         rd.submit(r1);
@@ -61,7 +61,7 @@ public final class PassThroughDownsamplerUnitTest extends BaseTest {
 
     @Test(expectedExceptions = IllegalArgumentException.class)
     public void testNoNullSignalNoMoreReadsBefore() throws Exception {
-        ReadsDownsampler rd = new PassThroughDownsampler();
+        final ReadsDownsampler rd = new PassThroughDownsampler();
         rd.signalNoMoreReadsBefore(null);
     }
 }

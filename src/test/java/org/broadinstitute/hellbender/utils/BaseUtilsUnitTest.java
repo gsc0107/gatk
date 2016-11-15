@@ -64,8 +64,8 @@ public final class BaseUtilsUnitTest extends BaseTest {
         compareRCStringToExpected("AAAN", "NTTT");
     }
 
-    private void compareRCStringToExpected(String fw, String rcExp) {
-        String rcObs = new String(BaseUtils.simpleReverseComplement(fw.getBytes()));
+    private void compareRCStringToExpected(final String fw, final String rcExp) {
+        final String rcObs = new String(BaseUtils.simpleReverseComplement(fw.getBytes()));
 
         Assert.assertTrue(rcObs.equals(rcExp));
     }
@@ -73,15 +73,15 @@ public final class BaseUtilsUnitTest extends BaseTest {
 
     @Test
     public void testCaptureStdOut(){
-        PrintStream stdout = System.out;
-        String out = captureStdout(() -> System.out.println("Hello world"));
+        final PrintStream stdout = System.out;
+        final String out = captureStdout(() -> System.out.println("Hello world"));
         BaseTest.assertContains(out, "Hello world");
 
         try {
             captureStdout(() -> {
                 throw new IllegalStateException("oh no!");
             });
-        } catch (Exception e){
+        } catch (final Exception e){
             //we're expecting this one... just consume it
         }
         //make sure we reset this
@@ -90,14 +90,14 @@ public final class BaseUtilsUnitTest extends BaseTest {
 
     @Test
     public void testCaptureStderr(){
-        PrintStream stderr = System.err;
-        String out = captureStderr(() -> System.err.println("Hello world"));
+        final PrintStream stderr = System.err;
+        final String out = captureStderr(() -> System.err.println("Hello world"));
         BaseTest.assertContains(out, "Hello world");
         try {
             captureStdout(() -> {
                 throw new IllegalStateException("oh no!");
             });
-        } catch (Exception e){
+        } catch (final Exception e){
             //we're expecting this one... just consume it
         }
         //make sure we reset this
@@ -113,7 +113,7 @@ public final class BaseUtilsUnitTest extends BaseTest {
         boolean caughtException = false;
         try {
             assertContains("thing", "something"); //should fail
-        } catch (AssertionError e){
+        } catch (final AssertionError e){
             caughtException = true;
         }
         Assert.assertTrue(caughtException);

@@ -29,7 +29,7 @@ public abstract class LocusIteratorByStateBaseTest extends BaseTest {
      * for the system.
      */
     public static List<String> sampleListForSAMWithoutReadGroups() {
-        List<String> samples = new ArrayList<>();
+        final List<String> samples = new ArrayList<>();
         samples.add(null);
         return samples;
     }
@@ -175,7 +175,7 @@ public abstract class LocusIteratorByStateBaseTest extends BaseTest {
     static final class FakeCloseableIterator<T> implements CloseableIterator<T> {
         Iterator<T> iterator;
 
-        public FakeCloseableIterator(Iterator<T> it) {
+        public FakeCloseableIterator(final Iterator<T> it) {
             iterator = it;
         }
 

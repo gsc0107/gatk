@@ -55,7 +55,7 @@ public final class VariantOverlapAnnotatorUnitTest extends BaseTest {
 
     @DataProvider(name = "AnnotateRsIDData")
     public Object[][] makeAnnotateRsIDData() {
-        List<Object[]> tests = new ArrayList<>();
+        final List<Object[]> tests = new ArrayList<>();
 
         // this functionality can be adapted to provide input data for whatever you might want in your data
         final VariantContext callNoIDAC = makeVC("call", VCFConstants.EMPTY_ID_FIELD, Arrays.asList("A", "C"));
@@ -139,7 +139,7 @@ public final class VariantOverlapAnnotatorUnitTest extends BaseTest {
         @Argument(fullName = "binding", shortName = "b")
         FeatureInput<Feature> binding;
 
-        public ArtificialFeatureContainingCommandLineProgram_ForVariantOverlap(File f) {
+        public ArtificialFeatureContainingCommandLineProgram_ForVariantOverlap(final File f) {
             featureArgument = new FeatureInput<>(f.getAbsolutePath(), "dbsnp", Collections.emptyMap());
             binding = new FeatureInput<>(f.getAbsolutePath(), "binding", Collections.emptyMap());
         }

@@ -77,7 +77,7 @@ public final class RefFlatReader {
                 overlapDetector.addLhs(gene, gene);
                 if (gene.length() > longestInterval) longestInterval = gene.length();
                 if (gene.length() > 1000000) ++numIntervalsOver1MB;
-            } catch (Exception e) {
+            } catch (final Exception e) {
                 LOG.debug(e.getMessage() + " -- skipping");
             }
         }

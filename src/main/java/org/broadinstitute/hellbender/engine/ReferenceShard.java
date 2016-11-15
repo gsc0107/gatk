@@ -20,17 +20,17 @@ public final class ReferenceShard implements Serializable {
 
     public static final int REFERENCE_SHARD_SIZE = 10000; // This value is subject to change (by humans).
 
-    public ReferenceShard(int shardNumber, String contig) {
+    public ReferenceShard(final int shardNumber, final String contig) {
         this.shardNumber = shardNumber;
         this.contig = Utils.nonNull(contig);
     }
 
     @Override
-    public boolean equals(Object o) {
+    public boolean equals(final Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        ReferenceShard that = (ReferenceShard) o;
+        final ReferenceShard that = (ReferenceShard) o;
 
         if (getShardNumber() != that.getShardNumber()) return false;
         return getContig().equals(that.getContig());
@@ -76,14 +76,14 @@ public final class ReferenceShard implements Serializable {
                     new DelegateCoder.CodingFunction<ReferenceShard, KV<Integer, String>>() {
                         private static final long serialVersionUID = 1L;
                         @Override
-                        public KV<Integer, String> apply(ReferenceShard ref) throws Exception {
+                        public KV<Integer, String> apply(final ReferenceShard ref) throws Exception {
                             return KV.of(ref.getShardNumber(), ref.getContig());
                         }
                     },
                     new DelegateCoder.CodingFunction<KV<Integer, String>, ReferenceShard>() {
                         private static final long serialVersionUID = 1L;
                         @Override
-                        public ReferenceShard apply(KV<Integer, String> kv) throws Exception {
+                        public ReferenceShard apply(final KV<Integer, String> kv) throws Exception {
                             return new ReferenceShard(kv.getKey(), kv.getValue());
                         }
                     }

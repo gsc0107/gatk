@@ -9,19 +9,19 @@ import java.io.IOException;
 import java.util.Arrays;
 
 public final class VariantsToTableIntegrationTest extends CommandLineProgramTest {
-    private String variantsToTableCmd(String moreArgs) {
+    private String variantsToTableCmd(final String moreArgs) {
         return  " --variant " + getToolTestDataDir() + "soap_gatk_annotated.noChr_lines.vcf" +
                 " -F CHROM -F POS -F ID -F REF -F ALT -F QUAL -F FILTER -F TRANSITION -F DP -F SB -F set -F RankSumP -F refseq.functionalClass*" +
                 " -O %s" + moreArgs;
     }
 
-    private String variantsToTableMultiAllelicCmd(String moreArgs) {
+    private String variantsToTableMultiAllelicCmd(final String moreArgs) {
         return  " --variant " + getToolTestDataDir() + "multiallelic.vcf" +
                 " -F CHROM -F POS -F ID -F REF -F ALT -F QUAL -F MULTI-ALLELIC -F AC -F AF" +
                 " -O %s" + moreArgs;
     }
 
-    private String variantsToTableCmdNoSamples(String moreArgs) {
+    private String variantsToTableCmdNoSamples(final String moreArgs) {
         return  " --variant " + getToolTestDataDir() + "vcfexample.noSamples.vcf" +
                 " -O %s" + moreArgs;
     }

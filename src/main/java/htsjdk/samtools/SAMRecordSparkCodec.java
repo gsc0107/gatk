@@ -147,7 +147,7 @@ public class SAMRecordSparkCodec implements SortingCollection.Codec<SAMRecord> {
         try {
             recordLength = this.binaryCodec.readInt();
         }
-        catch (RuntimeEOFException e) {
+        catch (final RuntimeEOFException e) {
             return null;
         }
 

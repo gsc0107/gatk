@@ -23,7 +23,7 @@ public class SelectVariantsUnitTest extends BaseTest {
     @DataProvider(name = "MaxMinIndelSize")
     public Object[][] MaxMinIndelSizeTestData() {
 
-        List<Object[]> tests = new ArrayList<>();
+        final List<Object[]> tests = new ArrayList<>();
 
         for ( final int size : Arrays.asList(1, 3, 10, 100) ) {
             for ( final int otherSize : Arrays.asList(0, 1) ) {

@@ -41,17 +41,17 @@ public class ReadsIterable implements Iterable<SAMRecord>, Serializable {
         private boolean done = false;
 
         public ReadsIterator() throws IOException {
-            Path fpath = IOUtils.getPath(path);
-            byte[] indexData = index;
-            SeekableStream indexInMemory = new ByteArraySeekableStream(indexData);
-            SeekableByteChannelPrefetcher chan = new SeekableByteChannelPrefetcher(Files.newByteChannel(fpath), BUFSIZE);
-            ChannelAsSeekableStream bamOverNIO = new ChannelAsSeekableStream(chan, path);
+            final Path fpath = IOUtils.getPath(path);
+            final byte[] indexData = index;
+            final SeekableStream indexInMemory = new ByteArraySeekableStream(indexData);
+            final SeekableByteChannelPrefetcher chan = new SeekableByteChannelPrefetcher(Files.newByteChannel(fpath), BUFSIZE);
+            final ChannelAsSeekableStream bamOverNIO = new ChannelAsSeekableStream(chan, path);
             bam = SamReaderFactory.makeDefault()
                     .validationStringency(ValidationStringency.LENIENT)
                     .enable(SamReaderFactory.Option.CACHE_FILE_BASED_INDEXES)
                     .open(SamInputResource.of(bamOverNIO).index(indexInMemory));
 
-            QueryInterval[] array = new QueryInterval[1];
+            final QueryInterval[] array = new QueryInterval[1];
             array[0] = interval;
             query = bam.query(array, false);
         }
@@ -71,7 +71,7 @@ public class ReadsIterable implements Iterable<SAMRecord>, Serializable {
 
             nextRecord = fetchRecord();
 
-            boolean ret = (nextRecord != null);
+            final boolean ret = (nextRecord != null);
             if (!ret) {
                 done = true;
                 close();
@@ -88,15 +88,15 @@ public class ReadsIterable implements Iterable<SAMRecord>, Serializable {
         @Override
         public SAMRecord next() {
             if (!hasNext()) throw new NoSuchElementException();
-            SAMRecord ret = nextRecord;
+            final SAMRecord ret = nextRecord;
             nextRecord = null;
             return ret;
         }
 
         private SAMRecord fetchRecord() {
             while (query.hasNext()) {
-                SAMRecord sr = query.next();
-                int start = sr.getAlignmentStart();
+                final SAMRecord sr = query.next();
+                final int start = sr.getAlignmentStart();
                 if (start >= interval.start && start <= interval.end) {
                     // read starts in the interval
                     if (removeHeader) {
@@ -116,13 +116,13 @@ public class ReadsIterable implements Iterable<SAMRecord>, Serializable {
                 query = null;
                 bam.close();
                 bam = null;
-            } catch (IOException e) {
+            } catch (final IOException e) {
                 throw new RuntimeException(e);
             }
         }
     }
 
-    public ReadsIterable(String path, byte[] index, QueryInterval in) {
+    public ReadsIterable(final String path, final byte[] index, final QueryInterval in) {
         this.path = path;
         this.index = index;
         this.interval = in;
@@ -132,7 +132,7 @@ public class ReadsIterable implements Iterable<SAMRecord>, Serializable {
     public Iterator<SAMRecord> iterator() {
         try {
             return new ReadsIterator();
-        } catch (IOException x) {
+        } catch (final IOException x) {
             throw new RuntimeException(x);
         }
     }

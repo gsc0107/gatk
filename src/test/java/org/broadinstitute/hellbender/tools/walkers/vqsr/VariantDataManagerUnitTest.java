@@ -17,7 +17,7 @@ public class VariantDataManagerUnitTest extends BaseTest {
         final double passingQual = 400.0;
         final VariantRecalibratorArgumentCollection VRAC = new VariantRecalibratorArgumentCollection();
 
-        VariantDataManager vdm = new VariantDataManager(new ArrayList<String>(), VRAC);
+        final VariantDataManager vdm = new VariantDataManager(new ArrayList<String>(), VRAC);
 
         final List<VariantDatum> theData = new ArrayList<>();
         final VariantDatum datum1 = new VariantDatum();
@@ -69,7 +69,7 @@ public class VariantDataManagerUnitTest extends BaseTest {
         final VariantRecalibratorArgumentCollection VRAC = new VariantRecalibratorArgumentCollection();
         VRAC.MAX_NUM_TRAINING_DATA = MAX_NUM_TRAINING_DATA;
 
-        VariantDataManager vdm = new VariantDataManager(new ArrayList<String>(), VRAC);
+        final VariantDataManager vdm = new VariantDataManager(new ArrayList<String>(), VRAC);
         final List<VariantDatum> theData = new ArrayList<>();
         for( int iii = 0; iii < MAX_NUM_TRAINING_DATA * 10; iii++) {
             final VariantDatum datum = new VariantDatum();
@@ -100,7 +100,7 @@ public class VariantDataManagerUnitTest extends BaseTest {
         final VariantRecalibratorArgumentCollection VRAC = new VariantRecalibratorArgumentCollection();
         VRAC.MAX_NUM_TRAINING_DATA = MAX_NUM_TRAINING_DATA;
 
-        VariantDataManager vdm = new VariantDataManager(new ArrayList<String>(), VRAC);
+        final VariantDataManager vdm = new VariantDataManager(new ArrayList<String>(), VRAC);
         final List<VariantDatum> theData = new ArrayList<>();
         for( int iii = 0; iii < MAX_NUM_TRAINING_DATA * 10; iii++) {
             final VariantDatum datum = new VariantDatum();

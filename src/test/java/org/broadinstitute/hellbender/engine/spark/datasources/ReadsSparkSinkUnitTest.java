@@ -88,20 +88,20 @@ public class ReadsSparkSinkUnitTest extends BaseTest {
     }
 
     @Test(dataProvider = "loadReadsBAM", groups = "spark")
-    public void readsSinkTest(String inputBam, String outputFileName, String referenceFile, String outputFileExtension) throws IOException {
+    public void readsSinkTest(final String inputBam, final String outputFileName, final String referenceFile, final String outputFileExtension) throws IOException {
         final File outputFile = createTempFile(outputFileName, outputFileExtension);
         assertSingleShardedWritingWorks(inputBam, referenceFile, outputFile.getAbsolutePath());
     }
 
     @Test(dataProvider = "loadReadsBAM", groups = "spark")
-    public void readsSinkHDFSTest(String inputBam, String outputFileName, String referenceFileName, String outputFileExtension) throws IOException {
+    public void readsSinkHDFSTest(final String inputBam, final String outputFileName, final String referenceFileName, final String outputFileExtension) throws IOException {
         final String outputHDFSPath = MiniClusterUtils.getTempPath(cluster, outputFileName, outputFileExtension).toString();
         Assert.assertTrue(BucketUtils.isHadoopUrl(outputHDFSPath));
         assertSingleShardedWritingWorks(inputBam, referenceFileName, outputHDFSPath);
     }
 
     @Test(dataProvider = "loadReadsBAM", groups = "spark")
-    public void testWritingToAnExistingFileHDFS(String inputBam, String outputFileName, String referenceFileName, String outputFileExtension) throws IOException {
+    public void testWritingToAnExistingFileHDFS(final String inputBam, final String outputFileName, final String referenceFileName, final String outputFileExtension) throws IOException {
         final Path outputPath = MiniClusterUtils.getTempPath(cluster, outputFileName, outputFileExtension);
         final FileSystem fs = outputPath.getFileSystem(new Configuration());
         Assert.assertTrue(fs.createNewFile(outputPath));
@@ -111,17 +111,17 @@ public class ReadsSparkSinkUnitTest extends BaseTest {
 
     @Test(groups = "spark")
     public void testWritingToFileURL() throws IOException {
-        String inputBam = testDataDir + "tools/BQSR/HiSeq.1mb.1RG.2k_lines.bam";
-        String outputUrl = "file:///" + createTempFile("ReadsSparkSinkUnitTest1", ".bam").getAbsolutePath();
+        final String inputBam = testDataDir + "tools/BQSR/HiSeq.1mb.1RG.2k_lines.bam";
+        final String outputUrl = "file:///" + createTempFile("ReadsSparkSinkUnitTest1", ".bam").getAbsolutePath();
         assertSingleShardedWritingWorks(inputBam, null, outputUrl);
     }
 
-    private void assertSingleShardedWritingWorks(String inputBam, String referenceFile, String outputPath) throws IOException {
-        JavaSparkContext ctx = SparkContextFactory.getTestSparkContext();
+    private void assertSingleShardedWritingWorks(final String inputBam, final String referenceFile, final String outputPath) throws IOException {
+        final JavaSparkContext ctx = SparkContextFactory.getTestSparkContext();
 
-        ReadsSparkSource readSource = new ReadsSparkSource(ctx);
-        JavaRDD<GATKRead> rddParallelReads = readSource.getParallelReads(inputBam, referenceFile);
-        SAMFileHeader header = readSource.getHeader(inputBam, referenceFile, null);
+        final ReadsSparkSource readSource = new ReadsSparkSource(ctx);
+        final JavaRDD<GATKRead> rddParallelReads = readSource.getParallelReads(inputBam, referenceFile);
+        final SAMFileHeader header = readSource.getHeader(inputBam, referenceFile, null);
 
         ReadsSparkSink.writeReads(ctx, outputPath, referenceFile, rddParallelReads, header, ReadsWriteFormat.SINGLE);
 
@@ -130,14 +130,14 @@ public class ReadsSparkSinkUnitTest extends BaseTest {
             Assert.assertTrue(Files.exists(IOUtils.getPath(outputPath + SplittingBAMIndexer.OUTPUT_FILE_EXTENSION)));
         }
 
-        JavaRDD<GATKRead> rddParallelReads2 = readSource.getParallelReads(outputPath, referenceFile);
+        final JavaRDD<GATKRead> rddParallelReads2 = readSource.getParallelReads(outputPath, referenceFile);
         final List<GATKRead> writtenReads = rddParallelReads2.collect();
 
         assertReadsAreSorted(header, writtenReads);
         Assert.assertEquals(rddParallelReads.count(), rddParallelReads2.count());
     }
 
-    private static void assertReadsAreSorted(SAMFileHeader header, List<GATKRead> writtenReads) {
+    private static void assertReadsAreSorted(final SAMFileHeader header, final List<GATKRead> writtenReads) {
         final SAMRecordCoordinateComparator comparator = new SAMRecordCoordinateComparator();
         // Assert that the reads are sorted.
         final int size = writtenReads.size();
@@ -150,56 +150,56 @@ public class ReadsSparkSinkUnitTest extends BaseTest {
     }
 
     @Test(dataProvider = "loadReadsBAM", groups = "spark")
-    public void readsSinkShardedTest(String inputBam, String outputFileName, String referenceFile, String outputFileExtension) throws IOException {
+    public void readsSinkShardedTest(final String inputBam, final String outputFileName, final String referenceFile, final String outputFileExtension) throws IOException {
         final File outputFile = createTempFile(outputFileName, outputFileExtension);
-        JavaSparkContext ctx = SparkContextFactory.getTestSparkContext();
+        final JavaSparkContext ctx = SparkContextFactory.getTestSparkContext();
 
-        ReadsSparkSource readSource = new ReadsSparkSource(ctx);
+        final ReadsSparkSource readSource = new ReadsSparkSource(ctx);
         JavaRDD<GATKRead> rddParallelReads = readSource.getParallelReads(inputBam, referenceFile);
         rddParallelReads = rddParallelReads.repartition(2); // ensure that the output is in two shards
-        SAMFileHeader header = readSource.getHeader(inputBam, referenceFile, null);
+        final SAMFileHeader header = readSource.getHeader(inputBam, referenceFile, null);
 
         ReadsSparkSink.writeReads(ctx, outputFile.getAbsolutePath(), referenceFile, rddParallelReads, header, ReadsWriteFormat.SHARDED);
-        int shards = outputFile.listFiles((dir, name) -> !name.startsWith(".") && !name.startsWith("_")).length;
+        final int shards = outputFile.listFiles((dir, name) -> !name.startsWith(".") && !name.startsWith("_")).length;
         Assert.assertEquals(shards, 2);
         // check that no local .crc files are created
-        int crcs = outputFile.listFiles((dir, name) -> name.startsWith(".") && name.endsWith(".crc")).length;
+        final int crcs = outputFile.listFiles((dir, name) -> name.startsWith(".") && name.endsWith(".crc")).length;
         Assert.assertEquals(crcs, 0);
 
-        JavaRDD<GATKRead> rddParallelReads2 = readSource.getParallelReads(outputFile.getAbsolutePath(), referenceFile);
+        final JavaRDD<GATKRead> rddParallelReads2 = readSource.getParallelReads(outputFile.getAbsolutePath(), referenceFile);
         // reads are not globally sorted, so don't test that
         Assert.assertEquals(rddParallelReads.count(), rddParallelReads2.count());
     }
 
     @Test(dataProvider = "loadReadsADAM", groups = "spark")
-    public void readsSinkADAMTest(String inputBam, String outputDirectoryName) throws IOException {
+    public void readsSinkADAMTest(final String inputBam, final String outputDirectoryName) throws IOException {
         // Since the test requires that we not create the actual output directory in advance,
         // we instead create its parent directory and mark it for deletion on exit. This protects
         // us from naming collisions across multiple instances of the test suite.
         final File outputParentDirectory = createTempDir(outputDirectoryName + "_parent");
         final File outputDirectory = new File(outputParentDirectory, outputDirectoryName);
 
-        JavaSparkContext ctx = SparkContextFactory.getTestSparkContext();
+        final JavaSparkContext ctx = SparkContextFactory.getTestSparkContext();
 
-        ReadsSparkSource readSource = new ReadsSparkSource(ctx);
-        JavaRDD<GATKRead> rddParallelReads = readSource.getParallelReads(inputBam, null)
+        final ReadsSparkSource readSource = new ReadsSparkSource(ctx);
+        final JavaRDD<GATKRead> rddParallelReads = readSource.getParallelReads(inputBam, null)
                 .filter(r -> !r.isUnmapped()); // filter out unmapped reads (see comment below)
-        SAMFileHeader header = readSource.getHeader(inputBam, null, null);
+        final SAMFileHeader header = readSource.getHeader(inputBam, null, null);
 
         ReadsSparkSink.writeReads(ctx, outputDirectory.getAbsolutePath(), null, rddParallelReads, header, ReadsWriteFormat.ADAM);
 
-        JavaRDD<GATKRead> rddParallelReads2 = readSource.getADAMReads(outputDirectory.getAbsolutePath(), null, header);
+        final JavaRDD<GATKRead> rddParallelReads2 = readSource.getADAMReads(outputDirectory.getAbsolutePath(), null, header);
         Assert.assertEquals(rddParallelReads.count(), rddParallelReads2.count());
 
         // Test the round trip
-        List<GATKRead> samList = new ArrayList<>(rddParallelReads.collect());//make a mutable copy for sort
-        List<GATKRead> adamList = new ArrayList<>(rddParallelReads2.collect());//make a mutable copy for sort
-        Comparator<GATKRead> comparator = new ReadCoordinateComparator(header);
+        final List<GATKRead> samList = new ArrayList<>(rddParallelReads.collect());//make a mutable copy for sort
+        final List<GATKRead> adamList = new ArrayList<>(rddParallelReads2.collect());//make a mutable copy for sort
+        final Comparator<GATKRead> comparator = new ReadCoordinateComparator(header);
         samList.sort(comparator);
         adamList.sort(comparator);
         for (int i = 0; i < samList.size(); i++) {
-            SAMRecord expected = samList.get(i).convertToSAMRecord(header);
-            SAMRecord observed = adamList.get(i).convertToSAMRecord(header);
+            final SAMRecord expected = samList.get(i).convertToSAMRecord(header);
+            final SAMRecord observed = adamList.get(i).convertToSAMRecord(header);
             // manually test equality of some fields, as there are issues with roundtrip BAM -> ADAM -> BAM
             // see https://github.com/bigdatagenomics/adam/issues/823
             Assert.assertEquals(observed.getReadName(), expected.getReadName(), "readname");

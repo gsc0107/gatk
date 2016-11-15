@@ -158,7 +158,7 @@ public abstract class AbstractAlignmentMerger {
             this.attributesToRemove.addAll(attributesToRemove);
             // attributesToRemove overrides attributesToRetain
             if (!this.attributesToRetain.isEmpty()) {
-                for (String attribute : this.attributesToRemove) {
+                for (final String attribute : this.attributesToRemove) {
                     if (this.attributesToRetain.contains(attribute)) {
                         logger.info("Overriding retaining the " + attribute + " tag since remove overrides retain.");
                         this.attributesToRetain.remove(attribute);
@@ -518,12 +518,12 @@ public abstract class AbstractAlignmentMerger {
 
     }
 
-    private static Cigar createNewCigarIfMapsOffEndOfReference(SAMFileHeader header,
-                                                               boolean isUnmapped,
-                                                               int referenceIndex,
-                                                               int alignmentEnd,
-                                                               int readLength,
-                                                               Cigar oldCigar) {
+    private static Cigar createNewCigarIfMapsOffEndOfReference(final SAMFileHeader header,
+                                                               final boolean isUnmapped,
+                                                               final int referenceIndex,
+                                                               final int alignmentEnd,
+                                                               final int readLength,
+                                                               final Cigar oldCigar) {
         Cigar newCigar = null;
         if (!isUnmapped) {
             final SAMSequenceRecord refseq = header.getSequence(referenceIndex);

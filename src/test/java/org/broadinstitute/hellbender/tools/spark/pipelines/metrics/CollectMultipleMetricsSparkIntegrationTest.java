@@ -50,8 +50,8 @@ public final class CollectMultipleMetricsSparkIntegrationTest extends CommandLin
             final String expectedInsertSizeResults,
             final String expectedQualityYieldResults) throws IOException
     {
-        ArgumentsBuilder args = new ArgumentsBuilder();
-        String outBase = setupMultipleCollector(args, fileName, referenceName);
+        final ArgumentsBuilder args = new ArgumentsBuilder();
+        final String outBase = setupMultipleCollector(args, fileName, referenceName);
 
         // for now, run the only two conforming collectors that we have
         args.add("--collectors" );
@@ -77,7 +77,7 @@ public final class CollectMultipleMetricsSparkIntegrationTest extends CommandLin
         // create a directory to contain the results since there will be multiple collectors
         // and each may create multiple files
         final File outDir = BaseTest.createTempDir("collectMultiMetricsSparkTest" );
-        String outBase = outDir.getAbsolutePath() + "/collectMultiSparkMetrics";
+        final String outBase = outDir.getAbsolutePath() + "/collectMultiSparkMetrics";
 
         // IO arguments
         args.add("-" + StandardArgumentDefinitions.INPUT_SHORT_NAME);
@@ -98,7 +98,7 @@ public final class CollectMultipleMetricsSparkIntegrationTest extends CommandLin
     }
 
     private void validateQualityYieldMetrics(final String outBase, final String expectedResults) throws IOException {
-        String localOut = outBase + "." + QualityYieldMetrics.getUniqueNameSuffix() + ".txt";
+        final String localOut = outBase + "." + QualityYieldMetrics.getUniqueNameSuffix() + ".txt";
 
         IntegrationTestSpec.assertEqualTextFiles(
                 new File(localOut),
@@ -107,7 +107,7 @@ public final class CollectMultipleMetricsSparkIntegrationTest extends CommandLin
     }
 
     private void validateInsertSizeMetrics(final String outBase, final String expectedResults) throws IOException {
-        String localOut = outBase + "." + InsertSizeMetrics.getUniqueNameSuffix() + ".txt";
+        final String localOut = outBase + "." + InsertSizeMetrics.getUniqueNameSuffix() + ".txt";
 
         IntegrationTestSpec.assertEqualTextFiles(
                 new File(localOut),
@@ -122,13 +122,13 @@ public final class CollectMultipleMetricsSparkIntegrationTest extends CommandLin
         long count = 0;
         @Override
         public void initialize(
-                MetricsArgumentCollection inputArgs, SAMFileHeader samHeader, List<Header> defaultHeaders) {}
+                final MetricsArgumentCollection inputArgs, final SAMFileHeader samHeader, final List<Header> defaultHeaders) {}
         @Override
-        public void collectMetrics(JavaRDD<GATKRead> filteredReads, SAMFileHeader samHeader) {
+        public void collectMetrics(final JavaRDD<GATKRead> filteredReads, final SAMFileHeader samHeader) {
             count = filteredReads.count();
         }
         @Override
-        public void saveMetrics(String inputBaseName, AuthHolder authHolder) {
+        public void saveMetrics(final String inputBaseName, final AuthHolder authHolder) {
             //no-op
         }
     }
@@ -143,12 +143,12 @@ public final class CollectMultipleMetricsSparkIntegrationTest extends CommandLin
         // Test CollectMultipleMetricsSpark with a custom collector
         final TestCustomCollector testCollector = new TestCustomCollector();
 
-        ArgumentsBuilder args = new ArgumentsBuilder();
+        final ArgumentsBuilder args = new ArgumentsBuilder();
         setupMultipleCollector(args, fileName, referenceName);
 
         // CollectMultipleMetricsSpark provider that creates an initializes a custom
         // collector
-        CollectMultipleMetricsSpark.SparkCollectorProvider customProvider =
+        final CollectMultipleMetricsSpark.SparkCollectorProvider customProvider =
             new CollectMultipleMetricsSpark.SparkCollectorProvider() {
                 @Override
                 public MetricsCollectorSpark<? extends MetricsArgumentCollection> createCollector(
@@ -163,7 +163,7 @@ public final class CollectMultipleMetricsSparkIntegrationTest extends CommandLin
 
         // Manually create a tool and programmatically set the custome collector as the one
         // to run
-        CollectMultipleMetricsSpark multipleCollectorTool = new CollectMultipleMetricsSpark();
+        final CollectMultipleMetricsSpark multipleCollectorTool = new CollectMultipleMetricsSpark();
         multipleCollectorTool.setCollectorsToRun(Collections.singletonList(customProvider));
         multipleCollectorTool.instanceMain(args.getArgsArray());
 

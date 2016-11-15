@@ -19,13 +19,13 @@ public final class QuantizationInfo implements Serializable {
     private final List<Long> empiricalQualCounts;
     private int quantizationLevels;
 
-    private QuantizationInfo(List<Byte> quantizedQuals, List<Long> empiricalQualCounts, int quantizationLevels) {
+    private QuantizationInfo(final List<Byte> quantizedQuals, final List<Long> empiricalQualCounts, final int quantizationLevels) {
         this.quantizedQuals = quantizedQuals;
         this.empiricalQualCounts = empiricalQualCounts;
         this.quantizationLevels = quantizationLevels;
     }
 
-    public QuantizationInfo(List<Byte> quantizedQuals, List<Long> empiricalQualCounts) {
+    public QuantizationInfo(final List<Byte> quantizedQuals, final List<Long> empiricalQualCounts) {
         this(quantizedQuals, empiricalQualCounts, calculateQuantizationLevels(quantizedQuals));
     }
     
@@ -48,8 +48,8 @@ public final class QuantizationInfo implements Serializable {
     }
 
 
-    public void quantizeQualityScores(int nLevels) {
-        QualQuantizer quantizer = new QualQuantizer(empiricalQualCounts, nLevels, QualityUtils.MIN_USABLE_Q_SCORE); // quantize the qualities to the desired number of levels
+    public void quantizeQualityScores(final int nLevels) {
+        final QualQuantizer quantizer = new QualQuantizer(empiricalQualCounts, nLevels, QualityUtils.MIN_USABLE_Q_SCORE); // quantize the qualities to the desired number of levels
         quantizedQuals = quantizer.getOriginalToQuantizedMap(); // map with the original to quantized qual map (using the standard number of levels in the RAC)
     }
 
@@ -68,7 +68,7 @@ public final class QuantizationInfo implements Serializable {
     }
 
     public GATKReportTable generateReportTable() {
-        GATKReportTable quantizedTable;
+        final GATKReportTable quantizedTable;
         quantizedTable = new GATKReportTable(RecalUtils.QUANTIZED_REPORT_TABLE_TITLE, "Quality quantization map", 3, GATKReportTable.Sorting.SORT_BY_COLUMN);
         quantizedTable.addColumn(RecalUtils.QUALITY_SCORE_COLUMN_NAME, "%d");
         quantizedTable.addColumn(RecalUtils.QUANTIZED_COUNT_COLUMN_NAME, "%d");
@@ -82,10 +82,10 @@ public final class QuantizationInfo implements Serializable {
         return quantizedTable;
     }
 
-    private static int calculateQuantizationLevels(List<Byte> quantizedQuals) {
+    private static int calculateQuantizationLevels(final List<Byte> quantizedQuals) {
         byte lastByte = -1;
         int quantizationLevels = 0;
-        for (byte q : quantizedQuals) {
+        for (final byte q : quantizedQuals) {
             if (q != lastByte) {
                 quantizationLevels++;
                 lastByte = q;

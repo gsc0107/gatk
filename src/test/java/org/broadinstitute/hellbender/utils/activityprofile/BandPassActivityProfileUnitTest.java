@@ -30,7 +30,7 @@ public class BandPassActivityProfileUnitTest extends BaseTest {
     @BeforeClass
     public void init() throws FileNotFoundException {
         // sequence
-        ReferenceSequenceFile seq = new CachingIndexedFastaSequenceFile(new File(b37_reference_20_21));
+        final ReferenceSequenceFile seq = new CachingIndexedFastaSequenceFile(new File(b37_reference_20_21));
         genomeLocParser = new GenomeLocParser(seq);
         header = new SAMFileHeader();
         seq.getSequenceDictionary().getSequences().forEach(sequence -> header.addSequence(sequence));
@@ -40,11 +40,11 @@ public class BandPassActivityProfileUnitTest extends BaseTest {
     public Object[][] makeBandPassTest() {
         final List<Object[]> tests = new LinkedList<Object[]>();
 
-        for ( int start : Arrays.asList(1, 10, 100, 1000) ) {
-            for ( boolean precedingIsActive : Arrays.asList(true, false) ) {
-                for ( int precedingSites: Arrays.asList(0, 1, 10, 100) ) {
-                    for ( int bandPassSize : Arrays.asList(0, 1, 10, 100) ) {
-                        for ( double sigma : Arrays.asList(1.0, 2.0, BandPassActivityProfile.DEFAULT_SIGMA) ) {
+        for ( final int start : Arrays.asList(1, 10, 100, 1000) ) {
+            for ( final boolean precedingIsActive : Arrays.asList(true, false) ) {
+                for ( final int precedingSites: Arrays.asList(0, 1, 10, 100) ) {
+                    for ( final int bandPassSize : Arrays.asList(0, 1, 10, 100) ) {
+                        for ( final double sigma : Arrays.asList(1.0, 2.0, BandPassActivityProfile.DEFAULT_SIGMA) ) {
 //        for ( int start : Arrays.asList(10) ) {
 //            for ( boolean precedingIsActive : Arrays.asList(false) ) {
 //                for ( int precedingSites: Arrays.asList(0) ) {
@@ -100,7 +100,7 @@ public class BandPassActivityProfileUnitTest extends BaseTest {
         return bandPassProbArray;
     }
 
-    private static double dotProduct(double[] v1, double[] v2) {
+    private static double dotProduct(final double[] v1, final double[] v2) {
         Assert.assertEquals(v1.length,v2.length,"Array lengths do not mach in dotProduct");
         double result = 0.0;
         for (int k = 0; k < v1.length; k++)
@@ -113,8 +113,8 @@ public class BandPassActivityProfileUnitTest extends BaseTest {
     public Object[][] makeBandPassComposition() {
         final List<Object[]> tests = new LinkedList<>();
 
-        for ( int bandPassSize : Arrays.asList(0, 1, 10, 100, BandPassActivityProfile.MAX_FILTER_SIZE) ) {
-            for ( int integrationLength : Arrays.asList(1, 10, 100, 1000) ) {
+        for ( final int bandPassSize : Arrays.asList(0, 1, 10, 100, BandPassActivityProfile.MAX_FILTER_SIZE) ) {
+            for ( final int integrationLength : Arrays.asList(1, 10, 100, 1000) ) {
                 tests.add(new Object[]{ bandPassSize, integrationLength });
             }
         }

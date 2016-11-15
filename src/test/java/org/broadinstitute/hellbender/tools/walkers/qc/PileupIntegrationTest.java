@@ -20,7 +20,7 @@ public class PileupIntegrationTest extends CommandLineProgramTest {
     @Test
     public void testSimplePileup() throws IOException {
         // GATK 3.5 code have a the last line with a REDUCE RESULT that was removed in this implementation
-        IntegrationTestSpec testSpec = new IntegrationTestSpec(
+        final IntegrationTestSpec testSpec = new IntegrationTestSpec(
             " -L 20:9999900-10000000" +
                 " -R " + b37_reference_20_21 +
                 " -I " + NA12878_20_21_WGS_bam +
@@ -33,7 +33,7 @@ public class PileupIntegrationTest extends CommandLineProgramTest {
     @Test
     public void testVerbosePileup() throws IOException {
         // GATK 3.5 code have a the last line with a REDUCE RESULT that was removed in this implementation
-        IntegrationTestSpec testSpec = new IntegrationTestSpec(
+        final IntegrationTestSpec testSpec = new IntegrationTestSpec(
             " -L 20:9999990-10000000" +
                 " -verbose " +
                 " -R " + b37_reference_20_21 +
@@ -49,7 +49,7 @@ public class PileupIntegrationTest extends CommandLineProgramTest {
         // GATK 3.5 code have a the last line with a REDUCE RESULT that was removed in this implementation
         // GATK 3.5 code have ROD instead of Feature(s) and the source of a VariantContext is set to metadata, thus the output was modified with the following command
         // awk '{gsub("metadata", "Unknown", $0); gsub("\\[ROD: ", "\[Feature(s): ", $0); print $0}'
-        IntegrationTestSpec testSpec = new IntegrationTestSpec(
+        final IntegrationTestSpec testSpec = new IntegrationTestSpec(
             " -L 20:10000092-10000112" +
                 " -R " + b37_reference_20_21 +
                 " -I " + NA12878_20_21_WGS_bam +
@@ -63,7 +63,7 @@ public class PileupIntegrationTest extends CommandLineProgramTest {
     @Test
     public void testInsertLengthPileup() throws  Exception {
         // GATK 3.5 code have a the last line with a REDUCE RESULT that was removed in this implementation
-        IntegrationTestSpec testSpec = new IntegrationTestSpec(
+        final IntegrationTestSpec testSpec = new IntegrationTestSpec(
                 " -L 20:10000092-10000112" +
                         " -R " + b37_reference_20_21 +
                         " -I " + NA12878_20_21_WGS_bam +

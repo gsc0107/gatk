@@ -91,26 +91,26 @@ public final class GenomeLocParserUnitTest extends BaseTest {
 
     @Test
     public void testParseUnknownSequenceLength() {
-        SAMSequenceDictionary seqDict = new SAMSequenceDictionary();
+        final SAMSequenceDictionary seqDict = new SAMSequenceDictionary();
         seqDict.addSequence(new SAMSequenceRecord("1", SAMSequenceRecord.UNKNOWN_SEQUENCE_LENGTH));
         Assert.assertEquals(seqDict.getSequence("1").getSequenceLength(), SAMSequenceRecord.UNKNOWN_SEQUENCE_LENGTH);
-        GenomeLocParser myLocParser = new GenomeLocParser(seqDict);
-        GenomeLoc genomeLoc = myLocParser.parseGenomeLoc("1:1-99");
+        final GenomeLocParser myLocParser = new GenomeLocParser(seqDict);
+        final GenomeLoc genomeLoc = myLocParser.parseGenomeLoc("1:1-99");
         Assert.assertEquals(genomeLoc.getEnd(), 99);
     }
 
     @Test
     public void testContigHasColon() {
-        SAMFileHeader header = new SAMFileHeader();
+        final SAMFileHeader header = new SAMFileHeader();
         header.setSortOrder(htsjdk.samtools.SAMFileHeader.SortOrder.coordinate);
-        SAMSequenceDictionary dict = new SAMSequenceDictionary();
-        SAMSequenceRecord rec = new SAMSequenceRecord("c:h:r1", 10);
+        final SAMSequenceDictionary dict = new SAMSequenceDictionary();
+        final SAMSequenceRecord rec = new SAMSequenceRecord("c:h:r1", 10);
         rec.setSequenceLength(10);
         dict.addSequence(rec);
         header.setSequenceDictionary(dict);
 
         final GenomeLocParser myGenomeLocParser = new GenomeLocParser(header.getSequenceDictionary());
-        GenomeLoc loc = myGenomeLocParser.parseGenomeLoc("c:h:r1:4-5");
+        final GenomeLoc loc = myGenomeLocParser.parseGenomeLoc("c:h:r1:4-5");
         assertEquals(0, loc.getContigIndex());
         assertEquals(loc.getStart(), 4);
         assertEquals(loc.getStop(), 5);
@@ -118,7 +118,7 @@ public final class GenomeLocParserUnitTest extends BaseTest {
 
     @Test
     public void testParseGoodString() {
-        GenomeLoc loc = genomeLocParser.parseGenomeLoc("1:1-10");
+        final GenomeLoc loc = genomeLocParser.parseGenomeLoc("1:1-10");
         assertEquals(0, loc.getContigIndex());
         assertEquals(loc.getStop(), 10);
         assertEquals(loc.getStart(), 1);
@@ -126,7 +126,7 @@ public final class GenomeLocParserUnitTest extends BaseTest {
 
     @Test
     public void testCreateGenomeLoc1() {
-        GenomeLoc loc = genomeLocParser.createGenomeLoc("1", 1, 100);
+        final GenomeLoc loc = genomeLocParser.createGenomeLoc("1", 1, 100);
         assertEquals(0, loc.getContigIndex());
         assertEquals(loc.getStop(), 100);
         assertEquals(loc.getStart(), 1);
@@ -134,7 +134,7 @@ public final class GenomeLocParserUnitTest extends BaseTest {
 
     @Test
     public void testCreateGenomeLoc1point5() { // in honor of VAAL!
-        GenomeLoc loc = genomeLocParser.parseGenomeLoc("1:1");
+        final GenomeLoc loc = genomeLocParser.parseGenomeLoc("1:1");
         assertEquals(0, loc.getContigIndex());
         assertEquals(loc.getStop(), 1);
         assertEquals(loc.getStart(), 1);
@@ -142,7 +142,7 @@ public final class GenomeLocParserUnitTest extends BaseTest {
 
     @Test
     public void testCreateGenomeLoc2() {
-        GenomeLoc loc = genomeLocParser.createGenomeLoc("1", 1, 100);
+        final GenomeLoc loc = genomeLocParser.createGenomeLoc("1", 1, 100);
         assertEquals("1", loc.getContig());
         assertEquals(loc.getStop(), 100);
         assertEquals(loc.getStart(), 1);
@@ -150,7 +150,7 @@ public final class GenomeLocParserUnitTest extends BaseTest {
 
     @Test
     public void testCreateGenomeLoc3() {
-        GenomeLoc loc = genomeLocParser.createGenomeLoc("1", 1);
+        final GenomeLoc loc = genomeLocParser.createGenomeLoc("1", 1);
         assertEquals("1", loc.getContig());
         assertEquals(loc.getStop(), 1);
         assertEquals(loc.getStart(), 1);
@@ -158,7 +158,7 @@ public final class GenomeLocParserUnitTest extends BaseTest {
 
     @Test
     public void testCreateGenomeLoc4() {
-        GenomeLoc loc = genomeLocParser.createGenomeLoc("1", 1);
+        final GenomeLoc loc = genomeLocParser.createGenomeLoc("1", 1);
         assertEquals(0, loc.getContigIndex());
         assertEquals(loc.getStop(), 1);
         assertEquals(loc.getStart(), 1);
@@ -166,8 +166,8 @@ public final class GenomeLocParserUnitTest extends BaseTest {
 
     @Test
     public void testCreateGenomeLoc5() {
-        GenomeLoc loc = genomeLocParser.createGenomeLoc("1", 1, 100);
-        GenomeLoc copy = genomeLocParser.createGenomeLoc(loc.getContig(),loc.getStart(),loc.getStop());
+        final GenomeLoc loc = genomeLocParser.createGenomeLoc("1", 1, 100);
+        final GenomeLoc copy = genomeLocParser.createGenomeLoc(loc.getContig(),loc.getStart(),loc.getStop());
         assertEquals(0, copy.getContigIndex());
         assertEquals(copy.getStop(), 100);
         assertEquals(copy.getStart(), 1);
@@ -175,7 +175,7 @@ public final class GenomeLocParserUnitTest extends BaseTest {
 
     @Test
     public void testGenomeLocPlusSign() {
-        GenomeLoc loc = genomeLocParser.parseGenomeLoc("1:1+");
+        final GenomeLoc loc = genomeLocParser.parseGenomeLoc("1:1+");
         assertEquals(loc.getContigIndex(), 0);
         assertEquals(loc.getStop(), 10); // the size
         assertEquals(loc.getStart(), 1);
@@ -183,7 +183,7 @@ public final class GenomeLocParserUnitTest extends BaseTest {
 
     @Test
     public void testGenomeLocParseOnlyChrome() {
-        GenomeLoc loc = genomeLocParser.parseGenomeLoc("1");
+        final GenomeLoc loc = genomeLocParser.parseGenomeLoc("1");
         assertEquals(loc.getContigIndex(), 0);
         assertEquals(loc.getStop(), 10); // the size
         assertEquals(loc.getStart(), 1);
@@ -191,7 +191,7 @@ public final class GenomeLocParserUnitTest extends BaseTest {
 
     @Test(expectedExceptions=UserException.MalformedGenomeLoc.class)
     public void testGenomeLocParseOnlyBadChrome() {
-        GenomeLoc loc = genomeLocParser.parseGenomeLoc("12");
+        final GenomeLoc loc = genomeLocParser.parseGenomeLoc("12");
         assertEquals(loc.getContigIndex(), 0);
         assertEquals(loc.getStop(), 10); // the size
         assertEquals(loc.getStart(), 1);
@@ -199,7 +199,7 @@ public final class GenomeLocParserUnitTest extends BaseTest {
 
     @Test(expectedExceptions=UserException.MalformedGenomeLoc.class)
     public void testGenomeLocBad() {
-        GenomeLoc loc = genomeLocParser.parseGenomeLoc("1:1-");
+        final GenomeLoc loc = genomeLocParser.parseGenomeLoc("1:1-");
         assertEquals(loc.getContigIndex(), 0);
         assertEquals(loc.getStop(), 10); // the size
         assertEquals(loc.getStart(), 1);
@@ -207,7 +207,7 @@ public final class GenomeLocParserUnitTest extends BaseTest {
 
     @Test(expectedExceptions=UserException.MalformedGenomeLoc.class)
     public void testGenomeLocBad2() {
-        GenomeLoc loc = genomeLocParser.parseGenomeLoc("1:1-500-0");
+        final GenomeLoc loc = genomeLocParser.parseGenomeLoc("1:1-500-0");
         assertEquals(loc.getContigIndex(), 0);
         assertEquals(loc.getStop(), 10); // the size
         assertEquals(loc.getStart(), 1);
@@ -215,7 +215,7 @@ public final class GenomeLocParserUnitTest extends BaseTest {
 
     @Test(expectedExceptions=UserException.MalformedGenomeLoc.class)
     public void testGenomeLocBad3() {
-        GenomeLoc loc = genomeLocParser.parseGenomeLoc("1:1--0");
+        final GenomeLoc loc = genomeLocParser.parseGenomeLoc("1:1--0");
         assertEquals(loc.getContigIndex(), 0);
         assertEquals(loc.getStop(), 10); // the size
         assertEquals(loc.getStart(), 1);
@@ -246,7 +246,7 @@ public final class GenomeLocParserUnitTest extends BaseTest {
         final int basePairs;
         final GenomeLoc original, flankStart, flankStop;
 
-        private FlankingGenomeLocTestData(String name, GenomeLocParser parser, int basePairs, String original, String flankStart, String flankStop) {
+        private FlankingGenomeLocTestData(final String name, final GenomeLocParser parser, final int basePairs, final String original, final String flankStart, final String flankStop) {
             super(FlankingGenomeLocTestData.class, name);
             this.parser = parser;
             this.basePairs = basePairs;
@@ -255,16 +255,16 @@ public final class GenomeLocParserUnitTest extends BaseTest {
             this.flankStop = flankStop == null ? null : parse(parser, flankStop);
         }
 
-        private static GenomeLoc parse(GenomeLocParser parser, String str) {
+        private static GenomeLoc parse(final GenomeLocParser parser, final String str) {
             return "unmapped".equals(str) ? GenomeLoc.UNMAPPED : parser.parseGenomeLoc(str);
         }
     }
 
     @DataProvider(name = "flankingGenomeLocs")
     public Object[][] getFlankingGenomeLocs() {
-        int contigLength = 10000;
-        SAMFileHeader header = ArtificialReadUtils.createArtificialSamHeader(1, 1, contigLength);
-        GenomeLocParser parser = new GenomeLocParser(header.getSequenceDictionary());
+        final int contigLength = 10000;
+        final SAMFileHeader header = ArtificialReadUtils.createArtificialSamHeader(1, 1, contigLength);
+        final GenomeLocParser parser = new GenomeLocParser(header.getSequenceDictionary());
 
         new FlankingGenomeLocTestData("atStartBase1", parser, 1,
                 "1:1", null, "1:2");
@@ -326,17 +326,17 @@ public final class GenomeLocParserUnitTest extends BaseTest {
     }
 
     @Test(dataProvider = "flankingGenomeLocs")
-    public void testCreateGenomeLocAtStart(FlankingGenomeLocTestData data) {
-        GenomeLoc actual = data.parser.createGenomeLocAtStart(data.original, data.basePairs);
-        String description = String.format("%n      name: %s%n  original: %s%n    actual: %s%n  expected: %s%n",
+    public void testCreateGenomeLocAtStart(final FlankingGenomeLocTestData data) {
+        final GenomeLoc actual = data.parser.createGenomeLocAtStart(data.original, data.basePairs);
+        final String description = String.format("%n      name: %s%n  original: %s%n    actual: %s%n  expected: %s%n",
                 data.toString(), data.original, actual, data.flankStart);
         assertEquals(actual, data.flankStart, description);
     }
 
     @Test(dataProvider = "flankingGenomeLocs")
-    public void testCreateGenomeLocAtStop(FlankingGenomeLocTestData data) {
-        GenomeLoc actual = data.parser.createGenomeLocAtStop(data.original, data.basePairs);
-        String description = String.format("%n      name: %s%n  original: %s%n    actual: %s%n  expected: %s%n",
+    public void testCreateGenomeLocAtStop(final FlankingGenomeLocTestData data) {
+        final GenomeLoc actual = data.parser.createGenomeLocAtStop(data.original, data.basePairs);
+        final String description = String.format("%n      name: %s%n  original: %s%n    actual: %s%n  expected: %s%n",
                 data.toString(), data.original, actual, data.flankStop);
         assertEquals(actual, data.flankStop, description);
     }
@@ -363,8 +363,8 @@ public final class GenomeLocParserUnitTest extends BaseTest {
 
     @Test( dataProvider = "parseGenomeLoc")
     public void testParsingPositions(final String string, final String contig, final int start) {
-        SAMFileHeader header = ArtificialReadUtils.createArtificialSamHeader(1, 1, 10000000);
-        GenomeLocParser genomeLocParser = new GenomeLocParser(header.getSequenceDictionary());
+        final SAMFileHeader header = ArtificialReadUtils.createArtificialSamHeader(1, 1, 10000000);
+        final GenomeLocParser genomeLocParser = new GenomeLocParser(header.getSequenceDictionary());
         final GenomeLoc loc = genomeLocParser.parseGenomeLoc(string);
         Assert.assertEquals(loc.getContig(), contig);
         Assert.assertEquals(loc.getStart(), start);

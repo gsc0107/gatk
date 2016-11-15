@@ -14,11 +14,11 @@ public class VariantContextVariantAdapter implements GATKVariant, Serializable {
 
     private final VariantContext variantContext;
 
-    public VariantContextVariantAdapter(VariantContext vc) {
+    public VariantContextVariantAdapter(final VariantContext vc) {
         this.variantContext = vc;
     }
 
-    public static GATKVariant sparkVariantAdapter(VariantContext vc) {
+    public static GATKVariant sparkVariantAdapter(final VariantContext vc) {
         return new MinimalVariant(new SimpleInterval(vc.getContig(),vc.getStart(),vc.getEnd()), vc.isSNP(), vc.isIndel());
     }
 
@@ -34,11 +34,11 @@ public class VariantContextVariantAdapter implements GATKVariant, Serializable {
     public boolean isIndel() { return variantContext.isIndel(); }
 
     @Override
-    public boolean equals(Object o) {
+    public boolean equals(final Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        VariantContextVariantAdapter that = (VariantContextVariantAdapter) o;
+        final VariantContextVariantAdapter that = (VariantContextVariantAdapter) o;
 
         // VariantContext doesn't define equality, so we have to.
         if (!getContig().equals(that.getContig())) {

@@ -49,7 +49,7 @@ public final class CollectBaseDistributionByCycleIntegrationTest extends Command
         final File outfile = BaseTest.createTempFile("test", ".metrics");
         final File pdf = BaseTest.createTempFile("test", ".pdf");
 
-        ArgumentsBuilder args = new ArgumentsBuilder();
+        final ArgumentsBuilder args = new ArgumentsBuilder();
         args.add("--" + "input");
         args.add(unsortedBam.getCanonicalPath());
         args.add("--" + "output");

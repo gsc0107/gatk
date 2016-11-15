@@ -16,8 +16,8 @@ public class ReferenceMultiSourceUnitTest extends BaseTest {
 
     @Test
     public void testSerializeRoundTrip2Bit() {
-        PipelineOptions options = null;
-        ReferenceMultiSource referenceMultiSource = new ReferenceMultiSource(options, twoBitRefURL, ReferenceWindowFunctions.IDENTITY_FUNCTION);
+        final PipelineOptions options = null;
+        final ReferenceMultiSource referenceMultiSource = new ReferenceMultiSource(options, twoBitRefURL, ReferenceWindowFunctions.IDENTITY_FUNCTION);
 
         final ReferenceMultiSource roundTrippedReference = SparkTestUtils.roundTripInKryo(referenceMultiSource, ReferenceMultiSource.class, new SparkConf());
 
@@ -28,7 +28,7 @@ public class ReferenceMultiSourceUnitTest extends BaseTest {
 
     @Test(expectedExceptions = UserException.MissingReference.class)
     public void testBadReferenceFile() {
-        PipelineOptions options = null;
+        final PipelineOptions options = null;
         new ReferenceMultiSource(options,
                 BaseTest.getSafeNonExistentFile("NonExistentReference.fasta").getAbsolutePath(),
                 ReferenceWindowFunctions.IDENTITY_FUNCTION);

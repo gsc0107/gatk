@@ -35,7 +35,7 @@ public enum GATKReportVersion {
 
     private final String versionString;
 
-    private GATKReportVersion(String versionString) {
+    private GATKReportVersion(final String versionString) {
         this.versionString = versionString;
     }
 
@@ -44,7 +44,7 @@ public enum GATKReportVersion {
         return versionString;
     }
 
-    public boolean equals(GATKReportVersion that) {
+    public boolean equals(final GATKReportVersion that) {
         return (versionString.equals(that.versionString));
     }
 
@@ -54,7 +54,7 @@ public enum GATKReportVersion {
      * @param header Header from the file starting with ##:GATKReport.v[version]
      * @return The version as an enum.
      */
-    public static GATKReportVersion fromHeader(String header) {
+    public static GATKReportVersion fromHeader(final String header) {
         if ( header == null )
             throw new UserException.BadInput("The GATK report has no version specified in the header");
 

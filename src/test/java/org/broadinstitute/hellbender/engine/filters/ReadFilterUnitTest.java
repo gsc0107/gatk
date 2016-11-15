@@ -36,13 +36,13 @@ public final class ReadFilterUnitTest {
 
 
     @Test(dataProvider = "readsStartEnd")
-    public void testTest(GATKRead read, boolean start, boolean end){
+    public void testTest(final GATKRead read, final boolean start, final boolean end){
         Assert.assertEquals(startOk.test(read), start);
         Assert.assertEquals(endOk.test(read), end);
     }
 
     @Test(dataProvider = "readsStartEnd")
-    public void testNegate(GATKRead read, boolean start, boolean end){
+    public void testNegate(final GATKRead read, final boolean start, final boolean end){
         Assert.assertEquals(startOk.negate().test(read), !start);
         Assert.assertEquals(endOk.negate().test(read), !end);
     }
@@ -58,13 +58,13 @@ public final class ReadFilterUnitTest {
     }
 
     @Test(dataProvider = "readsAnd")
-    public void testAnd(GATKRead read, boolean expected){
-        boolean aTest = startOk.test(read);
-        boolean bTest = endOk.test(read);
-        boolean cTest = endOk.negate().test(read);
+    public void testAnd(final GATKRead read, final boolean expected){
+        final boolean aTest = startOk.test(read);
+        final boolean bTest = endOk.test(read);
+        final boolean cTest = endOk.negate().test(read);
 
-        ReadFilter startAndEndOk = startOk.and(endOk);
-        ReadFilter endAndStartOk = endOk.and(startOk);
+        final ReadFilter startAndEndOk = startOk.and(endOk);
+        final ReadFilter endAndStartOk = endOk.and(startOk);
         Assert.assertEquals(startAndEndOk.test(read), expected);
         Assert.assertEquals(endAndStartOk.test(read), expected);
     }
@@ -81,9 +81,9 @@ public final class ReadFilterUnitTest {
 
 
     @Test(dataProvider = "readsOr")
-    public void testOr(GATKRead read, boolean expected) {
-        ReadFilter startOrEndOk = startOk.or(endOk);
-        ReadFilter endOrStartOk = endOk.or(startOk);
+    public void testOr(final GATKRead read, final boolean expected) {
+        final ReadFilter startOrEndOk = startOk.or(endOk);
+        final ReadFilter endOrStartOk = endOk.or(startOk);
         Assert.assertEquals(startOrEndOk.test(read), expected);
         Assert.assertEquals(endOrStartOk.test(read), expected);
     }
@@ -99,12 +99,12 @@ public final class ReadFilterUnitTest {
     }
 
     @Test(dataProvider = "deeper")
-    public void testDeeperChaining(GATKRead read, boolean expected){
-        ReadFilter notAMinionOfGozer = new ReadFilter() {
+    public void testDeeperChaining(final GATKRead read, final boolean expected){
+        final ReadFilter notAMinionOfGozer = new ReadFilter() {
             private static final long serialVersionUID = 1L;
             @Override public boolean test(final GATKRead read){return !read.getName().equals("Zuul");}
         };
-        ReadFilter readChecksOut = startOk.or(endOk).and(notAMinionOfGozer);
+        final ReadFilter readChecksOut = startOk.or(endOk).and(notAMinionOfGozer);
         Assert.assertEquals(readChecksOut.test(read), expected);
         Assert.assertEquals(readChecksOut.and(readChecksOut).test(read), expected);
         Assert.assertEquals(readChecksOut.and(r -> false).test(read), false);

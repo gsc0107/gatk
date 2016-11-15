@@ -18,7 +18,7 @@ public final class ShardBoundaryShard<T> implements Shard<T> {
      * @param shardBoundary the boundary defining the shard
      * @param locatables the records overlapping  the shard
      */
-    public ShardBoundaryShard(ShardBoundary shardBoundary, Iterable<T> locatables) {
+    public ShardBoundaryShard(final ShardBoundary shardBoundary, final Iterable<T> locatables) {
         this.shardBoundary = shardBoundary;
         this.locatables = locatables;
     }

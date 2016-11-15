@@ -40,13 +40,13 @@ public final class ExampleReadWalkerWithReference extends ReadWalker {
         try {
             outputStream = OUTPUT_FILE != null ? new PrintStream(OUTPUT_FILE) : System.out;
         }
-        catch ( FileNotFoundException e ) {
+        catch ( final FileNotFoundException e ) {
             throw new UserException.CouldNotReadInputFile(OUTPUT_FILE, e);
         }
     }
 
     @Override
-    public void apply( GATKRead read, ReferenceContext referenceContext, FeatureContext featureContext ) {
+    public void apply(final GATKRead read, final ReferenceContext referenceContext, final FeatureContext featureContext ) {
         outputStream.printf("Read at %s:%d-%d:\n%s\n", read.getContig(), read.getStart(), read.getEnd(), read.getBasesString());
         if ( referenceContext.hasBackingDataSource() )
             outputStream.println("Reference Context:\n" + new String(referenceContext.getBases()));

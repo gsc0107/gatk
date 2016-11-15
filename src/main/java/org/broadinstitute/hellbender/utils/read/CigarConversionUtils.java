@@ -64,8 +64,8 @@ public final class CigarConversionUtils {
     static {
         // Populate cigar operator lookup tables
 
-        Map<String, CigarOperator> ga4ghToSAMOperatorTableLocal = new LinkedHashMap<>(CIGAR_UNIT_OPERATORS.size() * 2);
-        Map<CigarOperator, String> samToGA4GHOperatorTableLocal = new LinkedHashMap<>(CIGAR_UNIT_OPERATORS.size() * 2);
+        final Map<String, CigarOperator> ga4ghToSAMOperatorTableLocal = new LinkedHashMap<>(CIGAR_UNIT_OPERATORS.size() * 2);
+        final Map<CigarOperator, String> samToGA4GHOperatorTableLocal = new LinkedHashMap<>(CIGAR_UNIT_OPERATORS.size() * 2);
 
         for ( int i = 0; i < CIGAR_UNIT_OPERATORS.size(); ++i ) {
             ga4ghToSAMOperatorTableLocal.put(CIGAR_UNIT_OPERATORS.get(i), SAM_CIGAR_ELEMENT_OPERATORS.get(i));
@@ -91,7 +91,7 @@ public final class CigarConversionUtils {
         }
 
         final List<CigarElement> cigarElements = new ArrayList<>(cigarUnits.size());
-        for ( CigarUnit cigarUnit : cigarUnits ) {
+        for ( final CigarUnit cigarUnit : cigarUnits ) {
             cigarElements.add(convertCigarUnitToSAMCigarElement(cigarUnit));
         }
         return new Cigar(cigarElements);
@@ -109,7 +109,7 @@ public final class CigarConversionUtils {
         }
 
         final List<CigarUnit> cigarUnits = new ArrayList<>(cigar.numCigarElements());
-        for ( CigarElement cigarElement : cigar.getCigarElements() ) {
+        for ( final CigarElement cigarElement : cigar.getCigarElements() ) {
             cigarUnits.add(convertSAMCigarElementToCigarUnit(cigarElement));
         }
         return cigarUnits;

@@ -37,7 +37,7 @@ public final class MendelianViolation {
      * @param abortOnSampleNotFound - Whether to stop execution if a family is passed but no relevant genotypes are found. If false, then the family is ignored.
      * @param completeTriosOnly true if only complete trios are considered, false to include parent/child pairs are
      */
-    public MendelianViolation(final double minGenotypeQualityP, final boolean abortOnSampleNotFound, boolean completeTriosOnly) {
+    public MendelianViolation(final double minGenotypeQualityP, final boolean abortOnSampleNotFound, final boolean completeTriosOnly) {
         minGenotypeQuality = minGenotypeQualityP;
         this.abortOnSampleNotFound = abortOnSampleNotFound;
         createInheritanceMap();
@@ -98,9 +98,9 @@ public final class MendelianViolation {
      * @param vc the variant context to extract the genotypes and alleles for mom, dad and child.
      * @return whether or not there is a mendelian violation at the site.
      */
-    public int countFamilyViolations(SampleDB sampleDB, Set<String> sampleIDs, VariantContext vc) {
+    public int countFamilyViolations(final SampleDB sampleDB, final Set<String> sampleIDs, final VariantContext vc) {
         violations_total =0 ;
-        Map<String, Set<Sample>> families = sampleDB.getFamilies(sampleIDs);
+        final Map<String, Set<Sample>> families = sampleDB.getFamilies(sampleIDs);
         clearInheritanceMap();
 
         for (final Set<Sample> family : families.values()) {
@@ -147,11 +147,11 @@ public final class MendelianViolation {
 
     private void createInheritanceMap(){
         inheritance = new EnumMap<>(GenotypeType.class);
-        for(GenotypeType mType : GenotypeType.values()){
+        for(final GenotypeType mType : GenotypeType.values()){
             inheritance.put(mType, new EnumMap<>(GenotypeType.class));
-            for(GenotypeType dType : GenotypeType.values()){
+            for(final GenotypeType dType : GenotypeType.values()){
                 inheritance.get(mType).put(dType, new EnumMap<>(GenotypeType.class));
-                for(GenotypeType cType : GenotypeType.values()){
+                for(final GenotypeType cType : GenotypeType.values()){
                     inheritance.get(mType).get(dType).put(cType, 0);
                 }
             }
@@ -159,9 +159,9 @@ public final class MendelianViolation {
     }
 
     private void clearInheritanceMap(){
-        for(GenotypeType mType : GenotypeType.values()){
-            for(GenotypeType dType : GenotypeType.values()){
-                for(GenotypeType cType : GenotypeType.values()){
+        for(final GenotypeType mType : GenotypeType.values()){
+            for(final GenotypeType dType : GenotypeType.values()){
+                for(final GenotypeType cType : GenotypeType.values()){
                     inheritance.get(mType).get(dType).put(cType, 0);
                 }
             }

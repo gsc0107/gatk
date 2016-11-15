@@ -348,11 +348,11 @@ public class VariantRecalibrator extends MultiVariantWalker {
 
         try {
             tranchesStream = new PrintStream(TRANCHES_FILE);
-        } catch (FileNotFoundException e) {
+        } catch (final FileNotFoundException e) {
             throw new UserException.CouldNotCreateOutputFile(TRANCHES_FILE, e);
         }
 
-        for( FeatureInput<VariantContext> variantFeature : resource ) {
+        for( final FeatureInput<VariantContext> variantFeature : resource ) {
             dataManager.addTrainingSet( new TrainingSet( variantFeature ) );
         }
 
@@ -373,7 +373,7 @@ public class VariantRecalibrator extends MultiVariantWalker {
         Set<VCFHeaderLine> hInfo = new HashSet<>();
         hInfo.add(new VCFHeaderLine("source", this.getClass().getSimpleName()));
         VariantRecalibrationUtils.addVQSRStandardHeaderLines(hInfo);
-        SAMSequenceDictionary sequenceDictionary = getBestAvailableSequenceDictionary();
+        final SAMSequenceDictionary sequenceDictionary = getBestAvailableSequenceDictionary();
         if (hasReference()) {
             hInfo = VcfUtils.updateHeaderContigLines(
                     hInfo, referenceArguments.getReferenceFile(), sequenceDictionary, true);
@@ -397,7 +397,7 @@ public class VariantRecalibrator extends MultiVariantWalker {
     //---------------------------------------------------------------------------------------------------------------
 
     @Override
-    public void apply(VariantContext vc, ReadsContext readsContext, ReferenceContext ref, FeatureContext featureContext) {
+    public void apply(final VariantContext vc, final ReadsContext readsContext, final ReferenceContext ref, final FeatureContext featureContext) {
         // Queue up all variant/featureContext pairs that share a start locus, and defer
         // processing until the start-position or contig changes. In practice this will
         // rarely queue up more than a single variant at a time.
@@ -414,7 +414,7 @@ public class VariantRecalibrator extends MultiVariantWalker {
             return false;
         }
         else {
-            ImmutablePair<VariantContext, FeatureContext> previous = variantsAtLocus.get(0);
+            final ImmutablePair<VariantContext, FeatureContext> previous = variantsAtLocus.get(0);
             return (nextVC.getStart() != previous.left.getStart() || !nextVC.getContig().equals(previous.left.getContig()));
         }
     }
@@ -447,7 +447,7 @@ public class VariantRecalibrator extends MultiVariantWalker {
         }
     }
 
-    private void addVariantDatum( VariantContext vc, final boolean isInput, final FeatureContext context ) {
+    private void addVariantDatum(final VariantContext vc, final boolean isInput, final FeatureContext context ) {
         if( vc != null && ( IGNORE_ALL_FILTERS || vc.isNotFiltered() || ignoreInputFilterSet.containsAll(vc.getFilters()) ) ) {
             if( VariantDataManager.checkVariationClass( vc, VRAC.MODE ) && !VRAC.useASannotations) {
                 addDatum(reduceSum, isInput, context, vc, null, null);
@@ -537,10 +537,10 @@ public class VariantRecalibrator extends MultiVariantWalker {
                 }
 
                 if (outputModel) {
-                    GATKReport report = writeModelReport(goodModel, badModel, USE_ANNOTATIONS);
+                    final GATKReport report = writeModelReport(goodModel, badModel, USE_ANNOTATIONS);
                     try(final PrintStream modelReportStream = new PrintStream(modelReport)) {
                         report.print(modelReportStream);
-                    } catch (FileNotFoundException e) {
+                    } catch (final FileNotFoundException e) {
                         throw new UserException.CouldNotCreateOutputFile("File: (" + modelReport + ")", e);
                     }
                 }
@@ -573,7 +573,7 @@ public class VariantRecalibrator extends MultiVariantWalker {
                     logger.info("Tranches plot will not be generated since we are running in INDEL mode");
                 } else {
                     // Execute the RScript command to plot the table of truth values
-                    RScriptExecutor executor = new RScriptExecutor();
+                    final RScriptExecutor executor = new RScriptExecutor();
                     executor.addScript(new Resource(PLOT_TRANCHES_RSCRIPT, VariantRecalibrator.class));
                     executor.addArgs(new File(TRANCHES_FILE).getAbsoluteFile(), TARGET_TITV);
                     // Print out the command line to make it clear to the user what is being executed and how one might modify it
@@ -582,7 +582,7 @@ public class VariantRecalibrator extends MultiVariantWalker {
                 }
                 return true;
             }
-            catch (Exception e) {
+            catch (final Exception e) {
                 //TODO: see https://github.com/broadgsa/gatk-protected/pull/19
                 // If we retain this loop, it needs to be restructured. Currently, any existing state (including data
                 // already written to output streams) is retained for the next attempt. The output streams should
@@ -617,13 +617,13 @@ public class VariantRecalibrator extends MultiVariantWalker {
     protected GATKReport writeModelReport(
             final GaussianMixtureModel goodModel,
             final GaussianMixtureModel badModel,
-            List<String> annotationList) {
+            final List<String> annotationList) {
         final String formatString = "%.3f";
         final GATKReport report = new GATKReport();
 
         if (dataManager != null) {  //for unit test
             final double[] meanVector = dataManager.getMeanVector();
-            GATKReportTable annotationMeans = makeVectorTable(
+            final GATKReportTable annotationMeans = makeVectorTable(
                     "AnnotationMeans",
                     "Mean for each annotation, used to normalize data",
                     dataManager.annotationKeys,
@@ -633,7 +633,7 @@ public class VariantRecalibrator extends MultiVariantWalker {
             report.addTable(annotationMeans);
 
             final double[] varianceVector = dataManager.getVarianceVector();  //"varianceVector" is actually stdev
-            GATKReportTable annotationVariances = makeVectorTable(
+            final GATKReportTable annotationVariances = makeVectorTable(
                     "AnnotationStdevs",
                     "Standard deviation for each annotation, used to normalize data",
                     dataManager.annotationKeys,
@@ -645,14 +645,14 @@ public class VariantRecalibrator extends MultiVariantWalker {
 
         //The model and Gaussians don't know what the annotations are, so get them from this class
         //VariantDataManager keeps the annotation in the same order as the argument list
-        GATKReportTable positiveMeans = makeMeansTable(
+        final GATKReportTable positiveMeans = makeMeansTable(
                 "PositiveModelMeans", "Vector of annotation values to describe the (normalized) mean for each Gaussian in the positive model",
                 annotationList,
                 goodModel,
                 formatString);
         report.addTable(positiveMeans);
 
-        GATKReportTable positiveCovariance = makeCovariancesTable(
+        final GATKReportTable positiveCovariance = makeCovariancesTable(
                 "PositiveModelCovariances", "Matrix to describe the (normalized) covariance for each Gaussian in the positive model; covariance matrices are joined by row",
                 annotationList,
                 goodModel,
@@ -660,12 +660,12 @@ public class VariantRecalibrator extends MultiVariantWalker {
         report.addTable(positiveCovariance);
 
         //do the same for the negative model means
-        GATKReportTable negativeMeans = makeMeansTable(
+        final GATKReportTable negativeMeans = makeMeansTable(
                 "NegativeModelMeans", "Vector of annotation values to describe the (normalized) mean for each Gaussian in the negative model",
                 annotationList, badModel, formatString);
         report.addTable(negativeMeans);
 
-        GATKReportTable negativeCovariance = makeCovariancesTable(
+        final GATKReportTable negativeCovariance = makeCovariancesTable(
                 "NegativeModelCovariances",
                 "Matrix to describe the (normalized) covariance for each Gaussian in the negative model; covariance matrices are joined by row",
                 annotationList,
@@ -683,7 +683,7 @@ public class VariantRecalibrator extends MultiVariantWalker {
             final double[] perAnnotationValues,
             final String columnName,
             final String formatString) {
-        GATKReportTable vectorTable = new GATKReportTable(
+        final GATKReportTable vectorTable = new GATKReportTable(
                 tableName, tableDescription, annotationList.size(), GATKReportTable.Sorting.DO_NOT_SORT);
         vectorTable.addColumn("Annotation", "%s");
         vectorTable.addColumn(columnName, formatString);
@@ -700,7 +700,7 @@ public class VariantRecalibrator extends MultiVariantWalker {
             final List<String> annotationList,
             final GaussianMixtureModel model,
             final String formatString) {
-        GATKReportTable meansTable = new GATKReportTable(
+        final GATKReportTable meansTable = new GATKReportTable(
                 tableName, tableDescription, annotationList.size(), GATKReportTable.Sorting.DO_NOT_SORT);
         meansTable.addColumn("Gaussian", "");
         for (final String annotationName : annotationList) {
@@ -725,7 +725,7 @@ public class VariantRecalibrator extends MultiVariantWalker {
             final List<String> annotationList,
             final GaussianMixtureModel model,
             final String formatString) {
-        GATKReportTable modelCovariances = new GATKReportTable(
+        final GATKReportTable modelCovariances = new GATKReportTable(
                 tableName, tableDescription, annotationList.size()+2, GATKReportTable.Sorting.DO_NOT_SORT); //+2 is for Gaussian and Annotation columns
         modelCovariances.addColumn("Gaussian", "");
         modelCovariances.addColumn("Annotation", "");
@@ -757,10 +757,10 @@ public class VariantRecalibrator extends MultiVariantWalker {
             final GaussianMixtureModel badModel,
             final double lodCutoff,
             final String[] annotationKeys ) {
-        PrintStream stream;
+        final PrintStream stream;
         try {
             stream = new PrintStream(RSCRIPT_FILE);
-        } catch( FileNotFoundException e ) {
+        } catch( final FileNotFoundException e ) {
             throw new UserException.CouldNotCreateOutputFile(RSCRIPT_FILE, e);
         }
 
@@ -864,7 +864,7 @@ public class VariantRecalibrator extends MultiVariantWalker {
         stream.close();
 
         // Execute Rscript command to generate the clustering plots
-        RScriptExecutor executor = new RScriptExecutor();
+        final RScriptExecutor executor = new RScriptExecutor();
         executor.addScript(new File(RSCRIPT_FILE));
         logger.info("Executing: " + executor.getApproximateCommandLine());
         executor.exec();

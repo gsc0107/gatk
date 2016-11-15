@@ -49,7 +49,7 @@ public final class VectorPairHMMUnitTest extends BaseTest {
 
     @DataProvider(name = "JustHMMProvider")
     public Object[][] makeJustHMMProvider() {
-        List<Object[]> tests = new ArrayList<>();
+        final List<Object[]> tests = new ArrayList<>();
 
         for ( final PairHMM hmm : getHMMs() ) {
             tests.add(new Object[]{hmm});
@@ -64,12 +64,12 @@ public final class VectorPairHMMUnitTest extends BaseTest {
         BasicInputParser parser = null;
         try {
             parser = new BasicInputParser(true, new FileInputStream(pairHMMTestData));
-        } catch (FileNotFoundException e) {
+        } catch (final FileNotFoundException e) {
             Assert.fail("PairHMM test data not found : " + pairHMMTestData);
         }
 
         while (parser.hasNext()) {
-            String tokens[] = parser.next();
+            final String[] tokens = parser.next();
 
             final Haplotype hap = new Haplotype(tokens[0].getBytes(), true);
 
@@ -99,11 +99,11 @@ public final class VectorPairHMMUnitTest extends BaseTest {
         hmm.close();
     }
 
-    private static byte[] normalize(byte[] scores) {
+    private static byte[] normalize(final byte[] scores) {
         return normalize(scores, 0);
     }
 
-    private static byte[] normalize(byte[] scores, int min) {
+    private static byte[] normalize(final byte[] scores, final int min) {
         for (int i = 0; i < scores.length; i++) {
             scores[i] -= 33;
             scores[i] = scores[i] < min ? (byte)min : scores[i];
@@ -124,22 +124,22 @@ public final class VectorPairHMMUnitTest extends BaseTest {
             }
 
             @Override
-            public void set(int alleleIndex, int readIndex, double value) {
+            public void set(final int alleleIndex, final int readIndex, final double value) {
 //                throw new UnsupportedOperationException();
             }
 
             @Override
-            public double get(int alleleIndex, int readIndex) {
+            public double get(final int alleleIndex, final int readIndex) {
                 throw new UnsupportedOperationException();
             }
 
             @Override
-            public int indexOfAllele(Haplotype allele) {
+            public int indexOfAllele(final Haplotype allele) {
                 throw new UnsupportedOperationException();
             }
 
             @Override
-            public int indexOfRead(GATKRead read) {
+            public int indexOfRead(final GATKRead read) {
                 throw new UnsupportedOperationException();
             }
 
@@ -154,17 +154,17 @@ public final class VectorPairHMMUnitTest extends BaseTest {
             }
 
             @Override
-            public Haplotype getAllele(int alleleIndex) {
+            public Haplotype getAllele(final int alleleIndex) {
                 throw new UnsupportedOperationException();
             }
 
             @Override
-            public GATKRead getRead(int readIndex) {
+            public GATKRead getRead(final int readIndex) {
                 throw new UnsupportedOperationException();
             }
 
             @Override
-            public void copyAlleleLikelihoods(int alleleIndex, double[] dest, int offset) {
+            public void copyAlleleLikelihoods(final int alleleIndex, final double[] dest, final int offset) {
                 throw new UnsupportedOperationException();
             }
         };

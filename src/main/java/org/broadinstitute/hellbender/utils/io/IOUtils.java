@@ -71,7 +71,7 @@ public final class IOUtils {
      * @param suffix       Optional suffix for the directory name.
      * @return The created temporary directory.
      */
-    public static File tempDir(String prefix, String suffix) {
+    public static File tempDir(final String prefix, final String suffix) {
         return tempDir(prefix, suffix, null);
     }
 
@@ -83,19 +83,19 @@ public final class IOUtils {
      * @param tempDirParent Parent directory for the temp directory.
      * @return The created temporary directory.
      */
-    public static File tempDir(String prefix, String suffix, File tempDirParent) {
+    public static File tempDir(final String prefix, final String suffix, File tempDirParent) {
         try {
             if (tempDirParent == null)
                 tempDirParent = FileUtils.getTempDirectory();
             if (!tempDirParent.exists() && !tempDirParent.mkdirs())
                 throw new UserException.BadTmpDir("Could not create temp directory: " + tempDirParent);
-            File temp = File.createTempFile(prefix, suffix, tempDirParent);
+            final File temp = File.createTempFile(prefix, suffix, tempDirParent);
             if (!temp.delete())
                 throw new UserException.BadTmpDir("Could not delete sub file: " + temp.getAbsolutePath());
             if (!temp.mkdir())
                 throw new UserException.BadTmpDir("Could not create sub directory: " + temp.getAbsolutePath());
             return absolute(temp);
-        } catch (IOException e) {
+        } catch (final IOException e) {
             throw new UserException.BadTmpDir(e.getMessage());
         }
     }
@@ -108,7 +108,7 @@ public final class IOUtils {
      * @param suffix    Suffix for the temp file.
      * @return the path to the temp file.
      */
-    public static File writeTempFile(String content, String prefix, String suffix) {
+    public static File writeTempFile(final String content, final String prefix, final String suffix) {
         return writeTempFile(content, prefix, suffix, null);
     }
 
@@ -121,12 +121,12 @@ public final class IOUtils {
      * @param directory Directory for the temp file.
      * @return the path to the temp file.
      */
-    public static File writeTempFile(String content, String prefix, String suffix, File directory) {
+    public static File writeTempFile(final String content, final String prefix, final String suffix, final File directory) {
         try {
-            File tempFile = absolute(File.createTempFile(prefix, suffix, directory));
+            final File tempFile = absolute(File.createTempFile(prefix, suffix, directory));
             FileUtils.writeStringToFile(tempFile, content);
             return tempFile;
-        } catch (IOException e) {
+        } catch (final IOException e) {
             throw new UserException.BadTmpDir(e.getMessage());
         }
     }
@@ -136,7 +136,7 @@ public final class IOUtils {
      * @param file File path to check.
      * @return true if the file is a special file.
      */
-    public static boolean isSpecialFile(File file) {
+    public static boolean isSpecialFile(final File file) {
         return file != null && (file.getAbsolutePath().startsWith("/dev/") || file.equals(DEV_DIR));
     }
 
@@ -147,12 +147,12 @@ public final class IOUtils {
      * @param file File to delete.
      * @return true if the file was deleted.
      */
-    public static boolean tryDelete(File file) {
+    public static boolean tryDelete(final File file) {
         if (isSpecialFile(file)) {
             logger.debug("Not trying to delete " + file);
             return false;
         }
-        boolean deleted = FileUtils.deleteQuietly(file);
+        final boolean deleted = FileUtils.deleteQuietly(file);
         if (deleted)
             logger.debug("Deleted " + file);
         else if (file.exists())
@@ -167,15 +167,15 @@ public final class IOUtils {
      * @param file the file.
      * @return the absolute path to the file.
      */
-    public static File absolute(File file) {
+    public static File absolute(final File file) {
         return replacePath(file, absolutePath(file));
     }
 
-    private static String absolutePath(File file) {
+    private static String absolutePath(final File file) {
         File fileAbs = file.getAbsoluteFile();
-        LinkedList<String> names = new LinkedList<>();
+        final LinkedList<String> names = new LinkedList<>();
         while (fileAbs != null) {
-            String name = fileAbs.getName();
+            final String name = fileAbs.getName();
             fileAbs = fileAbs.getParentFile();
 
             if (".".equals(name)) {
@@ -206,7 +206,7 @@ public final class IOUtils {
         return ("/" + StringUtils.join(names, "/"));
     }
 
-    private static File replacePath(File file, String path) {
+    private static File replacePath(final File file, final String path) {
         if (file instanceof FileExtension)
             return ((FileExtension)file).withPath(path);
         if (!File.class.equals(file.getClass()))
@@ -220,11 +220,11 @@ public final class IOUtils {
      * @param resource Embedded resource.
      * @return Path to the temp file with the contents of the resource.
      */
-    public static File writeTempResource(Resource resource) {
-        File temp;
+    public static File writeTempResource(final Resource resource) {
+        final File temp;
         try {
             temp = File.createTempFile(FilenameUtils.getBaseName(resource.getPath()) + ".", "." + FilenameUtils.getExtension(resource.getPath()));
-        } catch (IOException e) {
+        } catch (final IOException e) {
             throw new UserException.BadTmpDir(e.getMessage());
         }
         writeResource(resource, temp);
@@ -237,14 +237,14 @@ public final class IOUtils {
      * @param resource Embedded resource.
      * @param file File path to write.
      */
-    public static void writeResource(Resource resource, File file) {
-        String path = resource.getPath();
-        InputStream inputStream = resource.getResourceContentsAsStream();
+    public static void writeResource(final Resource resource, final File file) {
+        final String path = resource.getPath();
+        final InputStream inputStream = resource.getResourceContentsAsStream();
         OutputStream outputStream = null;
         try {
             outputStream = FileUtils.openOutputStream(file);
             org.apache.commons.io.IOUtils.copy(inputStream, outputStream);
-        } catch (IOException e) {
+        } catch (final IOException e) {
             throw new GATKException(String.format("Unable to copy resource '%s' to '%s'", path, file), e);
         } finally {
             org.apache.commons.io.IOUtils.closeQuietly(inputStream);
@@ -258,7 +258,7 @@ public final class IOUtils {
      * @param source File to read
      * @return The contents of the file as a byte array
      */
-    public static byte[] readFileIntoByteArray ( File source ) {
+    public static byte[] readFileIntoByteArray (final File source ) {
         return readFileIntoByteArray(source, 4096);
     }
 
@@ -269,17 +269,17 @@ public final class IOUtils {
      * @param readBufferSize Number of bytes to read in at one time
      * @return The contents of the file as a byte array
      */
-    public static byte[] readFileIntoByteArray ( File source, int readBufferSize ) {
+    public static byte[] readFileIntoByteArray (final File source, final int readBufferSize ) {
         if ( source == null ) {
             throw new GATKException("Source file was null");
         }
 
-        byte[] fileContents;
+        final byte[] fileContents;
 
         try {
             fileContents = readStreamIntoByteArray(new FileInputStream(source), readBufferSize);
         }
-        catch ( FileNotFoundException e ) {
+        catch ( final FileNotFoundException e ) {
             throw new UserException.CouldNotReadInputFile(source, e);
         }
 
@@ -298,7 +298,7 @@ public final class IOUtils {
      * @param readBufferSize Number of bytes to read in at one time
      * @return The contents of the stream as a byte array
      */
-    public static byte[] readStreamIntoByteArray ( InputStream in, int readBufferSize ) {
+    public static byte[] readStreamIntoByteArray (final InputStream in, final int readBufferSize ) {
         if ( in == null ) {
             throw new IllegalArgumentException("Input stream was null");
         }
@@ -308,8 +308,8 @@ public final class IOUtils {
 
         // Use a fixed-size buffer for each read, but a dynamically-growing buffer
         // to hold the accumulated contents of the file/stream:
-        byte[] readBuffer = new byte[readBufferSize];
-        ByteArrayOutputStream fileBuffer = new ByteArrayOutputStream(readBufferSize * 4);
+        final byte[] readBuffer = new byte[readBufferSize];
+        final ByteArrayOutputStream fileBuffer = new ByteArrayOutputStream(readBufferSize * 4);
 
         try {
             try {
@@ -323,7 +323,7 @@ public final class IOUtils {
                 in.close();
             }
         }
-        catch ( IOException e ) {
+        catch ( final IOException e ) {
             throw new UserException.CouldNotReadInputFile("I/O error reading from input stream", e);
         }
 
@@ -336,7 +336,7 @@ public final class IOUtils {
      * @param bytes Data to write
      * @param destination File to write the data to
      */
-    public static void writeByteArrayToFile ( byte[] bytes, File destination ) {
+    public static void writeByteArrayToFile (final byte[] bytes, final File destination ) {
         if ( destination == null ) {
             throw new GATKException("Destination file was null");
         }
@@ -344,7 +344,7 @@ public final class IOUtils {
         try {
             writeByteArrayToStream(bytes, new FileOutputStream(destination));
         }
-        catch ( FileNotFoundException e ) {
+        catch ( final FileNotFoundException e ) {
             throw new UserException.CouldNotCreateOutputFile(destination, e);
         }
     }
@@ -355,7 +355,7 @@ public final class IOUtils {
      * @param bytes Data to write
      * @param out Stream to write the data to
      */
-    public static void writeByteArrayToStream ( byte[] bytes, OutputStream out ) {
+    public static void writeByteArrayToStream (final byte[] bytes, final OutputStream out ) {
         if ( bytes == null || out == null ) {
             throw new GATKException("Data to write or output stream was null");
         }
@@ -368,7 +368,7 @@ public final class IOUtils {
                 out.close();
             }
         }
-        catch ( IOException e ) {
+        catch ( final IOException e ) {
             throw new UserException.CouldNotCreateOutputFile("I/O error writing to output stream", e);
         }
     }
@@ -376,18 +376,18 @@ public final class IOUtils {
     /**
      * Un-gzips the input file to the output file.
      */
-    public static void gunzip(File input, File output) {
+    public static void gunzip(final File input, final File output) {
         try {
             try (GZIPInputStream in = new GZIPInputStream(new FileInputStream(input));
                  OutputStream out = new FileOutputStream(output)) {
 
-                byte[] buf = new byte[4096];
+                final byte[] buf = new byte[4096];
                 int len;
                 while ((len = in.read(buf)) > 0) {
                     out.write(buf, 0, len);
                 }
             }
-        } catch (IOException e){
+        } catch (final IOException e){
             throw new GATKException("Exception while unzipping a file:" + input + " to:" + output, e);
         }
     }
@@ -397,7 +397,7 @@ public final class IOUtils {
      * In this case the new temp file is masked for deletion on exit and returned from this method.
      * Otherwise, that is if the argument is not a gzipped file, this method just returns the argument.
      */
-    public static File gunzipToTempIfNeeded(File maybeGzipedFile) {
+    public static File gunzipToTempIfNeeded(final File maybeGzipedFile) {
         if (! maybeGzipedFile.getPath().endsWith(".gz")) {
               return maybeGzipedFile;
         }
@@ -409,7 +409,7 @@ public final class IOUtils {
     /**
      * Makes a reader for a file, unzipping if the file's name ends with '.gz'.
      */
-    public static Reader makeReaderMaybeGzipped(File file) throws IOException {
+    public static Reader makeReaderMaybeGzipped(final File file) throws IOException {
         final InputStream in = new BufferedInputStream( new FileInputStream(file));
         return makeReaderMaybeGzipped(in, file.getPath().endsWith(".gz"));
     }
@@ -418,7 +418,7 @@ public final class IOUtils {
      * makes a reader for an inputStream wrapping it in an appropriate unzipper if necessary
      * @param zipped is this stream zipped
      */
-    public static Reader makeReaderMaybeGzipped(InputStream in, boolean zipped) throws IOException {
+    public static Reader makeReaderMaybeGzipped(final InputStream in, final boolean zipped) throws IOException {
         if (zipped) {
             return new InputStreamReader(makeZippedInputStream(in));
         } else {
@@ -431,7 +431,7 @@ public final class IOUtils {
      * @return tries to create a block gzipped input stream and if it's not block gzipped it produces to a gzipped stream instead
      * @throws ZipException if !in.markSupported()
      */
-    public static InputStream makeZippedInputStream(InputStream in) throws IOException {
+    public static InputStream makeZippedInputStream(final InputStream in) throws IOException {
         Utils.nonNull(in);
         if (BlockCompressedInputStream.isValidFile(in)) {
                 return new BlockCompressedInputStream(in);
@@ -443,7 +443,7 @@ public final class IOUtils {
     /**
      * Makes a print stream for a file, gzipping on the fly if the file's name ends with '.gz'.
      */
-    public static PrintStream makePrintStreamMaybeGzipped(File file) throws IOException {
+    public static PrintStream makePrintStreamMaybeGzipped(final File file) throws IOException {
         if (file.getPath().endsWith(".gz")) {
             return new PrintStream(new GZIPOutputStream(new FileOutputStream(file)));
         } else {
@@ -459,7 +459,7 @@ public final class IOUtils {
      * @param extension Extension to concat to the end of the file.
      * @return A file in the temporary directory starting with name, ending with extension, which will be deleted after the program exits.
      */
-    public static File createTempFile(String name, String extension) {
+    public static File createTempFile(final String name, final String extension) {
         try {
             final File file = File.createTempFile(name, extension);
             file.deleteOnExit();
@@ -471,7 +471,7 @@ public final class IOUtils {
             new File(file.getAbsolutePath().replaceAll(extension + "$", ".bai")).deleteOnExit();
 
             return file;
-        } catch (IOException ex) {
+        } catch (final IOException ex) {
             throw new GATKException("Cannot create temp file: " + ex.getMessage(), ex);
         }
     }
@@ -481,14 +481,14 @@ public final class IOUtils {
      * @param extension a file extension, may include 0 or more leading dots which will be replaced with a single dot
      * @return replace the final extension on a path with the given extension
      */
-    public static String replaceExtension(String path, String extension){
+    public static String replaceExtension(final String path, final String extension){
         Utils.nonNull(path);
         Utils.nonNull(extension);
         final String extensionNoLeadingDot = StringUtils.stripStart(extension, ".");
         return FilenameUtils.removeExtension(path) + '.' + extensionNoLeadingDot;
     }
 
-    public static File replaceExtension(File file, String extension){
+    public static File replaceExtension(final File file, final String extension){
         return new File(replaceExtension(file.getPath(), extension));
     }
 
@@ -499,7 +499,7 @@ public final class IOUtils {
      * It improves upon {@link FileUtils#forceDeleteOnExit} by deleting directories and files that did not exist at call time.
      * @param dir to be deleted
      */
-    public static void deleteRecursivelyOnExit(File dir){
+    public static void deleteRecursivelyOnExit(final File dir){
         Runtime.getRuntime().addShutdownHook(new Thread() {
 
             @Override
@@ -518,23 +518,23 @@ public final class IOUtils {
      * @return the resulting {@code Path}
      * @throws UserException if an I/O error occurs when creating the file system
      */
-    public static Path getPath(String uriString) {
-        URI uri = URI.create(uriString);
+    public static Path getPath(final String uriString) {
+        final URI uri = URI.create(uriString);
         try {
             // special case GCS, in case the filesystem provider wasn't installed properly but is available.
             if (CloudStorageFileSystem.URI_SCHEME.equals(uri.getScheme())) {
                 return BucketUtils.getPathOnGcs(uriString);
             }
             return uri.getScheme() == null ? Paths.get(uriString) : Paths.get(uri);
-        } catch (FileSystemNotFoundException e) {
+        } catch (final FileSystemNotFoundException e) {
             try {
-                ClassLoader cl = Thread.currentThread().getContextClassLoader();
+                final ClassLoader cl = Thread.currentThread().getContextClassLoader();
                 if ( cl == null ) {
                     throw e;
                 }
                 return FileSystems.newFileSystem(uri, new HashMap<>(), cl).provider().getPath(uri);
             }
-            catch ( IOException io ) {
+            catch ( final IOException io ) {
                 throw new UserException(uriString + " is not a supported path", io);
             }
         }

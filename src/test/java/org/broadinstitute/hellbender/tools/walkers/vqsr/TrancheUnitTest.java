@@ -20,13 +20,13 @@ public final class TrancheUnitTest extends BaseTest {
     private final File EXPECTED_TRANCHES_OLD = new File(testDir + "tranches.4.txt");
 
     private ArrayList<VariantDatum> readData() throws IOException{
-        ArrayList<VariantDatum> vd = new ArrayList<>();
+        final ArrayList<VariantDatum> vd = new ArrayList<>();
         try (XReadLines xrl = new XReadLines(QUAL_DATA, true)){
-            for ( String line : xrl ) {
-                String[] parts = line.split("\t");
+            for ( final String line : xrl ) {
+                final String[] parts = line.split("\t");
                 // QUAL,TRANSITION,ID,LOD,FILTER
                 if ( ! parts[0].equals("QUAL") ) {
-                    VariantDatum datum = new VariantDatum();
+                    final VariantDatum datum = new VariantDatum();
                     datum.lod = Double.valueOf(parts[3]);
                     datum.isTransition = parts[1].equals("1");
                     datum.isKnown = ! parts[2].equals(".");
@@ -55,15 +55,15 @@ public final class TrancheUnitTest extends BaseTest {
         read(EXPECTED_TRANCHES_OLD);
     }
 
-    public final List<Tranche> read(File f) throws IOException{
+    public final List<Tranche> read(final File f) throws IOException{
         return Tranche.readTranches(f);
     }
 
-    private static void assertTranchesAreTheSame(List<Tranche> newFormat, List<Tranche> oldFormat) {
+    private static void assertTranchesAreTheSame(final List<Tranche> newFormat, final List<Tranche> oldFormat) {
         Assert.assertEquals(oldFormat.size(), newFormat.size());
         for ( int i = 0; i < newFormat.size(); i++ ) {
-            Tranche n = newFormat.get(i);
-            Tranche o = oldFormat.get(i);
+            final Tranche n = newFormat.get(i);
+            final Tranche o = oldFormat.get(i);
             Assert.assertEquals(n.targetTruthSensitivity, o.targetTruthSensitivity, 1e-3);
             Assert.assertEquals(n.numNovel, o.numNovel);
             Assert.assertEquals(n.novelTiTv, o.novelTiTv, 1e-3);
@@ -72,7 +72,7 @@ public final class TrancheUnitTest extends BaseTest {
         }
     }
 
-    private static List<Tranche> findMyTranches(ArrayList<VariantDatum> vd, double[] tranches) {
+    private static List<Tranche> findMyTranches(final ArrayList<VariantDatum> vd, final double[] tranches) {
         final int nCallsAtTruth = VariantDatum.countCallsAtTruth( vd, Double.NEGATIVE_INFINITY );
         final Tranche.TruthSensitivityMetric metric = new Tranche.TruthSensitivityMetric( nCallsAtTruth );
         return Tranche.findTranches(vd, tranches, metric, VariantRecalibratorArgumentCollection.Mode.SNP);
@@ -80,15 +80,15 @@ public final class TrancheUnitTest extends BaseTest {
 
     @Test
     public final void testFindTranches1() throws IOException {
-        ArrayList<VariantDatum> vd = readData();
-        List<Tranche> tranches = findMyTranches(vd, TRUTH_SENSITIVITY_CUTS);
+        final ArrayList<VariantDatum> vd = readData();
+        final List<Tranche> tranches = findMyTranches(vd, TRUTH_SENSITIVITY_CUTS);
         tranches.sort(Tranche.TRUTH_SENSITIVITY_ORDER);
         assertTranchesAreTheSame(read(EXPECTED_TRANCHES_NEW), tranches);
     }
 
     @Test(expectedExceptions = {UserException.class})
     public final void testBadFDR() throws IOException {
-        ArrayList<VariantDatum> vd = readData();
+        final ArrayList<VariantDatum> vd = readData();
         findMyTranches(vd, new double[]{-1});
     }
 }

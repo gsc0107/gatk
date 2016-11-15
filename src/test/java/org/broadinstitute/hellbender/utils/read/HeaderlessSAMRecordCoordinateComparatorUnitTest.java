@@ -31,7 +31,7 @@ public class HeaderlessSAMRecordCoordinateComparatorUnitTest extends BaseTest {
         try ( final SamReader reader = SamReaderFactory.makeDefault().validationStringency(ValidationStringency.SILENT).open(new File(inputBam)) ) {
             header = reader.getFileHeader();
 
-            for ( SAMRecord read : reader ) {
+            for ( final SAMRecord read : reader ) {
                 // Clear the indexing bin so that it doesn't affect the equality checks below
                 read.setFlags(read.getFlags());
                 originalReads.add(read);

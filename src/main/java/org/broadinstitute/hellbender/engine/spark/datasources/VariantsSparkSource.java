@@ -23,7 +23,7 @@ import java.util.List;
 public final class VariantsSparkSource {
     private final JavaSparkContext ctx;
 
-    public VariantsSparkSource(JavaSparkContext ctx) {
+    public VariantsSparkSource(final JavaSparkContext ctx) {
         this.ctx = ctx;
     }
 
@@ -60,7 +60,7 @@ public final class VariantsSparkSource {
      * @return JavaRDD<VariantContext> of variants from all files.
      */
     public JavaRDD<VariantContext> getParallelVariantContexts(final String vcf, final List<SimpleInterval> intervals) {
-        Configuration conf = new Configuration();
+        final Configuration conf = new Configuration();
         conf.setStrings("io.compression.codecs", BGZFEnhancedGzipCodec.class.getCanonicalName(),
                 BGZFCodec.class.getCanonicalName());
         if (intervals != null && !intervals.isEmpty()) {

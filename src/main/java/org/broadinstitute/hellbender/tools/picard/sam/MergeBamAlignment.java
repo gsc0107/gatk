@@ -170,7 +170,7 @@ public final class MergeBamAlignment extends PicardCommandLineProgram {
         PrimaryAlignmentSelectionStrategy newInstance() {
             try {
                 return clazz.newInstance();
-            } catch (Exception e) {
+            } catch (final Exception e) {
                 throw new GATKException("Trouble instantiating " + clazz.getName(), e);
             }
         }

@@ -77,7 +77,7 @@ public final class TabbedTextFileWithHeaderParserTest {
                 row.getField(headers[1]);
                 row.getIntegerField(headers[2]);
             }
-            catch(Exception e) {
+            catch(final Exception e) {
                 Assert.fail("Failed to parse one of the fields in " + row.getCurrentLine() + ": " + e.getMessage());
             }
         }

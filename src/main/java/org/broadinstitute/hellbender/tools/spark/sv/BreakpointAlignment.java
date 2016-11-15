@@ -111,7 +111,7 @@ class BreakpointAlignment {
      *  homology
      *
      */
-    public static BreakpointAlignment fromString(String assembledBreakpointLine) {
+    public static BreakpointAlignment fromString(final String assembledBreakpointLine) {
         final String[] fields = assembledBreakpointLine.split("\t");
         return fromFields(fields);
     }

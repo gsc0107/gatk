@@ -57,13 +57,13 @@ public final class UpdateVCFSequenceDictionary extends VariantWalker {
 
     @Override
     public void onTraversalStart() {
-        VCFHeader vcfHeader = getHeaderForVariants();
+        final VCFHeader vcfHeader = getHeaderForVariants();
         sourceDictionary = getSequenceDictionaryFromInput(dictionarySource);
 
         // Warn and require opt-in via -replace if we're about to clobber a valid sequence
         // dictionary. Check the input file directly via the header rather than using the
         // engine, since it might dig one up from an index.
-        SAMSequenceDictionary oldDictionary =
+        final SAMSequenceDictionary oldDictionary =
                 vcfHeader == null ? null : vcfHeader.getSequenceDictionary();
         if ( (oldDictionary != null && !oldDictionary.getSequences().isEmpty()) && !replace) {
             throw new UserException.BadArgumentValue(
@@ -84,7 +84,7 @@ public final class UpdateVCFSequenceDictionary extends VariantWalker {
     @Override
     public void apply(final VariantContext vc, final ReadsContext readsContext, final ReferenceContext ref, final FeatureContext featureContext) {
         // Validate each variant against the source dictionary manually
-        SAMSequenceRecord samSeqRec = sourceDictionary.getSequence(vc.getContig());
+        final SAMSequenceRecord samSeqRec = sourceDictionary.getSequence(vc.getContig());
         if (samSeqRec == null) {
             throw new UserException.BadArgumentValue(
                 String.format(
@@ -121,7 +121,7 @@ public final class UpdateVCFSequenceDictionary extends VariantWalker {
 
     // either throws or returns a valid seq dict
     private SAMSequenceDictionary getSequenceDictionaryFromInput(final String source) {
-        SAMSequenceDictionary dictionary;
+        final SAMSequenceDictionary dictionary;
         if (source == null) {
             if (hasReference()) {
                 dictionary = getReferenceDictionary();

@@ -44,22 +44,22 @@ public final class ExampleReadWalkerWithVariants extends ReadWalker {
         try {
             outputStream = outputFile != null ? new PrintStream(outputFile) : System.out;
         }
-        catch ( FileNotFoundException e ) {
+        catch ( final FileNotFoundException e ) {
             throw new UserException.CouldNotReadInputFile(outputFile, e);
         }
     }
 
     @Override
-    public void apply( GATKRead read, ReferenceContext referenceContext, FeatureContext featureContext ) {
+    public void apply(final GATKRead read, final ReferenceContext referenceContext, final FeatureContext featureContext ) {
         outputStream.printf("Read at %s:%d-%d:\n%s\n", read.getContig(), read.getStart(), read.getEnd(), read.getBasesString());
 
         if ( groupVariantsBySource ) {
             // We can keep the variants from each source separate by passing in the FeatureInputs
             // individually to featureContext.getValues()
-            for ( FeatureInput<VariantContext> featureSource : variants ) {
+            for ( final FeatureInput<VariantContext> featureSource : variants ) {
                 outputStream.println("From source " + featureSource.getName());
 
-                for ( VariantContext variant : featureContext.getValues(featureSource) ) {
+                for ( final VariantContext variant : featureContext.getValues(featureSource) ) {
                     outputStream.printf("\t");
                     printOverlappingVariant(variant);
                 }
@@ -68,7 +68,7 @@ public final class ExampleReadWalkerWithVariants extends ReadWalker {
         else {
             // Passing in all FeatureInputs at once to featureContext.getValues() lets us get
             // all overlapping variants without regard to source
-            for ( VariantContext variant : featureContext.getValues(variants) ) {
+            for ( final VariantContext variant : featureContext.getValues(variants) ) {
                 printOverlappingVariant(variant);
             }
         }

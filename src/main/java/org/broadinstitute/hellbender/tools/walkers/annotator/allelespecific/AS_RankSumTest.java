@@ -82,7 +82,7 @@ public abstract class AS_RankSumTest extends RankSumTest implements ReducibleAnn
 
     @SuppressWarnings({"unchecked", "rawtypes"})//FIXME generics here blow up
     @Override
-    public void calculateRawData(VariantContext vc, final ReadLikelihoods<Allele> likelihoods, ReducibleAnnotationData myData) {
+    public void calculateRawData(final VariantContext vc, final ReadLikelihoods<Allele> likelihoods, final ReducibleAnnotationData myData) {
         if(likelihoods == null) {
             return;
         }

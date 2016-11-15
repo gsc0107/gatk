@@ -95,7 +95,7 @@ final class HomRefBlock implements Locatable {
      * It will return {@code null} if input {@code block} is {@code null}, indicating that there
      * is no variant-context to be output into the VCF.
      */
-    public VariantContext toVariantContext(String sampleName) {
+    public VariantContext toVariantContext(final String sampleName) {
         final VariantContextBuilder vcb = new VariantContextBuilder(getStartingVC());
         vcb.attributes(new LinkedHashMap<>(2)); // clear the attributes
         vcb.stop(getEnd());
@@ -106,7 +106,7 @@ final class HomRefBlock implements Locatable {
     }
 
     // create a single Genotype with GQ and DP annotations
-    private Genotype createHomRefGenotype(String sampleName) {
+    private Genotype createHomRefGenotype(final String sampleName) {
         final GenotypeBuilder gb = new GenotypeBuilder(sampleName, Collections.nCopies(getPloidy(), getRef()));
         gb.noAD().noPL().noAttributes(); // clear all attributes
 

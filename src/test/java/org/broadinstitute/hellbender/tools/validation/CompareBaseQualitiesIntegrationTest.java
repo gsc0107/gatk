@@ -22,7 +22,7 @@ public class CompareBaseQualitiesIntegrationTest extends CommandLineProgramTest 
         final File firstBam = new File(resourceDir, "CEUTrio.HiSeq.WGS.b37.ch20.1m-1m1k.NA12878.bam");
         final File secondBam = new File(resourceDir, "CEUTrio.HiSeq.WGS.b37.ch20.1m-1m1k.NA12878.bam");
 
-        ArgumentsBuilder args = new ArgumentsBuilder();
+        final ArgumentsBuilder args = new ArgumentsBuilder();
         args.add(firstBam.getCanonicalPath());
         args.add(secondBam.getCanonicalPath());
         args.add("--throwOnDiff true");
@@ -53,10 +53,10 @@ public class CompareBaseQualitiesIntegrationTest extends CommandLineProgramTest 
     }
 
     @Test(dataProvider = "CompareBasesProvider")
-    public void singleReadDiffTest(File firstBam, File secondBam, File referenceFile, File outFile, List<Integer> staticQuantizationQuals, String diffFile) throws Exception {
+    public void singleReadDiffTest(final File firstBam, final File secondBam, final File referenceFile, final File outFile, final List<Integer> staticQuantizationQuals, final String diffFile) throws Exception {
         final String resourceDir = getTestDataDir() + "/validation/";
 
-        ArgumentsBuilder args = new ArgumentsBuilder();
+        final ArgumentsBuilder args = new ArgumentsBuilder();
         args.add(firstBam.getCanonicalPath());
         args.add(secondBam.getCanonicalPath());
         args.add("--" + "O");
@@ -66,7 +66,7 @@ public class CompareBaseQualitiesIntegrationTest extends CommandLineProgramTest 
             args.add(referenceFile.getAbsolutePath());
         }
         if (staticQuantizationQuals != null && !staticQuantizationQuals.isEmpty()){
-            for (int sq : staticQuantizationQuals){
+            for (final int sq : staticQuantizationQuals){
                 args.add("-SQQ");
                 args.add(sq);
             }

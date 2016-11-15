@@ -19,7 +19,7 @@ public final class ValidateVariantsIntegrationTest extends CommandLineProgramTes
         return baseTestString(sharedFile, file, exclude, type, defaultRegion, hg19_chr1_1M_Reference);
     }
 
-    public String baseTestString(boolean sharedFile, String file, boolean exclude, ValidateVariants.ValidationType type, String region, String reference) {
+    public String baseTestString(final boolean sharedFile, final String file, final boolean exclude, final ValidateVariants.ValidationType type, final String region, final String reference) {
         final String filePath = sharedFile ? file: getToolTestDataDir() + file;
         final String typeArgString = exclude ? " --validationTypeToExclude " + type.name() : excludeValidationTypesButString(type);
         final String intervals = "";//TODO enable this: " -L " + region;
@@ -27,7 +27,7 @@ public final class ValidateVariantsIntegrationTest extends CommandLineProgramTes
         return "-R " + reference + intervals + " --variant " + filePath + typeArgString;
     }
 
-    private static String excludeValidationTypesButString(ValidateVariants.ValidationType type) {
+    private static String excludeValidationTypesButString(final ValidateVariants.ValidationType type) {
         if (type.equals(ALL)) {
             return "";
         }
@@ -42,7 +42,7 @@ public final class ValidateVariantsIntegrationTest extends CommandLineProgramTes
 
     @Test
     public void testGoodFile() throws IOException {
-        IntegrationTestSpec spec = new IntegrationTestSpec(
+        final IntegrationTestSpec spec = new IntegrationTestSpec(
                 baseTestString(false, "validationExampleGood.vcf", false, ALL),
                 Collections.emptyList()
         );
@@ -52,7 +52,7 @@ public final class ValidateVariantsIntegrationTest extends CommandLineProgramTes
 
     @Test
     public void testGoodFile2() throws IOException {
-        IntegrationTestSpec spec = new IntegrationTestSpec(
+        final IntegrationTestSpec spec = new IntegrationTestSpec(
                 baseTestString(true, hg19_chr1_1M_exampleVCF, false, ALL),
                 Collections.emptyList()
         );
@@ -62,7 +62,7 @@ public final class ValidateVariantsIntegrationTest extends CommandLineProgramTes
 
     @Test
     public void testBadRefBase1() throws IOException {
-        IntegrationTestSpec spec = new IntegrationTestSpec(
+        final IntegrationTestSpec spec = new IntegrationTestSpec(
                 baseTestString(false, "validationExampleBad.vcf", false, REF),
                 0,
                 UserException.FailsStrictValidation.class
@@ -73,7 +73,7 @@ public final class ValidateVariantsIntegrationTest extends CommandLineProgramTes
 
     @Test
     public void testBadRefBase2() throws IOException {
-        IntegrationTestSpec spec = new IntegrationTestSpec(
+        final IntegrationTestSpec spec = new IntegrationTestSpec(
                 baseTestString(false, "validationExampleBad2.vcf", false, REF),
                 0,
                 UserException.FailsStrictValidation.class
@@ -84,7 +84,7 @@ public final class ValidateVariantsIntegrationTest extends CommandLineProgramTes
 
     @Test
     public void testBadChrCount1() throws IOException {
-        IntegrationTestSpec spec = new IntegrationTestSpec(
+        final IntegrationTestSpec spec = new IntegrationTestSpec(
                 baseTestString(false, "validationExampleBad.vcf", false, CHR_COUNTS),
                 0,
                 UserException.FailsStrictValidation.class
@@ -95,7 +95,7 @@ public final class ValidateVariantsIntegrationTest extends CommandLineProgramTes
 
     @Test
     public void testBadChrCount2() throws IOException {
-        IntegrationTestSpec spec = new IntegrationTestSpec(
+        final IntegrationTestSpec spec = new IntegrationTestSpec(
                 baseTestString(false, "validationExampleBad2.vcf", false, CHR_COUNTS),
                 0,
                 UserException.FailsStrictValidation.class
@@ -143,7 +143,7 @@ public final class ValidateVariantsIntegrationTest extends CommandLineProgramTes
 
     @Test
     public void testBadAllele() throws IOException {
-        IntegrationTestSpec spec = new IntegrationTestSpec(
+        final IntegrationTestSpec spec = new IntegrationTestSpec(
             baseTestString(false, "validationExampleBad.vcf", false, ALLELES),
             0,
             UserException.FailsStrictValidation.class
@@ -154,7 +154,7 @@ public final class ValidateVariantsIntegrationTest extends CommandLineProgramTes
 
     @Test
     public void testBadAllele2() throws IOException {
-        IntegrationTestSpec spec = new IntegrationTestSpec(
+        final IntegrationTestSpec spec = new IntegrationTestSpec(
             baseTestString(false, "validationExampleBad3.vcf", false, REF),
             0,
             UserException.FailsStrictValidation.class
@@ -165,7 +165,7 @@ public final class ValidateVariantsIntegrationTest extends CommandLineProgramTes
 
     @Test
     public void testComplexEventsDictError() throws IOException {
-        IntegrationTestSpec spec = new IntegrationTestSpec(
+        final IntegrationTestSpec spec = new IntegrationTestSpec(
                 baseTestString(false, "complexEvents_incompatibleDict.vcf", false, ALL),
                 0,
                 UserException.IncompatibleSequenceDictionaries.class
@@ -176,7 +176,7 @@ public final class ValidateVariantsIntegrationTest extends CommandLineProgramTes
 
     @Test
     public void testNoValidation() throws IOException {
-        IntegrationTestSpec spec = new IntegrationTestSpec(
+        final IntegrationTestSpec spec = new IntegrationTestSpec(
                 baseTestString(false, "validationExampleBad.vcf", true, ALL),
                 Collections.emptyList()
         );
@@ -186,7 +186,7 @@ public final class ValidateVariantsIntegrationTest extends CommandLineProgramTes
 
     @Test
     public void testComplexEvents() throws IOException {
-        IntegrationTestSpec spec = new IntegrationTestSpec(
+        final IntegrationTestSpec spec = new IntegrationTestSpec(
                 baseTestString(false, "complexEvents.vcf", false, ALL),
                 Collections.emptyList()
         );
@@ -198,7 +198,7 @@ public final class ValidateVariantsIntegrationTest extends CommandLineProgramTes
     // This is not allowed in the vcf spec but OK in gvcf. The fix is to not fail when ALLELES is not checked.
     @Test(description = "Fixes '''bug''' reported in story https://www.pivotaltracker.com/story/show/68725164")
     public void testUnusedAlleleFix() throws IOException {
-        IntegrationTestSpec spec = new IntegrationTestSpec(
+        final IntegrationTestSpec spec = new IntegrationTestSpec(
                 baseTestString(false, "validationUnusedAllelesBugFix.vcf", true, ALLELES,"1:1-739000",hg19_chr1_1M_Reference), Collections.emptyList());
         spec.executeTest("test unused allele bug fix", this);
     }
@@ -207,7 +207,7 @@ public final class ValidateVariantsIntegrationTest extends CommandLineProgramTes
     // This is not allowed in the vcf spec but OK in gvcf. The fix is to not fail when ALLELES is not checked.
     @Test(description = "Checks '''bug''' reported in story https://www.pivotaltracker.com/story/show/68725164")
     public void testUnusedAlleleError() throws IOException {
-        IntegrationTestSpec spec = new IntegrationTestSpec(
+        final IntegrationTestSpec spec = new IntegrationTestSpec(
                 baseTestString(false, "validationUnusedAllelesBugFix.vcf", false, ALLELES,"1:1-739000",hg19_chr1_1M_Reference),0, UserException.FailsStrictValidation.class);
         spec.executeTest("test unused allele bug fix", this);
     }

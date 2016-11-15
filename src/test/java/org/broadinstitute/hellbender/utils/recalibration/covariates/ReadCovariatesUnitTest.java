@@ -22,12 +22,12 @@ public final class ReadCovariatesUnitTest extends BaseTest {
         final RecalibrationArgumentCollection RAC = new RecalibrationArgumentCollection();
 
         final String[] readGroups = {"RG1", "RG2", "RGbla"};
-        ReadGroupCovariate rgCov = new ReadGroupCovariate(RAC, Arrays.asList(readGroups));
-        QualityScoreCovariate qsCov = new QualityScoreCovariate(RAC);
-        ContextCovariate coCov = new ContextCovariate(RAC);
-        CycleCovariate cyCov = new CycleCovariate(RAC);
+        final ReadGroupCovariate rgCov = new ReadGroupCovariate(RAC, Arrays.asList(readGroups));
+        final QualityScoreCovariate qsCov = new QualityScoreCovariate(RAC);
+        final ContextCovariate coCov = new ContextCovariate(RAC);
+        final CycleCovariate cyCov = new CycleCovariate(RAC);
 
-        StandardCovariateList covariates = new StandardCovariateList(RAC, Arrays.asList(readGroups));
+        final StandardCovariateList covariates = new StandardCovariateList(RAC, Arrays.asList(readGroups));
 
         final int NUM_READS = 100;
         final Random rnd = Utils.getRandomGenerator();
@@ -47,7 +47,7 @@ public final class ReadCovariatesUnitTest extends BaseTest {
                 final byte[] mQuals = read.getBaseQualities();
                 final byte[] iQuals = ReadUtils.getBaseInsertionQualities(read);
                 final byte[] dQuals = ReadUtils.getBaseDeletionQualities(read);
-                ReadCovariates rc = RecalUtils.computeCovariates(read, header, covariates, true, keyCache);
+                final ReadCovariates rc = RecalUtils.computeCovariates(read, header, covariates, true, keyCache);
 
                 // check that the length is correct
                 Assert.assertEquals(rc.getMismatchesKeySet().length, length);

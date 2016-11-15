@@ -99,7 +99,7 @@ public class HomRefBlockUnitTest extends BaseTest {
     }
 
     @Test(dataProvider = "badAdditions", expectedExceptions = IllegalArgumentException.class)
-    public void testBadAdd(int start, Genotype gb) {
+    public void testBadAdd(final int start, final Genotype gb) {
         getHomRefBlock(getVariantContext()).add(start, gb);
     }
 
@@ -164,12 +164,12 @@ public class HomRefBlockUnitTest extends BaseTest {
     }
 
     @Test(dataProvider = "minPLs")
-    public void testGenotypeQualityFromPls(int[] minPLs, int expected){
+    public void testGenotypeQualityFromPls(final int[] minPLs, final int expected){
         Assert.assertEquals(HomRefBlock.genotypeQualityFromPLs(minPLs), expected);
     }
 
     @Test(dataProvider = "badMinPls", expectedExceptions = GATKException.class)
-    public void testGenotypeQualityFromPLsBadPLs(int[] minPLs){
+    public void testGenotypeQualityFromPLsBadPLs(final int[] minPLs){
         HomRefBlock.genotypeQualityFromPLs(minPLs); //this should explode
     }
 
@@ -192,7 +192,7 @@ public class HomRefBlockUnitTest extends BaseTest {
         Assert.assertTrue(genotype.getAlleles().stream().allMatch(a -> a.equals(REF)));
     }
 
-    public static HomRefBlock getHomRefBlock(VariantContext vc) {
+    public static HomRefBlock getHomRefBlock(final VariantContext vc) {
         return new HomRefBlock(vc, 10, 20, HomoSapiensConstants.DEFAULT_PLOIDY);
     }
 

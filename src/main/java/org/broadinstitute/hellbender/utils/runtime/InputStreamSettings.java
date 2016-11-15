@@ -26,7 +26,7 @@ public final class InputStreamSettings {
         return inputBuffer;
     }
 
-    public void setInputBuffer(String inputBuffer) {
+    public void setInputBuffer(final String inputBuffer) {
         Utils.nonNull(inputBuffer,"inputBuffer cannot be null");
         this.streamLocations.add(StreamLocation.Buffer);
         this.inputBuffer = inputBuffer.getBytes();
@@ -36,7 +36,7 @@ public final class InputStreamSettings {
         return inputFile;
     }
 
-    public void setInputFile(File inputFile) {
+    public void setInputFile(final File inputFile) {
         Utils.nonNull(inputFile, "inputFile cannot be null");
         this.streamLocations.add(StreamLocation.File);
         this.inputFile = inputFile;

@@ -90,7 +90,7 @@ class MultivariateGaussian {
     private void precomputeInverse() {
         try {
             cachedSigmaInverse = sigma.inverse();
-        } catch( Exception e ) {
+        } catch( final Exception e ) {
             //TODO: there must be something narrower than Exception to catch here
             throw new UserException(
                     "Error during clustering. Most likely there are too few variants used during Gaussian mixture " +
@@ -166,7 +166,7 @@ class MultivariateGaussian {
 
         final double shrinkageFactor = (SHRINKAGE * sumProb) / (SHRINKAGE + sumProb);
         for( int iii = 0; iii < mu.length; iii++ ) {
-            double deltaMu = shrinkageFactor * (mu[iii] - empiricalMu[iii]);
+            final double deltaMu = shrinkageFactor * (mu[iii] - empiricalMu[iii]);
             for( int jjj = 0; jjj < mu.length; jjj++ ) {
                 wishart.set(iii, jjj, deltaMu * (mu[jjj] - empiricalMu[jjj]));
             }
@@ -177,7 +177,7 @@ class MultivariateGaussian {
         for( final VariantDatum datum : data ) {
             final double prob = pVarInGaussian[datumIndex++];
             for( int iii = 0; iii < mu.length; iii++ ) {
-                double deltaMu = prob * (datum.annotations[iii]-mu[iii]);
+                final double deltaMu = prob * (datum.annotations[iii]-mu[iii]);
                 for( int jjj = 0; jjj < mu.length; jjj++ ) {
                     pVarSigma.set(iii, jjj, deltaMu * (datum.annotations[jjj]-mu[jjj]));
                 }

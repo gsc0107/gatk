@@ -22,17 +22,17 @@ public final class VariantShard {
     private final String contig;
     public static final int VARIANT_SHARDSIZE = 1000; // This value is subject to change (by humans)
 
-    public VariantShard(int shardNumber, String contig) {
+    public VariantShard(final int shardNumber, final String contig) {
         this.shardNumber = shardNumber;
         this.contig = Utils.nonNull(contig);
     }
 
     @Override
-    public boolean equals(Object o) {
+    public boolean equals(final Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        VariantShard that = (VariantShard) o;
+        final VariantShard that = (VariantShard) o;
 
         return getShardNumber() == that.getShardNumber() && getContig().equals(that.getContig());
 
@@ -64,10 +64,10 @@ public final class VariantShard {
             // don't feed me unmapped reads!
             throw new GATKException("getVariantShardsFromInterval requires locations to be mapped");
         }
-        List<VariantShard> shardList = new ArrayList<>();
+        final List<VariantShard> shardList = new ArrayList<>();
         // Get all of the shard numbers that span the start and end of the interval.
-        int startShard = location.getStart()/ VARIANT_SHARDSIZE;
-        int endShard = location.getEnd()/ VARIANT_SHARDSIZE;
+        final int startShard = location.getStart()/ VARIANT_SHARDSIZE;
+        final int endShard = location.getEnd()/ VARIANT_SHARDSIZE;
         for (int i = startShard; i <= endShard; ++i) {
             shardList.add(new VariantShard(i, location.getContig()));
         }
@@ -88,14 +88,14 @@ public final class VariantShard {
                     new DelegateCoder.CodingFunction<VariantShard, KV<Integer, String>>() {
                         private static final long serialVersionUID = 1L;
                         @Override
-                        public KV<Integer, String> apply(VariantShard ref) throws Exception {
+                        public KV<Integer, String> apply(final VariantShard ref) throws Exception {
                             return KV.of(ref.getShardNumber(), ref.getContig());
                         }
                     },
                     new DelegateCoder.CodingFunction<KV<Integer, String>, VariantShard>() {
                         private static final long serialVersionUID = 1L;
                         @Override
-                        public VariantShard apply(KV<Integer, String> kv) throws Exception {
+                        public VariantShard apply(final KV<Integer, String> kv) throws Exception {
                             return new VariantShard(kv.getKey(), kv.getValue());
                         }
                     }

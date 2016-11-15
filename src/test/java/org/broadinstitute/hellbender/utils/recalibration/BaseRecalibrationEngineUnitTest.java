@@ -20,14 +20,14 @@ public final class BaseRecalibrationEngineUnitTest {
 
     @Test
     public void basicDBQSRFractionalErrorTestEnd() {
-        byte[] baq = "@@@@@@@FGH".getBytes();
-        int[] errors = new int[baq.length];
+        final byte[] baq = "@@@@@@@FGH".getBytes();
+        final int[] errors = new int[baq.length];
         Arrays.fill(errors, 0);
         errors[7] = 1;
-        double[] answer = new double[baq.length];
+        final double[] answer = new double[baq.length];
         Arrays.fill(answer, 0.0);
         answer[6] = answer[7] = answer[8] = answer[9] = 1.0 / 4.0;
-        double[] result = BaseRecalibrationEngine.calculateFractionalErrorArray(errors, baq);
+        final double[] result = BaseRecalibrationEngine.calculateFractionalErrorArray(errors, baq);
         for( int iii = 0; iii < answer.length; iii++) {
             Assert.assertEquals(result[iii], answer[iii], 1E-6);
         }
@@ -35,14 +35,14 @@ public final class BaseRecalibrationEngineUnitTest {
 
     @Test
     public void basicDBQSRFractionalErrorTestStart() {
-        byte[] baq = "FFF@@@@@@@".getBytes();
-        int[] errors = new int[baq.length];
+        final byte[] baq = "FFF@@@@@@@".getBytes();
+        final int[] errors = new int[baq.length];
         Arrays.fill(errors, 0);
         errors[2] = 1;
-        double[] answer = new double[baq.length];
+        final double[] answer = new double[baq.length];
         Arrays.fill(answer, 0.0);
         answer[0] = answer[1] = answer[2] = answer[3] = 1.0 / 4.0;
-        double[] result = BaseRecalibrationEngine.calculateFractionalErrorArray(errors, baq);
+        final double[] result = BaseRecalibrationEngine.calculateFractionalErrorArray(errors, baq);
         for( int iii = 0; iii < answer.length; iii++) {
             Assert.assertEquals(result[iii], answer[iii], 1E-6);
         }
@@ -50,14 +50,14 @@ public final class BaseRecalibrationEngineUnitTest {
 
     @Test
     public void basicDBQSRFractionalErrorTestNoBAQ() {
-        byte[] baq = "@@@@@@@@@@".getBytes();
-        int[] errors = new int[baq.length];
+        final byte[] baq = "@@@@@@@@@@".getBytes();
+        final int[] errors = new int[baq.length];
         Arrays.fill(errors, 0);
         errors[7] = 1;
-        double[] answer = new double[baq.length];
+        final double[] answer = new double[baq.length];
         Arrays.fill(answer, 0.0);
         answer[7] = 1.0;
-        double[] result = BaseRecalibrationEngine.calculateFractionalErrorArray(errors, baq);
+        final double[] result = BaseRecalibrationEngine.calculateFractionalErrorArray(errors, baq);
         for( int iii = 0; iii < answer.length; iii++) {
             Assert.assertEquals(result[iii], answer[iii], 1E-6);
         }
@@ -65,14 +65,14 @@ public final class BaseRecalibrationEngineUnitTest {
 
     @Test
     public void basicDBQSRFractionalErrorTestBAQOffset() {
-        byte[] baq = "@FGH@@@@@@".getBytes();
-        int[] errors = new int[baq.length];
+        final byte[] baq = "@FGH@@@@@@".getBytes();
+        final int[] errors = new int[baq.length];
         Arrays.fill(errors, 0);
         errors[7] = 1;
-        double[] answer = new double[baq.length];
+        final double[] answer = new double[baq.length];
         Arrays.fill(answer, 0.0);
         answer[7] = 1.0;
-        double[] result = BaseRecalibrationEngine.calculateFractionalErrorArray(errors, baq);
+        final double[] result = BaseRecalibrationEngine.calculateFractionalErrorArray(errors, baq);
         for( int iii = 0; iii < answer.length; iii++) {
             Assert.assertEquals(result[iii], answer[iii], 1E-6);
         }
@@ -80,14 +80,14 @@ public final class BaseRecalibrationEngineUnitTest {
 
     @Test
     public void basicDBQSRFractionalErrorTestMiddle() {
-        byte[] baq = "@@@FGH@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@".getBytes();
-        int[] errors = new int[baq.length];
+        final byte[] baq = "@@@FGH@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@".getBytes();
+        final int[] errors = new int[baq.length];
         Arrays.fill(errors, 0);
         errors[4] = 1;
-        double[] answer = new double[baq.length];
+        final double[] answer = new double[baq.length];
         Arrays.fill(answer, 0.0);
         answer[2] = answer[3] = answer[4] = answer[5] = answer[6] = 1.0 / 5.0;
-        double[] result = BaseRecalibrationEngine.calculateFractionalErrorArray(errors, baq);
+        final double[] result = BaseRecalibrationEngine.calculateFractionalErrorArray(errors, baq);
         for( int iii = 0; iii < answer.length; iii++) {
             Assert.assertEquals(result[iii], answer[iii], 1E-6);
         }
@@ -95,7 +95,7 @@ public final class BaseRecalibrationEngineUnitTest {
 
     @DataProvider(name = "CalculateIsIndelData")
     public Object[][] makeCalculateIsIndelData() {
-        List<Object[]> tests = new ArrayList<>();
+        final List<Object[]> tests = new ArrayList<>();
 
         // this functionality can be adapted to provide input data for whatever you might want in your data
         for ( final EventType model : Arrays.asList(EventType.BASE_DELETION, EventType.BASE_INSERTION) ) {
@@ -138,9 +138,9 @@ public final class BaseRecalibrationEngineUnitTest {
         // Fake reference data, since the indel calculation does not use the reference at all.
         final ReferenceDataSource refSource = new ReferenceMemorySource(new ReferenceBases(Utils.repeatBytes((byte)'A', read.getEnd() - read.getStart() + 1), new SimpleInterval(read)), ArtificialReadUtils.createArtificialSamHeader().getSequenceDictionary());
 
-        int[] isSNP = new int[read.getLength()];
-        int[] isInsertion = new int[isSNP.length];
-        int[] isDeletion = new int[isSNP.length];
+        final int[] isSNP = new int[read.getLength()];
+        final int[] isInsertion = new int[isSNP.length];
+        final int[] isDeletion = new int[isSNP.length];
         BaseRecalibrationEngine.calculateIsSNPOrIndel(read, refSource, isSNP, isInsertion, isDeletion);
         final int[] actual = (mode == EventType.BASE_INSERTION ? isInsertion : isDeletion);
         Assert.assertEquals(actual, expected, "calculateIsSNPOrIndel() failed with " + mode + " and cigar " + cigar + " Expected " + Arrays.toString(expected) + " but got " + Arrays.toString(actual));

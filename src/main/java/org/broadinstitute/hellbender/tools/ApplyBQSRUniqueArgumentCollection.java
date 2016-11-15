@@ -56,8 +56,8 @@ public class ApplyBQSRUniqueArgumentCollection implements ArgumentCollectionDefi
     @Argument(fullName = "globalQScorePrior", shortName = "globalQScorePrior", doc = "Global Qscore Bayesian prior to use for BQSR", optional = true)
     public double globalQScorePrior = -1.0;
 
-    public ApplyBQSRArgumentCollection toApplyBQSRArgumentCollection(int PRESERVE_QSCORES_LESS_THAN) {
-        ApplyBQSRArgumentCollection ret = new ApplyBQSRArgumentCollection();
+    public ApplyBQSRArgumentCollection toApplyBQSRArgumentCollection(final int PRESERVE_QSCORES_LESS_THAN) {
+        final ApplyBQSRArgumentCollection ret = new ApplyBQSRArgumentCollection();
         ret.quantizationLevels = this.quantizationLevels;
         ret.emitOriginalQuals = this.emitOriginalQuals;
         ret.PRESERVE_QSCORES_LESS_THAN = PRESERVE_QSCORES_LESS_THAN;

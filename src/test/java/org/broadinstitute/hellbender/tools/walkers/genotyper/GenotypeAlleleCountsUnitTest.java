@@ -148,7 +148,7 @@ public final class GenotypeAlleleCountsUnitTest {
             Assert.assertEquals(next.alleleCountFor(next.minimumAlleleIndex() + 1), 0);
             Assert.assertEquals(next.ploidy(), 1);
 
-            int[] dest = new int[next.distinctAlleleCount()*2];
+            final int[] dest = new int[next.distinctAlleleCount()*2];
             next.copyAlleleCounts(dest, 0);
             Assert.assertEquals(dest, new int[]{next.index(), 1});
 
@@ -288,7 +288,7 @@ public final class GenotypeAlleleCountsUnitTest {
 
     private void testNextOnePloidyIncrease() {
         final GenotypeAlleleCounts first = GenotypeAlleleCounts.first(1);
-        GenotypeAlleleCounts next = first;
+        final GenotypeAlleleCounts next = first;
 
         while (!next.containsAllele(MAXIMUM_ALLELE_INDEX + 1)) {
             final GenotypeAlleleCounts current = next.copy();
@@ -325,7 +325,7 @@ public final class GenotypeAlleleCountsUnitTest {
         if (ploidy < 2)
             throw new IllegalArgumentException();
 
-        GenotypeAlleleCounts next = GenotypeAlleleCounts.first(ploidy);
+        final GenotypeAlleleCounts next = GenotypeAlleleCounts.first(ploidy);
 
         while (!next.containsAllele(MAXIMUM_ALLELE_INDEX + 1)) {
             final GenotypeAlleleCounts current = next.copy();

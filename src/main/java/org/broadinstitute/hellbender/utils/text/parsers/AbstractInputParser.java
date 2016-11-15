@@ -104,7 +104,7 @@ implements Iterable<String[]>, CloseableIterator<String[]> {
                  parts[index] = new String(line,start,line.length-start);
             }
         }
-        catch (ArrayIndexOutOfBoundsException e) {
+        catch (final ArrayIndexOutOfBoundsException e) {
             throw new RuntimeIOException("Unexpected number of elements found when parsing file " +
                     this.getFileName() + ": " + index + ".  Expected a maximum of " +
                     this.getWordCount() + " elements per line:" + new String(line,0,line.length), e);

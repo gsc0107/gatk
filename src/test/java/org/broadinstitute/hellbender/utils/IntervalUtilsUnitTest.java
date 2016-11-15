@@ -143,17 +143,17 @@ public final class IntervalUtilsUnitTest extends BaseTest {
     }
 
     @Test(dataProvider = "intervalslicingdata")
-    public void testFixedScatterIntervalsAlgorithm(IntervalSlicingTest test) {
-        List<List<GenomeLoc>> splits = IntervalUtils.splitFixedIntervals(hg19exomeIntervals, test.parts);
+    public void testFixedScatterIntervalsAlgorithm(final IntervalSlicingTest test) {
+        final List<List<GenomeLoc>> splits = IntervalUtils.splitFixedIntervals(hg19exomeIntervals, test.parts);
 
-        long totalSize = IntervalUtils.intervalSize(hg19exomeIntervals);
-        long idealSplitSize = totalSize / test.parts;
+        final long totalSize = IntervalUtils.intervalSize(hg19exomeIntervals);
+        final long idealSplitSize = totalSize / test.parts;
 
         long sumOfSplitSizes = 0;
         int counter = 0;
         for ( final List<GenomeLoc> split : splits ) {
-            long splitSize = IntervalUtils.intervalSize(split);
-            double sigma = (splitSize - idealSplitSize) / (1.0 * idealSplitSize);
+            final long splitSize = IntervalUtils.intervalSize(split);
+            final double sigma = (splitSize - idealSplitSize) / (1.0 * idealSplitSize);
             //logger.warn(String.format("Split %d size %d ideal %d sigma %.2f", counter, splitSize, idealSplitSize, sigma));
             counter++;
             sumOfSplitSizes += splitSize;
@@ -174,7 +174,7 @@ public final class IntervalUtilsUnitTest extends BaseTest {
         final List<GenomeLoc> originalIntervals;
         final public int parts;
 
-        private SplitLocusIntervalsTest(final String name, List<GenomeLoc> originalIntervals, final int parts) {
+        private SplitLocusIntervalsTest(final String name, final List<GenomeLoc> originalIntervals, final int parts) {
             super(SplitLocusIntervalsTest.class, name);
             this.parts = parts;
             this.originalIntervals = originalIntervals;
@@ -187,7 +187,7 @@ public final class IntervalUtilsUnitTest extends BaseTest {
 
     @DataProvider(name = "IntervalRepartitionTest")
     public Object[][] createIntervalRepartitionTest() {
-        for ( int parts : Arrays.asList(1, 2, 3, 10, 13, 100, 151, 1000, 10000) ) {
+        for ( final int parts : Arrays.asList(1, 2, 3, 10, 13, 100, 151, 1000, 10000) ) {
             //for ( int parts : Arrays.asList(10) ) {
             new SplitLocusIntervalsTest("hg19RefLocs", hg19ReferenceLocs, parts);
             new SplitLocusIntervalsTest("hg19ExomeLocs", hg19exomeIntervals, parts);
@@ -197,10 +197,10 @@ public final class IntervalUtilsUnitTest extends BaseTest {
     }
 
     @Test(dataProvider = "IntervalRepartitionTest")
-    public void testIntervalRepartition(SplitLocusIntervalsTest test) {
-        List<List<GenomeLoc>> splitByLocus = IntervalUtils.splitLocusIntervals(test.originalIntervals, test.parts);
+    public void testIntervalRepartition(final SplitLocusIntervalsTest test) {
+        final List<List<GenomeLoc>> splitByLocus = IntervalUtils.splitLocusIntervals(test.originalIntervals, test.parts);
         Assert.assertEquals(splitByLocus.size(), test.parts, "SplitLocusIntervals failed to generate correct number of intervals");
-        List<GenomeLoc> flat = IntervalUtils.flattenSplitIntervals(splitByLocus);
+        final List<GenomeLoc> flat = IntervalUtils.flattenSplitIntervals(splitByLocus);
 
         // test overall size
         final long originalSize = IntervalUtils.intervalSize(test.originalIntervals);
@@ -218,7 +218,7 @@ public final class IntervalUtilsUnitTest extends BaseTest {
         }
 
         // test that every base in original is covered once by a base in split by locus intervals
-        String diff = IntervalUtils.equateIntervals(test.originalIntervals, flat);
+        final String diff = IntervalUtils.equateIntervals(test.originalIntervals, flat);
         Assert.assertNull(diff, diff);
     }
 
@@ -229,11 +229,11 @@ public final class IntervalUtilsUnitTest extends BaseTest {
         final public int expectedParts;
         final List<GenomeLoc> expected;
 
-        private SplitLocusIntervalsSmallTest(final String name, List<GenomeLoc> originalIntervals, final int parts, List<GenomeLoc> expected) {
+        private SplitLocusIntervalsSmallTest(final String name, final List<GenomeLoc> originalIntervals, final int parts, final List<GenomeLoc> expected) {
             this(name, originalIntervals, parts,  expected, parts);
         }
 
-        private SplitLocusIntervalsSmallTest(final String name, List<GenomeLoc> originalIntervals, final int parts, List<GenomeLoc> expected, int expectedParts) {
+        private SplitLocusIntervalsSmallTest(final String name, final List<GenomeLoc> originalIntervals, final int parts, final List<GenomeLoc> expected, final int expectedParts) {
             super(SplitLocusIntervalsSmallTest.class, name);
             this.parts = parts;
             this.expectedParts = expectedParts;
@@ -248,25 +248,25 @@ public final class IntervalUtilsUnitTest extends BaseTest {
 
     @DataProvider(name = "SplitLocusIntervalsSmallTest")
     public Object[][] createSplitLocusIntervalsSmallTest() {
-        GenomeLoc bp01_10 = hg19GenomeLocParser.createGenomeLoc("1", 1, 10);
+        final GenomeLoc bp01_10 = hg19GenomeLocParser.createGenomeLoc("1", 1, 10);
 
-        GenomeLoc bp1_5 = hg19GenomeLocParser.createGenomeLoc("1", 1, 5);
-        GenomeLoc bp6_10 = hg19GenomeLocParser.createGenomeLoc("1", 6, 10);
+        final GenomeLoc bp1_5 = hg19GenomeLocParser.createGenomeLoc("1", 1, 5);
+        final GenomeLoc bp6_10 = hg19GenomeLocParser.createGenomeLoc("1", 6, 10);
         new SplitLocusIntervalsSmallTest("cut into two", Arrays.asList(bp01_10), 2, Arrays.asList(bp1_5, bp6_10));
 
-        GenomeLoc bp20_30 = hg19GenomeLocParser.createGenomeLoc("1", 20, 30);
+        final GenomeLoc bp20_30 = hg19GenomeLocParser.createGenomeLoc("1", 20, 30);
         new SplitLocusIntervalsSmallTest("two in two", Arrays.asList(bp01_10, bp20_30), 2, Arrays.asList(bp01_10, bp20_30));
 
-        GenomeLoc bp1_7 = hg19GenomeLocParser.createGenomeLoc("1", 1, 7);
-        GenomeLoc bp8_10 = hg19GenomeLocParser.createGenomeLoc("1", 8, 10);
-        GenomeLoc bp20_23 = hg19GenomeLocParser.createGenomeLoc("1", 20, 23);
-        GenomeLoc bp24_30 = hg19GenomeLocParser.createGenomeLoc("1", 24, 30);
+        final GenomeLoc bp1_7 = hg19GenomeLocParser.createGenomeLoc("1", 1, 7);
+        final GenomeLoc bp8_10 = hg19GenomeLocParser.createGenomeLoc("1", 8, 10);
+        final GenomeLoc bp20_23 = hg19GenomeLocParser.createGenomeLoc("1", 20, 23);
+        final GenomeLoc bp24_30 = hg19GenomeLocParser.createGenomeLoc("1", 24, 30);
         new SplitLocusIntervalsSmallTest("two in three", Arrays.asList(bp01_10, bp20_30), 3,
                 Arrays.asList(bp1_7, bp8_10, bp20_23, bp24_30));
 
-        GenomeLoc bp1_2 = hg19GenomeLocParser.createGenomeLoc("1", 1, 2);
-        GenomeLoc bp1_1 = hg19GenomeLocParser.createGenomeLoc("1", 1, 1);
-        GenomeLoc bp2_2 = hg19GenomeLocParser.createGenomeLoc("1", 2, 2);
+        final GenomeLoc bp1_2 = hg19GenomeLocParser.createGenomeLoc("1", 1, 2);
+        final GenomeLoc bp1_1 = hg19GenomeLocParser.createGenomeLoc("1", 1, 1);
+        final GenomeLoc bp2_2 = hg19GenomeLocParser.createGenomeLoc("1", 2, 2);
         new SplitLocusIntervalsSmallTest("too many pieces", Arrays.asList(bp1_2), 5, Arrays.asList(bp1_1, bp2_2), 2);
 
         new SplitLocusIntervalsSmallTest("emptyList", Collections.<GenomeLoc>emptyList(), 5, Collections.<GenomeLoc>emptyList(), 0);
@@ -275,10 +275,10 @@ public final class IntervalUtilsUnitTest extends BaseTest {
     }
 
     @Test(dataProvider = "SplitLocusIntervalsSmallTest")
-    public void splitLocusIntervalsSmallTest(SplitLocusIntervalsSmallTest test) {
-        List<List<GenomeLoc>> splitByLocus = IntervalUtils.splitLocusIntervals(test.original, test.parts);
+    public void splitLocusIntervalsSmallTest(final SplitLocusIntervalsSmallTest test) {
+        final List<List<GenomeLoc>> splitByLocus = IntervalUtils.splitLocusIntervals(test.original, test.parts);
         Assert.assertEquals(splitByLocus.size(), test.expectedParts, "SplitLocusIntervals failed to generate correct number of intervals");
-        List<GenomeLoc> flat = IntervalUtils.flattenSplitIntervals(splitByLocus);
+        final List<GenomeLoc> flat = IntervalUtils.flattenSplitIntervals(splitByLocus);
 
         // test sizes
         final long originalSize = IntervalUtils.intervalSize(test.original);
@@ -295,8 +295,8 @@ public final class IntervalUtilsUnitTest extends BaseTest {
     @Test(expectedExceptions=UserException.class)
     public void testMergeListsBySetOperatorNoOverlap() {
         // a couple of lists we'll use for the testing
-        List<GenomeLoc> listEveryTwoFromOne = new ArrayList<>();
-        List<GenomeLoc> listEveryTwoFromTwo = new ArrayList<>();
+        final List<GenomeLoc> listEveryTwoFromOne = new ArrayList<>();
+        final List<GenomeLoc> listEveryTwoFromTwo = new ArrayList<>();
 
         // create the two lists we'll use
         for (int x = 1; x < 101; x++) {
@@ -318,8 +318,8 @@ public final class IntervalUtilsUnitTest extends BaseTest {
     @Test
     public void testMergeListsBySetOperatorAllOverlap() {
         // a couple of lists we'll use for the testing
-        List<GenomeLoc> allSites = new ArrayList<>();
-        List<GenomeLoc> listEveryTwoFromTwo = new ArrayList<>();
+        final List<GenomeLoc> allSites = new ArrayList<>();
+        final List<GenomeLoc> listEveryTwoFromTwo = new ArrayList<>();
 
         // create the two lists we'll use
         for (int x = 1; x < 101; x++) {
@@ -340,8 +340,8 @@ public final class IntervalUtilsUnitTest extends BaseTest {
     @Test
     public void testMergeListsBySetOperator() {
         // a couple of lists we'll use for the testing
-        List<GenomeLoc> allSites = new ArrayList<>();
-        List<GenomeLoc> listEveryTwoFromTwo = new ArrayList<>();
+        final List<GenomeLoc> allSites = new ArrayList<>();
+        final List<GenomeLoc> listEveryTwoFromTwo = new ArrayList<>();
 
         // create the two lists we'll use
         for (int x = 1; x < 101; x++) {
@@ -363,8 +363,8 @@ public final class IntervalUtilsUnitTest extends BaseTest {
     @Test
     public void testOverlappingIntervalsFromSameSourceWithIntersection() {
         // a couple of lists we'll use for the testing
-        List<GenomeLoc> source1 = new ArrayList<>();
-        List<GenomeLoc> source2 = new ArrayList<>();
+        final List<GenomeLoc> source1 = new ArrayList<>();
+        final List<GenomeLoc> source2 = new ArrayList<>();
 
         source1.add(hg19GenomeLocParser.createGenomeLoc("1", 10, 20));
         source1.add(hg19GenomeLocParser.createGenomeLoc("1", 15, 25));
@@ -372,13 +372,13 @@ public final class IntervalUtilsUnitTest extends BaseTest {
         source2.add(hg19GenomeLocParser.createGenomeLoc("1", 16, 18));
         source2.add(hg19GenomeLocParser.createGenomeLoc("1", 22, 24));
 
-        List<GenomeLoc> ret = IntervalUtils.mergeListsBySetOperator(source1, source2, IntervalSetRule.INTERSECTION);
+        final List<GenomeLoc> ret = IntervalUtils.mergeListsBySetOperator(source1, source2, IntervalSetRule.INTERSECTION);
         Assert.assertEquals(ret.size(), 2);
     }
 
     @Test
     public void testGetContigLengths() {
-        Map<String, Integer> lengths = IntervalUtils.getContigSizes(new File(BaseTest.exampleReference));
+        final Map<String, Integer> lengths = IntervalUtils.getContigSizes(new File(BaseTest.exampleReference));
         Assert.assertEquals((long)lengths.get("1"), 16000);
         Assert.assertEquals((long)lengths.get("2"), 16000);
         Assert.assertEquals((long) lengths.get("3"), 16000);
@@ -398,7 +398,7 @@ public final class IntervalUtilsUnitTest extends BaseTest {
         final SAMSequenceDictionary dictionary = new SAMSequenceDictionary(Arrays.asList(contigRecord));
         final GenomeLocParser parser = new GenomeLocParser(dictionary);
 
-        List<GenomeLoc> unmappedLoc = IntervalUtils.parseIntervalArguments(parser, "unmapped");
+        final List<GenomeLoc> unmappedLoc = IntervalUtils.parseIntervalArguments(parser, "unmapped");
         Assert.assertTrue(unmappedLoc.size() == 1);
         Assert.assertTrue(unmappedLoc.get(0).isUnmapped());
     }
@@ -409,7 +409,7 @@ public final class IntervalUtilsUnitTest extends BaseTest {
         final SAMSequenceDictionary dictionary = new SAMSequenceDictionary(Arrays.asList(contigRecord));
         final GenomeLocParser parser = new GenomeLocParser(dictionary);
 
-        List<GenomeLoc> unmappedLoc = IntervalUtils.parseIntervalArguments(parser, publicTestDir + "org/broadinstitute/hellbender/engine/reads_data_source_test1_unmapped.intervals");
+        final List<GenomeLoc> unmappedLoc = IntervalUtils.parseIntervalArguments(parser, publicTestDir + "org/broadinstitute/hellbender/engine/reads_data_source_test1_unmapped.intervals");
         Assert.assertTrue(unmappedLoc.size() == 1);
         Assert.assertTrue(unmappedLoc.get(0).isUnmapped());
     }
@@ -422,8 +422,8 @@ public final class IntervalUtilsUnitTest extends BaseTest {
         Assert.assertFalse(IntervalUtils.isIntervalFile(INTERVAL_TEST_DATA + "intervals_from_features_test.vcf"));
         Assert.assertFalse(IntervalUtils.isIntervalFile(INTERVAL_TEST_DATA + "intervals_from_features_test.bed"));
 
-        List<String> extensions = Arrays.asList("interval_list", "intervals", "list", "picard");
-        for (String extension: extensions) {
+        final List<String> extensions = Arrays.asList("interval_list", "intervals", "list", "picard");
+        for (final String extension: extensions) {
             Assert.assertTrue(IntervalUtils.isIntervalFile("test_intervals." + extension, false), "Tested interval file extension: " + extension);
         }
     }
@@ -450,19 +450,19 @@ public final class IntervalUtilsUnitTest extends BaseTest {
 
     @Test
     public void testFixedScatterIntervalsBasic() {
-        GenomeLoc chr1 = hg19GenomeLocParser.parseGenomeLoc("1");
-        GenomeLoc chr2 = hg19GenomeLocParser.parseGenomeLoc("2");
-        GenomeLoc chr3 = hg19GenomeLocParser.parseGenomeLoc("3");
+        final GenomeLoc chr1 = hg19GenomeLocParser.parseGenomeLoc("1");
+        final GenomeLoc chr2 = hg19GenomeLocParser.parseGenomeLoc("2");
+        final GenomeLoc chr3 = hg19GenomeLocParser.parseGenomeLoc("3");
 
-        List<File> files = testFiles("basic.", 3, ".intervals");
+        final List<File> files = testFiles("basic.", 3, ".intervals");
 
-        List<GenomeLoc> locs = intervalStringsToGenomeLocs("1", "2", "3");
-        List<List<GenomeLoc>> splits = IntervalUtils.splitFixedIntervals(locs, files.size());
+        final List<GenomeLoc> locs = intervalStringsToGenomeLocs("1", "2", "3");
+        final List<List<GenomeLoc>> splits = IntervalUtils.splitFixedIntervals(locs, files.size());
         IntervalUtils.scatterFixedIntervals(hg19Header, splits, files);
 
-        List<GenomeLoc> locs1 = IntervalUtils.parseIntervalArguments(hg19GenomeLocParser, Arrays.asList(files.get(0).toString()));
-        List<GenomeLoc> locs2 = IntervalUtils.parseIntervalArguments(hg19GenomeLocParser, Arrays.asList(files.get(1).toString()));
-        List<GenomeLoc> locs3 = IntervalUtils.parseIntervalArguments(hg19GenomeLocParser, Arrays.asList(files.get(2).toString()));
+        final List<GenomeLoc> locs1 = IntervalUtils.parseIntervalArguments(hg19GenomeLocParser, Arrays.asList(files.get(0).toString()));
+        final List<GenomeLoc> locs2 = IntervalUtils.parseIntervalArguments(hg19GenomeLocParser, Arrays.asList(files.get(1).toString()));
+        final List<GenomeLoc> locs3 = IntervalUtils.parseIntervalArguments(hg19GenomeLocParser, Arrays.asList(files.get(2).toString()));
 
         Assert.assertEquals(locs1.size(), 1);
         Assert.assertEquals(locs2.size(), 1);
@@ -475,20 +475,20 @@ public final class IntervalUtilsUnitTest extends BaseTest {
 
     @Test
     public void testScatterFixedIntervalsLessFiles() {
-        GenomeLoc chr1 = hg19GenomeLocParser.parseGenomeLoc("1");
-        GenomeLoc chr2 = hg19GenomeLocParser.parseGenomeLoc("2");
-        GenomeLoc chr3 = hg19GenomeLocParser.parseGenomeLoc("3");
-        GenomeLoc chr4 = hg19GenomeLocParser.parseGenomeLoc("4");
+        final GenomeLoc chr1 = hg19GenomeLocParser.parseGenomeLoc("1");
+        final GenomeLoc chr2 = hg19GenomeLocParser.parseGenomeLoc("2");
+        final GenomeLoc chr3 = hg19GenomeLocParser.parseGenomeLoc("3");
+        final GenomeLoc chr4 = hg19GenomeLocParser.parseGenomeLoc("4");
 
-        List<File> files = testFiles("less.", 3, ".intervals");
+        final List<File> files = testFiles("less.", 3, ".intervals");
 
-        List<GenomeLoc> locs = intervalStringsToGenomeLocs("1", "2", "3", "4");
-        List<List<GenomeLoc>> splits = IntervalUtils.splitFixedIntervals(locs, files.size());
+        final List<GenomeLoc> locs = intervalStringsToGenomeLocs("1", "2", "3", "4");
+        final List<List<GenomeLoc>> splits = IntervalUtils.splitFixedIntervals(locs, files.size());
         IntervalUtils.scatterFixedIntervals(hg19Header, splits, files);
 
-        List<GenomeLoc> locs1 = IntervalUtils.parseIntervalArguments(hg19GenomeLocParser, Arrays.asList(files.get(0).toString()));
-        List<GenomeLoc> locs2 = IntervalUtils.parseIntervalArguments(hg19GenomeLocParser, Arrays.asList(files.get(1).toString()));
-        List<GenomeLoc> locs3 = IntervalUtils.parseIntervalArguments(hg19GenomeLocParser, Arrays.asList(files.get(2).toString()));
+        final List<GenomeLoc> locs1 = IntervalUtils.parseIntervalArguments(hg19GenomeLocParser, Arrays.asList(files.get(0).toString()));
+        final List<GenomeLoc> locs2 = IntervalUtils.parseIntervalArguments(hg19GenomeLocParser, Arrays.asList(files.get(1).toString()));
+        final List<GenomeLoc> locs3 = IntervalUtils.parseIntervalArguments(hg19GenomeLocParser, Arrays.asList(files.get(2).toString()));
 
         Assert.assertEquals(locs1.size(), 1);
         Assert.assertEquals(locs2.size(), 1);
@@ -502,35 +502,35 @@ public final class IntervalUtilsUnitTest extends BaseTest {
 
     @Test(expectedExceptions=UserException.BadArgumentValue.class)
     public void testSplitFixedIntervalsMoreFiles() {
-        List<File> files = testFiles("more.", 3, ".intervals");
-        List<GenomeLoc> locs = intervalStringsToGenomeLocs("1", "2");
+        final List<File> files = testFiles("more.", 3, ".intervals");
+        final List<GenomeLoc> locs = intervalStringsToGenomeLocs("1", "2");
         IntervalUtils.splitFixedIntervals(locs, files.size());
     }
 
     @Test(expectedExceptions=UserException.BadArgumentValue.class)
     public void testScatterFixedIntervalsMoreFiles() {
-        List<File> files = testFiles("more.", 3, ".intervals");
-        List<GenomeLoc> locs = intervalStringsToGenomeLocs("1", "2");
-        List<List<GenomeLoc>> splits = IntervalUtils.splitFixedIntervals(locs, locs.size()); // locs.size() instead of files.size()
+        final List<File> files = testFiles("more.", 3, ".intervals");
+        final List<GenomeLoc> locs = intervalStringsToGenomeLocs("1", "2");
+        final List<List<GenomeLoc>> splits = IntervalUtils.splitFixedIntervals(locs, locs.size()); // locs.size() instead of files.size()
         IntervalUtils.scatterFixedIntervals(hg19Header, splits, files);
     }
     @Test
     public void testScatterFixedIntervalsStart() {
-        List<String> intervals = Arrays.asList("1:1-2", "1:4-5", "2:1-1", "3:2-2");
-        GenomeLoc chr1a = hg19GenomeLocParser.parseGenomeLoc("1:1-2");
-        GenomeLoc chr1b = hg19GenomeLocParser.parseGenomeLoc("1:4-5");
-        GenomeLoc chr2 = hg19GenomeLocParser.parseGenomeLoc("2:1-1");
-        GenomeLoc chr3 = hg19GenomeLocParser.parseGenomeLoc("3:2-2");
+        final List<String> intervals = Arrays.asList("1:1-2", "1:4-5", "2:1-1", "3:2-2");
+        final GenomeLoc chr1a = hg19GenomeLocParser.parseGenomeLoc("1:1-2");
+        final GenomeLoc chr1b = hg19GenomeLocParser.parseGenomeLoc("1:4-5");
+        final GenomeLoc chr2 = hg19GenomeLocParser.parseGenomeLoc("2:1-1");
+        final GenomeLoc chr3 = hg19GenomeLocParser.parseGenomeLoc("3:2-2");
 
-        List<File> files = testFiles("split.", 3, ".intervals");
+        final List<File> files = testFiles("split.", 3, ".intervals");
 
-        List<GenomeLoc> locs = intervalStringsToGenomeLocs(intervals);
-        List<List<GenomeLoc>> splits = IntervalUtils.splitFixedIntervals(locs, files.size());
+        final List<GenomeLoc> locs = intervalStringsToGenomeLocs(intervals);
+        final List<List<GenomeLoc>> splits = IntervalUtils.splitFixedIntervals(locs, files.size());
         IntervalUtils.scatterFixedIntervals(hg19Header, splits, files);
 
-        List<GenomeLoc> locs1 = IntervalUtils.parseIntervalArguments(hg19GenomeLocParser, Arrays.asList(files.get(0).toString()));
-        List<GenomeLoc> locs2 = IntervalUtils.parseIntervalArguments(hg19GenomeLocParser, Arrays.asList(files.get(1).toString()));
-        List<GenomeLoc> locs3 = IntervalUtils.parseIntervalArguments(hg19GenomeLocParser, Arrays.asList(files.get(2).toString()));
+        final List<GenomeLoc> locs1 = IntervalUtils.parseIntervalArguments(hg19GenomeLocParser, Arrays.asList(files.get(0).toString()));
+        final List<GenomeLoc> locs2 = IntervalUtils.parseIntervalArguments(hg19GenomeLocParser, Arrays.asList(files.get(1).toString()));
+        final List<GenomeLoc> locs3 = IntervalUtils.parseIntervalArguments(hg19GenomeLocParser, Arrays.asList(files.get(2).toString()));
 
         Assert.assertEquals(locs1.size(), 1);
         Assert.assertEquals(locs2.size(), 1);
@@ -544,21 +544,21 @@ public final class IntervalUtilsUnitTest extends BaseTest {
 
     @Test
     public void testScatterFixedIntervalsMiddle() {
-        List<String> intervals = Arrays.asList("1:1-1", "2:1-2", "2:4-5", "3:2-2");
-        GenomeLoc chr1 = hg19GenomeLocParser.parseGenomeLoc("1:1-1");
-        GenomeLoc chr2a = hg19GenomeLocParser.parseGenomeLoc("2:1-2");
-        GenomeLoc chr2b = hg19GenomeLocParser.parseGenomeLoc("2:4-5");
-        GenomeLoc chr3 = hg19GenomeLocParser.parseGenomeLoc("3:2-2");
+        final List<String> intervals = Arrays.asList("1:1-1", "2:1-2", "2:4-5", "3:2-2");
+        final GenomeLoc chr1 = hg19GenomeLocParser.parseGenomeLoc("1:1-1");
+        final GenomeLoc chr2a = hg19GenomeLocParser.parseGenomeLoc("2:1-2");
+        final GenomeLoc chr2b = hg19GenomeLocParser.parseGenomeLoc("2:4-5");
+        final GenomeLoc chr3 = hg19GenomeLocParser.parseGenomeLoc("3:2-2");
 
-        List<File> files = testFiles("split.", 3, ".intervals");
+        final List<File> files = testFiles("split.", 3, ".intervals");
 
-        List<GenomeLoc> locs = intervalStringsToGenomeLocs(intervals);
-        List<List<GenomeLoc>> splits = IntervalUtils.splitFixedIntervals(locs, files.size());
+        final List<GenomeLoc> locs = intervalStringsToGenomeLocs(intervals);
+        final List<List<GenomeLoc>> splits = IntervalUtils.splitFixedIntervals(locs, files.size());
         IntervalUtils.scatterFixedIntervals(hg19Header, splits, files);
 
-        List<GenomeLoc> locs1 = IntervalUtils.parseIntervalArguments(hg19GenomeLocParser, Arrays.asList(files.get(0).toString()));
-        List<GenomeLoc> locs2 = IntervalUtils.parseIntervalArguments(hg19GenomeLocParser, Arrays.asList(files.get(1).toString()));
-        List<GenomeLoc> locs3 = IntervalUtils.parseIntervalArguments(hg19GenomeLocParser, Arrays.asList(files.get(2).toString()));
+        final List<GenomeLoc> locs1 = IntervalUtils.parseIntervalArguments(hg19GenomeLocParser, Arrays.asList(files.get(0).toString()));
+        final List<GenomeLoc> locs2 = IntervalUtils.parseIntervalArguments(hg19GenomeLocParser, Arrays.asList(files.get(1).toString()));
+        final List<GenomeLoc> locs3 = IntervalUtils.parseIntervalArguments(hg19GenomeLocParser, Arrays.asList(files.get(2).toString()));
 
         Assert.assertEquals(locs1.size(), 1);
         Assert.assertEquals(locs2.size(), 1);
@@ -572,21 +572,21 @@ public final class IntervalUtilsUnitTest extends BaseTest {
 
     @Test
     public void testScatterFixedIntervalsEnd() {
-        List<String> intervals = Arrays.asList("1:1-1", "2:2-2", "3:1-2", "3:4-5");
-        GenomeLoc chr1 = hg19GenomeLocParser.parseGenomeLoc("1:1-1");
-        GenomeLoc chr2 = hg19GenomeLocParser.parseGenomeLoc("2:2-2");
-        GenomeLoc chr3a = hg19GenomeLocParser.parseGenomeLoc("3:1-2");
-        GenomeLoc chr3b = hg19GenomeLocParser.parseGenomeLoc("3:4-5");
+        final List<String> intervals = Arrays.asList("1:1-1", "2:2-2", "3:1-2", "3:4-5");
+        final GenomeLoc chr1 = hg19GenomeLocParser.parseGenomeLoc("1:1-1");
+        final GenomeLoc chr2 = hg19GenomeLocParser.parseGenomeLoc("2:2-2");
+        final GenomeLoc chr3a = hg19GenomeLocParser.parseGenomeLoc("3:1-2");
+        final GenomeLoc chr3b = hg19GenomeLocParser.parseGenomeLoc("3:4-5");
 
-        List<File> files = testFiles("split.", 3, ".intervals");
+        final List<File> files = testFiles("split.", 3, ".intervals");
 
-        List<GenomeLoc> locs = intervalStringsToGenomeLocs(intervals);
-        List<List<GenomeLoc>> splits = IntervalUtils.splitFixedIntervals(locs, files.size());
+        final List<GenomeLoc> locs = intervalStringsToGenomeLocs(intervals);
+        final List<List<GenomeLoc>> splits = IntervalUtils.splitFixedIntervals(locs, files.size());
         IntervalUtils.scatterFixedIntervals(hg19Header, splits, files);
 
-        List<GenomeLoc> locs1 = IntervalUtils.parseIntervalArguments(hg19GenomeLocParser, Arrays.asList(files.get(0).toString()));
-        List<GenomeLoc> locs2 = IntervalUtils.parseIntervalArguments(hg19GenomeLocParser, Arrays.asList(files.get(1).toString()));
-        List<GenomeLoc> locs3 = IntervalUtils.parseIntervalArguments(hg19GenomeLocParser, Arrays.asList(files.get(2).toString()));
+        final List<GenomeLoc> locs1 = IntervalUtils.parseIntervalArguments(hg19GenomeLocParser, Arrays.asList(files.get(0).toString()));
+        final List<GenomeLoc> locs2 = IntervalUtils.parseIntervalArguments(hg19GenomeLocParser, Arrays.asList(files.get(1).toString()));
+        final List<GenomeLoc> locs3 = IntervalUtils.parseIntervalArguments(hg19GenomeLocParser, Arrays.asList(files.get(2).toString()));
 
         Assert.assertEquals(locs1.size(), 2);
         Assert.assertEquals(locs2.size(), 1);
@@ -600,18 +600,18 @@ public final class IntervalUtilsUnitTest extends BaseTest {
 
     @Test
     public void testScatterFixedIntervalsFile() {
-        List<File> files = testFiles("sg.", 10, ".intervals");
-        List<GenomeLoc> locs = IntervalUtils.parseIntervalArguments(hg19GenomeLocParser, Arrays.asList(hg19MiniIntervalFile));
-        List<List<GenomeLoc>> splits = IntervalUtils.splitFixedIntervals(locs, files.size());
+        final List<File> files = testFiles("sg.", 10, ".intervals");
+        final List<GenomeLoc> locs = IntervalUtils.parseIntervalArguments(hg19GenomeLocParser, Arrays.asList(hg19MiniIntervalFile));
+        final List<List<GenomeLoc>> splits = IntervalUtils.splitFixedIntervals(locs, files.size());
 
-        int[] counts = {
+        final int[] counts = {
                 33, 29, 68, 58, 64,
                 31, 27, 62, 59, 52
         };
 
         //String splitCounts = "";
         for (int i = 0; i < splits.size(); i++) {
-            int splitCount = splits.get(i).size();
+            final int splitCount = splits.get(i).size();
             Assert.assertEquals(splitCount, counts[i], "Num intervals in split " + i);
         }
         //System.out.println(splitCounts.substring(2));
@@ -620,10 +620,10 @@ public final class IntervalUtilsUnitTest extends BaseTest {
 
         int locIndex = 0;
         for (int i = 0; i < files.size(); i++) {
-            String file = files.get(i).toString();
-            List<GenomeLoc> parsedLocs = IntervalUtils.parseIntervalArguments(hg19GenomeLocParser, Arrays.asList(file));
+            final String file = files.get(i).toString();
+            final List<GenomeLoc> parsedLocs = IntervalUtils.parseIntervalArguments(hg19GenomeLocParser, Arrays.asList(file));
             Assert.assertEquals(parsedLocs.size(), counts[i], "Intervals in " + file);
-            for (GenomeLoc parsedLoc: parsedLocs)
+            for (final GenomeLoc parsedLoc: parsedLocs)
                 Assert.assertEquals(parsedLoc, locs.get(locIndex), String.format("Genome loc %d from file %d", locIndex++, i));
         }
         Assert.assertEquals(locIndex, locs.size(), "Total number of GenomeLocs");
@@ -631,13 +631,13 @@ public final class IntervalUtilsUnitTest extends BaseTest {
 
     @Test
     public void testScatterFixedIntervalsMax() {
-        List<File> files = testFiles("sg.", 4, ".intervals");
-        List<List<GenomeLoc>> splits = IntervalUtils.splitFixedIntervals(hg19ReferenceLocs, files.size());
+        final List<File> files = testFiles("sg.", 4, ".intervals");
+        final List<List<GenomeLoc>> splits = IntervalUtils.splitFixedIntervals(hg19ReferenceLocs, files.size());
         IntervalUtils.scatterFixedIntervals(hg19Header, splits, files);
 
         for (int i = 0; i < files.size(); i++) {
-            String file = files.get(i).toString();
-            List<GenomeLoc> parsedLocs = IntervalUtils.parseIntervalArguments(hg19GenomeLocParser, Arrays.asList(file));
+            final String file = files.get(i).toString();
+            final List<GenomeLoc> parsedLocs = IntervalUtils.parseIntervalArguments(hg19GenomeLocParser, Arrays.asList(file));
             Assert.assertEquals(parsedLocs.size(), 1, "parsedLocs[" + i + "].size()");
             Assert.assertEquals(parsedLocs.get(0), hg19ReferenceLocs.get(i), "parsedLocs[" + i + "].get()");
         }
@@ -645,18 +645,18 @@ public final class IntervalUtilsUnitTest extends BaseTest {
 
     @Test
     public void testScatterContigIntervalsOrder() {
-        List<String> intervals = Arrays.asList("2:1-1", "1:1-1", "3:2-2");
-        GenomeLoc chr1 = hg19GenomeLocParser.parseGenomeLoc("1:1-1");
-        GenomeLoc chr2 = hg19GenomeLocParser.parseGenomeLoc("2:1-1");
-        GenomeLoc chr3 = hg19GenomeLocParser.parseGenomeLoc("3:2-2");
+        final List<String> intervals = Arrays.asList("2:1-1", "1:1-1", "3:2-2");
+        final GenomeLoc chr1 = hg19GenomeLocParser.parseGenomeLoc("1:1-1");
+        final GenomeLoc chr2 = hg19GenomeLocParser.parseGenomeLoc("2:1-1");
+        final GenomeLoc chr3 = hg19GenomeLocParser.parseGenomeLoc("3:2-2");
 
-        List<File> files = testFiles("split.", 3, ".intervals");
+        final List<File> files = testFiles("split.", 3, ".intervals");
 
         IntervalUtils.scatterContigIntervals(hg19Header, intervalStringsToGenomeLocs(intervals), files);
 
-        List<GenomeLoc> locs1 = IntervalUtils.parseIntervalArguments(hg19GenomeLocParser, Arrays.asList(files.get(0).toString()));
-        List<GenomeLoc> locs2 = IntervalUtils.parseIntervalArguments(hg19GenomeLocParser, Arrays.asList(files.get(1).toString()));
-        List<GenomeLoc> locs3 = IntervalUtils.parseIntervalArguments(hg19GenomeLocParser, Arrays.asList(files.get(2).toString()));
+        final List<GenomeLoc> locs1 = IntervalUtils.parseIntervalArguments(hg19GenomeLocParser, Arrays.asList(files.get(0).toString()));
+        final List<GenomeLoc> locs2 = IntervalUtils.parseIntervalArguments(hg19GenomeLocParser, Arrays.asList(files.get(1).toString()));
+        final List<GenomeLoc> locs3 = IntervalUtils.parseIntervalArguments(hg19GenomeLocParser, Arrays.asList(files.get(2).toString()));
 
         Assert.assertEquals(locs1.size(), 1);
         Assert.assertEquals(locs2.size(), 1);
@@ -669,17 +669,17 @@ public final class IntervalUtilsUnitTest extends BaseTest {
 
     @Test
     public void testScatterContigIntervalsBasic() {
-        GenomeLoc chr1 = hg19GenomeLocParser.parseGenomeLoc("1");
-        GenomeLoc chr2 = hg19GenomeLocParser.parseGenomeLoc("2");
-        GenomeLoc chr3 = hg19GenomeLocParser.parseGenomeLoc("3");
+        final GenomeLoc chr1 = hg19GenomeLocParser.parseGenomeLoc("1");
+        final GenomeLoc chr2 = hg19GenomeLocParser.parseGenomeLoc("2");
+        final GenomeLoc chr3 = hg19GenomeLocParser.parseGenomeLoc("3");
 
-        List<File> files = testFiles("contig_basic.", 3, ".intervals");
+        final List<File> files = testFiles("contig_basic.", 3, ".intervals");
 
         IntervalUtils.scatterContigIntervals(hg19Header, intervalStringsToGenomeLocs("1", "2", "3"), files);
 
-        List<GenomeLoc> locs1 = IntervalUtils.parseIntervalArguments(hg19GenomeLocParser, Arrays.asList(files.get(0).toString()));
-        List<GenomeLoc> locs2 = IntervalUtils.parseIntervalArguments(hg19GenomeLocParser, Arrays.asList(files.get(1).toString()));
-        List<GenomeLoc> locs3 = IntervalUtils.parseIntervalArguments(hg19GenomeLocParser, Arrays.asList(files.get(2).toString()));
+        final List<GenomeLoc> locs1 = IntervalUtils.parseIntervalArguments(hg19GenomeLocParser, Arrays.asList(files.get(0).toString()));
+        final List<GenomeLoc> locs2 = IntervalUtils.parseIntervalArguments(hg19GenomeLocParser, Arrays.asList(files.get(1).toString()));
+        final List<GenomeLoc> locs3 = IntervalUtils.parseIntervalArguments(hg19GenomeLocParser, Arrays.asList(files.get(2).toString()));
 
         Assert.assertEquals(locs1.size(), 1);
         Assert.assertEquals(locs2.size(), 1);
@@ -692,18 +692,18 @@ public final class IntervalUtilsUnitTest extends BaseTest {
 
     @Test
     public void testScatterContigIntervalsLessFiles() {
-        GenomeLoc chr1 = hg19GenomeLocParser.parseGenomeLoc("1");
-        GenomeLoc chr2 = hg19GenomeLocParser.parseGenomeLoc("2");
-        GenomeLoc chr3 = hg19GenomeLocParser.parseGenomeLoc("3");
-        GenomeLoc chr4 = hg19GenomeLocParser.parseGenomeLoc("4");
+        final GenomeLoc chr1 = hg19GenomeLocParser.parseGenomeLoc("1");
+        final GenomeLoc chr2 = hg19GenomeLocParser.parseGenomeLoc("2");
+        final GenomeLoc chr3 = hg19GenomeLocParser.parseGenomeLoc("3");
+        final GenomeLoc chr4 = hg19GenomeLocParser.parseGenomeLoc("4");
 
-        List<File> files = testFiles("contig_less.", 3, ".intervals");
+        final List<File> files = testFiles("contig_less.", 3, ".intervals");
 
         IntervalUtils.scatterContigIntervals(hg19Header, intervalStringsToGenomeLocs("1", "2", "3", "4"), files);
 
-        List<GenomeLoc> locs1 = IntervalUtils.parseIntervalArguments(hg19GenomeLocParser, Arrays.asList(files.get(0).toString()));
-        List<GenomeLoc> locs2 = IntervalUtils.parseIntervalArguments(hg19GenomeLocParser, Arrays.asList(files.get(1).toString()));
-        List<GenomeLoc> locs3 = IntervalUtils.parseIntervalArguments(hg19GenomeLocParser, Arrays.asList(files.get(2).toString()));
+        final List<GenomeLoc> locs1 = IntervalUtils.parseIntervalArguments(hg19GenomeLocParser, Arrays.asList(files.get(0).toString()));
+        final List<GenomeLoc> locs2 = IntervalUtils.parseIntervalArguments(hg19GenomeLocParser, Arrays.asList(files.get(1).toString()));
+        final List<GenomeLoc> locs3 = IntervalUtils.parseIntervalArguments(hg19GenomeLocParser, Arrays.asList(files.get(2).toString()));
 
         Assert.assertEquals(locs1.size(), 2);
         Assert.assertEquals(locs2.size(), 1);
@@ -717,25 +717,25 @@ public final class IntervalUtilsUnitTest extends BaseTest {
 
     @Test(expectedExceptions=UserException.BadInput.class)
     public void testScatterContigIntervalsMoreFiles() {
-        List<File> files = testFiles("contig_more.", 3, ".intervals");
+        final List<File> files = testFiles("contig_more.", 3, ".intervals");
         IntervalUtils.scatterContigIntervals(hg19Header, intervalStringsToGenomeLocs("1", "2"), files);
     }
 
     @Test
     public void testScatterContigIntervalsStart() {
-        List<String> intervals = Arrays.asList("1:1-2", "1:4-5", "2:1-1", "3:2-2");
-        GenomeLoc chr1a = hg19GenomeLocParser.parseGenomeLoc("1:1-2");
-        GenomeLoc chr1b = hg19GenomeLocParser.parseGenomeLoc("1:4-5");
-        GenomeLoc chr2 = hg19GenomeLocParser.parseGenomeLoc("2:1-1");
-        GenomeLoc chr3 = hg19GenomeLocParser.parseGenomeLoc("3:2-2");
+        final List<String> intervals = Arrays.asList("1:1-2", "1:4-5", "2:1-1", "3:2-2");
+        final GenomeLoc chr1a = hg19GenomeLocParser.parseGenomeLoc("1:1-2");
+        final GenomeLoc chr1b = hg19GenomeLocParser.parseGenomeLoc("1:4-5");
+        final GenomeLoc chr2 = hg19GenomeLocParser.parseGenomeLoc("2:1-1");
+        final GenomeLoc chr3 = hg19GenomeLocParser.parseGenomeLoc("3:2-2");
 
-        List<File> files = testFiles("contig_split_start.", 3, ".intervals");
+        final List<File> files = testFiles("contig_split_start.", 3, ".intervals");
 
         IntervalUtils.scatterContigIntervals(hg19Header, intervalStringsToGenomeLocs(intervals), files);
 
-        List<GenomeLoc> locs1 = IntervalUtils.parseIntervalArguments(hg19GenomeLocParser, Arrays.asList(files.get(0).toString()));
-        List<GenomeLoc> locs2 = IntervalUtils.parseIntervalArguments(hg19GenomeLocParser, Arrays.asList(files.get(1).toString()));
-        List<GenomeLoc> locs3 = IntervalUtils.parseIntervalArguments(hg19GenomeLocParser, Arrays.asList(files.get(2).toString()));
+        final List<GenomeLoc> locs1 = IntervalUtils.parseIntervalArguments(hg19GenomeLocParser, Arrays.asList(files.get(0).toString()));
+        final List<GenomeLoc> locs2 = IntervalUtils.parseIntervalArguments(hg19GenomeLocParser, Arrays.asList(files.get(1).toString()));
+        final List<GenomeLoc> locs3 = IntervalUtils.parseIntervalArguments(hg19GenomeLocParser, Arrays.asList(files.get(2).toString()));
 
         Assert.assertEquals(locs1.size(), 2);
         Assert.assertEquals(locs2.size(), 1);
@@ -749,19 +749,19 @@ public final class IntervalUtilsUnitTest extends BaseTest {
 
     @Test
     public void testScatterContigIntervalsMiddle() {
-        List<String> intervals = Arrays.asList("1:1-1", "2:1-2", "2:4-5", "3:2-2");
-        GenomeLoc chr1 = hg19GenomeLocParser.parseGenomeLoc("1:1-1");
-        GenomeLoc chr2a = hg19GenomeLocParser.parseGenomeLoc("2:1-2");
-        GenomeLoc chr2b = hg19GenomeLocParser.parseGenomeLoc("2:4-5");
-        GenomeLoc chr3 = hg19GenomeLocParser.parseGenomeLoc("3:2-2");
+        final List<String> intervals = Arrays.asList("1:1-1", "2:1-2", "2:4-5", "3:2-2");
+        final GenomeLoc chr1 = hg19GenomeLocParser.parseGenomeLoc("1:1-1");
+        final GenomeLoc chr2a = hg19GenomeLocParser.parseGenomeLoc("2:1-2");
+        final GenomeLoc chr2b = hg19GenomeLocParser.parseGenomeLoc("2:4-5");
+        final GenomeLoc chr3 = hg19GenomeLocParser.parseGenomeLoc("3:2-2");
 
-        List<File> files = testFiles("contig_split_middle.", 3, ".intervals");
+        final List<File> files = testFiles("contig_split_middle.", 3, ".intervals");
 
         IntervalUtils.scatterContigIntervals(hg19Header, intervalStringsToGenomeLocs(intervals), files);
 
-        List<GenomeLoc> locs1 = IntervalUtils.parseIntervalArguments(hg19GenomeLocParser, Arrays.asList(files.get(0).toString()));
-        List<GenomeLoc> locs2 = IntervalUtils.parseIntervalArguments(hg19GenomeLocParser, Arrays.asList(files.get(1).toString()));
-        List<GenomeLoc> locs3 = IntervalUtils.parseIntervalArguments(hg19GenomeLocParser, Arrays.asList(files.get(2).toString()));
+        final List<GenomeLoc> locs1 = IntervalUtils.parseIntervalArguments(hg19GenomeLocParser, Arrays.asList(files.get(0).toString()));
+        final List<GenomeLoc> locs2 = IntervalUtils.parseIntervalArguments(hg19GenomeLocParser, Arrays.asList(files.get(1).toString()));
+        final List<GenomeLoc> locs3 = IntervalUtils.parseIntervalArguments(hg19GenomeLocParser, Arrays.asList(files.get(2).toString()));
 
         Assert.assertEquals(locs1.size(), 1);
         Assert.assertEquals(locs2.size(), 2);
@@ -775,19 +775,19 @@ public final class IntervalUtilsUnitTest extends BaseTest {
 
     @Test
     public void testScatterContigIntervalsEnd() {
-        List<String> intervals = Arrays.asList("1:1-1", "2:2-2", "3:1-2", "3:4-5");
-        GenomeLoc chr1 = hg19GenomeLocParser.parseGenomeLoc("1:1-1");
-        GenomeLoc chr2 = hg19GenomeLocParser.parseGenomeLoc("2:2-2");
-        GenomeLoc chr3a = hg19GenomeLocParser.parseGenomeLoc("3:1-2");
-        GenomeLoc chr3b = hg19GenomeLocParser.parseGenomeLoc("3:4-5");
+        final List<String> intervals = Arrays.asList("1:1-1", "2:2-2", "3:1-2", "3:4-5");
+        final GenomeLoc chr1 = hg19GenomeLocParser.parseGenomeLoc("1:1-1");
+        final GenomeLoc chr2 = hg19GenomeLocParser.parseGenomeLoc("2:2-2");
+        final GenomeLoc chr3a = hg19GenomeLocParser.parseGenomeLoc("3:1-2");
+        final GenomeLoc chr3b = hg19GenomeLocParser.parseGenomeLoc("3:4-5");
 
-        List<File> files = testFiles("contig_split_end.", 3 ,".intervals");
+        final List<File> files = testFiles("contig_split_end.", 3 ,".intervals");
 
         IntervalUtils.scatterContigIntervals(hg19Header, intervalStringsToGenomeLocs(intervals), files);
 
-        List<GenomeLoc> locs1 = IntervalUtils.parseIntervalArguments(hg19GenomeLocParser, Arrays.asList(files.get(0).toString()));
-        List<GenomeLoc> locs2 = IntervalUtils.parseIntervalArguments(hg19GenomeLocParser, Arrays.asList(files.get(1).toString()));
-        List<GenomeLoc> locs3 = IntervalUtils.parseIntervalArguments(hg19GenomeLocParser, Arrays.asList(files.get(2).toString()));
+        final List<GenomeLoc> locs1 = IntervalUtils.parseIntervalArguments(hg19GenomeLocParser, Arrays.asList(files.get(0).toString()));
+        final List<GenomeLoc> locs2 = IntervalUtils.parseIntervalArguments(hg19GenomeLocParser, Arrays.asList(files.get(1).toString()));
+        final List<GenomeLoc> locs3 = IntervalUtils.parseIntervalArguments(hg19GenomeLocParser, Arrays.asList(files.get(2).toString()));
 
         Assert.assertEquals(locs1.size(), 1);
         Assert.assertEquals(locs2.size(), 1);
@@ -801,19 +801,19 @@ public final class IntervalUtilsUnitTest extends BaseTest {
 
     @Test
     public void testScatterContigIntervalsMax() {
-        List<File> files = testFiles("sg.", 4, ".intervals");
+        final List<File> files = testFiles("sg.", 4, ".intervals");
         IntervalUtils.scatterContigIntervals(hg19Header, hg19ReferenceLocs, files);
 
         for (int i = 0; i < files.size(); i++) {
-            String file = files.get(i).toString();
-            List<GenomeLoc> parsedLocs = IntervalUtils.parseIntervalArguments(hg19GenomeLocParser, Arrays.asList(file));
+            final String file = files.get(i).toString();
+            final List<GenomeLoc> parsedLocs = IntervalUtils.parseIntervalArguments(hg19GenomeLocParser, Arrays.asList(file));
             Assert.assertEquals(parsedLocs.size(), 1, "parsedLocs[" + i + "].size()");
             Assert.assertEquals(parsedLocs.get(0), hg19ReferenceLocs.get(i), "parsedLocs[" + i + "].get()");
         }
     }
 
-    private List<File> testFiles(String prefix, int count, String suffix) {
-        ArrayList<File> files = new ArrayList<>();
+    private List<File> testFiles(final String prefix, final int count, final String suffix) {
+        final ArrayList<File> files = new ArrayList<>();
         for (int i = 1; i <= count; i++) {
             files.add(createTempFile(prefix + i, suffix));
         }
@@ -829,8 +829,8 @@ public final class IntervalUtilsUnitTest extends BaseTest {
     }
 
     @Test(dataProvider="unmergedIntervals")
-    public void testUnmergedIntervals(String unmergedIntervals) {
-        List<GenomeLoc> locs = IntervalUtils.parseIntervalArguments(hg19GenomeLocParser, Collections.singletonList(publicTestDir + unmergedIntervals));
+    public void testUnmergedIntervals(final String unmergedIntervals) {
+        final List<GenomeLoc> locs = IntervalUtils.parseIntervalArguments(hg19GenomeLocParser, Collections.singletonList(publicTestDir + unmergedIntervals));
         Assert.assertEquals(locs.size(), 2);
 
         List<GenomeLoc> merged;
@@ -844,35 +844,35 @@ public final class IntervalUtilsUnitTest extends BaseTest {
     }
 
     @Test(expectedExceptions=UserException.MalformedGenomeLoc.class, dataProvider="invalidIntervalTestData")
-    public void testInvalidGATKFileIntervalHandling(GenomeLocParser genomeLocParser,
-                                                    String contig, int intervalStart, int intervalEnd ) throws Exception {
+    public void testInvalidGATKFileIntervalHandling(final GenomeLocParser genomeLocParser,
+                                                    final String contig, final int intervalStart, final int intervalEnd ) throws Exception {
 
-        File gatkIntervalFile = createTempFile("testInvalidGATKFileIntervalHandling", ".intervals",
+        final File gatkIntervalFile = createTempFile("testInvalidGATKFileIntervalHandling", ".intervals",
                 String.format("%s:%d-%d", contig, intervalStart, intervalEnd));
 
-        List<String> intervalArgs = new ArrayList<>(1);
+        final List<String> intervalArgs = new ArrayList<>(1);
         intervalArgs.add(gatkIntervalFile.getAbsolutePath());
 
         IntervalUtils.loadIntervals(intervalArgs, IntervalSetRule.UNION, IntervalMergingRule.ALL, 0, genomeLocParser);
     }
 
     @Test(expectedExceptions=UserException.MalformedFile.class, dataProvider="invalidIntervalTestData")
-    public void testLoadIntervalsInvalidPicardIntervalHandling(GenomeLocParser genomeLocParser,
-                                                  String contig, int intervalStart, int intervalEnd ) throws Exception {
+    public void testLoadIntervalsInvalidPicardIntervalHandling(final GenomeLocParser genomeLocParser,
+                                                               final String contig, final int intervalStart, final int intervalEnd ) throws Exception {
 
-        SAMFileHeader picardFileHeader = new SAMFileHeader();
+        final SAMFileHeader picardFileHeader = new SAMFileHeader();
         picardFileHeader.addSequence(genomeLocParser.getContigInfo("1"));
         // Intentionally add an extra contig not in our genomeLocParser's sequence dictionary
         // so that we can add intervals to the Picard interval file for contigs not in our dictionary
         picardFileHeader.addSequence(new SAMSequenceRecord("2", 100000));
 
-        IntervalList picardIntervals = new IntervalList(picardFileHeader);
+        final IntervalList picardIntervals = new IntervalList(picardFileHeader);
         picardIntervals.add(new Interval(contig, intervalStart, intervalEnd, true, "dummyname"));
 
-        File picardIntervalFile = createTempFile("testLoadIntervalsInvalidPicardIntervalHandling", ".intervals");
+        final File picardIntervalFile = createTempFile("testLoadIntervalsInvalidPicardIntervalHandling", ".intervals");
         picardIntervals.write(picardIntervalFile);
 
-        List<String> intervalArgs = new ArrayList<>(1);
+        final List<String> intervalArgs = new ArrayList<>(1);
         intervalArgs.add(picardIntervalFile.getAbsolutePath());
 
         // loadIntervals() will validate all intervals against the sequence dictionary in our genomeLocParser,
@@ -882,8 +882,8 @@ public final class IntervalUtilsUnitTest extends BaseTest {
 
     // TODO - remove once a corrected version of the exome interval list is released.
     @Test(dataProvider="negativeOneLengthIntervalTestData")
-    public void testIntervalFileToListNegativeOneLength(GenomeLocParser genomeLocParser,
-                                                  String contig, int intervalStart, int intervalEnd ) throws Exception {
+    public void testIntervalFileToListNegativeOneLength(final GenomeLocParser genomeLocParser,
+                                                        final String contig, final int intervalStart, final int intervalEnd ) throws Exception {
 
         final SAMFileHeader picardFileHeader = new SAMFileHeader();
         picardFileHeader.addSequence(genomeLocParser.getContigInfo("1"));
@@ -900,8 +900,8 @@ public final class IntervalUtilsUnitTest extends BaseTest {
     }
 
     @Test(expectedExceptions=UserException.CouldNotReadInputFile.class, dataProvider="invalidIntervalTestData")
-    public void testIntervalFileToListInvalidPicardIntervalHandling(GenomeLocParser genomeLocParser,
-                                       String contig, int intervalStart, int intervalEnd ) throws Exception {
+    public void testIntervalFileToListInvalidPicardIntervalHandling(final GenomeLocParser genomeLocParser,
+                                                                    final String contig, final int intervalStart, final int intervalEnd ) throws Exception {
 
         final SAMFileHeader picardFileHeader = new SAMFileHeader();
         picardFileHeader.addSequence(genomeLocParser.getContigInfo("1"));
@@ -920,8 +920,8 @@ public final class IntervalUtilsUnitTest extends BaseTest {
 
     @DataProvider(name="invalidIntervalTestData")
     public Object[][] invalidIntervalDataProvider() throws Exception {
-        File fastaFile = new File(publicTestDir + "exampleFASTA.fasta");
-        GenomeLocParser genomeLocParser = new GenomeLocParser(new IndexedFastaSequenceFile(fastaFile));
+        final File fastaFile = new File(publicTestDir + "exampleFASTA.fasta");
+        final GenomeLocParser genomeLocParser = new GenomeLocParser(new IndexedFastaSequenceFile(fastaFile));
 
         return new Object[][] {
                 new Object[] {genomeLocParser, "1", 10000000, 20000000},
@@ -933,8 +933,8 @@ public final class IntervalUtilsUnitTest extends BaseTest {
     // TODO - remove once a corrected version of the exome interval list is released.
     @DataProvider(name="negativeOneLengthIntervalTestData")
     public Object[][] negativeOneLengthIntervalDataProvider() throws Exception {
-        File fastaFile = new File(publicTestDir + "exampleFASTA.fasta");
-        GenomeLocParser genomeLocParser = new GenomeLocParser(new IndexedFastaSequenceFile(fastaFile));
+        final File fastaFile = new File(publicTestDir + "exampleFASTA.fasta");
+        final GenomeLocParser genomeLocParser = new GenomeLocParser(new IndexedFastaSequenceFile(fastaFile));
 
         return new Object[][] {
                 new Object[] {genomeLocParser, "1", 2, 1},
@@ -943,8 +943,8 @@ public final class IntervalUtilsUnitTest extends BaseTest {
         };
     }
 
-    private File createTempFile( String tempFilePrefix, String tempFileExtension, String... lines ) throws Exception {
-        File tempFile = BaseTest.createTempFile(tempFilePrefix, tempFileExtension);
+    private File createTempFile(final String tempFilePrefix, final String tempFileExtension, final String... lines ) throws Exception {
+        final File tempFile = BaseTest.createTempFile(tempFilePrefix, tempFileExtension);
         FileUtils.writeLines(tempFile, Arrays.asList(lines));
         return tempFile;
     }
@@ -962,8 +962,8 @@ public final class IntervalUtilsUnitTest extends BaseTest {
     }
 
     @Test(dataProvider = "sortAndMergeIntervals")
-    public void testSortAndMergeIntervals(IntervalMergingRule merge, List<GenomeLoc> unsorted, List<GenomeLoc> expected) {
-        List<GenomeLoc> sorted = IntervalUtils.sortAndMergeIntervals(hg19GenomeLocParser, unsorted, merge).toList();
+    public void testSortAndMergeIntervals(final IntervalMergingRule merge, final List<GenomeLoc> unsorted, final List<GenomeLoc> expected) {
+        final List<GenomeLoc> sorted = IntervalUtils.sortAndMergeIntervals(hg19GenomeLocParser, unsorted, merge).toList();
         Assert.assertEquals(sorted, expected);
     }
 
@@ -982,8 +982,8 @@ public final class IntervalUtilsUnitTest extends BaseTest {
     }
 
     @Test( dataProvider = "loadintervals")
-    public void loadIntervalsTest(List<String> intervals, IntervalSetRule setRule, int padding, List<GenomeLoc> results){
-        GenomeLocSortedSet loadedIntervals = IntervalUtils.loadIntervals(intervals, setRule, IntervalMergingRule.ALL, padding, hg19GenomeLocParser);
+    public void loadIntervalsTest(final List<String> intervals, final IntervalSetRule setRule, final int padding, final List<GenomeLoc> results){
+        final GenomeLocSortedSet loadedIntervals = IntervalUtils.loadIntervals(intervals, setRule, IntervalMergingRule.ALL, padding, hg19GenomeLocParser);
         Assert.assertEquals(loadedIntervals, results);
     }
 
@@ -1168,9 +1168,9 @@ public final class IntervalUtilsUnitTest extends BaseTest {
 
     @DataProvider(name="intervals")
     public Object[][] intervals(){
-        ArrayList<SimpleInterval> input = Lists.newArrayList(new SimpleInterval("1", 10, 100));
-        ArrayList<SimpleInterval> output = input;
-        ArrayList<SimpleInterval> hundred = Lists.newArrayList(new SimpleInterval("1", 1, 100));
+        final ArrayList<SimpleInterval> input = Lists.newArrayList(new SimpleInterval("1", 10, 100));
+        final ArrayList<SimpleInterval> output = input;
+        final ArrayList<SimpleInterval> hundred = Lists.newArrayList(new SimpleInterval("1", 1, 100));
 
         return new Object[][]{
                 // input fits all in one shard
@@ -1192,8 +1192,8 @@ public final class IntervalUtilsUnitTest extends BaseTest {
     }
 
     @Test(dataProvider = "intervals")
-    public void testCutToShards(ArrayList<SimpleInterval> input, int shardSize, ArrayList<SimpleInterval> expected) throws Exception {
-        List<SimpleInterval> actual = IntervalUtils.cutToShards(input, shardSize);
+    public void testCutToShards(final ArrayList<SimpleInterval> input, final int shardSize, final ArrayList<SimpleInterval> expected) throws Exception {
+        final List<SimpleInterval> actual = IntervalUtils.cutToShards(input, shardSize);
         Assert.assertEquals(
                 actual,
                 expected
@@ -1213,7 +1213,7 @@ public final class IntervalUtilsUnitTest extends BaseTest {
     }
 
     @Test(dataProvider = "shardIndex")
-    public void testShardIndex(int offset, int shardSize, int shardIndex) throws Exception {
+    public void testShardIndex(final int offset, final int shardSize, final int shardIndex) throws Exception {
         Assert.assertEquals(
                 IntervalUtils.shardIndex(offset, shardSize),
                 shardIndex
@@ -1233,7 +1233,7 @@ public final class IntervalUtilsUnitTest extends BaseTest {
     }
 
     @Test(dataProvider = "shardBegin")
-    public void testBeginOfShard(int index, int shardSize, int shardBegin) throws Exception {
+    public void testBeginOfShard(final int index, final int shardSize, final int shardBegin) throws Exception {
         Assert.assertEquals(
                 IntervalUtils.beginOfShard(index, shardSize),
                 shardBegin
@@ -1253,7 +1253,7 @@ public final class IntervalUtilsUnitTest extends BaseTest {
     }
 
     @Test(dataProvider = "shardEnd")
-    public void testEndOfShard(int index, int shardSize, int shardEnd) throws Exception {
+    public void testEndOfShard(final int index, final int shardSize, final int shardEnd) throws Exception {
         Assert.assertEquals(
                 IntervalUtils.endOfShard(index, shardSize),
                 shardEnd

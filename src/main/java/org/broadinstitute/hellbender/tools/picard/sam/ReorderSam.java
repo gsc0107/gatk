@@ -66,8 +66,8 @@ public final class ReorderSam extends PicardCommandLineProgram {
 
         final SamReader in = SamReaderFactory.makeDefault().referenceSequence(REFERENCE_SEQUENCE).open(INPUT);
 
-        ReferenceSequenceFile reference = ReferenceSequenceFileFactory.getReferenceSequenceFile(REFERENCE_SEQUENCE);
-        SAMSequenceDictionary refDict = reference.getSequenceDictionary();
+        final ReferenceSequenceFile reference = ReferenceSequenceFileFactory.getReferenceSequenceFile(REFERENCE_SEQUENCE);
+        final SAMSequenceDictionary refDict = reference.getSequenceDictionary();
 
         if (refDict == null) {
             CloserUtil.close(in);
@@ -77,10 +77,10 @@ public final class ReorderSam extends PicardCommandLineProgram {
 
         printDictionary("SAM/BAM file", in.getFileHeader().getSequenceDictionary());
         printDictionary("Reference", refDict);
-        Map<Integer, Integer> newOrder = buildSequenceDictionaryMap(refDict, in.getFileHeader().getSequenceDictionary());
+        final Map<Integer, Integer> newOrder = buildSequenceDictionaryMap(refDict, in.getFileHeader().getSequenceDictionary());
 
         // has to be after we create the newOrder
-        SAMFileHeader outHeader = ReadUtils.cloneSAMFileHeader(in.getFileHeader());
+        final SAMFileHeader outHeader = ReadUtils.cloneSAMFileHeader(in.getFileHeader());
         outHeader.setSequenceDictionary(refDict);
 
         logger.info("Writing reads...");
@@ -111,7 +111,7 @@ public final class ReorderSam extends PicardCommandLineProgram {
      * ordering map newOrder.  Read is provided in case an error occurs, so that an informative message
      * can be made.
      */
-    private int newOrderIndex(SAMRecord read, int oldIndex, Map<Integer, Integer> newOrder) {
+    private int newOrderIndex(final SAMRecord read, final int oldIndex, final Map<Integer, Integer> newOrder) {
         if (oldIndex == -1)
             return -1; // unmapped read
         else {
@@ -163,7 +163,7 @@ public final class ReorderSam extends PicardCommandLineProgram {
      */
     private Map<Integer, Integer> buildSequenceDictionaryMap(final SAMSequenceDictionary refDict,
                                                              final SAMSequenceDictionary readsDict) {
-        Map<Integer, Integer> newOrder = new HashMap<>();
+        final Map<Integer, Integer> newOrder = new HashMap<>();
 
         logger.info("Reordering SAM/BAM file:");
         for (final SAMSequenceRecord refRec : refDict.getSequences()) {
@@ -171,7 +171,7 @@ public final class ReorderSam extends PicardCommandLineProgram {
 
             if (readsRec != null) {
                 if (refRec.getSequenceLength() != readsRec.getSequenceLength()) {
-                    String msg = String.format("Discordant contig lengths: read %s LN=%d, ref %s LN=%d",
+                    final String msg = String.format("Discordant contig lengths: read %s LN=%d, ref %s LN=%d",
                             readsRec.getSequenceName(), readsRec.getSequenceLength(),
                             refRec.getSequenceName(), refRec.getSequenceLength());
                     if (ALLOW_CONTIG_LENGTH_DISCORDANCE) {
@@ -188,7 +188,7 @@ public final class ReorderSam extends PicardCommandLineProgram {
             }
         }
 
-        for (SAMSequenceRecord readsRec : readsDict.getSequences()) {
+        for (final SAMSequenceRecord readsRec : readsDict.getSequences()) {
             if (!newOrder.containsKey(readsRec.getSequenceIndex())) {
                 if (ALLOW_INCOMPLETE_DICT_CONCORDANCE)
                     newOrder.put(readsRec.getSequenceIndex(), -1);
@@ -203,7 +203,7 @@ public final class ReorderSam extends PicardCommandLineProgram {
     /**
      * Helper function to print out a sequence dictionary
      */
-    private void printDictionary(String name, SAMSequenceDictionary dict) {
+    private void printDictionary(final String name, final SAMSequenceDictionary dict) {
         logger.info(name);
         for (final SAMSequenceRecord contig : dict.getSequences()) {
             logger.info("  SN=%s LN=%d%n", contig.getSequenceName(), contig.getSequenceLength());

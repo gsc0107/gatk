@@ -97,7 +97,7 @@ public final class ReadsDataSource implements GATKDataSource<GATKRead>, AutoClos
      * @param customSamReaderFactory SamReaderFactory to use, if null a default factory with no reference and validation
      *                               stringency SILENT is used.
      */
-    public ReadsDataSource( final Path samPath, SamReaderFactory customSamReaderFactory) {
+    public ReadsDataSource(final Path samPath, final SamReaderFactory customSamReaderFactory) {
         this(samPath != null ? Arrays.asList(samPath) : null, customSamReaderFactory);
     }
 
@@ -108,7 +108,7 @@ public final class ReadsDataSource implements GATKDataSource<GATKRead>, AutoClos
      * @param customSamReaderFactory SamReaderFactory to use, if null a default factory with no reference and validation
      *                               stringency SILENT is used.
      */
-    public ReadsDataSource(final List<Path> samPaths, SamReaderFactory customSamReaderFactory ) {
+    public ReadsDataSource(final List<Path> samPaths, final SamReaderFactory customSamReaderFactory ) {
         Utils.nonNull(samPaths);
         Utils.nonEmpty(samPaths, "ReadsDataSource cannot be created from empty file list");
 
@@ -130,7 +130,7 @@ public final class ReadsDataSource implements GATKDataSource<GATKRead>, AutoClos
                 throw new UserException.CouldNotReadInputFile(samPath.toString(), e);
             }
 
-            SamReader reader = samReaderFactory.open(samPath);
+            final SamReader reader = samReaderFactory.open(samPath);
 
             // Ensure that each file has an index
             if ( ! reader.hasIndex() ) {
@@ -197,8 +197,8 @@ public final class ReadsDataSource implements GATKDataSource<GATKRead>, AutoClos
         return intervalsForTraversal != null || traverseUnmapped;
     }
 
-    private void raiseExceptionForMissingIndex(String reason) {
-        String commandsToIndex = backingPaths.entrySet().stream()
+    private void raiseExceptionForMissingIndex(final String reason) {
+        final String commandsToIndex = backingPaths.entrySet().stream()
                 .filter(f -> !f.getKey().hasIndex())
                 .map(Map.Entry::getValue)
                 .map(Path::toAbsolutePath)
@@ -286,7 +286,7 @@ public final class ReadsDataSource implements GATKDataSource<GATKRead>, AutoClos
         final boolean traversalIsBounded = (queryIntervals != null && ! queryIntervals.isEmpty()) || queryUnmapped;
 
         // Set up an iterator for each reader, bounded to overlap with the supplied intervals if there are any
-        for ( Map.Entry<SamReader, CloseableIterator<SAMRecord>> readerEntry : readers.entrySet() ) {
+        for ( final Map.Entry<SamReader, CloseableIterator<SAMRecord>> readerEntry : readers.entrySet() ) {
             readerEntry.setValue(traversalIsBounded ? new SamReaderQueryingIterator(readerEntry.getKey(), queryIntervals, queryUnmapped) :
                                                       readerEntry.getKey().iterator());
         }
@@ -310,13 +310,13 @@ public final class ReadsDataSource implements GATKDataSource<GATKRead>, AutoClos
      * @return a header merger containing all individual headers in this data source
      */
     private SamFileHeaderMerger createHeaderMerger() {
-        List<SAMFileHeader> headers = new ArrayList<>(readers.size());
-        for ( Map.Entry<SamReader, CloseableIterator<SAMRecord>> readerEntry : readers.entrySet() ) {
+        final List<SAMFileHeader> headers = new ArrayList<>(readers.size());
+        for ( final Map.Entry<SamReader, CloseableIterator<SAMRecord>> readerEntry : readers.entrySet() ) {
             headers.add(readerEntry.getKey().getFileHeader());
         }
 
         // TODO: don't require coordinate ordering
-        SamFileHeaderMerger headerMerger = new SamFileHeaderMerger(SAMFileHeader.SortOrder.coordinate, headers, true);
+        final SamFileHeaderMerger headerMerger = new SamFileHeaderMerger(SAMFileHeader.SortOrder.coordinate, headers, true);
         return headerMerger;
     }
 
@@ -328,11 +328,11 @@ public final class ReadsDataSource implements GATKDataSource<GATKRead>, AutoClos
         closePreviousIterationsIfNecessary();
 
         try {
-            for ( Map.Entry<SamReader, CloseableIterator<SAMRecord>> readerEntry : readers.entrySet() ) {
+            for ( final Map.Entry<SamReader, CloseableIterator<SAMRecord>> readerEntry : readers.entrySet() ) {
                 readerEntry.getKey().close();
             }
         }
-        catch ( IOException e ) {
+        catch ( final IOException e ) {
             throw new GATKException("Error closing SAMReader");
         }
     }
@@ -341,8 +341,8 @@ public final class ReadsDataSource implements GATKDataSource<GATKRead>, AutoClos
      * Close any previously-opened iterations over our readers (htsjdk allows only one open iteration per reader).
      */
     private void closePreviousIterationsIfNecessary() {
-        for ( Map.Entry<SamReader, CloseableIterator<SAMRecord>> readerEntry : readers.entrySet() ) {
-            CloseableIterator<SAMRecord> readerIterator = readerEntry.getValue();
+        for ( final Map.Entry<SamReader, CloseableIterator<SAMRecord>> readerEntry : readers.entrySet() ) {
+            final CloseableIterator<SAMRecord> readerIterator = readerEntry.getValue();
             if ( readerIterator != null ) {
                 readerIterator.close();
                 readerEntry.setValue(null);

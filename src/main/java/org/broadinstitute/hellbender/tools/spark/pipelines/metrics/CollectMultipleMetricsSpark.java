@@ -122,21 +122,21 @@ public final class CollectMultipleMetricsSpark extends GATKSparkTool {
      * Use this method when invoking CollectMultipleMetricsSpark programmatically to run programs other
      * than the ones available via enum. This must be called before runTool().
      */
-    public void setCollectorsToRun(List<SparkCollectorProvider> externalCollectorsToRun) {
+    public void setCollectorsToRun(final List<SparkCollectorProvider> externalCollectorsToRun) {
         this.externalCollectors = externalCollectorsToRun;
     }
 
     @Override
     protected void runTool( final JavaSparkContext ctx ) {
         final JavaRDD<GATKRead> unFilteredReads = getUnfilteredReads();
-        List<SparkCollectorProvider> collectorsToRun = getCollectorsToRun();
+        final List<SparkCollectorProvider> collectorsToRun = getCollectorsToRun();
         if (collectorsToRun.size() > 1) {
             // if there is more than one collector to run, cache the
             // unfiltered RDD so we don't recompute it
             unFilteredReads.cache();
         }
         for (final SparkCollectorProvider provider : collectorsToRun) {
-            MetricsCollectorSpark<? extends MetricsArgumentCollection> metricsCollector =
+            final MetricsCollectorSpark<? extends MetricsArgumentCollection> metricsCollector =
                     provider.createCollector(
                         outputBaseName,
                         metricAccumulationLevel.accumulationLevels,
@@ -149,9 +149,9 @@ public final class CollectMultipleMetricsSpark extends GATKSparkTool {
 
             //Bypass the framework merging of command line filters and just apply the default
             //ones specified by the collector
-            List<ReadFilter> readFilters = metricsCollector.getDefaultReadFilters();
+            final List<ReadFilter> readFilters = metricsCollector.getDefaultReadFilters();
             readFilters.forEach(f -> f.setHeader(getHeaderForReads()));
-            ReadFilter readFilter = readFilters.stream().reduce(
+            final ReadFilter readFilter = readFilters.stream().reduce(
                     ReadFilterLibrary.ALLOW_ALL_READS,
                     (rf1, rf2) -> rf1.and(rf2));
 
@@ -173,7 +173,7 @@ public final class CollectMultipleMetricsSpark extends GATKSparkTool {
                 return Arrays.asList(SparkCollectors.values());
             }
             else { // run the user specified collectors
-                List<SparkCollectorProvider> collectorsToRun = new ArrayList<>();
+                final List<SparkCollectorProvider> collectorsToRun = new ArrayList<>();
                 collectorsToRun.addAll(userCollectors);
                 return collectorsToRun;
             }

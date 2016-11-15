@@ -111,22 +111,22 @@ public final class SplitNCigarReads extends TwoPassReadWalker {
         rnaReadTransform = REFACTOR_NDN_CIGAR_READS ? new NDNCigarReadTransformer() : ReadTransformer.identity();
         try {
             referenceReader = new CachingIndexedFastaSequenceFile(referenceArguments.getReferenceFile());
-            GenomeLocParser genomeLocParser = new GenomeLocParser(getBestAvailableSequenceDictionary());
+            final GenomeLocParser genomeLocParser = new GenomeLocParser(getBestAvailableSequenceDictionary());
             outputWriter = createSAMWriter(OUTPUT, false);
             overhangManager = new OverhangFixingManager(header, outputWriter, genomeLocParser, referenceReader, MAX_RECORDS_IN_MEMORY, MAX_MISMATCHES_IN_OVERHANG, MAX_BASES_TO_CLIP, doNotFixOverhangs, processSecondaryAlignments);
 
-        } catch (FileNotFoundException ex) {
+        } catch (final FileNotFoundException ex) {
             throw new UserException.CouldNotReadInputFile(referenceArguments.getReferenceFile(), ex);
         }
     }
 
     @Override
-    protected void firstPassApply(GATKRead read, ReferenceContext bytes, FeatureContext featureContext) {
+    protected void firstPassApply(final GATKRead read, final ReferenceContext bytes, final FeatureContext featureContext) {
         splitNCigarRead(rnaReadTransform.apply(read),overhangManager, true, header, processSecondaryAlignments);
     }
 
     @Override
-    protected void secondPassApply(GATKRead read, ReferenceContext bytes, FeatureContext featureContext) {
+    protected void secondPassApply(final GATKRead read, final ReferenceContext bytes, final FeatureContext featureContext) {
         splitNCigarRead(rnaReadTransform.apply(read),overhangManager, true, header, processSecondaryAlignments);
     }
 
@@ -141,7 +141,7 @@ public final class SplitNCigarReads extends TwoPassReadWalker {
         if (overhangManager != null) { overhangManager.flush(); }
         if (outputWriter != null ) { outputWriter.close(); }
         try {if (referenceReader != null) { referenceReader.close(); } }
-        catch (IOException ex) {
+        catch (final IOException ex) {
             throw new UserException.MissingReference("Could not find reference file");
         }
     }
@@ -155,9 +155,9 @@ public final class SplitNCigarReads extends TwoPassReadWalker {
      * @param read     the read to split (can be null)
      * @param emitReads   a parameter used to mock behavior for repairing mate cigar string information
      */
-    public static GATKRead splitNCigarRead(final GATKRead read, OverhangFixingManager manager, boolean emitReads, SAMFileHeader header, boolean secondaryAlignments) {
+    public static GATKRead splitNCigarRead(final GATKRead read, final OverhangFixingManager manager, final boolean emitReads, final SAMFileHeader header, final boolean secondaryAlignments) {
         final int numCigarElements = read.numCigarElements();
-        List<GATKRead> splitReads = new ArrayList<>(2);
+        final List<GATKRead> splitReads = new ArrayList<>(2);
 
         // Run the tool on dummy mate read to determine what the mate cigar will be upon completion, if manager has a prediction then dont repair
         if (emitReads && read.hasAttribute(MATE_CIGAR_TAG)) {
@@ -176,7 +176,7 @@ public final class SplitNCigarReads extends TwoPassReadWalker {
         int firstCigarIndex = 0;
         for ( int i = 0; i < numCigarElements; i++ ) {
             final CigarElement cigarElement = read.getCigarElement(i);
-            CigarOperator op = cigarElement.getOperator();
+            final CigarOperator op = cigarElement.getOperator();
 
             // One of the "Real" operators
             if (op == CigarOperator.M || op == CigarOperator.EQ || op == CigarOperator.X ||
@@ -268,14 +268,14 @@ public final class SplitNCigarReads extends TwoPassReadWalker {
      * @param header             the file header to associate with the given reads
      * @return a non-null read representing the section of the original read being split out
      */
-    public static void repairSupplementaryTags(List<GATKRead> readFamily, SAMFileHeader header) {
-        for (GATKRead read : readFamily) {
-            for (String attribute : TAGS_TO_REMOVE) {
+    public static void repairSupplementaryTags(final List<GATKRead> readFamily, final SAMFileHeader header) {
+        for (final GATKRead read : readFamily) {
+            for (final String attribute : TAGS_TO_REMOVE) {
                 read.clearAttribute(attribute);
             }
         }
         if (readFamily.size() > 1) {
-            GATKRead primary = readFamily.remove(0);
+            final GATKRead primary = readFamily.remove(0);
             ReadUtils.setReadsAsSupplemental(primary,readFamily);
         }
     }

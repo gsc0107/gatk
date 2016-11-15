@@ -57,14 +57,14 @@ public final class BucketUtils {
     /**
      * Returns true if the given path is a HDFS (Hadoop filesystem) URL.
      */
-    public static boolean isHadoopUrl(String path) {
+    public static boolean isHadoopUrl(final String path) {
         return path.startsWith(HDFS_PREFIX);
     }
 
     /**
      * Returns true if the given path is a GCS or HDFS (Hadoop filesystem) URL.
      */
-    public static boolean isRemoteStorageUrl(String path) {
+    public static boolean isRemoteStorageUrl(final String path) {
         return isCloudStorageUrl(path) || isHadoopUrl(path);
     }
 
@@ -73,7 +73,7 @@ public final class BucketUtils {
      * @param path the path
      * @return an absolute file path if the original path was a relative file path, otherwise the original path
      */
-    public static String makeFilePathAbsolute(String path){
+    public static String makeFilePathAbsolute(final String path){
         if (isCloudStorageUrl(path) || isHadoopUrl(path) || isFileUrl(path)){
             return path;
         } else {
@@ -90,16 +90,16 @@ public final class BucketUtils {
      * @param popts the pipeline's options, with authentication information.
      * @return an InputStream that reads from the specified file.
      */
-    public static InputStream openFile(String path, PipelineOptions popts) {
+    public static InputStream openFile(final String path, final PipelineOptions popts) {
         try {
             Utils.nonNull(path);
-            InputStream inputStream;
+            final InputStream inputStream;
             if (BucketUtils.isCloudStorageUrl(path)) {
                 Utils.nonNull(popts, "Cannot load from a GCS path without authentication.");
                 inputStream = Channels.newInputStream(new GcsUtil.GcsUtilFactory().create(popts).open(GcsPath.fromUri(path)));
             } else if (isHadoopUrl(path)) {
-                Path file = new org.apache.hadoop.fs.Path(path);
-                FileSystem fs = file.getFileSystem(new Configuration());
+                final Path file = new org.apache.hadoop.fs.Path(path);
+                final FileSystem fs = file.getFileSystem(new Configuration());
                 inputStream = fs.open(file);
             } else {
                 inputStream = new FileInputStream(path);
@@ -110,7 +110,7 @@ public final class BucketUtils {
             } else {
                 return inputStream;
             }
-        } catch (IOException x) {
+        } catch (final IOException x) {
             throw new UserException.CouldNotReadInputFile(path, x);
         }
     }
@@ -123,19 +123,19 @@ public final class BucketUtils {
      * @param popts the pipeline's options, with authentication information.
      * @return an OutputStream that writes to the specified file.
      */
-    public static OutputStream createFile(String path, PipelineOptions popts) {
+    public static OutputStream createFile(final String path, final PipelineOptions popts) {
         Utils.nonNull(path);
         try {
             if (isCloudStorageUrl(path)) {
                 return Channels.newOutputStream(new GcsUtil.GcsUtilFactory().create(popts).create(GcsPath.fromUri(path), "application/octet-stream"));
             } else if (isHadoopUrl(path)) {
-                Path file = new Path(path);
-                FileSystem fs = file.getFileSystem(new Configuration());
+                final Path file = new Path(path);
+                final FileSystem fs = file.getFileSystem(new Configuration());
                 return fs.create(file);
             } else {
                 return new FileOutputStream(path);
             }
-        } catch (IOException x) {
+        } catch (final IOException x) {
             throw new UserException.CouldNotCreateOutputFile("Could not create file at path:" + path + " due to " + x.getMessage(), x);
         }
     }
@@ -149,8 +149,8 @@ public final class BucketUtils {
      * @param auth authentication information.
      * @return an OutputStream that writes to the specified file.
      */
-    public static OutputStream createFile(String path, AuthHolder auth) {
-        PipelineOptions popts = auth.asPipelineOptionsDeprecated();
+    public static OutputStream createFile(final String path, final AuthHolder auth) {
+        final PipelineOptions popts = auth.asPipelineOptionsDeprecated();
         return createFile(path, popts);
     }
 
@@ -160,7 +160,7 @@ public final class BucketUtils {
      * @param path the local path to write to.
      * @return an OutputStream that writes to the specified file.
      */
-    public static OutputStream createNonGCSFile(String path) {
+    public static OutputStream createNonGCSFile(final String path) {
         return createFile(path, (PipelineOptions)null);
     }
 
@@ -172,7 +172,7 @@ public final class BucketUtils {
      * @param destPath the path to copy to. If GCS, it must start with "gs://", or "hdfs://" for HDFS.
      * @throws IOException
      */
-    public static void copyFile(String sourcePath, PipelineOptions popts, String destPath) throws IOException {
+    public static void copyFile(final String sourcePath, final PipelineOptions popts, final String destPath) throws IOException {
         try (
             InputStream in = openFile(sourcePath, popts);
             OutputStream fout = createFile(destPath, popts)) {
@@ -186,18 +186,18 @@ public final class BucketUtils {
      * @param pathToDelete the path to delete. If GCS, it must start with "gs://", or "hdfs://" for HDFS.
      * @param popts the pipeline's options, with authentication information.
      */
-    public static void deleteFile(String pathToDelete, PipelineOptions popts) throws IOException {
+    public static void deleteFile(final String pathToDelete, final PipelineOptions popts) throws IOException {
         if (BucketUtils.isCloudStorageUrl(pathToDelete)) {
-            GcsPath path = GcsPath.fromUri(pathToDelete);
-            GcsOptions gcsOptions = popts.as(GcsOptions.class);
-            Storage storage = Transport.newStorageClient(gcsOptions).build();
+            final GcsPath path = GcsPath.fromUri(pathToDelete);
+            final GcsOptions gcsOptions = popts.as(GcsOptions.class);
+            final Storage storage = Transport.newStorageClient(gcsOptions).build();
             storage.objects().delete(path.getBucket(), path.getObject()).execute();
         } else if (isHadoopUrl(pathToDelete)) {
-            Path file = new Path(pathToDelete);
-            FileSystem fs = file.getFileSystem(new Configuration());
+            final Path file = new Path(pathToDelete);
+            final FileSystem fs = file.getFileSystem(new Configuration());
             fs.delete(file, false);
         } else {
-            boolean ok = new File(pathToDelete).delete();
+            final boolean ok = new File(pathToDelete).delete();
             if (!ok) throw new IOException("Unable to delete '"+pathToDelete+"'");
         }
     }
@@ -214,7 +214,7 @@ public final class BucketUtils {
      * @return a path to use as a temporary file, on remote file systems which don't support an atomic tmp file reservation a path is chosen with a long randomized name
      *
      */
-    public static String getTempFilePath(String prefix, String extension, AuthHolder authHolder){
+    public static String getTempFilePath(final String prefix, final String extension, final AuthHolder authHolder){
         if (BucketUtils.isCloudStorageUrl(prefix) || (BucketUtils.isHadoopUrl(prefix))){
             final String path = randomRemotePath(prefix, "", extension);
             deleteOnExit(path, authHolder);
@@ -233,13 +233,13 @@ public final class BucketUtils {
      * @param fileToDelete the path to the file to be deleted
      * @param authHolder authentication for remote files
      */
-    public static void deleteOnExit(String fileToDelete, AuthHolder authHolder){
+    public static void deleteOnExit(final String fileToDelete, final AuthHolder authHolder){
         Runtime.getRuntime().addShutdownHook(new Thread() {
             @Override
             public void run() {
                 try {
                     deleteFile(fileToDelete, authHolder.asPipelineOptionsDeprecated());
-                } catch (IOException e) {
+                } catch (final IOException e) {
                     logger.warn("Failed to delete file: " + fileToDelete+ ".", e);
                 }
             }
@@ -253,7 +253,7 @@ public final class BucketUtils {
      * @param prefix The beginning of the file name
      * @param suffix The end of the file name, e.g. ".tmp"
      */
-    public static String randomRemotePath(String stagingLocation, String prefix, String suffix) {
+    public static String randomRemotePath(final String stagingLocation, final String prefix, final String suffix) {
         if (isCloudStorageUrl(stagingLocation)) {
             return GcsPath.fromUri(stagingLocation).resolve(prefix + UUID.randomUUID().toString() + suffix).toString();
         } else if (isHadoopUrl(stagingLocation)) {
@@ -269,18 +269,18 @@ public final class BucketUtils {
      * @param path The folder where you want the file to be (local, GCS or HDFS).
      * @param popts the pipeline's options, with authentication information.
      */
-    public static boolean fileExists(String path, PipelineOptions popts) {
+    public static boolean fileExists(final String path, final PipelineOptions popts) {
         final boolean MAYBE = false;
         try {
-            InputStream inputStream = BucketUtils.openFile(path, popts);
-            int ignored = inputStream.read();
-        } catch (UserException.CouldNotReadInputFile notthere) {
+            final InputStream inputStream = BucketUtils.openFile(path, popts);
+            final int ignored = inputStream.read();
+        } catch (final UserException.CouldNotReadInputFile notthere) {
             // file isn't there
             return false;
-        } catch (FileNotFoundException x) {
+        } catch (final FileNotFoundException x) {
             // file isn't there
             return false;
-        } catch (IOException x) {
+        } catch (final IOException x) {
             // unexpected problem while reading the file. The file may exist, but it's not accessible.
             return MAYBE;
         }
@@ -295,12 +295,12 @@ public final class BucketUtils {
      * @return the file size in bytes
      * @throws IOException
      */
-    public static long fileSize(String path, PipelineOptions popts) throws IOException {
+    public static long fileSize(final String path, final PipelineOptions popts) throws IOException {
         if (isCloudStorageUrl(path)) {
             return new GcsUtil.GcsUtilFactory().create(popts).fileSize(GcsPath.fromUri(path));
         } else if (isHadoopUrl(path)) {
-            Path hadoopPath = new Path(path);
-            FileSystem fs = hadoopPath.getFileSystem(new Configuration());
+            final Path hadoopPath = new Path(path);
+            final FileSystem fs = hadoopPath.getFileSystem(new Configuration());
             return fs.getFileStatus(hadoopPath).getLen();
         } else {
             return new File(path).length();
@@ -316,7 +316,7 @@ public final class BucketUtils {
      * @param popts PipelineOptions for GCS (if relevant; otherwise pass null)
      * @return the total size of all files in bytes
      */
-    public static long dirSize(String path, PipelineOptions popts) {
+    public static long dirSize(final String path, final PipelineOptions popts) {
         try {
             // GCS case
             if (isCloudStorageUrl(path)) {
@@ -334,15 +334,15 @@ public final class BucketUtils {
 
             }
             // local file or HDFS case
-            Path hadoopPath = new Path(path);
-            FileSystem fs = new Path(path).getFileSystem(new Configuration());
-            FileStatus status = fs.getFileStatus(hadoopPath);
+            final Path hadoopPath = new Path(path);
+            final FileSystem fs = new Path(path).getFileSystem(new Configuration());
+            final FileStatus status = fs.getFileStatus(hadoopPath);
             if (status == null) {
                 throw new UserException.CouldNotReadInputFile(path, "File not found.");
             }
             long size = 0;
             if (status.isDirectory()) {
-                for (FileStatus st : fs.listStatus(status.getPath())) {
+                for (final FileStatus st : fs.listStatus(status.getPath())) {
                     if (st.isFile()) {
                         size += st.getLen();
                     }
@@ -356,21 +356,21 @@ public final class BucketUtils {
         }
     }
 
-    public static boolean isFileUrl(String path) {
+    public static boolean isFileUrl(final String path) {
         return path.startsWith(FILE_PREFIX);
     }
 
     /**
      * Given a path of the form "gs://bucket/folder/folder/file", returns "bucket".
      */
-    public static String getBucket(String path) {
+    public static String getBucket(final String path) {
         return path.split("/")[2];
     }
 
     /**
      * Given a path of the form "gs://bucket/folder/folder/file", returns "folder/folder/file".
      */
-    public static String getPathWithoutBucket(String path) {
+    public static String getPathWithoutBucket(final String path) {
         final String[] split = path.split("/");
         final String BUCKET = split[2];
         return String.join("/", Arrays.copyOfRange(split, 3, split.length));
@@ -382,7 +382,7 @@ public final class BucketUtils {
      * on Spark because using the fat, shaded jar breaks the registration of the GCS FilesystemProvider.
      * To transform other types of string URLs into Paths, use IOUtils.getPath instead.
      */
-    public static java.nio.file.Path getPathOnGcs(String gcsUrl) {
+    public static java.nio.file.Path getPathOnGcs(final String gcsUrl) {
         final String[] split = gcsUrl.split("/");
         final String BUCKET = split[2];
         final String pathWithoutBucket = String.join("/", Arrays.copyOfRange(split, 3, split.length));
@@ -399,14 +399,14 @@ public final class BucketUtils {
      * Note that most of the time it's enough to just open a file via
      * Files.newInputStream(Paths.get(URI.create( path ))).
      */
-    public static java.nio.file.FileSystem getAuthenticatedGcs(String projectId, String bucket, byte[] credentials) throws IOException {
+    public static java.nio.file.FileSystem getAuthenticatedGcs(final String projectId, final String bucket, final byte[] credentials) throws IOException {
         StorageOptions.Builder builder = StorageOptions.newBuilder()
                 .setProjectId(projectId);
         if (null != credentials) {
             builder = builder.setAuthCredentials((AuthCredentials.createForJson(new ByteArrayInputStream(credentials))));
         }
         // generous timeouts, to avoid tests failing when not warranted.
-        StorageOptions storageOptions = builder.setConnectTimeout(60000)
+        final StorageOptions storageOptions = builder.setConnectTimeout(60000)
             .setReadTimeout(60000)
             .setRetryParams(RetryParams.newBuilder()
                     .setRetryMaxAttempts(10)

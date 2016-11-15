@@ -89,7 +89,7 @@ public final class SplitReadsIntegrationTest extends CommandLineProgramTest {
         final String fileExtension = "." + type.fileExtension();
         final List<String> args = new ArrayList<>();
 
-        Path outputDir = Files.createTempDirectory(
+        final Path outputDir = Files.createTempDirectory(
                 splitArgs.stream().reduce(baseName, (acc, arg) -> acc + "." + arg) + fileExtension + "."
         );
         outputDir.toFile().deleteOnExit();
@@ -146,7 +146,7 @@ public final class SplitReadsIntegrationTest extends CommandLineProgramTest {
     private static <V> V orNull(final Callable<V> callable) {
         try {
             return callable.call();
-        } catch (Exception e) {
+        } catch (final Exception e) {
             return null;
         }
     }

@@ -82,7 +82,7 @@ public final class BAQ implements Serializable {
      *  @param x phred scaled score
      *  @return probability of incorrect base call
      */
-    private static double convertFromPhredScale(double x) { return (Math.pow(10, (-x) / 10.));}
+    private static double convertFromPhredScale(final double x) { return (Math.pow(10, (-x) / 10.));}
 
     public double cd = -1;      // gap open probability [1e-3]
     private double ce = 0.1;    // gap extension probability [0.1]
@@ -150,18 +150,18 @@ public final class BAQ implements Serializable {
                     EPSILONS[i][j][q] = 1.0;
                 }
 
-        for ( char b1 : "ACGTacgt".toCharArray() ) {
-            for ( char b2 : "ACGTacgt".toCharArray() ) {
+        for ( final char b1 : "ACGTacgt".toCharArray() ) {
+            for ( final char b2 : "ACGTacgt".toCharArray() ) {
                 for ( int q = 0; q <= SAMUtils.MAX_PHRED_SCORE; q++ ) {
-                    double qual = qual2prob[q < minBaseQual ? minBaseQual : q];
-                    double e = Character.toLowerCase(b1) == Character.toLowerCase(b2) ? 1 - qual : qual * EM;
+                    final double qual = qual2prob[q < minBaseQual ? minBaseQual : q];
+                    final double e = Character.toLowerCase(b1) == Character.toLowerCase(b2) ? 1 - qual : qual * EM;
                     EPSILONS[(byte)b1][(byte)b2][q] = e;
                 }
             }
         }
     }
 
-    protected double calcEpsilon( byte ref, byte read, byte qualB ) {
+    protected double calcEpsilon(final byte ref, final byte read, final byte qualB ) {
         return EPSILONS[ref][read][qualB];
     }
 
@@ -171,7 +171,7 @@ public final class BAQ implements Serializable {
     // NOTE -- PUSHED BACK TO HENG LI
     //
     // ####################################################################################################
-    public int hmm_glocal(final byte[] ref, final byte[] query, int qstart, int l_query, final byte[] _iqual, int[] state, byte[] q) {
+    public int hmm_glocal(final byte[] ref, final byte[] query, final int qstart, final int l_query, final byte[] _iqual, final int[] state, final byte[] q) {
         if ( ref == null ) throw new GATKException("BUG: ref sequence is null");
         if ( query == null ) throw new GATKException("BUG: query sequence is null");
         if ( _iqual == null ) throw new GATKException("BUG: query quality vector is null");
@@ -189,7 +189,8 @@ public final class BAQ implements Serializable {
 		final int l_ref = ref.length;
 
 		// set band width
-		int bw2, bw = l_ref > l_query? l_ref : l_query;
+		final int bw2;
+        int bw = l_ref > l_query? l_ref : l_query;
         if (cb < Math.abs(l_ref - l_query)) {
             bw = Math.abs(l_ref - l_query) + 3;
             //System.out.printf("SC  cb=%d, bw=%d%n", cb, bw);
@@ -204,16 +205,19 @@ public final class BAQ implements Serializable {
 		bw2 = bw * 2 + 1;
 
         // allocate the forward and backward matrices f[][] and b[][] and the scaling array s[]
-		double[][] f = new double[l_query+1][bw2*3 + 6];
-		double[][] b = new double[l_query+1][bw2*3 + 6];
-		double[] s = new double[l_query+2];
+		final double[][] f = new double[l_query+1][bw2*3 + 6];
+		final double[][] b = new double[l_query+1][bw2*3 + 6];
+		final double[] s = new double[l_query+2];
 
 		// initialize transition probabilities
-		double sM, sI, bM, bI;
-		sM = sI = 1. / (2 * l_query + 2);
+		final double sM;
+        double sI;
+        double bM;
+        final double bI;
+        sM = sI = 1. / (2 * l_query + 2);
         bM = (1 - cd) / l_ref; bI = cd / l_ref; // (bM+bI)*l_ref==1
 
-		double[] m = new double[9];
+		final double[] m = new double[9];
 		m[0*3+0] = (1 - cd - cd) * (1 - sM); m[0*3+1] = m[0*3+2] = cd * (1 - sM);
 		m[1*3+0] = (1 - ce) * (1 - sI); m[1*3+1] = ce * (1 - sI); m[1*3+2] = 0.;
 		m[2*3+0] = 1 - ce; m[2*3+1] = 0.; m[2*3+2] = ce;
@@ -223,12 +227,15 @@ public final class BAQ implements Serializable {
 		// f[0]
 		f[0][set_u(bw, 0, 0)] = s[0] = 1.;
 		{ // f[1]
-			double[] fi = f[1];
+			final double[] fi = f[1];
 			double sum;
-			int beg = 1, end = l_ref < bw + 1? l_ref : bw + 1, _beg, _end;
-			for (k = beg, sum = 0.; k <= end; ++k) {
-				int u;
-                double e = calcEpsilon(ref[k-1], query[qstart], _iqual[qstart]);
+			final int beg = 1;
+            int end = l_ref < bw + 1? l_ref : bw + 1;
+            int _beg;
+            int _end;
+            for (k = beg, sum = 0.; k <= end; ++k) {
+				final int u;
+                final double e = calcEpsilon(ref[k-1], query[qstart], _iqual[qstart]);
 				u = set_u(bw, 1, k);
 				fi[u+0] = e * bM; fi[u+1] = EI * bI;
 				sum += fi[u] + fi[u+1];
@@ -241,15 +248,23 @@ public final class BAQ implements Serializable {
 
 		// f[2..l_query]
 		for (i = 2; i <= l_query; ++i) {
-			double[] fi = f[i], fi1 = f[i-1];
-			double sum;
-			int beg = 1, end = l_ref, x, _beg, _end;
-			byte qyi = query[qstart+i-1];
+			final double[] fi = f[i];
+            double[] fi1 = f[i-1];
+            double sum;
+			int beg = 1;
+            int end = l_ref;
+            int x;
+            final int _beg;
+            int _end;
+            final byte qyi = query[qstart+i-1];
 			x = i - bw; beg = beg > x? beg : x; // band start
 			x = i + bw; end = end < x? end : x; // band end
 			for (k = beg, sum = 0.; k <= end; ++k) {
-				int u, v11, v01, v10;
-                double e = calcEpsilon(ref[k-1], qyi, _iqual[qstart+i-1]);
+				final int u;
+                int v11;
+                int v01;
+                final int v10;
+                final double e = calcEpsilon(ref[k-1], qyi, _iqual[qstart+i-1]);
 				u = set_u(bw, i, k); v11 = set_u(bw, i-1, k-1); v10 = set_u(bw, i-1, k); v01 = set_u(bw, i, k-1);
 				fi[u+0] = e * (m[0] * fi1[v11+0] + m[3] * fi1[v11+1] + m[6] * fi1[v11+2]);
 				fi[u+1] = EI * (m[1] * fi1[v10+0] + m[4] * fi1[v10+1]);
@@ -265,7 +280,7 @@ public final class BAQ implements Serializable {
 		{ // f[l_query+1]
 			double sum;
 			for (k = 1, sum = 0.; k <= l_ref; ++k) {
-				int u = set_u(bw, l_query, k);
+				final int u = set_u(bw, l_query, k);
 				if (u < 3 || u >= bw2*3+3) continue;
 				sum += f[l_query][u+0] * sM + f[l_query][u+1] * sI;
 			}
@@ -275,22 +290,30 @@ public final class BAQ implements Serializable {
 		/*** backward ***/
 		// b[l_query] (b[l_query+1][0]=1 and thus \tilde{b}[][]=1/s[l_query+1]; this is where s[l_query+1] comes from)
 		for (k = 1; k <= l_ref; ++k) {
-			int u = set_u(bw, l_query, k);
-			double[] bi = b[l_query];
+			final int u = set_u(bw, l_query, k);
+			final double[] bi = b[l_query];
 			if (u < 3 || u >= bw2*3+3) continue;
 			bi[u+0] = sM / s[l_query] / s[l_query+1]; bi[u+1] = sI / s[l_query] / s[l_query+1];
 		}
 		// b[l_query-1..1]
 		for (i = l_query - 1; i >= 1; --i) {
-			int beg = 1, end = l_ref, x, _beg, _end;
-			double[] bi = b[i], bi1 = b[i+1];
-			double y = (i > 1)? 1. : 0.;
-			byte qyi1 = query[qstart+i];
+			int beg = 1;
+            int end = l_ref;
+            int x;
+            final int _beg;
+            int _end;
+            final double[] bi = b[i];
+            double[] bi1 = b[i+1];
+            double y = (i > 1)? 1. : 0.;
+			final byte qyi1 = query[qstart+i];
 			x = i - bw; beg = beg > x? beg : x;
 			x = i + bw; end = end < x? end : x;
 			for (k = end; k >= beg; --k) {
-				int u, v11, v01, v10;
-				u = set_u(bw, i, k); v11 = set_u(bw, i+1, k+1); v10 = set_u(bw, i+1, k); v01 = set_u(bw, i, k+1);
+				final int u;
+                int v11;
+                int v01;
+                int v10;
+                u = set_u(bw, i, k); v11 = set_u(bw, i+1, k+1); v10 = set_u(bw, i+1, k); v01 = set_u(bw, i, k+1);
                 final double e = (k >= l_ref? 0 : calcEpsilon(ref[k], qyi1, _iqual[qstart+i])) * bi1[v11];
                 bi[u+0] = e * m[0] + EI * m[1] * bi1[v10+1] + m[2] * bi[v01+2]; // bi1[v11] has been folded into e.
 				bi[u+1] = e * m[3] + EI * m[4] * bi1[v10+1];
@@ -301,13 +324,14 @@ public final class BAQ implements Serializable {
 			for (k = _beg, y = 1./s[i]; k <= _end; ++k) bi[k] *= y;
 		}
 
- 		double pb;
+ 		final double pb;
 		{ // b[0]
-			int beg = 1, end = l_ref < bw + 1? l_ref : bw + 1;
-			double sum = 0.;
+			final int beg = 1;
+            final int end = l_ref < bw + 1? l_ref : bw + 1;
+            double sum = 0.;
 			for (k = end; k >= beg; --k) {
-				int u = set_u(bw, 1, k);
-                double e = calcEpsilon(ref[k-1], query[qstart], _iqual[qstart]);
+				final int u = set_u(bw, 1, k);
+                final double e = calcEpsilon(ref[k-1], query[qstart], _iqual[qstart]);
                 if (u < 3 || u >= bw2*3+3) continue;
 				sum += e * b[1][u+0] * bM + EI * b[1][u+1] * bI;
 			}
@@ -347,12 +371,12 @@ public final class BAQ implements Serializable {
     // ---------------------------------------------------------------------------------------------------------------
 
     /** decode the bit encoded state array values */
-    public static boolean stateIsIndel(int state) {
+    public static boolean stateIsIndel(final int state) {
         return (state & 3) != 0;
     }
 
     /** decode the bit encoded state array values */
-    public static int stateAlignedPosition(int state) {
+    public static int stateAlignedPosition(final int state) {
         return state >> 2;
     }
 
@@ -373,12 +397,12 @@ public final class BAQ implements Serializable {
      * @param read
      * @return
      */
-    public static byte[] getBAQTag(GATKRead read) {
-        String s = read.getAttributeAsString(BAQ_TAG);
+    public static byte[] getBAQTag(final GATKRead read) {
+        final String s = read.getAttributeAsString(BAQ_TAG);
         return s != null ? s.getBytes() : null;
     }
 
-    public static String encodeBQTag(GATKRead read, byte[] baq) {
+    public static String encodeBQTag(final GATKRead read, final byte[] baq) {
         // Offset to base alignment quality (BAQ), of the same length as the read sequence.
         // At the i-th read base, BAQi = Qi - (BQi - 64) where Qi is the i-th base quality.
         // so BQi = Qi - BAQi + 64
@@ -399,14 +423,14 @@ public final class BAQ implements Serializable {
         return new String(bqTag);
     }
 
-    public static void addBAQTag(GATKRead read, byte[] baq) {
+    public static void addBAQTag(final GATKRead read, final byte[] baq) {
         read.setAttribute(BAQ_TAG, encodeBQTag(read, baq));
     }
 
     /**
       * Returns true if the read has a BAQ tag, or false otherwise
       */
-    public static boolean hasBAQTag(GATKRead read) {
+    public static boolean hasBAQTag(final GATKRead read) {
         return read.getAttributeAsString(BAQ_TAG) != null;
     }
 
@@ -418,19 +442,19 @@ public final class BAQ implements Serializable {
      * @param useRawQualsIfNoBAQTag If useRawQualsIfNoBAQTag is true, then if there's no BAQ annotation we just use the raw quality scores.  Throws IllegalStateException is false and no BAQ tag is present
      * @return
      */
-    public static byte[] calcBAQFromTag(GATKRead read, boolean overwriteOriginalQuals, boolean useRawQualsIfNoBAQTag) {
-        byte[] rawQuals = read.getBaseQualities();
+    public static byte[] calcBAQFromTag(final GATKRead read, final boolean overwriteOriginalQuals, final boolean useRawQualsIfNoBAQTag) {
+        final byte[] rawQuals = read.getBaseQualities();
         byte[] newQuals = rawQuals;
-        byte[] baq = getBAQTag(read);
+        final byte[] baq = getBAQTag(read);
 
         if ( baq != null ) {
             // Offset to base alignment quality (BAQ), of the same length as the read sequence.
             // At the i-th read base, BAQi = Qi - (BQi - 64) where Qi is the i-th base quality.
             newQuals = overwriteOriginalQuals ? rawQuals : new byte[rawQuals.length];
             for ( int i = 0; i < rawQuals.length; i++) {
-                int rawQual = rawQuals[i];
-                int baq_delta = baq[i] - 64;
-                int newval =  rawQual - baq_delta;
+                final int rawQual = rawQuals[i];
+                final int baq_delta = baq[i] - 64;
+                final int newval =  rawQual - baq_delta;
                 if ( newval < 0 )
                     throw new UserException.MalformedRead(read, "BAQ tag error: the BAQ value is larger than the base quality");
                 newQuals[i] = (byte)newval;
@@ -450,16 +474,16 @@ public final class BAQ implements Serializable {
      * @param useRawQualsIfNoBAQTag If useRawQualsIfNoBAQTag is true, then if there's no BAQ annotation we just use the raw quality scores.  Throws IllegalStateException is false and no BAQ tag is present
      * @return
      */
-    public static byte calcBAQFromTag(GATKRead read, int offset, boolean useRawQualsIfNoBAQTag) {
-        byte rawQual = read.getBaseQualities()[offset];
+    public static byte calcBAQFromTag(final GATKRead read, final int offset, final boolean useRawQualsIfNoBAQTag) {
+        final byte rawQual = read.getBaseQualities()[offset];
         byte newQual = rawQual;
-        byte[] baq = getBAQTag(read);
+        final byte[] baq = getBAQTag(read);
 
         if ( baq != null ) {
             // Offset to base alignment quality (BAQ), of the same length as the read sequence.
             // At the i-th read base, BAQi = Qi - (BQi - 64) where Qi is the i-th base quality.
-            int baq_delta = baq[offset] - 64;
-            int newval =  rawQual - baq_delta;
+            final int baq_delta = baq[offset] - 64;
+            final int newval =  rawQual - baq_delta;
             if ( newval < 0 )
                 throw new UserException.MalformedRead(read, "BAQ tag error: the BAQ value is larger than the base quality");
             newQual = (byte)newval;
@@ -475,11 +499,11 @@ public final class BAQ implements Serializable {
         public byte[] refBases, rawQuals, readBases, bq;
         public int[] state;
 
-        public BAQCalculationResult(GATKRead read, byte[] ref) {
+        public BAQCalculationResult(final GATKRead read, final byte[] ref) {
             this(read.getBaseQualities(), read.getBases(), ref);
         }
 
-        public BAQCalculationResult(byte[] bases, byte[] quals, byte[] ref) {
+        public BAQCalculationResult(final byte[] bases, final byte[] quals, final byte[] ref) {
             // prepares data for calculation
             rawQuals = quals;
             readBases = bases;
@@ -508,7 +532,7 @@ public final class BAQ implements Serializable {
         return new SimpleInterval(read.getContig(), start, stop);
     }
 
-    public BAQCalculationResult calcBAQFromHMM(GATKRead read, ReferenceDataSource refDS) {
+    public BAQCalculationResult calcBAQFromHMM(final GATKRead read, final ReferenceDataSource refDS) {
         final SimpleInterval referenceWindow = getReferenceWindowForRead(read, getBandWidth());
 
         if ( referenceWindow.getEnd() > refDS.getSequenceDictionary().getSequence(read.getContig()).getSequenceLength() ) {
@@ -520,14 +544,14 @@ public final class BAQ implements Serializable {
         }
     }
 
-    public BAQCalculationResult calcBAQFromHMM(byte[] ref, byte[] query, byte[] quals, int queryStart, int queryEnd ) {
+    public BAQCalculationResult calcBAQFromHMM(final byte[] ref, final byte[] query, final byte[] quals, final int queryStart, final int queryEnd ) {
         if ( queryStart < 0 ) throw new GATKException("BUG: queryStart < 0: " + queryStart);
         if ( queryEnd < 0 ) throw new GATKException("BUG: queryEnd < 0: " + queryEnd);
         if ( queryEnd < queryStart ) throw new GATKException("BUG: queryStart < queryEnd : " + queryStart + " end =" + queryEnd);
 
         // note -- assumes ref is offset from the *CLIPPED* start
-        BAQCalculationResult baqResult = new BAQCalculationResult(query, quals, ref);
-        int queryLen = queryEnd - queryStart;
+        final BAQCalculationResult baqResult = new BAQCalculationResult(query, quals, ref);
+        final int queryLen = queryEnd - queryStart;
         hmm_glocal(baqResult.refBases, baqResult.readBases, queryStart, queryLen, baqResult.rawQuals, baqResult.state, baqResult.bq);
         return baqResult;
     }
@@ -543,12 +567,12 @@ public final class BAQ implements Serializable {
         int readI = 0;
 
         // iterate over the cigar elements to determine the start and stop of the read bases for the BAQ calculation
-        for ( CigarElement elt : read.getCigarElements() ) {
+        for ( final CigarElement elt : read.getCigarElements() ) {
             switch (elt.getOperator()) {
                 case N:  return null; // cannot handle these
                 case H : case P : case D: break; // ignore pads, hard clips, and deletions
                 case I : case S: case M: case EQ: case X:
-                    int prev = readI;
+                    final int prev = readI;
                     readI += elt.getLength();
                     if ( elt.getOperator() != CigarOperator.S) {
                         if ( queryStart == -1 ) {
@@ -575,20 +599,20 @@ public final class BAQ implements Serializable {
 
     // we need to pad ref by at least the bandwidth / 2 on either side
     @SuppressWarnings("fallthrough")
-    public BAQCalculationResult calcBAQFromHMM(GATKRead read, byte[] ref, int refOffset) {
+    public BAQCalculationResult calcBAQFromHMM(final GATKRead read, final byte[] ref, final int refOffset) {
         // todo -- need to handle the case where the cigar sum of lengths doesn't cover the whole read
-        Pair<Integer, Integer> queryRange = calculateQueryRange(read);
+        final Pair<Integer, Integer> queryRange = calculateQueryRange(read);
         if ( queryRange == null ) return null; // read has Ns, or is completely clipped away
 
-        int queryStart = queryRange.getLeft();
-        int queryEnd = queryRange.getRight();
+        final int queryStart = queryRange.getLeft();
+        final int queryEnd = queryRange.getRight();
 
-        BAQCalculationResult baqResult = calcBAQFromHMM(ref, read.getBases(), read.getBaseQualities(), queryStart, queryEnd);
+        final BAQCalculationResult baqResult = calcBAQFromHMM(ref, read.getBases(), read.getBaseQualities(), queryStart, queryEnd);
 
         // cap quals
         int readI = 0, refI = 0;
-        for ( CigarElement elt : read.getCigarElements() ) {
-            int l = elt.getLength();
+        for ( final CigarElement elt : read.getCigarElements() ) {
+            final int l = elt.getLength();
             switch (elt.getOperator()) {
                 case N: // cannot handle these
                     return null;
@@ -603,7 +627,7 @@ public final class BAQ implements Serializable {
                 case D : refI += l; break;
                 case M : case EQ:case X:  //all three operators are equivalent here.
                     for (int i = readI; i < readI + l; i++) {
-                        int expectedPos = refI - refOffset + (i - readI);
+                        final int expectedPos = refI - refOffset + (i - readI);
                         baqResult.bq[i] = capBaseByBAQ( baqResult.rawQuals[i], baqResult.bq[i], baqResult.state[i], expectedPos );
                     }
                     readI += l; refI += l;
@@ -618,10 +642,10 @@ public final class BAQ implements Serializable {
         return baqResult;
     }
 
-    public byte capBaseByBAQ( byte oq, byte bq, int state, int expectedPos ) {
-        byte b;
-        boolean isIndel = stateIsIndel(state);
-        int pos = stateAlignedPosition(state);
+    public byte capBaseByBAQ(final byte oq, final byte bq, final int state, final int expectedPos ) {
+        final byte b;
+        final boolean isIndel = stateIsIndel(state);
+        final int pos = stateAlignedPosition(state);
         if ( isIndel || pos != expectedPos ) // we are an indel or we don't align to our best current position
             b = minBaseQual; // just take b = minBaseQuality
         else
@@ -637,7 +661,7 @@ public final class BAQ implements Serializable {
      * 
      * @return BQ qualities for use, in case qmode is DONT_MODIFY
      */
-    public byte[] baqRead(GATKRead read, ReferenceDataSource refDS, CalculationMode calculationType, QualityMode qmode ) {
+    public byte[] baqRead(final GATKRead read, final ReferenceDataSource refDS, final CalculationMode calculationType, final QualityMode qmode ) {
         if ( DEBUG ) System.out.printf("BAQ %s read %s%n", calculationType, read.getName());
 
         byte[] BAQQuals = read.getBaseQualities();      // in general we are overwriting quals, so just get a pointer to them
@@ -650,7 +674,7 @@ public final class BAQ implements Serializable {
 
             if ( calculationType == CalculationMode.RECALCULATE || ! readHasBAQTag ) {
                 if ( DEBUG ) System.out.printf("  Calculating BAQ on the fly%n");
-                BAQCalculationResult hmmResult = calcBAQFromHMM(read, refDS);
+                final BAQCalculationResult hmmResult = calcBAQFromHMM(read, refDS);
                 if ( hmmResult != null ) {
                     switch ( qmode ) {
                         case ADD_TAG:         addBAQTag(read, hmmResult.bq); break;
@@ -679,7 +703,7 @@ public final class BAQ implements Serializable {
      * @param read
      * @return
      */
-    public boolean excludeReadFromBAQ(GATKRead read) {
+    public boolean excludeReadFromBAQ(final GATKRead read) {
         // keeping mapped reads, regardless of pairing status, or primary alignment status.
         return read.isUnmapped() || read.failsVendorQualityCheck() || read.isDuplicate();
     }

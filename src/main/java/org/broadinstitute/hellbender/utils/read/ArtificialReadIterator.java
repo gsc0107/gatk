@@ -41,7 +41,7 @@ public class ArtificialReadIterator implements Iterator<GATKRead>, Iterable<GATK
      * @param readCount   the number of reads in each chromosome
      * @param header      the associated header
      */
-    ArtificialReadIterator( int startingChr, int endingChr, int readCount, SAMFileHeader header ) {
+    ArtificialReadIterator(final int startingChr, final int endingChr, final int readCount, final SAMFileHeader header ) {
         sChr = startingChr;
         eChromosomeCount = (endingChr - startingChr) + 1;
         rCount = readCount;
@@ -68,7 +68,7 @@ public class ArtificialReadIterator implements Iterator<GATKRead>, Iterable<GATK
      * @param readCount   the number of reads in each chromosome
      * @param header      the associated header
      */
-    ArtificialReadIterator( int startingChr, int endingChr, int readCount, int unmappedReadCount, SAMFileHeader header ) {
+    ArtificialReadIterator(final int startingChr, final int endingChr, final int readCount, final int unmappedReadCount, final SAMFileHeader header ) {
         sChr = startingChr;
         eChromosomeCount = (endingChr - startingChr) + 1;
         rCount = readCount;
@@ -129,7 +129,7 @@ public class ArtificialReadIterator implements Iterator<GATKRead>, Iterable<GATK
     public GATKRead next() {
         open = true;
 
-        GATKRead ret = next;
+        final GATKRead ret = next;
         createNextRead();
         return ret;
     }

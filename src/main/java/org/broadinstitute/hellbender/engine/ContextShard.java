@@ -27,7 +27,7 @@ public class ContextShard implements Serializable {
     // variants and reference for the particular read at the same index as this element.
     public final List<ReadContextData> readContext;
 
-    public ContextShard(SimpleInterval interval) {
+    public ContextShard(final SimpleInterval interval) {
         this.interval = interval;
         this.variants = null;
         this.reads = new ArrayList<>();
@@ -38,7 +38,7 @@ public class ContextShard implements Serializable {
      * Careful: this ctor takes ownership of the passed reads and ReadContextData array.
      * Do not modify them after this call (ideally don't even keep a reference to them).
      */
-    private ContextShard(SimpleInterval interval, IntervalsSkipListOneContig<GATKVariant> variants, final List<GATKRead> reads, final List<ReadContextData> readContext) {
+    private ContextShard(final SimpleInterval interval, final IntervalsSkipListOneContig<GATKVariant> variants, final List<GATKRead> reads, final List<ReadContextData> readContext) {
         this.interval = interval;
         this.variants = variants;
         this.reads = reads;
@@ -49,7 +49,7 @@ public class ContextShard implements Serializable {
      * create a new shard, keeping only the variants that overlap
      * with the new interval. Reads, readContext, and the variants in readContext are unchanged.
      */
-    public ContextShard split(SimpleInterval newInterval) {
+    public ContextShard split(final SimpleInterval newInterval) {
         final IntervalsSkipListOneContig<GATKVariant> newVariants;
         if (null==variants) {
             newVariants = null;
@@ -63,7 +63,7 @@ public class ContextShard implements Serializable {
      * creates a new shard, adding the specified variants.
      * Note that readContext is unchanged (including the variants it may refer to).
      */
-    public ContextShard withVariants(List<GATKVariant> newVariants) {
+    public ContextShard withVariants(final List<GATKVariant> newVariants) {
         return new ContextShard(this.interval, new IntervalsSkipListOneContig<>(newVariants), reads, readContext);
     }
 
@@ -71,7 +71,7 @@ public class ContextShard implements Serializable {
      * creates a new shard, adding the specified reads.
      * Careful: this call takes ownership of the passed read array. So you can't modify it after this call.
      */
-    public ContextShard withReads(List<GATKRead> newReads) {
+    public ContextShard withReads(final List<GATKRead> newReads) {
         return new ContextShard(this.interval, this.variants, newReads, readContext);
     }
 
@@ -79,14 +79,14 @@ public class ContextShard implements Serializable {
      * creates a new shard, adding the specified read context and *removing the variants*.
      * Careful: this call takes ownership of the passed ReadContextData array. So you can't modify it after this call.
      */
-    public ContextShard withReadContext(List<ReadContextData> newReadContext) {
+    public ContextShard withReadContext(final List<ReadContextData> newReadContext) {
         return new ContextShard(interval, null, reads, newReadContext);
     }
 
     /**
      * Returns the variants that overlap the query interval, in start-position order.
      */
-    public List<GATKVariant> variantsOverlapping(SimpleInterval interval) {
+    public List<GATKVariant> variantsOverlapping(final SimpleInterval interval) {
         return variants.getOverlapping(interval);
     }
 

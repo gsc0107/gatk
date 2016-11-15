@@ -35,18 +35,18 @@ public class ExampleNioCountReads extends SparkCommandLineProgram {
     @Argument(fullName = "parts", doc = "number of partitions", optional = false)
     private int parts = 3;
 
-    private void countReads(JavaSparkContext ctx) {
-        PrintStream outputStream;
+    private void countReads(final JavaSparkContext ctx) {
+        final PrintStream outputStream;
 
         try {
             outputStream = OUTPUT_FILE != null ? new PrintStream(OUTPUT_FILE) : System.out;
         }
-        catch ( FileNotFoundException e ) {
+        catch ( final FileNotFoundException e ) {
             throw new UserException.CouldNotReadInputFile(OUTPUT_FILE, e);
         }
 
-        NioBam input = new NioBam(path, path + ".bai");
-        long readCount = input.getReads(ctx, parts).count();
+        final NioBam input = new NioBam(path, path + ".bai");
+        final long readCount = input.getReads(ctx, parts).count();
         outputStream.println("Number of reads: " + readCount);
     }
 
@@ -56,7 +56,7 @@ public class ExampleNioCountReads extends SparkCommandLineProgram {
      * @param ctx
      */
     @Override
-    protected void runPipeline(JavaSparkContext ctx) {
+    protected void runPipeline(final JavaSparkContext ctx) {
         countReads(ctx);
     }
 }

@@ -116,7 +116,7 @@ public final class ReservoirDownsamplerUnitTest extends BaseTest {
 
     @Test
     public void testSignalNoMoreReadsBefore() throws Exception {
-        ReservoirDownsampler rd = new ReservoirDownsampler(1, true);
+        final ReservoirDownsampler rd = new ReservoirDownsampler(1, true);
         final GATKRead r1= ArtificialReadUtils.createArtificialRead("100M");
         final GATKRead r2= ArtificialReadUtils.createArtificialRead("101M");
         rd.submit(r1);
@@ -126,7 +126,7 @@ public final class ReservoirDownsamplerUnitTest extends BaseTest {
 
     @Test(expectedExceptions = IllegalArgumentException.class)
     public void testNoNullSignalNoMoreReadsBefore() throws Exception {
-        ReadsDownsampler rd = new ReservoirDownsampler(1, true);
+        final ReadsDownsampler rd = new ReservoirDownsampler(1, true);
         rd.signalNoMoreReadsBefore(null);
     }
 }

@@ -15,11 +15,11 @@ public class MinimalVariant implements GATKVariant, Serializable {
     private final boolean indel;
 
     @Override
-    public boolean equals(Object o) {
+    public boolean equals(final Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        MinimalVariant that = (MinimalVariant) o;
+        final MinimalVariant that = (MinimalVariant) o;
 
         if (isSnp() != that.isSnp()) return false;
         if (isIndel() != that.isIndel()) return false;
@@ -35,7 +35,7 @@ public class MinimalVariant implements GATKVariant, Serializable {
         return result;
     }
 
-    public MinimalVariant(SimpleInterval interval, boolean isSNP, boolean isIndel) {
+    public MinimalVariant(final SimpleInterval interval, final boolean isSNP, final boolean isIndel) {
         this.interval = interval;
         this.snp = isSNP;
         this.indel = isIndel;

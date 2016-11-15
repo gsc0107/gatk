@@ -43,7 +43,7 @@ public final class CollectQualityYieldMetrics extends PicardCommandLineProgram {
     protected Object doWork() {
         final ProgressLogger progress = new ProgressLogger(logger);
 
-        File output = new File(qualityYieldMetricsArgs.output);
+        final File output = new File(qualityYieldMetricsArgs.output);
         // Some quick parameter checking
         IOUtil.assertFileIsReadable(INPUT);
         IOUtil.assertFileIsWritable(output);

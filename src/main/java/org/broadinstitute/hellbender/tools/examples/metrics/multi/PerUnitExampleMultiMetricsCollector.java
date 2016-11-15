@@ -49,7 +49,7 @@ public final class PerUnitExampleMultiMetricsCollector
      * @return PerUnitExampleMultiMetricsCollector representing the combination of the source collector
      * with this collector
      */
-    public PerUnitExampleMultiMetricsCollector combine(PerUnitExampleMultiMetricsCollector sourceCollector) {
+    public PerUnitExampleMultiMetricsCollector combine(final PerUnitExampleMultiMetricsCollector sourceCollector) {
         Utils.nonNull(sourceCollector);
         final String validationMessage = "Internal error combining collectors";
         validateEquals(this.metrics.SAMPLE, sourceCollector.metrics.SAMPLE, validationMessage);

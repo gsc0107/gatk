@@ -191,7 +191,7 @@ public final class RecalUtils {
 
         GATKReportTable allCovsReportTable = null;
 
-        for (NestedIntegerArray<RecalDatum> table : recalibrationTables){
+        for (final NestedIntegerArray<RecalDatum> table : recalibrationTables){
             final ArrayList<Pair<String, String>> columnNames = new ArrayList<>(); // initialize the array to hold the column names
             columnNames.add(new MutablePair<>(covariates.getReadGroupCovariate().parseNameForReport(), "%s")); // save the required covariate name so we can reference it in the future
             if (!recalibrationTables.isReadGroupTable(table)) {
@@ -268,7 +268,7 @@ public final class RecalUtils {
         return result;
     }
 
-    private static String getReportTableName(RecalibrationTables recalibrationTables, NestedIntegerArray<RecalDatum> table) {
+    private static String getReportTableName(final RecalibrationTables recalibrationTables, final NestedIntegerArray<RecalDatum> table) {
         final String reportTableName;
         if (recalibrationTables.isReadGroupTable(table)){
             return READGROUP_REPORT_TABLE_TITLE;
@@ -279,7 +279,7 @@ public final class RecalUtils {
         }
     }
 
-    private static GATKReportTable makeNewTableWithColumns(ArrayList<Pair<String, String>> columnNames, String reportTableName, GATKReportTable.Sorting sort) {
+    private static GATKReportTable makeNewTableWithColumns(final ArrayList<Pair<String, String>> columnNames, final String reportTableName, final GATKReportTable.Sorting sort) {
         final GATKReportTable rt = new GATKReportTable(reportTableName, "", columnNames.size(), sort);
         for (final Pair<String, String> columnName : columnNames) {
             rt.addColumn(columnName.getLeft(), columnName.getRight());
@@ -402,7 +402,7 @@ public final class RecalUtils {
         }
     }
 
-    private static void printHeader(PrintStream out) {
+    private static void printHeader(final PrintStream out) {
         final List<String> header = new LinkedList<>();
         header.add("ReadGroup");
         header.add("CovariateValue");

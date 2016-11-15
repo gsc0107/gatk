@@ -17,7 +17,7 @@ public final class CountVariants extends VariantWalker{
     private long count = 0;
 
     @Override
-    public void apply( VariantContext variant, ReadsContext readsContext, ReferenceContext referenceContext, FeatureContext featureContext ) {
+    public void apply(final VariantContext variant, final ReadsContext readsContext, final ReferenceContext referenceContext, final FeatureContext featureContext ) {
         count++;
     }
 

@@ -53,7 +53,7 @@ public final class BestMapqPrimaryAlignmentSelectionStrategy implements PrimaryA
                 } else {
                     secondEndMapq = 0;
                 }
-                int thisMapQ = SAMUtils.combineMapqs(firstEndMapq, secondEndMapq);
+                final int thisMapQ = SAMUtils.combineMapqs(firstEndMapq, secondEndMapq);
                 if (thisMapQ > bestMapQ) {
                     bestMapQ = thisMapQ;
                     primaryAlignmentIndices.clear();

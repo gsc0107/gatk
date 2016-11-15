@@ -32,10 +32,10 @@ public final class QualQuantizerUnitTest extends BaseTest {
         int exError, exTotal, exQual;
         double exErrorRate;
 
-        private QualIntervalTestProvider(int leftE, int leftN, int rightE, int rightN, int exError, int exTotal) {
+        private QualIntervalTestProvider(final int leftE, final int leftN, final int rightE, final int rightN, final int exError, final int exTotal) {
             super(QualIntervalTestProvider.class);
 
-            QualQuantizer qq = new QualQuantizer(0);
+            final QualQuantizer qq = new QualQuantizer(0);
             left = qq.new QualInterval(10, 10, leftN, leftE, 0);
             right = qq.new QualInterval(11, 11, rightN, rightE, 0);
 
@@ -60,8 +60,8 @@ public final class QualQuantizerUnitTest extends BaseTest {
     }
 
     @Test(dataProvider = "QualIntervalTestProvider")
-    public void testQualInterval(QualIntervalTestProvider cfg) {
-        QualQuantizer.QualInterval merged = cfg.left.merge(cfg.right);
+    public void testQualInterval(final QualIntervalTestProvider cfg) {
+        final QualQuantizer.QualInterval merged = cfg.left.merge(cfg.right);
         Assert.assertEquals(merged.nErrors, cfg.exError);
         Assert.assertEquals(merged.nObservations, cfg.exTotal);
         Assert.assertEquals(merged.getErrorRate(), cfg.exErrorRate);
@@ -72,12 +72,12 @@ public final class QualQuantizerUnitTest extends BaseTest {
     public void testMinInterestingQual() {
         for ( int q = 0; q < 15; q++ ) {
             for ( int minQual = 0; minQual <= 10; minQual ++ ) {
-                QualQuantizer qq = new QualQuantizer(minQual);
-                QualQuantizer.QualInterval left = qq.new QualInterval(q, q, 100, 10, 0);
-                QualQuantizer.QualInterval right = qq.new QualInterval(q+1, q+1, 1000, 100, 0);
+                final QualQuantizer qq = new QualQuantizer(minQual);
+                final QualQuantizer.QualInterval left = qq.new QualInterval(q, q, 100, 10, 0);
+                final QualQuantizer.QualInterval right = qq.new QualInterval(q+1, q+1, 1000, 100, 0);
 
-                QualQuantizer.QualInterval merged = left.merge(right);
-                boolean shouldBeFree = q+1 <= minQual;
+                final QualQuantizer.QualInterval merged = left.merge(right);
+                final boolean shouldBeFree = q+1 <= minQual;
                 if ( shouldBeFree )
                     Assert.assertEquals(merged.getPenalty(), 0.0);
                 else
@@ -101,7 +101,7 @@ public final class QualQuantizerUnitTest extends BaseTest {
         private QuantizerTestProvider(final List<Integer> nObservationsPerQual, final int nLevels, final List<Integer> expectedMap) {
             super(QuantizerTestProvider.class);
 
-            for ( int x : nObservationsPerQual )
+            for ( final int x : nObservationsPerQual )
                 this.nObservationsPerQual.add((long)x);
             this.nLevels = nLevels;
             this.expectedMap = expectedMap;
@@ -116,7 +116,7 @@ public final class QualQuantizerUnitTest extends BaseTest {
 
     @DataProvider(name = "QuantizerTestProvider")
     public Object[][] makeQuantizerTestProvider() {
-        List<Integer> allQ2 = Arrays.asList(0, 0, 1000, 0, 0);
+        final List<Integer> allQ2 = Arrays.asList(0, 0, 1000, 0, 0);
 
         new QuantizerTestProvider(allQ2, 5, Arrays.asList(0, 1, 2, 3, 4));
         new QuantizerTestProvider(allQ2, 1, Arrays.asList(2, 2, 2, 2, 2));
@@ -129,12 +129,12 @@ public final class QualQuantizerUnitTest extends BaseTest {
     }
 
     @Test(dataProvider = "QuantizerTestProvider")
-    public void testQuantizer(QuantizerTestProvider cfg) {
-        QualQuantizer qq = new QualQuantizer(cfg.nObservationsPerQual, cfg.nLevels, 0);
+    public void testQuantizer(final QuantizerTestProvider cfg) {
+        final QualQuantizer qq = new QualQuantizer(cfg.nObservationsPerQual, cfg.nLevels, 0);
         logger.warn("cfg: " + cfg);
         for ( int i = 0; i < cfg.expectedMap.size(); i++) {
-            int expected = cfg.expectedMap.get(i);
-            int observed = qq.originalToQuantizedMap.get(i);
+            final int expected = cfg.expectedMap.get(i);
+            final int observed = qq.originalToQuantizedMap.get(i);
             //logger.warn(String.format("  qq map: %s : %d => %d", i, expected, observed));
             Assert.assertEquals(observed, expected);
         }

@@ -131,7 +131,7 @@ public final class IndexUtilsUnitTest extends BaseTest{
 
     @Test
     public void testIsSequenceDictionaryFromIndexNegative() throws Exception {
-        SAMSequenceDictionary dict = new SAMSequenceDictionary();
+        final SAMSequenceDictionary dict = new SAMSequenceDictionary();
         dict.addSequence(new SAMSequenceRecord("1", 99));
         dict.addSequence(new SAMSequenceRecord("2", 99));
         Assert.assertFalse(IndexUtils.isSequenceDictionaryFromIndex(dict));

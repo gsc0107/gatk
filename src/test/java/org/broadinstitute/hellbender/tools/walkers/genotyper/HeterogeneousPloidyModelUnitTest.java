@@ -45,7 +45,7 @@ public final class HeterogeneousPloidyModelUnitTest {
         SampleListUnitTester.assertSampleList(ploidyModel, sampleNames);
     }
 
-    private boolean allSame(int[] ploidies) {
+    private boolean allSame(final int[] ploidies) {
         return IntStream.of(ploidies).allMatch(p -> p == ploidies[0]);
     }
 

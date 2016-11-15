@@ -18,7 +18,7 @@ public final class WellformedReadFilter extends ReadFilter {
     }
 
     @Override
-    public void setHeader(SAMFileHeader header) {
+    public void setHeader(final SAMFileHeader header) {
         super.setHeader(header);
         createFilter();
     }

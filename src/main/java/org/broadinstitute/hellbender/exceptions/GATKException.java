@@ -12,11 +12,11 @@ import org.broadinstitute.hellbender.utils.read.GATKRead;
 public class GATKException extends RuntimeException {
     private static final long serialVersionUID = 0L;
 
-    public GATKException( String msg ) {
+    public GATKException(final String msg ) {
         super(msg);
     }
 
-    public GATKException( String message, Throwable throwable ) {
+    public GATKException(final String message, final Throwable throwable ) {
         super(message, throwable);
     }
 

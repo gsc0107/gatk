@@ -30,7 +30,7 @@ public final class SparkCommandLineArgumentCollection implements ArgumentCollect
 
     public Map<String,String> getSparkProperties(){
         final Map<String, String> propertyMap = new LinkedHashMap<>();
-        for( String property: sparkProperties) {
+        for( final String property: sparkProperties) {
             final String[] splits = property.split("=");
             if (splits.length != 2 || splits[0].isEmpty() || splits[1].isEmpty()) {
                 throw new UserException.BadArgumentValue(StandardArgumentDefinitions.SPARK_PROPERTY_NAME, property, "Expected a value of the form spark.property.name=value");

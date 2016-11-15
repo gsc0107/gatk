@@ -30,37 +30,37 @@ public class AuthHolder implements Serializable {
     private final String apiKey;
     private final byte[] serializedOfflineAuth;
 
-    private AuthHolder(String appName, String apiKey, String secretsFile) throws IOException, GeneralSecurityException {
+    private AuthHolder(final String appName, final String apiKey, final String secretsFile) throws IOException, GeneralSecurityException {
         Utils.validateArg(apiKey != null || secretsFile != null, "AuthHolder requires apiKey or secretsFile (neither was provided)");
         this.appName = appName;
         this.apiKey = apiKey;
-        GCSOptions options = PipelineOptionsFactory.as(GCSOptions.class);
+        final GCSOptions options = PipelineOptionsFactory.as(GCSOptions.class);
         if (null!=apiKey) options.setApiKey(apiKey);
         if (null!=secretsFile) options.setSecretsFile(secretsFile);
         // this reads the secrets file
-        GenomicsFactory.OfflineAuth offlineAuth = GCSOptions.Methods.createGCSAuth(options);
+        final GenomicsFactory.OfflineAuth offlineAuth = GCSOptions.Methods.createGCSAuth(options);
         this.serializedOfflineAuth = serializeOfflineAuth(offlineAuth);
     }
 
-    private AuthHolder(String appName, String apiKey, GenomicsFactory.OfflineAuth auth) throws IOException {
+    private AuthHolder(final String appName, final String apiKey, final GenomicsFactory.OfflineAuth auth) throws IOException {
         this.appName = appName;
         this.apiKey = apiKey;
         this.serializedOfflineAuth = serializeOfflineAuth(auth);
     }
 
-    public AuthHolder(String appName, String apiKey) {
+    public AuthHolder(final String appName, final String apiKey) {
         this.appName = appName;
         this.apiKey = apiKey;
         this.serializedOfflineAuth = null;
     }
 
-    public AuthHolder(String appName, GenomicsFactory.OfflineAuth auth) throws IOException {
+    public AuthHolder(final String appName, final GenomicsFactory.OfflineAuth auth) throws IOException {
         this.appName = appName;
         this.apiKey = null;
         this.serializedOfflineAuth = serializeOfflineAuth(auth);
     }
 
-    public AuthHolder(GCSOptions options) throws IOException, GeneralSecurityException {
+    public AuthHolder(final GCSOptions options) throws IOException, GeneralSecurityException {
         this(options.getAppName(), options.getApiKey(), options.getSecretsFile());
     }
 
@@ -72,7 +72,7 @@ public class AuthHolder implements Serializable {
         try {
             if (null==serializedOfflineAuth && apiKey!=null) {
                 // fall back to using the API key only (even if a secrets file was also specified).
-                GenomicsFactory.Builder builder =
+                final GenomicsFactory.Builder builder =
                         GenomicsFactory.builder(appName);
                 return builder.build().getOfflineAuthFromApiKey(apiKey);
             }
@@ -88,7 +88,7 @@ public class AuthHolder implements Serializable {
      * @return a Storage.Objects, authenticated using the information held in this object.
      */
     public Storage.Objects makeStorageClient() throws IOException, ClassNotFoundException, GeneralSecurityException {
-        GCSOptions options = PipelineOptionsFactory.as(GCSOptions.class);
+        final GCSOptions options = PipelineOptionsFactory.as(GCSOptions.class);
         options.setAppName(appName);
         options.setApiKey(apiKey);
         return GCSOptions.Methods.createStorageClient(options, getOfflineAuth());
@@ -99,13 +99,13 @@ public class AuthHolder implements Serializable {
      */
     public Genomics makeGenomicsService() {
         try {
-            GenomicsFactory.OfflineAuth offlineAuth = getOfflineAuth();
+            final GenomicsFactory.OfflineAuth offlineAuth = getOfflineAuth();
             return offlineAuth.getGenomics(offlineAuth.getDefaultFactory());
         }
-        catch ( GeneralSecurityException e ) {
+        catch ( final GeneralSecurityException e ) {
             throw new UserException("Authentication failed for Google genomics service", e);
         }
-        catch ( IOException e ) {
+        catch ( final IOException e ) {
             throw new UserException("Unable to access Google genomics service", e);
         }
     }
@@ -121,14 +121,14 @@ public class AuthHolder implements Serializable {
             return null;
         }
 
-        GCSOptions options = PipelineOptionsFactory.as(GCSOptions.class);
+        final GCSOptions options = PipelineOptionsFactory.as(GCSOptions.class);
         options.setApiKey(apiKey);
         return options;
     }
 
-    private byte[] serializeOfflineAuth(GenomicsFactory.OfflineAuth auth) throws IOException {
+    private byte[] serializeOfflineAuth(final GenomicsFactory.OfflineAuth auth) throws IOException {
         if (null==auth) return null;
-        ByteArrayOutputStream os = new ByteArrayOutputStream();
+        final ByteArrayOutputStream os = new ByteArrayOutputStream();
         try (ObjectOutputStream oos = new ObjectOutputStream(os)) {
             oos.writeObject(auth);
             oos.flush();

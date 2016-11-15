@@ -51,7 +51,7 @@ public final class MappingQualityZero extends InfoFieldAnnotation {
     }
 
     @VisibleForTesting
-    static String formattedValue(long mq0) {
+    static String formattedValue(final long mq0) {
         return String.format("%d", mq0);
     }
 

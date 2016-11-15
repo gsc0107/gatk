@@ -14,7 +14,7 @@ public final class SAMRecordSerializer extends Serializer<SAMRecord> {
     private SAMRecordSparkCodec lazyCodec = new SAMRecordSparkCodec();
 
     @Override
-    public void write(Kryo kryo, Output output, SAMRecord record) {
+    public void write(final Kryo kryo, final Output output, final SAMRecord record) {
         // The read is likely to already be headerless, but as a defensive
         // measure in case it's not, set the header to null explicitly.
         record.setHeaderStrict(null);
@@ -30,7 +30,7 @@ public final class SAMRecordSerializer extends Serializer<SAMRecord> {
     }
 
     @Override
-    public SAMRecord read(Kryo kryo, Input input, Class<SAMRecord> type) {
+    public SAMRecord read(final Kryo kryo, final Input input, final Class<SAMRecord> type) {
         final String referenceName = input.readString();
         final String mateReferenceName = input.readString();
         lazyCodec.setInputStream(input);

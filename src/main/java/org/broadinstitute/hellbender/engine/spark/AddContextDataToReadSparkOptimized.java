@@ -58,20 +58,20 @@ public final class AddContextDataToReadSparkOptimized implements Serializable {
      * Create shards with reads, variants, and reference bases, using default values for shard sizes and margin.
      * See the other methods here for an explanation of the various arguments.
      */
-     public static JavaRDD<ContextShard> add(JavaSparkContext ctx, final List<SimpleInterval> intervals,
-                                             String bam, final List<GATKVariant> variants, AuthHolder auth,
+     public static JavaRDD<ContextShard> add(final JavaSparkContext ctx, final List<SimpleInterval> intervals,
+                                             final String bam, final List<GATKVariant> variants, final AuthHolder auth,
                                              final ReadFilter optFilter, final ReferenceMultiSource rds) {
         // prepare shards for the intervals of interest
-        List<SimpleInterval> shardedIntervals = IntervalUtils.cutToShards(intervals, bigShardSize);
+        final List<SimpleInterval> shardedIntervals = IntervalUtils.cutToShards(intervals, bigShardSize);
         // add variants
-        ArrayList<ContextShard> localShards = AddContextDataToReadSparkOptimized.fillVariants(shardedIntervals, variants, margin);
+        final ArrayList<ContextShard> localShards = AddContextDataToReadSparkOptimized.fillVariants(shardedIntervals, variants, margin);
         // ship to cluster
-        JavaRDD<ContextShard> shards = ctx.parallelize(localShards);
+        final JavaRDD<ContextShard> shards = ctx.parallelize(localShards);
         // subdivide, and add reads
         JavaRDD<ContextShard> reads;
         try {
             reads = shards.flatMap(AddContextDataToReadSparkOptimized.subdivideAndFillReads(bam, auth, outputShardSize, margin, optFilter));
-        } catch (IOException x) {
+        } catch (final IOException x) {
             throw new UserException.CouldNotReadInputFile("Couldn't read "+bam+": "+x.getMessage(), x);
         }
         // add reference bases
@@ -104,11 +104,11 @@ public final class AddContextDataToReadSparkOptimized implements Serializable {
      * @return A FlatMapFunction that acts as described above.
      * @throws IOException
      */
-    public static FlatMapFunction<ContextShard,ContextShard> subdivideAndFillReads(String bam, AuthHolder auth, int outputShardSize, int margin, final ReadFilter optFilter) throws IOException {
+    public static FlatMapFunction<ContextShard,ContextShard> subdivideAndFillReads(final String bam, final AuthHolder auth, final int outputShardSize, final int margin, final ReadFilter optFilter) throws IOException {
             return new FlatMapFunction<ContextShard, ContextShard>() {
                 private static final long serialVersionUID = 1L;
                 @Override
-                public Iterator<ContextShard> call(ContextShard contextShard) throws Exception {
+                public Iterator<ContextShard> call(final ContextShard contextShard) throws Exception {
                     return new SubdivideAndFillReadsIterator(bam, auth, outputShardSize, margin, optFilter, contextShard);
                 }
             };
@@ -118,14 +118,14 @@ public final class AddContextDataToReadSparkOptimized implements Serializable {
      * Given a shard that has reads and variants, query Google Genomics' Reference server and get reference info
      * (including an extra margin on either side), and fill that and the correct variants into readContext.
      */
-    public static ContextShard fillContext(ReferenceMultiSource refSource, ContextShard shard) {
+    public static ContextShard fillContext(final ReferenceMultiSource refSource, final ContextShard shard) {
         if (null==shard) return null;
         // use the function to make sure we get the exact correct amount of reference bases
         int start = Integer.MAX_VALUE;
         int end = Integer.MIN_VALUE;
-        SerializableFunction<GATKRead, SimpleInterval> referenceWindowFunction = refSource.getReferenceWindowFunction();
-        for (GATKRead r : shard.reads) {
-            SimpleInterval readRefs = referenceWindowFunction.apply(r);
+        final SerializableFunction<GATKRead, SimpleInterval> referenceWindowFunction = refSource.getReferenceWindowFunction();
+        for (final GATKRead r : shard.reads) {
+            final SimpleInterval readRefs = referenceWindowFunction.apply(r);
             start = Math.min(readRefs.getStart(), start);
             end = Math.max(readRefs.getEnd(), end);
         }
@@ -135,18 +135,18 @@ public final class AddContextDataToReadSparkOptimized implements Serializable {
             return null;
         }
 
-        SimpleInterval refInterval = new SimpleInterval(shard.interval.getContig(), start, end);
-        ReferenceBases refBases;
+        final SimpleInterval refInterval = new SimpleInterval(shard.interval.getContig(), start, end);
+        final ReferenceBases refBases;
         try {
             refBases = refSource.getReferenceBases(null, refInterval);
-        } catch (IOException x) {
+        } catch (final IOException x) {
             throw new GATKException("Unable to read the reference");
         }
 
-        ArrayList<ReadContextData> readContext = new ArrayList<>();
-        for (GATKRead r : shard.reads) {
-            SimpleInterval readInterval = new SimpleInterval(r);
-            List<GATKVariant> variantsOverlappingThisRead = shard.variantsOverlapping(readInterval);
+        final ArrayList<ReadContextData> readContext = new ArrayList<>();
+        for (final GATKRead r : shard.reads) {
+            final SimpleInterval readInterval = new SimpleInterval(r);
+            final List<GATKVariant> variantsOverlappingThisRead = shard.variantsOverlapping(readInterval);
             // we pass all the bases. That's better because this way it's just a shared
             // pointer instead of being an array copy. Downstream processing is fine with having
             // extra bases (it expects a few, actually).
@@ -174,14 +174,14 @@ public final class AddContextDataToReadSparkOptimized implements Serializable {
         private ContextShard nextOutput = null;
         private boolean readerClosed = false;
 
-        public SubdivideAndFillReadsIterator(String bam, AuthHolder auth, int outputShardSize, int margin, final ReadFilter optFilter, ContextShard shard) throws IOException, GeneralSecurityException, ClassNotFoundException {
+        public SubdivideAndFillReadsIterator(final String bam, final AuthHolder auth, final int outputShardSize, final int margin, final ReadFilter optFilter, final ContextShard shard) throws IOException, GeneralSecurityException, ClassNotFoundException {
             this.bam = bam;
             this.shard = shard;
             this.optFilter = optFilter;
             // it's OK if this goes beyond the contig boundaries.
             lastValidPos = shard.interval.getEnd() + margin;
             firstValidPos = Math.max(shard.interval.getStart() - margin, 1);
-            ArrayList<SimpleInterval> ints =new ArrayList<>();
+            final ArrayList<SimpleInterval> ints =new ArrayList<>();
             ints.add(shard.interval);
             subshards = IntervalUtils.cutToShards(ints, outputShardSize);
             currentSubShardIndex = 0;
@@ -210,7 +210,7 @@ public final class AddContextDataToReadSparkOptimized implements Serializable {
         public ContextShard next() {
             if (null==nextOutput) nextOutput = tryNext();
             if (null==nextOutput) throw new NoSuchElementException();
-            ContextShard ret =  nextOutput;
+            final ContextShard ret =  nextOutput;
             nextOutput = null;
             return ret;
         }
@@ -221,8 +221,8 @@ public final class AddContextDataToReadSparkOptimized implements Serializable {
             ContextShard ret = null;
             while (query.hasNext()) {
 
-                SAMRecord r = query.next();
-                SAMRecordToGATKReadAdapter g = new SAMRecordToGATKReadAdapter(r);
+                final SAMRecord r = query.next();
+                final SAMRecordToGATKReadAdapter g = new SAMRecordToGATKReadAdapter(r);
                 // yes, it'd be a tad faster to check before the wrapping.
                 // But this keeps the code a tad simpler.
                 if (!accept(g, shard.interval)) continue;
@@ -246,7 +246,7 @@ public final class AddContextDataToReadSparkOptimized implements Serializable {
                 if (readsSoFar.size()>=maxReadsPerShard) {
                     // ship this one.
                     log.info("Too many reads in this shard, splitting it."+readsSoFar.size());
-                    int currentSubShardEnd;
+                    final int currentSubShardEnd;
                     if (g.isUnmapped()) {
                         if (!g.mateIsUnmapped()) {
                             currentSubShardEnd = g.getMateStart() + margin;
@@ -258,7 +258,7 @@ public final class AddContextDataToReadSparkOptimized implements Serializable {
                     }
                     // we grow the interval by "margin" to make sure we get all the variants we need.
                     // Since we already assume that margin has that property, we're good to go.
-                    SimpleInterval thisInterval = new SimpleInterval(currentSubShard.getContig(), currentSubShard.getStart(), currentSubShardEnd);
+                    final SimpleInterval thisInterval = new SimpleInterval(currentSubShard.getContig(), currentSubShard.getStart(), currentSubShardEnd);
                     ret = shard.split(thisInterval).withReads(readsSoFar);
                     readsSoFar = new ArrayList<>();
                     // do not advance currentSubShard, we're still technically in the same one.
@@ -276,7 +276,7 @@ public final class AddContextDataToReadSparkOptimized implements Serializable {
                 if (null!=reader) {
                     reader.close();
                 }
-            } catch (IOException x) {
+            } catch (final IOException x) {
                 throw new GATKException.ShouldNeverReachHereException("IOException when closing the BAM file reader for "+bam);
             }
             if (!readsSoFar.isEmpty()) {
@@ -286,8 +286,8 @@ public final class AddContextDataToReadSparkOptimized implements Serializable {
         }
 
         // check mapping and optFilter
-        private boolean accept(GATKRead r, SimpleInterval region) {
-            boolean ret;
+        private boolean accept(final GATKRead r, final SimpleInterval region) {
+            final boolean ret;
             if (r.isUnmapped()) {
                 ret = (!r.mateIsUnmapped() && r.getMateStart() >= region.getStart());
             } else {
@@ -300,7 +300,7 @@ public final class AddContextDataToReadSparkOptimized implements Serializable {
         }
 
 
-        private void throwIfOutsideMargin(SAMRecordToGATKReadAdapter g, SAMRecord r) {
+        private void throwIfOutsideMargin(final SAMRecordToGATKReadAdapter g, final SAMRecord r) {
             if (!g.isUnmapped()) {
                 // error out if we accept a read that sticks out too far
                 // (margin was too tight, the shard may end up missing relevant variants)
@@ -323,14 +323,14 @@ public final class AddContextDataToReadSparkOptimized implements Serializable {
      *
      * This happens immediately, at the caller.
      */
-    public static ArrayList<ContextShard> fillVariants(List<SimpleInterval> shardedIntervals, List<GATKVariant> variants, int margin) {
-        IntervalsSkipList<GATKVariant> intervals = new IntervalsSkipList<>(variants);
-        ArrayList<ContextShard> ret = new ArrayList<>();
-        for (SimpleInterval s : shardedIntervals) {
-            int start = Math.max(s.getStart() - margin, 1);
-            int end = s.getEnd() + margin;
+    public static ArrayList<ContextShard> fillVariants(final List<SimpleInterval> shardedIntervals, final List<GATKVariant> variants, final int margin) {
+        final IntervalsSkipList<GATKVariant> intervals = new IntervalsSkipList<>(variants);
+        final ArrayList<ContextShard> ret = new ArrayList<>();
+        for (final SimpleInterval s : shardedIntervals) {
+            final int start = Math.max(s.getStart() - margin, 1);
+            final int end = s.getEnd() + margin;
             // here it's OK if end is past the contig's boundary, there just won't be any variant there.
-            SimpleInterval expandedInterval = new SimpleInterval(s.getContig(), start, end);
+            final SimpleInterval expandedInterval = new SimpleInterval(s.getContig(), start, end);
             // the next ContextShard has interval s because we want it to contain all reads that start in s.
             // We give it all variants that overlap the expanded interval in order to make sure we include
             // all the variants that overlap with the reads of interest.

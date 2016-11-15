@@ -61,13 +61,13 @@ public class InsertSizeMetricsCollectorSparkUnitTest extends CommandLineProgramT
 
         final File outfile = BaseTest.createTempFile("test", ".insert_size_metrics");
 
-        JavaSparkContext ctx = SparkContextFactory.getTestSparkContext();
-        ReadsSparkSource readSource = new ReadsSparkSource(ctx, ValidationStringency.DEFAULT_STRINGENCY);
+        final JavaSparkContext ctx = SparkContextFactory.getTestSparkContext();
+        final ReadsSparkSource readSource = new ReadsSparkSource(ctx, ValidationStringency.DEFAULT_STRINGENCY);
 
-        SAMFileHeader samHeader = readSource.getHeader(inputPath, referencePath, null);
+        final SAMFileHeader samHeader = readSource.getHeader(inputPath, referencePath, null);
         JavaRDD<GATKRead> rddParallelReads = readSource.getParallelReads(inputPath, referencePath);
 
-        InsertSizeMetricsArgumentCollection isArgs = new InsertSizeMetricsArgumentCollection();
+        final InsertSizeMetricsArgumentCollection isArgs = new InsertSizeMetricsArgumentCollection();
         isArgs.output = outfile.getAbsolutePath();
         if (allLevels) {
             isArgs.metricAccumulationLevel.accumulationLevels = new HashSet<>();
@@ -77,18 +77,18 @@ public class InsertSizeMetricsCollectorSparkUnitTest extends CommandLineProgramT
             isArgs.metricAccumulationLevel.accumulationLevels.add(MetricAccumulationLevel.READ_GROUP);
         }
 
-        InsertSizeMetricsCollectorSpark isSpark = new InsertSizeMetricsCollectorSpark();
+        final InsertSizeMetricsCollectorSpark isSpark = new InsertSizeMetricsCollectorSpark();
         isSpark.initialize(isArgs, samHeader, null);
 
         // Since we're bypassing the framework in order to force this test to run on multiple partitions, we
         // need to make the read filter manually since we don't have the plugin descriptor to do it for us; so
         // remove the (default) FirstOfPairReadFilter filter and add in the SECOND_IN_PAIR manually since thats
         // required for our tests to pass
-        List<ReadFilter> readFilters = isSpark.getDefaultReadFilters();
+        final List<ReadFilter> readFilters = isSpark.getDefaultReadFilters();
         readFilters.stream().filter(
                 f -> !f.getClass().getSimpleName().equals(ReadFilterLibrary.FirstOfPairReadFilter.class.getSimpleName()));
         readFilters.forEach(f -> f.setHeader(samHeader));
-        ReadFilter rf = readFilters.stream().reduce(
+        final ReadFilter rf = readFilters.stream().reduce(
                 ReadFilterLibrary.ALLOW_ALL_READS,
                 (rf1, rf2) -> rf1.and(rf2));
 

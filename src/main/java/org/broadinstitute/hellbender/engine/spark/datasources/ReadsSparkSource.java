@@ -94,7 +94,7 @@ public final class ReadsSparkSource implements Serializable {
 
         setHadoopBAMConfigurationProperties(readFileName, referencePath);
 
-        boolean isBam = IOUtils.isBamFileName(readFileName);
+        final boolean isBam = IOUtils.isBamFileName(readFileName);
         if (isBam && intervals != null && !intervals.isEmpty()) {
             BAMInputFormat.setIntervals(conf, intervals);
         } else {
@@ -134,9 +134,9 @@ public final class ReadsSparkSource implements Serializable {
      *                  use the default split size (determined by the Hadoop input format, typically the size of one HDFS block).
      * @return RDD of (SAMRecord-backed) GATKReads from the file.
      */
-    public JavaRDD<GATKRead> getParallelReads(final String readFileName, final String referencePath, int splitSize) {
+    public JavaRDD<GATKRead> getParallelReads(final String readFileName, final String referencePath, final int splitSize) {
         final SAMFileHeader readsHeader = getHeader(readFileName, referencePath, null);
-        List<SimpleInterval> intervals = IntervalUtils.getAllIntervalsForReference(readsHeader.getSequenceDictionary());
+        final List<SimpleInterval> intervals = IntervalUtils.getAllIntervalsForReference(readsHeader.getSequenceDictionary());
         return getParallelReads(readFileName, referencePath, intervals, splitSize);
     }
 
@@ -146,20 +146,20 @@ public final class ReadsSparkSource implements Serializable {
      * @return RDD of (ADAM-backed) GATKReads from the file.
      */
     public JavaRDD<GATKRead> getADAMReads(final String inputPath, final List<SimpleInterval> intervals, final SAMFileHeader header) throws IOException {
-        Job job = Job.getInstance(ctx.hadoopConfiguration());
+        final Job job = Job.getInstance(ctx.hadoopConfiguration());
         AvroParquetInputFormat.setAvroReadSchema(job, AlignmentRecord.getClassSchema());
-        Broadcast<SAMFileHeader> bHeader;
+        final Broadcast<SAMFileHeader> bHeader;
         if (header == null) {
             bHeader= ctx.broadcast(null);
         } else {
             bHeader = ctx.broadcast(header);
         }
-        @SuppressWarnings("unchecked")
+        @SuppressWarnings("unchecked") final
         JavaRDD<AlignmentRecord> recordsRdd = ctx.newAPIHadoopFile(
                 inputPath, AvroParquetInputFormat.class, Void.class, AlignmentRecord.class, job.getConfiguration())
                 .values();
-        JavaRDD<GATKRead> readsRdd = recordsRdd.map(record -> new BDGAlignmentRecordToGATKReadAdapter(record, bHeader.getValue()));
-        JavaRDD<GATKRead> filteredRdd = readsRdd.filter(record -> samRecordOverlaps(record.convertToSAMRecord(header), intervals));
+        final JavaRDD<GATKRead> readsRdd = recordsRdd.map(record -> new BDGAlignmentRecordToGATKReadAdapter(record, bHeader.getValue()));
+        final JavaRDD<GATKRead> filteredRdd = readsRdd.filter(record -> samRecordOverlaps(record.convertToSAMRecord(header), intervals));
         return filteredRdd;
     }
 
@@ -174,11 +174,11 @@ public final class ReadsSparkSource implements Serializable {
         // GCS case
         if (BucketUtils.isCloudStorageUrl(filePath)) {
             try {
-                Storage.Objects storageClient = auth.makeStorageClient();
+                final Storage.Objects storageClient = auth.makeStorageClient();
                 try (final SamReader reader = BAMIO.openBAM(storageClient, filePath, validationStringency)) {
                     return reader.getFileHeader();
                 }
-            } catch (Exception e) {
+            } catch (final Exception e) {
                 throw new UserException("Failed to read bam header from " + filePath + "\n Caused by:" + e.getMessage(), e);
             }
         }
@@ -186,12 +186,12 @@ public final class ReadsSparkSource implements Serializable {
         // local file or HDFs case
         try {
             Path path = new Path(filePath);
-            FileSystem fs = path.getFileSystem(ctx.hadoopConfiguration());
+            final FileSystem fs = path.getFileSystem(ctx.hadoopConfiguration());
             if (fs.isDirectory(path)) {
-                FileStatus[] bamFiles = fs.listStatus(path, new PathFilter() {
+                final FileStatus[] bamFiles = fs.listStatus(path, new PathFilter() {
                     private static final long serialVersionUID = 1L;
                     @Override
-                    public boolean accept(Path path) {
+                    public boolean accept(final Path path) {
                         return path.getName().startsWith(HADOOP_PART_PREFIX);
                     }
                 });
@@ -259,11 +259,11 @@ public final class ReadsSparkSource implements Serializable {
         if (intervals == null || intervals.isEmpty()) {
             return true;
         }
-        for (SimpleInterval interval : intervals) {
+        for (final SimpleInterval interval : intervals) {
             if (record.getReadUnmappedFlag() && record.getAlignmentStart() != SAMRecord.NO_ALIGNMENT_START) {
                 // This follows the behavior of htsjdk's SamReader which states that "an unmapped read will be returned
                 // by this call if it has a coordinate for the purpose of sorting that is in the query region".
-                int start = record.getAlignmentStart();
+                final int start = record.getAlignmentStart();
                 return interval.getStart() <= start && interval.getEnd() >= start;
             } else  if (interval.overlaps(record)) {
                 return true;

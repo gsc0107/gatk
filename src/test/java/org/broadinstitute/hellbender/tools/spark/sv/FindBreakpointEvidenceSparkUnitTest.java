@@ -73,7 +73,7 @@ public final class FindBreakpointEvidenceSparkUnitTest extends BaseTest {
                 new HopscotchUniqueMultiMap<>(expectedAssemblyQNames.size());
 
         // an empty qname map should produce a "too few kmers" disposition for the interval
-        Map<Integer, String> dispositions =
+        final Map<Integer, String> dispositions =
                 FindBreakpointEvidenceSpark.getKmerIntervals(params, ctx, qNameMultiMap, 1, Collections.emptySet(), reads, locations, null)._1();
         Assert.assertEquals(dispositions.size(), 1);
         Assert.assertTrue(dispositions.get(0).contains("too few"));
@@ -132,7 +132,7 @@ public final class FindBreakpointEvidenceSparkUnitTest extends BaseTest {
             idx += fastq.length;
         }
 
-        String expectedFile = fastqFile+intervalAndFastqBytes._1();
+        final String expectedFile = fastqFile+intervalAndFastqBytes._1();
         final ByteArrayInputStream actualStream = new ByteArrayInputStream(concatenatedFastqs);
         try( InputStream expectedStream = new BufferedInputStream(new FileInputStream(expectedFile)) ) {
             int val;

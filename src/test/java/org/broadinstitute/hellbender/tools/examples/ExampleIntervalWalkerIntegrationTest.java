@@ -13,7 +13,7 @@ public final class ExampleIntervalWalkerIntegrationTest extends CommandLineProgr
 
     @Test
     public void testExampleIntervalWalker() throws IOException {
-        IntegrationTestSpec testSpec = new IntegrationTestSpec(
+        final IntegrationTestSpec testSpec = new IntegrationTestSpec(
                 " -L 1:100-200 -L 2:500-600" +
                 " -R " + hg19MiniReference +
                 " -I " + TEST_DATA_DIRECTORY + "reads_data_source_test1.bam" +

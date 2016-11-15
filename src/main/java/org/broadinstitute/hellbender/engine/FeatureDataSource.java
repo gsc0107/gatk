@@ -252,7 +252,7 @@ public final class FeatureDataSource<T extends Feature> implements GATKDataSourc
             IOUtils.assertFileIsReadable(loaderJson);
             IOUtils.assertFileIsReadable(queryJson);
         }
-        catch ( UserException.CouldNotReadInputFile e ) {
+        catch ( final UserException.CouldNotReadInputFile e ) {
             throw new UserException("Couldn't connect to GenomicsDB because the loader and/or query JSON files were not readable", e);
         }
 
@@ -328,7 +328,7 @@ public final class FeatureDataSource<T extends Feature> implements GATKDataSourc
                                                             : featureReader.iterator();
             return currentIterator;
         }
-        catch ( IOException e ) {
+        catch ( final IOException e ) {
             throw new GATKException("Error creating iterator over file " + featureInput.getFeaturePath(), e);
         }
     }
@@ -420,7 +420,7 @@ public final class FeatureDataSource<T extends Feature> implements GATKDataSourc
         try ( CloseableTribbleIterator<T> queryIter = featureReader.query(queryInterval.getContig(), queryInterval.getStart(), queryInterval.getEnd()) ) {
             queryCache.fill(queryIter, queryInterval);
         }
-        catch ( IOException e ) {
+        catch ( final IOException e ) {
             throw new GATKException("Error querying file " + featureInput + " over interval " + interval, e);
         }
     }
@@ -459,7 +459,7 @@ public final class FeatureDataSource<T extends Feature> implements GATKDataSourc
                 featureReader.close();
             }
         }
-        catch ( IOException e ) {
+        catch ( final IOException e ) {
             throw new GATKException("Error closing Feature reader for input " + featureInput);
         }
     }

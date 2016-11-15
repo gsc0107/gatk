@@ -35,15 +35,15 @@ public class VcfUtilsUnitTest extends BaseTest {
             final boolean refNameOnly,
             final String expectedRefName) {
 
-        Set<VCFHeaderLine> resultLines = VcfUtils.updateHeaderContigLines(
+        final Set<VCFHeaderLine> resultLines = VcfUtils.updateHeaderContigLines(
                 inHeaderLines, referenceFile, seqDict, refNameOnly
         );
 
         Assert.assertEquals(resultLines.size(), referenceFile == null ? 2 : 3);
-        for (VCFHeaderLine resultLine : resultLines) {
+        for (final VCFHeaderLine resultLine : resultLines) {
             if (resultLine instanceof VCFContigHeaderLine) {
-                VCFContigHeaderLine headerLine = (VCFContigHeaderLine) resultLine;
-                SAMSequenceRecord samSeqRec = headerLine.getSAMSequenceRecord();
+                final VCFContigHeaderLine headerLine = (VCFContigHeaderLine) resultLine;
+                final SAMSequenceRecord samSeqRec = headerLine.getSAMSequenceRecord();
                 if (samSeqRec.getSequenceName().equals("contig1")) {
                     Assert.assertEquals(samSeqRec.getSequenceLength(), 100);
                 } else if (samSeqRec.getSequenceName().equals("contig2")) {
@@ -63,7 +63,7 @@ public class VcfUtilsUnitTest extends BaseTest {
     }
 
     private Set<VCFHeaderLine> createHeaderLines() {
-        Set<VCFHeaderLine> headerLines = new HashSet<>(2);
+        final Set<VCFHeaderLine> headerLines = new HashSet<>(2);
         headerLines.add(new VCFContigHeaderLine(
                 "##contig=<ID=1,length=249250621,assembly=b37>",
                 vcfHeaderVersion,
@@ -78,7 +78,7 @@ public class VcfUtilsUnitTest extends BaseTest {
     }
 
     private SAMSequenceDictionary createSequenceDictonary() {
-        List<SAMSequenceRecord> seqRecList = new ArrayList<>(2);
+        final List<SAMSequenceRecord> seqRecList = new ArrayList<>(2);
         seqRecList.add(new SAMSequenceRecord("contig1", 100));
         seqRecList.add(new SAMSequenceRecord("contig2", 200));
         return new SAMSequenceDictionary(seqRecList);

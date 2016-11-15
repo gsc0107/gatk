@@ -49,11 +49,11 @@ public class VariantFilterUnitTest extends BaseTest {
      *
      */
     private static VariantContext createArtificialVC(
-            String id,
-            SimpleInterval loc,
-            List<Allele> alleles)
+            final String id,
+            final SimpleInterval loc,
+            final List<Allele> alleles)
     {
-        VariantContextBuilder vb = new VariantContextBuilder();
+        final VariantContextBuilder vb = new VariantContextBuilder();
         vb.id(id);
         if (alleles != null)
             vb.alleles(alleles);
@@ -73,10 +73,10 @@ public class VariantFilterUnitTest extends BaseTest {
     }
 
     @Test(dataProvider="includeIDsVCs")
-    public void testIncludeIDsVariantFilter(VariantContext vc, String[] incIDs, boolean expected) {
-        Set<String> idSet = new LinkedHashSet<>();
+    public void testIncludeIDsVariantFilter(final VariantContext vc, final String[] incIDs, final boolean expected) {
+        final Set<String> idSet = new LinkedHashSet<>();
         idSet.addAll(Arrays.asList(incIDs));
-        VariantIDsVariantFilter iivf = new VariantIDsVariantFilter(idSet);
+        final VariantIDsVariantFilter iivf = new VariantIDsVariantFilter(idSet);
         Assert.assertTrue(iivf.test(vc) == expected);
     }
 
@@ -96,10 +96,10 @@ public class VariantFilterUnitTest extends BaseTest {
     }
 
     @Test(dataProvider="typeVCs")
-    public void testVariantTypeVariantFilter(VariantContext vc, Type[] types, boolean expected) {
-        Set<Type> typesSet = new LinkedHashSet<>();
+    public void testVariantTypeVariantFilter(final VariantContext vc, final Type[] types, final boolean expected) {
+        final Set<Type> typesSet = new LinkedHashSet<>();
         typesSet.addAll(Arrays.asList(types));
-        VariantTypesVariantFilter vtvf = new VariantTypesVariantFilter(typesSet);
+        final VariantTypesVariantFilter vtvf = new VariantTypesVariantFilter(typesSet);
         Assert.assertTrue(vtvf.test(vc) == expected);
     }
 }

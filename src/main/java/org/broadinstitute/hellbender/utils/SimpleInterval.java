@@ -141,7 +141,7 @@ public final class SimpleInterval implements Locatable, Serializable {
     private static int parsePosition(final String pos) {
         try {
             return Integer.parseInt(pos.replaceAll(",", "")); //strip commas
-        } catch (NumberFormatException e){
+        } catch (final NumberFormatException e){
             throw new UserException("Problem parsing start/end value in interval string. Value was: " + pos, e);
         }
     }

@@ -175,7 +175,7 @@ class FeatureCache<CACHED_FEATURE extends Feature> {
                     newStart, cachedInterval.getEnd()));
         }
 
-        List<CACHED_FEATURE> overlappingFeaturesBeforeNewStart = new ArrayList<>(EXPECTED_MAX_OVERLAPPING_FEATURES_DURING_CACHE_TRIM);
+        final List<CACHED_FEATURE> overlappingFeaturesBeforeNewStart = new ArrayList<>(EXPECTED_MAX_OVERLAPPING_FEATURES_DURING_CACHE_TRIM);
 
         // In order to trim the cache to the new start position, we need to find
         // all Features in the cache that start before the new start position,
@@ -184,7 +184,7 @@ class FeatureCache<CACHED_FEATURE extends Feature> {
         // after the new start position, since the Features are assumed to be sorted
         // by start position.
         while ( ! cache.isEmpty() && cache.getFirst().getStart() < newStart ) {
-            CACHED_FEATURE featureBeforeNewStart = cache.removeFirst();
+            final CACHED_FEATURE featureBeforeNewStart = cache.removeFirst();
 
             if ( featureBeforeNewStart.getEnd() >= newStart ) {
                 overlappingFeaturesBeforeNewStart.add(featureBeforeNewStart);
@@ -210,10 +210,10 @@ class FeatureCache<CACHED_FEATURE extends Feature> {
      * @return all cached Features that overlap the region from the start of our cache to the specified stop position
      */
     public List<CACHED_FEATURE> getCachedFeaturesUpToStopPosition( final int stopPosition ) {
-        List<CACHED_FEATURE> matchingFeatures = new ArrayList<>(cache.size());
+        final List<CACHED_FEATURE> matchingFeatures = new ArrayList<>(cache.size());
 
         // Find (but do not remove from our cache) all Features that start before or on the provided stop position
-        for ( CACHED_FEATURE candidateFeature : cache ) {
+        for ( final CACHED_FEATURE candidateFeature : cache ) {
             if ( candidateFeature.getStart() > stopPosition ) {
                 break; // No more possible matches among the remaining cached Features, so stop looking
             }

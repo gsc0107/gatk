@@ -155,7 +155,7 @@ public abstract class MultiLevelCollector<METRIC_TYPE extends MetricBase, HISTOG
         }
 
         @Override
-        protected String getKey(SAMReadGroupRecord rg) {
+        protected String getKey(final SAMReadGroupRecord rg) {
             return null;
         }
 
@@ -193,12 +193,12 @@ public abstract class MultiLevelCollector<METRIC_TYPE extends MetricBase, HISTOG
         }
 
         @Override
-        protected String getKey(SAMReadGroupRecord rg) {
+        protected String getKey(final SAMReadGroupRecord rg) {
             return rg.getSample();
         }
 
         @Override
-        protected PerUnitMetricCollector<METRIC_TYPE, HISTOGRAM_KEY, ARGTYPE> makeCollector(SAMReadGroupRecord rg) {
+        protected PerUnitMetricCollector<METRIC_TYPE, HISTOGRAM_KEY, ARGTYPE> makeCollector(final SAMReadGroupRecord rg) {
             return makeSampleCollector(rg);
         }
 
@@ -215,12 +215,12 @@ public abstract class MultiLevelCollector<METRIC_TYPE extends MetricBase, HISTOG
         }
 
         @Override
-        protected String getKey(SAMReadGroupRecord rg) {
+        protected String getKey(final SAMReadGroupRecord rg) {
             return rg.getLibrary();
         }
 
         @Override
-        protected PerUnitMetricCollector<METRIC_TYPE, HISTOGRAM_KEY, ARGTYPE> makeCollector(SAMReadGroupRecord rg) {
+        protected PerUnitMetricCollector<METRIC_TYPE, HISTOGRAM_KEY, ARGTYPE> makeCollector(final SAMReadGroupRecord rg) {
             return makeLibraryCollector(rg);
         }
 
@@ -237,12 +237,12 @@ public abstract class MultiLevelCollector<METRIC_TYPE extends MetricBase, HISTOG
         }
 
         @Override
-        protected String getKey(SAMReadGroupRecord rg) {
+        protected String getKey(final SAMReadGroupRecord rg) {
             return rg.getPlatformUnit();
         }
 
         @Override
-        protected PerUnitMetricCollector<METRIC_TYPE, HISTOGRAM_KEY, ARGTYPE> makeCollector(SAMReadGroupRecord rg) {
+        protected PerUnitMetricCollector<METRIC_TYPE, HISTOGRAM_KEY, ARGTYPE> makeCollector(final SAMReadGroupRecord rg) {
             return makeReadGroupCollector(rg);
         }
 

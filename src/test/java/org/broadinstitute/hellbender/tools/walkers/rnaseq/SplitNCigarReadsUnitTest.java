@@ -34,20 +34,20 @@ public final class SplitNCigarReadsUnitTest extends BaseTest {
     private SAMFileHeader header = new SAMFileHeader();;
 
     private final class TestManager extends OverhangFixingManager {
-        public TestManager( final SAMFileHeader header , DummyTestWriter writer) {
+        public TestManager(final SAMFileHeader header , final DummyTestWriter writer) {
             super(header, writer, hg19GenomeLocParser, hg19ReferenceReader, 10000, 1, 40, false, true);
         }
     }
 
     @Test
     public void testBogusNSplits() {
-        DummyTestWriter writer = new DummyTestWriter();
+        final DummyTestWriter writer = new DummyTestWriter();
         header.setSequenceDictionary(hg19GenomeLocParser.getSequenceDictionary());
-        TestManager manager = new TestManager(header, writer);
+        final TestManager manager = new TestManager(header, writer);
         manager.activateWriting();
 
         //Testing that bogus splits make it through unaffected
-        GATKRead read1 = ReadClipperTestUtils.makeReadFromCigar("1S4N2S3N4H");
+        final GATKRead read1 = ReadClipperTestUtils.makeReadFromCigar("1S4N2S3N4H");
         SplitNCigarReads.splitNCigarRead(read1, manager, true, header, true);
         manager.flush();
         Assert.assertEquals(1, writer.writtenReads.size());
@@ -57,14 +57,14 @@ public final class SplitNCigarReadsUnitTest extends BaseTest {
     @Test
     public void testBogusMidNSection() {
         //Testing that bogus subsections dont end up clipped
-        DummyTestWriter writer = new DummyTestWriter();
+        final DummyTestWriter writer = new DummyTestWriter();
         header.setSequenceDictionary(hg19GenomeLocParser.getSequenceDictionary());
         TestManager manager = new TestManager(header, writer);
         manager.activateWriting();
 
         manager = new TestManager(header, writer);
         manager.activateWriting();
-        GATKRead read2 = ReadClipperTestUtils.makeReadFromCigar("1S3N2M10N1M4H");
+        final GATKRead read2 = ReadClipperTestUtils.makeReadFromCigar("1S3N2M10N1M4H");
         SplitNCigarReads.splitNCigarRead(read2, manager, true, header, true);
         manager.flush();
         Assert.assertEquals(2, writer.writtenReads.size());
@@ -83,7 +83,7 @@ public final class SplitNCigarReadsUnitTest extends BaseTest {
         writer = new DummyTestWriter();
         manager = new TestManager(header, writer);
         manager.activateWriting();
-        GATKRead read3 = ReadClipperTestUtils.makeReadFromCigar("1H2M2D1M2N1M2I1N1M2S1N2S1N2S");
+        final GATKRead read3 = ReadClipperTestUtils.makeReadFromCigar("1H2M2D1M2N1M2I1N1M2S1N2S1N2S");
         read3.setAttribute("MC", "11M4N11M");
         SplitNCigarReads.splitNCigarRead(read3, manager,true, header, true);
         manager.flush();
@@ -111,7 +111,7 @@ public final class SplitNCigarReadsUnitTest extends BaseTest {
         // final List<Cigar> cigarList = new ArrayList<>();
         // cigarList.add(tmpRead.getCigar());
 
-        for(Cigar cigar: cigarList){
+        for(final Cigar cigar: cigarList){
 
             final int numOfSplits = numOfNElements(cigar.getCigarElements());
 
@@ -121,9 +121,9 @@ public final class SplitNCigarReadsUnitTest extends BaseTest {
                 final TestManager manager = new TestManager(header, new DummyTestWriter());
                 manager.activateWriting();
 
-                GATKRead read = ReadClipperTestUtils.makeReadFromCigar(cigar);
+                final GATKRead read = ReadClipperTestUtils.makeReadFromCigar(cigar);
                 SplitNCigarReads.splitNCigarRead(read, manager, true, header, true);
-                List<List<OverhangFixingManager.SplitRead>> splitReadGroups = manager.getReadsInQueueForTesting();
+                final List<List<OverhangFixingManager.SplitRead>> splitReadGroups = manager.getReadsInQueueForTesting();
                 final int expectedReads = numOfSplits+1;
                 Assert.assertEquals(manager.getNReadsInQueue(), expectedReads, "wrong number of reads after split read with cigar: " + cigar + " at Ns [expected]: " + expectedReads + " [actual value]: " + manager.getNReadsInQueue());
                 final int readLengths = consecutiveNonNElements(read.getCigar().getCigarElements());
@@ -150,7 +150,7 @@ public final class SplitNCigarReadsUnitTest extends BaseTest {
     private static boolean isCigarDoesNotHaveEmptyRegionsBetweenNs(final Cigar cigar) {
         boolean sawM = false;
 
-        for (CigarElement cigarElement : cigar.getCigarElements()) {
+        for (final CigarElement cigarElement : cigar.getCigarElements()) {
             if (cigarElement.getOperator().equals(CigarOperator.SKIPPED_REGION)) {
                 if(!sawM)
                     return false;
@@ -165,7 +165,7 @@ public final class SplitNCigarReadsUnitTest extends BaseTest {
 
     private int consecutiveNonNElements(final List<CigarElement> cigarElements){
         int consecutiveLength = 0;
-        for(CigarElement element: cigarElements){
+        for(final CigarElement element: cigarElements){
             final CigarOperator op = element.getOperator();
             if(op.equals(CigarOperator.MATCH_OR_MISMATCH) || op.equals(CigarOperator.SOFT_CLIP) || op.equals(CigarOperator.INSERTION)){
                 consecutiveLength += element.getLength();
@@ -185,7 +185,7 @@ public final class SplitNCigarReadsUnitTest extends BaseTest {
         @Override
         public void close() {}
         @Override
-        public void addRead(GATKRead read) {
+        public void addRead(final GATKRead read) {
             writtenReads.add(read);
         }
     }

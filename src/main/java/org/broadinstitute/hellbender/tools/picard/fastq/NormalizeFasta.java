@@ -75,13 +75,13 @@ public final class NormalizeFasta extends CommandLineProgram {
                         out.write("\n");
                     }
                 }
-                catch (IOException ioe) {
+                catch (final IOException ioe) {
                     throw new RuntimeIOException("Error writing to file " + OUTPUT.getAbsolutePath(), ioe);
 
                 }
             }
 
-        } catch (IOException e) {
+        } catch (final IOException e) {
             throw new RuntimeIOException(e);
         }
 

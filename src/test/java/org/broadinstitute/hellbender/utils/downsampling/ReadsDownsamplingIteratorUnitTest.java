@@ -22,12 +22,12 @@ public class ReadsDownsamplingIteratorUnitTest extends BaseTest {
         }
 
         @Override
-        public void signalNoMoreReadsBefore( GATKRead read ) {
+        public void signalNoMoreReadsBefore(final GATKRead read ) {
             // no-op
         }
 
         @Override
-        public void submit( GATKRead item ) {
+        public void submit(final GATKRead item ) {
             if ( item.getName() != null && (item.getName().equals("B") || item.getName().equals("C")) ) {
                 finalizedReads.add(item);
             }

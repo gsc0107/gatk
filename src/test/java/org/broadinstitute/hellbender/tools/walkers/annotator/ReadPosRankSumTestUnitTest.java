@@ -43,7 +43,7 @@ public final class ReadPosRankSumTestUnitTest extends BaseTest {
     }
 
     private GATKRead makeRead(final int start, final int mq) {
-        Cigar cigar = TextCigarCodec.decode("10M");
+        final Cigar cigar = TextCigarCodec.decode("10M");
         final GATKRead read = ArtificialReadUtils.createArtificialRead(cigar);
         read.setMappingQuality(mq);
         read.setPosition(CONTIG, start);

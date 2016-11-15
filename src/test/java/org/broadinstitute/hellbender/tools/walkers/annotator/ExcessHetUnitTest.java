@@ -21,13 +21,13 @@ public final class ExcessHetUnitTest extends BaseTest {
     private int[] hetPLs = {240, 0, 240};
     private int[] homRefPLs= {0, 60, 600};
 
-    private Genotype makeG(String sample, Allele a1, Allele a2, int... pls) {
+    private Genotype makeG(final String sample, final Allele a1, final Allele a2, final int... pls) {
         return new GenotypeBuilder(sample, Arrays.asList(a1, a2)).PL(pls).make();
     }
 
-    private VariantContext makeVC(String source, List<Allele> alleles, Genotype... genotypes) {
-        int start = 10;
-        int stop = start; // alleles.contains(ATC) ? start + 3 : start;
+    private VariantContext makeVC(final String source, final List<Allele> alleles, final Genotype... genotypes) {
+        final int start = 10;
+        final int stop = start; // alleles.contains(ATC) ? start + 3 : start;
         return new VariantContextBuilder(source, "1", start, stop, alleles)
                 .genotypes(Arrays.asList(genotypes))
                 .filters((String) null)
@@ -37,7 +37,7 @@ public final class ExcessHetUnitTest extends BaseTest {
     @Test
     public void testExcessHetForMultiallelicVC_compondHets() {
         //make sure that compound gets (with no ref) don't add to het count
-        VariantContext test1 = makeVC("1", Arrays.asList(Aref, T, C),
+        final VariantContext test1 = makeVC("1", Arrays.asList(Aref, T, C),
                 makeG("s1", Aref, T, 2530, 0, 7099, 366, 3056, 14931),
                 makeG("s2", T, T, 7099, 2530, 0, 7099, 366, 3056),
                 makeG("s3", T, C, 7099, 2530, 7099, 3056, 0, 14931),
@@ -56,7 +56,7 @@ public final class ExcessHetUnitTest extends BaseTest {
     @Test
     public void testExcessHetForMultiallelicVC_compondHetsRefAltFlip() {
         //make sure that compound gets (with no ref) don't add to het count
-        VariantContext test1 = makeVC("1", Arrays.asList(Aref, T, C),
+        final VariantContext test1 = makeVC("1", Arrays.asList(Aref, T, C),
                 makeG("s1", Aref, T, 2530, 0, 7099, 366, 3056, 14931),
                 makeG("s2", T, T, 7099, 2530, 0, 7099, 366, 3056),
                 makeG("s3", T, C, 7099, 2530, 7099, 3056, 0, 14931),
@@ -75,7 +75,7 @@ public final class ExcessHetUnitTest extends BaseTest {
     @Test
     public void testExcessHetForMultiallelicVC_differentAlts() {
         //make sure that hets with different alternate alleles all get counted
-        VariantContext test2 = makeVC("2", Arrays.asList(Aref, T, C),
+        final VariantContext test2 = makeVC("2", Arrays.asList(Aref, T, C),
                 makeG("s1", Aref, C, 4878, 1623, 11297, 0, 7970, 8847),
                 makeG("s2", Aref, T, 2530, 0, 7099, 366, 3056, 14931),
                 makeG("s3", Aref, T, 3382, 0, 6364, 1817, 5867, 12246),
@@ -108,7 +108,7 @@ public final class ExcessHetUnitTest extends BaseTest {
         }
 
         allGTs.add(makeG("het0", Aref, T, hetPLs));
-        int numHetGTs = 1;
+        final int numHetGTs = 1;
 
         final VariantContext singleton = makeVC("singleton", Arrays.asList(Aref, T), allGTs.toArray(new Genotype[allGTs.size()]));
         final double singletonValue = new ExcessHet().calculateEH(singleton, singleton.getGenotypes()).getValue();
@@ -203,7 +203,7 @@ public final class ExcessHetUnitTest extends BaseTest {
 
 
     @Test(dataProvider = "smallSets")
-    public void smallSets(int hetCount, int homrefCount, int homvarCount, double expected) {
+    public void smallSets(final int hetCount, final int homrefCount, final int homvarCount, final double expected) {
         final double actual = ExcessHet.exactTest(hetCount, homrefCount, homvarCount);
         Assert.assertEquals(actual, expected, DELTA_PRECISION, "Pass");
     }

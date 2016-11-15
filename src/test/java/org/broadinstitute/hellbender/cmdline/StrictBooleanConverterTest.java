@@ -8,7 +8,7 @@ import org.testng.annotations.Test;
 public final class StrictBooleanConverterTest {
     @Test
     public void recognizedValues(){
-        StrictBooleanConverter converter = new StrictBooleanConverter();
+        final StrictBooleanConverter converter = new StrictBooleanConverter();
         Assert.assertEquals("true", converter.convert("true"));
         Assert.assertEquals("true", converter.convert("T"));
         Assert.assertEquals("true",converter.convert("TRUE"));
@@ -18,7 +18,7 @@ public final class StrictBooleanConverterTest {
 
     @Test(expectedExceptions = ValueConversionException.class)
     public void unrecognizedValues(){
-        StrictBooleanConverter converter = new StrictBooleanConverter();
+        final StrictBooleanConverter converter = new StrictBooleanConverter();
         converter.convert("unprovable");
     }
 

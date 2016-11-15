@@ -47,8 +47,8 @@ public final class CollectMultipleMetricsIntegrationTest extends CommandLineProg
             final String referenceName,
             final String expectedInsertSizeResults) throws IOException {
 
-        ArgumentsBuilder args = new ArgumentsBuilder();
-        String outBase = setupMultipleCollector(args, fileName, referenceName);
+        final ArgumentsBuilder args = new ArgumentsBuilder();
+        final String outBase = setupMultipleCollector(args, fileName, referenceName);
 
         // for now, run the only two conforming collectors that we have
         args.add("--PROGRAM");
@@ -67,7 +67,7 @@ public final class CollectMultipleMetricsIntegrationTest extends CommandLineProg
         // create a directory to contain the results since there will be multiple collectors
         // and each may create multiple files
         final File outDir = BaseTest.createTempDir("collectMultiMetricsTest" );
-        String outBase = outDir.getAbsolutePath() + "/collectMultiMetrics";
+        final String outBase = outDir.getAbsolutePath() + "/collectMultiMetrics";
 
         // IO arguments
         args.add("-" + StandardArgumentDefinitions.INPUT_SHORT_NAME);
@@ -88,7 +88,7 @@ public final class CollectMultipleMetricsIntegrationTest extends CommandLineProg
     }
 
     private void validateInsertSizeMetrics(final String outBase, final String expectedResults) throws IOException {
-        String localOut = outBase + "." + InsertSizeMetrics.getUniqueNameSuffix() + ".txt";
+        final String localOut = outBase + "." + InsertSizeMetrics.getUniqueNameSuffix() + ".txt";
 
         IntegrationTestSpec.assertEqualTextFiles(
                 new File(localOut),
@@ -103,7 +103,7 @@ public final class CollectMultipleMetricsIntegrationTest extends CommandLineProg
     public static class TestCustomCollector extends SinglePassSamProgram {
         long count = 0;
         public void initialize(
-                MetricsArgumentCollection inputArgs, SAMFileHeader samHeader, List<Header> defaultHeaders) {}
+                final MetricsArgumentCollection inputArgs, final SAMFileHeader samHeader, final List<Header> defaultHeaders) {}
         @Override
         protected void setup(final SAMFileHeader header, final File samFile) {}
         @Override
@@ -123,11 +123,11 @@ public final class CollectMultipleMetricsIntegrationTest extends CommandLineProg
             // Test CollectMultipleMetricsSpark with a custom collector
             final TestCustomCollector testCollector = new TestCustomCollector();
 
-            ArgumentsBuilder args = new ArgumentsBuilder();
+            final ArgumentsBuilder args = new ArgumentsBuilder();
             setupMultipleCollector(args, fileName, referenceName);
 
             // CollectMultipleMetrics provider that creates an initializes a custom collector
-            CollectMultipleMetrics.ProgramInterface customProvider = new CollectMultipleMetrics.ProgramInterface() {
+            final CollectMultipleMetrics.ProgramInterface customProvider = new CollectMultipleMetrics.ProgramInterface() {
                 @Override
                 public SinglePassSamProgram makeInstance(final String outbase) {
                     return testCollector;
@@ -135,7 +135,7 @@ public final class CollectMultipleMetricsIntegrationTest extends CommandLineProg
             };
 
             // Manually create a tool and programmatically set the custome collector as the one to run
-            CollectMultipleMetrics multipleCollectorTool = new CollectMultipleMetrics();
+            final CollectMultipleMetrics multipleCollectorTool = new CollectMultipleMetrics();
             multipleCollectorTool.setProgramsToRun(Collections.singletonList(customProvider));
             multipleCollectorTool.instanceMain(args.getArgsArray());
 

@@ -127,7 +127,7 @@ public final class RecalibrationReport {
      * @param allReadGroups a set of all of the read groups across inputs
      * @param inputReadGroups a map from file to the read groups that file contains
      */
-    private static void logTablesWithMissingReadGroups(SortedSet<String> allReadGroups, Map<File, Set<String>> inputReadGroups) {
+    private static void logTablesWithMissingReadGroups(final SortedSet<String> allReadGroups, final Map<File, Set<String>> inputReadGroups) {
         // Log the read groups that are missing from specific inputs
         for (final Map.Entry<File, Set<String>> entry: inputReadGroups.entrySet()) {
             final File input = entry.getKey();
@@ -301,7 +301,7 @@ public final class RecalibrationReport {
      * @param table the GATKReportTable containing the quantization mappings
      * @return an ArrayList with the quantization mappings from 0 to MAX_SAM_QUAL_SCORE
      */
-    private static QuantizationInfo initializeQuantizationTable(GATKReportTable table) {
+    private static QuantizationInfo initializeQuantizationTable(final GATKReportTable table) {
         final Byte[] quals  = new Byte[QualityUtils.MAX_SAM_QUAL_SCORE + 1];
         final Long[] counts = new Long[QualityUtils.MAX_SAM_QUAL_SCORE + 1];
         for ( int i = 0; i < table.getNumRows(); i++ ) {
@@ -322,7 +322,7 @@ public final class RecalibrationReport {
      * @param table the GATKReportTable containing the arguments and its corresponding values
      * @return a RAC object properly initialized with all the objects in the table
      */
-    private static RecalibrationArgumentCollection initializeArgumentCollectionTable(GATKReportTable table) {
+    private static RecalibrationArgumentCollection initializeArgumentCollectionTable(final GATKReportTable table) {
         final RecalibrationArgumentCollection RAC = new RecalibrationArgumentCollection();
 
         final List<String> standardCovariateClassNames = new StandardCovariateList(RAC, Collections.emptyList()).getStandardCovariateClassNames();

@@ -21,7 +21,7 @@ public final class ByteArrayIterator implements Iterator<Byte> {
      * Iterates through this array, starting at index 'firstIndex' and going until
      * (but not including) index 'stopIndex'.
      */
-    public ByteArrayIterator( final byte[] byteArray, int firstIndex, int stopIndex ) {
+    public ByteArrayIterator(final byte[] byteArray, final int firstIndex, final int stopIndex ) {
         if (!(byteArray.length==0 && firstIndex==0)) {
             // special case: empty buffer, we can start at 0 even though it's technically outside.
             Utils.validIndex(firstIndex, byteArray.length);

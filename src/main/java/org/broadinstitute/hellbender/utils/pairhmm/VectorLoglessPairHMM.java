@@ -33,7 +33,7 @@ public final class VectorLoglessPairHMM extends LoglessPairHMM {
     private final Map<Haplotype, Integer> haplotypeToHaplotypeListIdxMap = new LinkedHashMap<>();
     private HaplotypeDataHolder[] mHaplotypeDataArray;
 
-    public VectorLoglessPairHMM(PairHMMNativeArguments args) throws UserException.HardwareFeatureException {
+    public VectorLoglessPairHMM(final PairHMMNativeArguments args) throws UserException.HardwareFeatureException {
         // TODO: connect GATK temp directory
         final boolean isSupported = new IntelPairHmm().load(null);
 
@@ -54,7 +54,7 @@ public final class VectorLoglessPairHMM extends LoglessPairHMM {
     public void initialize(final List<Haplotype> haplotypes, final Map<String, List<GATKRead>> perSampleReadList,
                            final int readMaxLength, final int haplotypeMaxLength) {
         // do not need to call super.initialize()
-        int numHaplotypes = haplotypes.size();
+        final int numHaplotypes = haplotypes.size();
         mHaplotypeDataArray = new HaplotypeDataHolder[numHaplotypes];
         int idx = 0;
         haplotypeToHaplotypeListIdxMap.clear();
@@ -79,11 +79,11 @@ public final class VectorLoglessPairHMM extends LoglessPairHMM {
         if (doProfiling) {
             startTime = System.nanoTime();
         }
-        int readListSize = processedReads.size();
-        int numHaplotypes = logLikelihoods.numberOfAlleles();
-        ReadDataHolder[] readDataArray = new ReadDataHolder[readListSize];
+        final int readListSize = processedReads.size();
+        final int numHaplotypes = logLikelihoods.numberOfAlleles();
+        final ReadDataHolder[] readDataArray = new ReadDataHolder[readListSize];
         int idx = 0;
-        for (GATKRead read : processedReads) {
+        for (final GATKRead read : processedReads) {
             readDataArray[idx] = new ReadDataHolder();
             readDataArray[idx].readBases = read.getBases();
             readDataArray[idx].readQuals = read.getBaseQualities();

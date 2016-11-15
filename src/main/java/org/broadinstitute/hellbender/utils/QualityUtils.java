@@ -350,7 +350,7 @@ public final class QualityUtils {
      * @param qual the uncapped quality score as an integer
      * @return the bounded quality score
      */
-    public static byte boundQual(int qual) {
+    public static byte boundQual(final int qual) {
         return boundQual(qual, MAX_SAM_QUAL_SCORE);
     }
 

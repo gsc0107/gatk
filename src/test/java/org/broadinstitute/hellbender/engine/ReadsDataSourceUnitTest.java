@@ -26,19 +26,19 @@ public final class ReadsDataSourceUnitTest extends BaseTest {
 
     @Test(expectedExceptions = IllegalArgumentException.class)
     public void testHandleNullFile() {
-        Path nullFile = null;
-        ReadsDataSource readsSource = new ReadsDataSource(nullFile);
+        final Path nullFile = null;
+        final ReadsDataSource readsSource = new ReadsDataSource(nullFile);
     }
 
     @Test(expectedExceptions = IllegalArgumentException.class)
     public void testHandleNullFileList() {
-        List<Path> nullList = null;
-        ReadsDataSource readsSource = new ReadsDataSource(nullList);
+        final List<Path> nullList = null;
+        final ReadsDataSource readsSource = new ReadsDataSource(nullList);
     }
 
     @Test(expectedExceptions = IllegalArgumentException.class)
     public void testHandleEmptyFileList() {
-        ReadsDataSource readsSource = new ReadsDataSource(new ArrayList<>());
+        final ReadsDataSource readsSource = new ReadsDataSource(new ArrayList<>());
     }
 
     @Test(expectedExceptions = UserException.CouldNotReadInputFile.class)
@@ -51,7 +51,7 @@ public final class ReadsDataSourceUnitTest extends BaseTest {
         // Cannot initialize a reads source with intervals unless all files are indexed
         final Path unindexed = IOUtils.getPath(READS_DATA_SOURCE_TEST_DIRECTORY + "unindexed.bam");
         Assert.assertNull(SamFiles.findIndex(unindexed), "Expected file to have no index, but found an index file. " + unindexed.toAbsolutePath());
-        ReadsDataSource readsSource = new ReadsDataSource(unindexed);
+        final ReadsDataSource readsSource = new ReadsDataSource(unindexed);
         readsSource.setTraversalBounds(Arrays.asList(new SimpleInterval("1", 1, 5)));
     }
 
@@ -60,7 +60,7 @@ public final class ReadsDataSourceUnitTest extends BaseTest {
         // Construction should succeed, since we don't pass in any intervals, but the query should throw.
         final Path unindexed = IOUtils.getPath(READS_DATA_SOURCE_TEST_DIRECTORY + "unindexed.bam");
         Assert.assertNull(SamFiles.findIndex(unindexed), "Expected file to have no index, but found an index file" + unindexed.toAbsolutePath());
-        ReadsDataSource readsSource = new ReadsDataSource(unindexed);
+        final ReadsDataSource readsSource = new ReadsDataSource(unindexed);
         readsSource.query(new SimpleInterval("1", 1, 5));
     }
 
@@ -97,8 +97,8 @@ public final class ReadsDataSourceUnitTest extends BaseTest {
     @Test(dataProvider = "SingleFileCompleteTraversalData")
     public void testSingleFileCompleteTraversal( final Path samFile, final List<String> expectedReadNames ) {
         try (ReadsDataSource readsSource = new ReadsDataSource(samFile)) {
-            List<GATKRead> reads = new ArrayList<>();
-            for ( GATKRead read : readsSource ) {
+            final List<GATKRead> reads = new ArrayList<>();
+            for ( final GATKRead read : readsSource ) {
                 reads.add(read);
             }
     
@@ -148,8 +148,8 @@ public final class ReadsDataSourceUnitTest extends BaseTest {
         try (ReadsDataSource readsSource = new ReadsDataSource(samFile)) {
             readsSource.setTraversalBounds(intervals);
 
-            List<GATKRead> reads = new ArrayList<>();
-            for ( GATKRead read : readsSource ) {
+            final List<GATKRead> reads = new ArrayList<>();
+            for ( final GATKRead read : readsSource ) {
                 reads.add(read);
             }
 
@@ -198,8 +198,8 @@ public final class ReadsDataSourceUnitTest extends BaseTest {
     public void testSingleFileQueryByInterval( final Path samFile, final SimpleInterval interval, final List<String> expectedReadNames ) {
         try (ReadsDataSource readsSource = new ReadsDataSource(samFile)) {
 
-            List<GATKRead> reads = new ArrayList<>();
-            Iterator<GATKRead> queryIterator = readsSource.query(interval);
+            final List<GATKRead> reads = new ArrayList<>();
+            final Iterator<GATKRead> queryIterator = readsSource.query(interval);
             while (queryIterator.hasNext()) {
                 reads.add(queryIterator.next());
             }
@@ -228,9 +228,9 @@ public final class ReadsDataSourceUnitTest extends BaseTest {
     @Test(dataProvider = "MultipleFilesCompleteTraversalData")
     public void testMultipleFilesCompleteTraversal(final List<Path> samFiles, final List<String> expectedReadNames) {
         try (ReadsDataSource readsSource = new ReadsDataSource(samFiles)) {
-            List<GATKRead> reads = new ArrayList<>();
+            final List<GATKRead> reads = new ArrayList<>();
 
-            for (GATKRead read : readsSource) {
+            for (final GATKRead read : readsSource) {
                 reads.add(read);
             }
 
@@ -280,8 +280,8 @@ public final class ReadsDataSourceUnitTest extends BaseTest {
         try (ReadsDataSource readsSource = new ReadsDataSource(samFiles)) {
             readsSource.setTraversalBounds(intervals);
 
-            List<GATKRead> reads = new ArrayList<>();
-            for (GATKRead read : readsSource) {
+            final List<GATKRead> reads = new ArrayList<>();
+            for (final GATKRead read : readsSource) {
                 reads.add(read);
             }
 
@@ -326,8 +326,8 @@ public final class ReadsDataSourceUnitTest extends BaseTest {
     public void testMultipleFilesQueryByInterval( final List<Path> samFiles, final SimpleInterval interval, final List<String> expectedReadNames ) {
         try (ReadsDataSource readsSource = new ReadsDataSource(samFiles)) {
 
-            List<GATKRead> reads = new ArrayList<>();
-            Iterator<GATKRead> queryIterator = readsSource.query(interval);
+            final List<GATKRead> reads = new ArrayList<>();
+            final Iterator<GATKRead> queryIterator = readsSource.query(interval);
             while (queryIterator.hasNext()) {
                 reads.add(queryIterator.next());
             }
@@ -407,8 +407,8 @@ public final class ReadsDataSourceUnitTest extends BaseTest {
                 Assert.assertFalse(readsSource.traversalIsBounded());
             }
 
-            List<GATKRead> reads = new ArrayList<>();
-            for ( GATKRead read : readsSource ) {
+            final List<GATKRead> reads = new ArrayList<>();
+            for ( final GATKRead read : readsSource ) {
                 reads.add(read);
             }
 
@@ -433,8 +433,8 @@ public final class ReadsDataSourceUnitTest extends BaseTest {
     @Test(dataProvider = "QueryUnmappedTestData")
     public void testQueryUnmapped( final Path samFile, final List<String> expectedReadNames ) {
         try (ReadsDataSource readsSource = new ReadsDataSource(samFile)) {
-            List<GATKRead> reads = new ArrayList<>();
-            Iterator<GATKRead> queryIterator = readsSource.queryUnmapped();
+            final List<GATKRead> reads = new ArrayList<>();
+            final Iterator<GATKRead> queryIterator = readsSource.queryUnmapped();
             while (queryIterator.hasNext()) {
                 reads.add(queryIterator.next());
             }

@@ -31,7 +31,7 @@ public final class ReadCoordinateComparator implements Comparator<GATKRead>, Ser
     }
 
     @Override
-    public int compare( GATKRead first, GATKRead second ) {
+    public int compare(final GATKRead first, final GATKRead second ) {
         int result = compareCoordinates(first, second, header);
         if ( result != 0 ) {
             return result;

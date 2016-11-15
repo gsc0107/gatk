@@ -140,7 +140,7 @@ public final class SamAssertionUtils {
         assertCRAMContentsIfCRAM(actualSam);
         assertCRAMContentsIfCRAM(expectedSam);
 
-        String msg = equalHeadersIgnoreCOandPG(actualSam, expectedSam, validation, reference);
+        final String msg = equalHeadersIgnoreCOandPG(actualSam, expectedSam, validation, reference);
         if (msg != null) { return msg; }
 
         //At this point we know that the files are not byte-wise identical, but are equal according to SamComparison and their headers are equal
@@ -218,7 +218,7 @@ public final class SamAssertionUtils {
     }
 
     private static <T> String compareValues(final T v1, final T v2, final String label) {
-        boolean eq = Objects.equals(v1, v2);
+        final boolean eq = Objects.equals(v1, v2);
         if (eq) {
             return null;
         } else {

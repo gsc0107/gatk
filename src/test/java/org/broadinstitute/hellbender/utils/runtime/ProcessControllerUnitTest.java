@@ -21,7 +21,7 @@ public final class ProcessControllerUnitTest extends BaseTest {
 
     @Test
     public void testReuseAfterError() {
-        ProcessController controller = new ProcessController();
+        final ProcessController controller = new ProcessController();
 
         ProcessSettings job;
 
@@ -30,7 +30,7 @@ public final class ProcessControllerUnitTest extends BaseTest {
             job = new ProcessSettings(new String[] {"no_such_command"});
             try {
                 controller.exec(job);
-            } catch (GATKException e) {
+            } catch (final GATKException e) {
                 /* Was supposed to throw an exception */
             }
 
@@ -48,20 +48,20 @@ public final class ProcessControllerUnitTest extends BaseTest {
 
     @Test
     public void testEnvironment() {
-        String key = "MY_NEW_VAR";
-        String value = "value is here";
+        final String key = "MY_NEW_VAR";
+        final String value = "value is here";
 
-        ProcessSettings job = new ProcessSettings(new String[] {"sh", "-c", "echo $"+key});
+        final ProcessSettings job = new ProcessSettings(new String[] {"sh", "-c", "echo $"+key});
         job.getStdoutSettings().setBufferSize(-1);
         job.setRedirectErrorStream(true);
 
-        Map<String, String> env = new LinkedHashMap<>(System.getenv());
+        final Map<String, String> env = new LinkedHashMap<>(System.getenv());
         env.put(key, value);
         job.setEnvironment(env);
 
-        ProcessController controller = new ProcessController();
-        ProcessOutput result = controller.exec(job);
-        int exitValue = result.getExitValue();
+        final ProcessController controller = new ProcessController();
+        final ProcessOutput result = controller.exec(job);
+        final int exitValue = result.getExitValue();
 
         Assert.assertEquals(exitValue, 0, "Echo environment variable failed");
         Assert.assertEquals(result.getStdout().getBufferString(), value + NL, "Echo environment returned unexpected output");
@@ -69,16 +69,16 @@ public final class ProcessControllerUnitTest extends BaseTest {
 
     @Test
     public void testDirectory() throws IOException {
-        File dir = createTempDir("temp.").getCanonicalFile();
+        final File dir = createTempDir("temp.").getCanonicalFile();
 
-        ProcessSettings job = new ProcessSettings(new String[] {"pwd"});
+        final ProcessSettings job = new ProcessSettings(new String[] {"pwd"});
         job.getStdoutSettings().setBufferSize(-1);
         job.setRedirectErrorStream(true);
         job.setDirectory(dir);
 
-        ProcessController controller = new ProcessController();
-        ProcessOutput result = controller.exec(job);
-        int exitValue = result.getExitValue();
+        final ProcessController controller = new ProcessController();
+        final ProcessOutput result = controller.exec(job);
+        final int exitValue = result.getExitValue();
 
         Assert.assertEquals(exitValue, 0, "Getting working directory failed");
 
@@ -88,14 +88,14 @@ public final class ProcessControllerUnitTest extends BaseTest {
 
     @Test
     public void testReadStdInBuffer() {
-        String bufferText = "Hello from buffer";
-        ProcessSettings job = new ProcessSettings(new String[] {"cat"});
+        final String bufferText = "Hello from buffer";
+        final ProcessSettings job = new ProcessSettings(new String[] {"cat"});
         job.getStdoutSettings().setBufferSize(-1);
         job.setRedirectErrorStream(true);
         job.getStdinSettings().setInputBuffer(bufferText);
 
-        ProcessController controller = new ProcessController();
-        ProcessOutput output = controller.exec(job);
+        final ProcessController controller = new ProcessController();
+        final ProcessOutput output = controller.exec(job);
 
         Assert.assertEquals(output.getStdout().getBufferString(), bufferText,
                 "Unexpected output from cat stdin buffer");
@@ -105,16 +105,16 @@ public final class ProcessControllerUnitTest extends BaseTest {
     public void testReadStdInFile() {
         File input = null;
         try {
-            String fileText = "Hello from file";
+            final String fileText = "Hello from file";
             input = IOUtils.writeTempFile(fileText, "stdin.", ".txt");
 
-            ProcessSettings job = new ProcessSettings(new String[] {"cat"});
+            final ProcessSettings job = new ProcessSettings(new String[] {"cat"});
             job.getStdoutSettings().setBufferSize(-1);
             job.setRedirectErrorStream(true);
             job.getStdinSettings().setInputFile(input);
 
-            ProcessController controller = new ProcessController();
-            ProcessOutput output = controller.exec(job);
+            final ProcessController controller = new ProcessController();
+            final ProcessOutput output = controller.exec(job);
 
             Assert.assertEquals(output.getStdout().getBufferString(), fileText,
                     "Unexpected output from cat stdin file");
@@ -125,13 +125,13 @@ public final class ProcessControllerUnitTest extends BaseTest {
 
     @Test
     public void testWriteStdOut() {
-        ProcessSettings job = new ProcessSettings(new String[] {"echo", "Testing to stdout"});
+        final ProcessSettings job = new ProcessSettings(new String[] {"echo", "Testing to stdout"});
         // Not going to call the System.setOut() for now. Just running a basic visual test.
         job.getStdoutSettings().printStandard(true);
         job.setRedirectErrorStream(true);
 
 //        System.out.println("testWriteStdOut: Writing two lines to std out...");
-        ProcessController controller = new ProcessController();
+        final ProcessController controller = new ProcessController();
         controller.exec(job);
         job.setCommand(new String[]{"cat", "non_existent_file"});
         controller.exec(job);
@@ -146,15 +146,15 @@ public final class ProcessControllerUnitTest extends BaseTest {
             outFile = BaseTest.createTempFile("temp", "");
             errFile = BaseTest.createTempFile("temp", "");
 
-            ProcessSettings job = new ProcessSettings(new String[]{"cat", "non_existent_file"});
+            final ProcessSettings job = new ProcessSettings(new String[]{"cat", "non_existent_file"});
             job.getStdoutSettings().setOutputFile(outFile);
             job.getStdoutSettings().setBufferSize(-1);
             job.getStderrSettings().setOutputFile(errFile);
             job.getStderrSettings().setBufferSize(-1);
             job.setRedirectErrorStream(true);
 
-            ProcessOutput result = new ProcessController().exec(job);
-            int exitValue = result.getExitValue();
+            final ProcessOutput result = new ProcessController().exec(job);
+            final int exitValue = result.getExitValue();
 
             Assert.assertTrue(exitValue != 0, "'cat' non existent file returned 0");
 
@@ -188,15 +188,15 @@ public final class ProcessControllerUnitTest extends BaseTest {
             outFile = BaseTest.createTempFile("temp", "");
             errFile = BaseTest.createTempFile("temp", "");
 
-            ProcessSettings job = new ProcessSettings(new String[]{"cat", "non_existent_file"});
+            final ProcessSettings job = new ProcessSettings(new String[]{"cat", "non_existent_file"});
             job.getStdoutSettings().setOutputFile(outFile);
             job.getStdoutSettings().setBufferSize(-1);
             job.getStderrSettings().setOutputFile(errFile);
             job.getStderrSettings().setBufferSize(-1);
             job.setRedirectErrorStream(false);
 
-            ProcessOutput result = new ProcessController().exec(job);
-            int exitValue = result.getExitValue();
+            final ProcessOutput result = new ProcessController().exec(job);
+            final int exitValue = result.getExitValue();
 
             Assert.assertTrue(exitValue != 0, "'cat' non existent file returned 0");
 
@@ -230,7 +230,7 @@ public final class ProcessControllerUnitTest extends BaseTest {
      */
     @DataProvider(name = "truncateSizes")
     public Object[][] getTruncateBufferSizes() {
-        int l = TRUNCATE_OUTPUT_BYTES.length;
+        final int l = TRUNCATE_OUTPUT_BYTES.length;
         return new Object[][]{
                 new Object[]{0, 0},
                 new Object[]{l, l},
@@ -240,27 +240,27 @@ public final class ProcessControllerUnitTest extends BaseTest {
     }
 
     @Test(dataProvider = "truncateSizes")
-    public void testTruncateBuffer(int truncateLen, int expectedLen) {
-        byte[] expected = Arrays.copyOf(TRUNCATE_OUTPUT_BYTES, expectedLen);
+    public void testTruncateBuffer(final int truncateLen, final int expectedLen) {
+        final byte[] expected = Arrays.copyOf(TRUNCATE_OUTPUT_BYTES, expectedLen);
 
-        String[] command = {"echo", TRUNCATE_TEXT};
-        ProcessController controller = new ProcessController();
+        final String[] command = {"echo", TRUNCATE_TEXT};
+        final ProcessController controller = new ProcessController();
 
-        ProcessSettings job = new ProcessSettings(command);
+        final ProcessSettings job = new ProcessSettings(command);
         job.getStdoutSettings().setBufferSize(truncateLen);
-        ProcessOutput result = controller.exec(job);
+        final ProcessOutput result = controller.exec(job);
 
-        int exitValue = result.getExitValue();
+        final int exitValue = result.getExitValue();
 
         Assert.assertEquals(exitValue, 0,
                 String.format("Echo returned %d: %s", exitValue, TRUNCATE_TEXT));
 
-        byte[] bufferBytes = result.getStdout().getBufferBytes();
+        final byte[] bufferBytes = result.getStdout().getBufferBytes();
 
         Assert.assertEquals(bufferBytes, expected,
                 String.format("Output buffer didn't match (%d vs %d)", expected.length, bufferBytes.length));
 
-        boolean truncated = result.getStdout().isBufferTruncated();
+        final boolean truncated = result.getStdout().isBufferTruncated();
 
         Assert.assertEquals(truncated, TRUNCATE_OUTPUT_BYTES.length > truncateLen,
                 "Unexpected buffer truncation result");
@@ -278,7 +278,7 @@ public final class ProcessControllerUnitTest extends BaseTest {
         new EchoCommand(new String[]{"echo", "Hello", "World'"}, "Hello World'" + NL);
         new EchoCommand(new String[]{"echo", "'Hello", "World'"}, "'Hello World'" + NL);
 
-        String[] longCommand = new String[LONG_COMMAND.length + 1];
+        final String[] longCommand = new String[LONG_COMMAND.length + 1];
         longCommand[0] = "echo";
         System.arraycopy(LONG_COMMAND, 0, longCommand, 1, LONG_COMMAND.length);
         new EchoCommand(longCommand, LONG_COMMAND_STRING + NL) {
@@ -292,31 +292,31 @@ public final class ProcessControllerUnitTest extends BaseTest {
     }
 
     @Test(dataProvider = "echoCommands")
-    public void testEcho(EchoCommand script) throws IOException {
+    public void testEcho(final EchoCommand script) throws IOException {
         File outputFile = null;
         try {
             outputFile = BaseTest.createTempFile("temp", "");
 
-            ProcessSettings job = new ProcessSettings(script.command);
+            final ProcessSettings job = new ProcessSettings(script.command);
             if (script.output != null) {
                 job.getStdoutSettings().setOutputFile(outputFile);
                 job.getStdoutSettings().setBufferSize(script.output.getBytes().length);
             }
 
-            ProcessOutput result = new ProcessController().exec(job);
-            int exitValue = result.getExitValue();
+            final ProcessOutput result = new ProcessController().exec(job);
+            final int exitValue = result.getExitValue();
 
             Assert.assertEquals(exitValue, 0,
                     String.format("Echo returned %d: %s", exitValue, script));
 
             if (script.output != null) {
 
-                String fileString = FileUtils.readFileToString(outputFile);
+                final String fileString = FileUtils.readFileToString(outputFile);
                 Assert.assertEquals(fileString, script.output,
                         String.format("Output file didn't match (%d vs %d): %s",
                                 fileString.length(), script.output.length(), script));
 
-                String bufferString = result.getStdout().getBufferString();
+                final String bufferString = result.getStdout().getBufferString();
                 Assert.assertEquals(bufferString, script.output,
                         String.format("Output content didn't match (%d vs %d): %s",
                                 bufferString.length(), script.output.length(), script));
@@ -331,7 +331,7 @@ public final class ProcessControllerUnitTest extends BaseTest {
 
     @Test(expectedExceptions = GATKException.class)
     public void testUnableToStart() {
-        ProcessSettings job = new ProcessSettings(new String[]{"no_such_command"});
+        final ProcessSettings job = new ProcessSettings(new String[]{"no_such_command"});
         new ProcessController().exec(job);
     }
 
@@ -358,33 +358,33 @@ public final class ProcessControllerUnitTest extends BaseTest {
     }
 
     @Test(dataProvider = "scriptCommands")
-    public void testScript(ScriptCommand script) throws IOException {
+    public void testScript(final ScriptCommand script) throws IOException {
         File scriptFile = null;
         File outputFile = null;
         try {
             scriptFile = writeScript(script.content);
             outputFile = BaseTest.createTempFile("temp", "");
 
-            ProcessSettings job = new ProcessSettings(new String[]{"sh", scriptFile.getAbsolutePath()});
+            final ProcessSettings job = new ProcessSettings(new String[]{"sh", scriptFile.getAbsolutePath()});
             if (script.output != null) {
                 job.getStdoutSettings().setOutputFile(outputFile);
                 job.getStdoutSettings().setBufferSize(script.output.getBytes().length);
             }
 
-            ProcessOutput result = new ProcessController().exec(job);
-            int exitValue = result.getExitValue();
+            final ProcessOutput result = new ProcessController().exec(job);
+            final int exitValue = result.getExitValue();
 
             Assert.assertEquals(exitValue == 0, script.succeed,
                     String.format("Script returned %d: %s", exitValue, script));
 
             if (script.output != null) {
 
-                String fileString = FileUtils.readFileToString(outputFile);
+                final String fileString = FileUtils.readFileToString(outputFile);
                 Assert.assertEquals(fileString, script.output,
                         String.format("Output file didn't match (%d vs %d): %s",
                                 fileString.length(), script.output.length(), script));
 
-                String bufferString = result.getStdout().getBufferString();
+                final String bufferString = result.getStdout().getBufferString();
                 Assert.assertEquals(bufferString, script.output,
                         String.format("Output content didn't match (%d vs %d): %s",
                                 bufferString.length(), script.output.length(), script));
@@ -401,20 +401,20 @@ public final class ProcessControllerUnitTest extends BaseTest {
     private static String[] getLongCommand() {
         // This command fails on some systems with a 4096 character limit when run via the old sh -c "echo ...",
         // but works on the same systems when run via sh <script>
-        int cnt = 500;
-        String[] command = new String[cnt];
+        final int cnt = 500;
+        final String[] command = new String[cnt];
         for (int i = 1; i <= cnt; i++) {
             command[i - 1] = String.format("%03d______", i);
         }
         return command;
     }
 
-    private static File writeScript(String contents) {
+    private static File writeScript(final String contents) {
         try {
-            File file = BaseTest.createTempFile("temp", "");
+            final File file = BaseTest.createTempFile("temp", "");
             FileUtils.writeStringToFile(file, contents);
             return file;
-        } catch (IOException e) {
+        } catch (final IOException e) {
             throw new UserException.BadTmpDir(e.getMessage());
         }
     }
@@ -423,7 +423,7 @@ public final class ProcessControllerUnitTest extends BaseTest {
         public final String[] command;
         public final String output;
 
-        public EchoCommand(String[] command, String output) {
+        public EchoCommand(final String[] command, final String output) {
             super(EchoCommand.class);
             this.command = command;
             this.output = output;
@@ -440,7 +440,7 @@ public final class ProcessControllerUnitTest extends BaseTest {
         public final String content;
         public final String output;
 
-        public ScriptCommand(boolean succeed, String content, String output) {
+        public ScriptCommand(final boolean succeed, final String content, final String output) {
             super(ScriptCommand.class);
             this.succeed = succeed;
             this.content = content;

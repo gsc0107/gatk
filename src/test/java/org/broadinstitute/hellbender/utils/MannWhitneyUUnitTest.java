@@ -36,11 +36,11 @@ public final class MannWhitneyUUnitTest {
     }
 
     private static double z(final double[] d1, final double[] d2, final boolean dither){
-        MannWhitneyU mwu = new MannWhitneyU(dither);
-        for ( double dp : d1 ) {
+        final MannWhitneyU mwu = new MannWhitneyU(dither);
+        for ( final double dp : d1 ) {
             mwu.add(dp,MannWhitneyU.USet.SET1);
         }
-        for ( double dp : d2 ) {
+        for ( final double dp : d2 ) {
             mwu.add(dp,MannWhitneyU.USet.SET2);
         }
         final Pair<Double, Double> pair = mwu.runOneSidedTest(MannWhitneyU.USet.SET1);

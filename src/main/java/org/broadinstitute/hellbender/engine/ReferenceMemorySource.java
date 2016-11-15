@@ -56,8 +56,8 @@ public final class ReferenceMemorySource implements ReferenceDataSource {
     @Override
     public Iterator<Byte> query( final SimpleInterval interval ) {
 
-        int startIndex = (interval.getStart() - bases.getInterval().getStart());
-        int stopIndex = startIndex + interval.size();
+        final int startIndex = (interval.getStart() - bases.getInterval().getStart());
+        final int stopIndex = startIndex + interval.size();
 
         return new ByteArrayIterator(bases.getBases(), startIndex, stopIndex);
     }
@@ -88,9 +88,9 @@ public final class ReferenceMemorySource implements ReferenceDataSource {
     @Override
     public ReferenceSequence queryAndPrefetch( final String contig, final long start , final long stop) {
         final int contigIndex = sequenceDictionary.getSequenceIndex(contig);
-        int startIndex = (int)(start - bases.getInterval().getStart());
-        int length = (int)(stop - start + 1);
-        byte[] basesBytes = bases.getBases();
+        final int startIndex = (int)(start - bases.getInterval().getStart());
+        final int length = (int)(stop - start + 1);
+        final byte[] basesBytes = bases.getBases();
         if (startIndex==0 && length==basesBytes.length) {
             // special case: no need to make a copy
             return new ReferenceSequence(contig, contigIndex, basesBytes);

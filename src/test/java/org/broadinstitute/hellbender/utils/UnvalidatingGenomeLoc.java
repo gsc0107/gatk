@@ -14,7 +14,7 @@ package org.broadinstitute.hellbender.utils;
 @SuppressWarnings("serial")
 public final class UnvalidatingGenomeLoc extends GenomeLoc {
 
-    public UnvalidatingGenomeLoc(String contigName, int contigIndex, int start, int stop) {
+    public UnvalidatingGenomeLoc(final String contigName, final int contigIndex, final int start, final int stop) {
         super(contigName, contigIndex, start, stop);
     }
 }

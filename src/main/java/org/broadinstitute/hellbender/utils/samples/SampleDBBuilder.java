@@ -17,13 +17,13 @@ public class SampleDBBuilder {
     private final Set<Sample> samplesFromDataSources = new LinkedHashSet<>();
     private final Set<Sample> samplesFromPedigrees = new LinkedHashSet<>();
 
-    public SampleDBBuilder(PedigreeValidationType validationStrictness) {
+    public SampleDBBuilder(final PedigreeValidationType validationStrictness) {
         this.validationStrictness = validationStrictness;
     }
 
     public SampleDBBuilder addSamplesFromPedigreeFiles(final List<File> pedigreeFiles) {
         for (final File pedFile : pedigreeFiles) {
-            Collection<Sample> samples = addSamplesFromPedigreeArgument(pedFile);
+            final Collection<Sample> samples = addSamplesFromPedigreeArgument(pedFile);
             samplesFromPedigrees.addAll(samples);
         }
 
@@ -32,7 +32,7 @@ public class SampleDBBuilder {
 
     public SampleDBBuilder addSamplesFromPedigreeStrings(final List<String> pedigreeStrings) {
         for (final String pedString : pedigreeStrings) {
-            Collection<Sample> samples = addSamplesFromPedigreeArgument(pedString);
+            final Collection<Sample> samples = addSamplesFromPedigreeArgument(pedString);
             samplesFromPedigrees.addAll(samples);
         }
 
@@ -43,12 +43,12 @@ public class SampleDBBuilder {
      * Parse one sample file and integrate it with samples that are already there
      * Fail quickly if we find any errors in the file
      */
-    private Collection<Sample> addSamplesFromPedigreeArgument(File sampleFile) {
+    private Collection<Sample> addSamplesFromPedigreeArgument(final File sampleFile) {
         final PedReader reader = new PedReader();
 
         try {
             return reader.parse(sampleFile, getMissingFields(sampleFile), sampleDB);
-        } catch ( FileNotFoundException e ) {
+        } catch ( final FileNotFoundException e ) {
             throw new UserException.CouldNotReadInputFile(sampleFile, e);
         }
     }

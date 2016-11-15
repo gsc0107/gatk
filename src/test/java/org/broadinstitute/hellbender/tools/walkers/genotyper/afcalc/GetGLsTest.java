@@ -17,7 +17,7 @@ public final class GetGLsTest extends BaseTest.TestDataProvider {
     final double[] priors;
     final String priorName;
 
-    GetGLsTest(final AFCalculator calc, int numAltAlleles, List<Genotype> arg, final double[] priors, final String priorName) {
+    GetGLsTest(final AFCalculator calc, final int numAltAlleles, final List<Genotype> arg, final double[] priors, final String priorName) {
         super(GetGLsTest.class);
         GLs = GenotypesContext.create(new ArrayList<>(arg));
         this.numAltAlleles = numAltAlleles;
@@ -29,7 +29,7 @@ public final class GetGLsTest extends BaseTest.TestDataProvider {
         for ( int alleleI = 0; alleleI < expectedACs.length; alleleI++ ) {
             expectedACs[alleleI] = 0;
             final Allele allele = getAlleles().get(alleleI);
-            for ( Genotype g : arg ) {
+            for ( final Genotype g : arg ) {
                 expectedACs[alleleI] += Collections.frequency(g.getAlleles(), allele);
             }
         }
@@ -53,7 +53,7 @@ public final class GetGLsTest extends BaseTest.TestDataProvider {
     }
 
     public VariantContext getVC() {
-        VariantContextBuilder builder = new VariantContextBuilder("test", "1", 1, 1, getAlleles());
+        final VariantContextBuilder builder = new VariantContextBuilder("test", "1", 1, 1, getAlleles());
         builder.genotypes(GLs);
         return builder.make();
     }

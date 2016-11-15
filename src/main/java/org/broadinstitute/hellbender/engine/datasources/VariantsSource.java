@@ -19,7 +19,7 @@ public class VariantsSource {
      * getVariantsList grabs the variants from local files (or perhaps eventually buckets).
      * @param variantSources, list of files  to read from
      */
-    public static List<GATKVariant> getVariantsList( List<String> variantSources ) {
+    public static List<GATKVariant> getVariantsList(final List<String> variantSources ) {
         return getVariantsListAs(variantSources, vc -> new VariantContextVariantAdapter(vc));
     }
 
@@ -30,7 +30,7 @@ public class VariantsSource {
      * @param variantSources list of files  to read from
      * @param wrapFunction function applied to each VariantContext returned
      */
-    public static <T> List<T> getVariantsListAs( List<String> variantSources, Function<VariantContext, T> wrapFunction ) {
+    public static <T> List<T> getVariantsListAs(final List<String> variantSources, final Function<VariantContext, T> wrapFunction ) {
         final List<T> aggregatedResults = new ArrayList<>();
 
         for ( final String variantSource : variantSources ) {

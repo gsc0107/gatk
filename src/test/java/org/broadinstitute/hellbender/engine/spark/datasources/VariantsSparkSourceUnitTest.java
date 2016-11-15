@@ -32,24 +32,24 @@ public final class VariantsSparkSourceUnitTest extends BaseTest {
     }
 
     @Test(dataProvider = "loadVariants", groups = "spark")
-    public void pairReadsAndVariantsTest(String vcf) {
-        JavaSparkContext ctx = SparkContextFactory.getTestSparkContext();
+    public void pairReadsAndVariantsTest(final String vcf) {
+        final JavaSparkContext ctx = SparkContextFactory.getTestSparkContext();
 
-        VariantsSparkSource variantsSparkSource = new VariantsSparkSource(ctx);
-        JavaRDD<GATKVariant> rddParallelVariants =
+        final VariantsSparkSource variantsSparkSource = new VariantsSparkSource(ctx);
+        final JavaRDD<GATKVariant> rddParallelVariants =
                 variantsSparkSource.getParallelVariants(vcf, null);
 
-        List<GATKVariant> serialVariants = getSerialVariants(vcf);
-        List<GATKVariant> parallelVariants = rddParallelVariants.collect();
+        final List<GATKVariant> serialVariants = getSerialVariants(vcf);
+        final List<GATKVariant> parallelVariants = rddParallelVariants.collect();
         Assert.assertEquals(parallelVariants, serialVariants);
     }
 
     @Test(dataProvider = "loadVariants", groups = "spark")
-    public void pairReadsAndVariantsTest_variantContexts(String vcf) {
-        JavaSparkContext ctx = SparkContextFactory.getTestSparkContext();
+    public void pairReadsAndVariantsTest_variantContexts(final String vcf) {
+        final JavaSparkContext ctx = SparkContextFactory.getTestSparkContext();
 
-        VariantsSparkSource variantsSparkSource = new VariantsSparkSource(ctx);
-        JavaRDD<VariantContext> rddParallelVariantContexts =
+        final VariantsSparkSource variantsSparkSource = new VariantsSparkSource(ctx);
+        final JavaRDD<VariantContext> rddParallelVariantContexts =
                 variantsSparkSource.getParallelVariantContexts(vcf, null);
 
         VariantContextTestUtils.assertEqualVariants(getSerialVariantContexts(vcf), rddParallelVariantContexts.collect());
@@ -63,16 +63,16 @@ public final class VariantsSparkSourceUnitTest extends BaseTest {
     }
 
     @Test(dataProvider = "loadMultipleVCFs", groups = "spark")
-    public void getMultipleParallelVCFsTest(List<String> vcfList) {
-        JavaSparkContext ctx = SparkContextFactory.getTestSparkContext();
-        VariantsSparkSource variantsSparkSource = new VariantsSparkSource(ctx);
+    public void getMultipleParallelVCFsTest(final List<String> vcfList) {
+        final JavaSparkContext ctx = SparkContextFactory.getTestSparkContext();
+        final VariantsSparkSource variantsSparkSource = new VariantsSparkSource(ctx);
 
-        JavaRDD<GATKVariant> rddParallelVariants =
+        final JavaRDD<GATKVariant> rddParallelVariants =
                 variantsSparkSource.getParallelVariants(vcfList, null);
 
         // retrieve the same set of variants, but through VariantsSource, and wrapped by
         // the same wrapper class used by VariantsSparkSource to facilitate comparison
-        List<GATKVariant> variantsList =
+        final List<GATKVariant> variantsList =
                 VariantsSource.getVariantsListAs
                         (vcfList, vc -> VariantContextVariantAdapter.sparkVariantAdapter(vc));
 

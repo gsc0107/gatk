@@ -338,7 +338,7 @@ public class VariantDataManager {
                     value += vrac.MQ_JITTER * Utils.getRandomGenerator().nextGaussian();
                 }
             }
-        } catch( Exception e ) {
+        } catch( final Exception e ) {
             //TODO: what exception is this handling ? it seems overly broad
             value = Double.NaN; // The VQSR works with missing data by marginalizing over the missing dimension when evaluating the Gaussian mixture model
         }
@@ -358,7 +358,7 @@ public class VariantDataManager {
         datum.prior = 2.0;
 
         for( final TrainingSet trainingSet : trainingSets ) {
-            List<VariantContext> vcs = featureContext.getValues(trainingSet.variantSource, featureContext.getInterval().getStart());
+            final List<VariantContext> vcs = featureContext.getValues(trainingSet.variantSource, featureContext.getInterval().getStart());
             for( final VariantContext trainVC : vcs ) {
                 if (VRAC.useASannotations && !doAllelesMatch(trainVC, datum))
                     continue;
@@ -436,7 +436,7 @@ public class VariantDataManager {
         for( final VariantDatum datum : data ) {
             if (VRAC.useASannotations)
                 alleles = Arrays.asList(datum.referenceAllele, datum.alternateAllele); //use the alleles to distinguish between multiallelics in AS mode
-            VariantContextBuilder builder = new VariantContextBuilder("VQSR", datum.loc.getContig(), datum.loc.getStart(), datum.loc.getEnd(), alleles);
+            final VariantContextBuilder builder = new VariantContextBuilder("VQSR", datum.loc.getContig(), datum.loc.getStart(), datum.loc.getEnd(), alleles);
             builder.attribute(VCFConstants.END_KEY, datum.loc.getEnd());
             builder.attribute(GATKVCFConstants.VQS_LOD_KEY, String.format("%.4f", datum.lod));
             builder.attribute(GATKVCFConstants.CULPRIT_KEY, (datum.worstAnnotation != -1 ? annotationKeys.get(datum.worstAnnotation) : "NULL"));

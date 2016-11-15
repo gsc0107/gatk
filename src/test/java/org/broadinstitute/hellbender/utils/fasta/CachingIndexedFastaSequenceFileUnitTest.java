@@ -35,10 +35,10 @@ public final class CachingIndexedFastaSequenceFileUnitTest extends BaseTest {
 
     @DataProvider(name = "fastas")
     public Object[][] createData1() {
-        List<Object[]> params = new ArrayList<>();
-        for ( File fasta : Arrays.asList(simpleFasta) ) {
-            for ( int cacheSize : CACHE_SIZES ) {
-                for ( int querySize : QUERY_SIZES ) {
+        final List<Object[]> params = new ArrayList<>();
+        for ( final File fasta : Arrays.asList(simpleFasta) ) {
+            for ( final int cacheSize : CACHE_SIZES ) {
+                for ( final int querySize : QUERY_SIZES ) {
                     params.add(new Object[]{fasta, cacheSize, querySize});
                 }
             }
@@ -52,10 +52,10 @@ public final class CachingIndexedFastaSequenceFileUnitTest extends BaseTest {
     }
 
     @Test(dataProvider = "fastas", enabled = ! DEBUG)
-    public void testCachingIndexedFastaReaderSequential1(File fasta, int cacheSize, int querySize) throws FileNotFoundException {
+    public void testCachingIndexedFastaReaderSequential1(final File fasta, final int cacheSize, final int querySize) throws FileNotFoundException {
         final CachingIndexedFastaSequenceFile caching = new CachingIndexedFastaSequenceFile(fasta, getCacheSize(cacheSize), true, false);
 
-        SAMSequenceRecord contig = caching.getSequenceDictionary().getSequence(0);
+        final SAMSequenceRecord contig = caching.getSequenceDictionary().getSequence(0);
         logger.warn(String.format("Checking contig %s length %d with cache size %d and query size %d",
                 contig.getSequenceName(), contig.getSequenceLength(), cacheSize, querySize));
         testSequential(caching, fasta, querySize);
@@ -66,13 +66,13 @@ public final class CachingIndexedFastaSequenceFileUnitTest extends BaseTest {
 
         final IndexedFastaSequenceFile uncached = new IndexedFastaSequenceFile(fasta);
 
-        SAMSequenceRecord contig = uncached.getSequenceDictionary().getSequence(0);
+        final SAMSequenceRecord contig = uncached.getSequenceDictionary().getSequence(0);
         for ( int i = 0; i < contig.getSequenceLength(); i += STEP_SIZE ) {
-            int start = i;
-            int stop = start + querySize;
+            final int start = i;
+            final int stop = start + querySize;
             if ( stop <= contig.getSequenceLength() ) {
-                ReferenceSequence cachedVal = caching.getSubsequenceAt(contig.getSequenceName(), start, stop);
-                ReferenceSequence uncachedVal = uncached.getSubsequenceAt(contig.getSequenceName(), start, stop);
+                final ReferenceSequence cachedVal = caching.getSubsequenceAt(contig.getSequenceName(), start, stop);
+                final ReferenceSequence uncachedVal = uncached.getSubsequenceAt(contig.getSequenceName(), start, stop);
 
                 Assert.assertEquals(cachedVal.getName(), uncachedVal.getName());
                 Assert.assertEquals(cachedVal.getContigIndex(), uncachedVal.getContigIndex());
@@ -93,25 +93,25 @@ public final class CachingIndexedFastaSequenceFileUnitTest extends BaseTest {
 
     // Tests grabbing sequences around a middle cached value.
     @Test(dataProvider = "fastas", enabled = ! DEBUG)
-    public void testCachingIndexedFastaReaderTwoStage(File fasta, int cacheSize, int querySize) throws FileNotFoundException {
+    public void testCachingIndexedFastaReaderTwoStage(final File fasta, final int cacheSize, final int querySize) throws FileNotFoundException {
         final IndexedFastaSequenceFile uncached = new IndexedFastaSequenceFile(fasta);
         final CachingIndexedFastaSequenceFile caching = new CachingIndexedFastaSequenceFile(fasta, getCacheSize(cacheSize), true, false);
 
-        SAMSequenceRecord contig = uncached.getSequenceDictionary().getSequence(0);
+        final SAMSequenceRecord contig = uncached.getSequenceDictionary().getSequence(0);
 
-        int middleStart = (contig.getSequenceLength() - querySize) / 2;
-        int middleStop = middleStart + querySize;
+        final int middleStart = (contig.getSequenceLength() - querySize) / 2;
+        final int middleStop = middleStart + querySize;
 
         logger.warn(String.format("Checking contig %s length %d with cache size %d and query size %d with intermediate query",
                 contig.getSequenceName(), contig.getSequenceLength(), cacheSize, querySize));
 
         for ( int i = 0; i < contig.getSequenceLength(); i += 10 ) {
-            int start = i;
-            int stop = start + querySize;
+            final int start = i;
+            final int stop = start + querySize;
             if ( stop <= contig.getSequenceLength() ) {
-                ReferenceSequence grabMiddle = caching.getSubsequenceAt(contig.getSequenceName(), middleStart, middleStop);
-                ReferenceSequence cachedVal = caching.getSubsequenceAt(contig.getSequenceName(), start, stop);
-                ReferenceSequence uncachedVal = uncached.getSubsequenceAt(contig.getSequenceName(), start, stop);
+                final ReferenceSequence grabMiddle = caching.getSubsequenceAt(contig.getSequenceName(), middleStart, middleStop);
+                final ReferenceSequence cachedVal = caching.getSubsequenceAt(contig.getSequenceName(), start, stop);
+                final ReferenceSequence uncachedVal = uncached.getSubsequenceAt(contig.getSequenceName(), start, stop);
 
                 Assert.assertEquals(cachedVal.getName(), uncachedVal.getName());
                 Assert.assertEquals(cachedVal.getContigIndex(), uncachedVal.getContigIndex());
@@ -122,12 +122,12 @@ public final class CachingIndexedFastaSequenceFileUnitTest extends BaseTest {
 
     @DataProvider(name = "ParallelFastaTest")
     public Object[][] createParallelFastaTest() {
-        List<Object[]> params = new ArrayList<>();
+        final List<Object[]> params = new ArrayList<>();
 
-        for ( File fasta : Arrays.asList(simpleFasta) ) {
-            for ( int cacheSize : CACHE_SIZES ) {
-                for ( int querySize : QUERY_SIZES ) {
-                    for ( int nt : Arrays.asList(1, 2, 3, 4) ) {
+        for ( final File fasta : Arrays.asList(simpleFasta) ) {
+            for ( final int cacheSize : CACHE_SIZES ) {
+                for ( final int querySize : QUERY_SIZES ) {
+                    for ( final int nt : Arrays.asList(1, 2, 3, 4) ) {
                         params.add(new Object[]{fasta, cacheSize, querySize, nt});
                     }
                 }
@@ -145,7 +145,7 @@ public final class CachingIndexedFastaSequenceFileUnitTest extends BaseTest {
         final CachingIndexedFastaSequenceFile allUpper = new CachingIndexedFastaSequenceFile(new File(exampleFASTA));
 
         int nMixedCase = 0;
-        for ( SAMSequenceRecord contig : original.getSequenceDictionary().getSequences() ) {
+        for ( final SAMSequenceRecord contig : original.getSequenceDictionary().getSequences() ) {
             nMixedCase += testCases(original, casePreserving, allUpper, contig.getSequenceName(), -1, -1);
 
             final int step = 100;
@@ -190,7 +190,7 @@ public final class CachingIndexedFastaSequenceFileUnitTest extends BaseTest {
 
         int preservingNs = 0;
         int changingNs = 0;
-        for ( SAMSequenceRecord contig : iupacPreserving.getSequenceDictionary().getSequences() ) {
+        for ( final SAMSequenceRecord contig : iupacPreserving.getSequenceDictionary().getSequences() ) {
             final String sPreserving = fetchBaseString(iupacPreserving, contig.getSequenceName(), 0, 15000);
             preservingNs += StringUtils.countMatches(sPreserving, "N");
 
@@ -206,7 +206,7 @@ public final class CachingIndexedFastaSequenceFileUnitTest extends BaseTest {
         final String testFasta = publicTestDir + "problematicFASTA.fasta";
         final CachingIndexedFastaSequenceFile fasta = new CachingIndexedFastaSequenceFile(new File(testFasta));
 
-        for ( SAMSequenceRecord contig : fasta.getSequenceDictionary().getSequences() ) {
+        for ( final SAMSequenceRecord contig : fasta.getSequenceDictionary().getSequences() ) {
             fetchBaseString(fasta, contig.getSequenceName(), -1, -1);
         }
     }

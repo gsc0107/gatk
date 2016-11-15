@@ -8,7 +8,7 @@ public final class GATKReportColumnFormat {
     private final int width;
     private final Alignment alignment;
 
-    public GATKReportColumnFormat(int width, Alignment alignment) {
+    public GATKReportColumnFormat(final int width, final Alignment alignment) {
         this.width = width;
         this.alignment = alignment;
     }

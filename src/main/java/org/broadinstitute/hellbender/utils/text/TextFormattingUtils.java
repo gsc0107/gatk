@@ -17,11 +17,11 @@ public final class TextFormattingUtils {
      * @param line Text to parse.
      * @return the word starting positions within line, excluding the first position 0.
      */
-    public static List<Integer> getWordStarts(String line) {
+    public static List<Integer> getWordStarts(final String line) {
         if (line == null)
             throw new GATKException("line is null");
-        List<Integer> starts = new ArrayList<>();
-        int stop = line.length();
+        final List<Integer> starts = new ArrayList<>();
+        final int stop = line.length();
         for (int i = 1; i < stop; i++)
             if (Character.isWhitespace(line.charAt(i - 1)))
                 if(!Character.isWhitespace(line.charAt(i)))
@@ -35,13 +35,13 @@ public final class TextFormattingUtils {
      * @param columnStarts the column starting positions within line, excluding the first position 0.
      * @return The parsed string array with each entry trimmed.
      */
-    public static String[] splitFixedWidth(String line, List<Integer> columnStarts) {
+    public static String[] splitFixedWidth(final String line, final List<Integer> columnStarts) {
         if (line == null)
             throw new GATKException("line is null");
         if (columnStarts == null)
             throw new GATKException("columnStarts is null");
-        int startCount = columnStarts.size();
-        String[] row = new String[startCount + 1];
+        final int startCount = columnStarts.size();
+        final String[] row = new String[startCount + 1];
         if (startCount == 0) {
             row[0] = line.trim();
         } else {
@@ -58,7 +58,7 @@ public final class TextFormattingUtils {
      * @param line Text to parse.
      * @return The parsed string array.
      */
-    public static String[] splitWhiteSpace(String line) {
+    public static String[] splitWhiteSpace(final String line) {
         if (line == null)
             throw new GATKException("line is null");
         return line.trim().split("\\s+");

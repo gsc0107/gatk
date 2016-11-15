@@ -30,7 +30,7 @@ public final class CleanSamIntegrationTest extends CommandLineProgramTest {
         final ArgumentsBuilder args = new ArgumentsBuilder();
         args.add("--input"); args.add(inputFile.getAbsolutePath());
         args.add("--output"); args.add(cleanedFile.getAbsolutePath());
-        File referenceFile = referenceFileName == null ? null : new File(TEST_DATA_DIR, referenceFileName);
+        final File referenceFile = referenceFileName == null ? null : new File(TEST_DATA_DIR, referenceFileName);
         if (null != referenceFile) {
             args.add("--R");
             args.add(referenceFile.getAbsolutePath());
@@ -47,7 +47,7 @@ public final class CleanSamIntegrationTest extends CommandLineProgramTest {
                                         .validationStringency(ValidationStringency.LENIENT)
                                         .referenceSequence(referenceFile)
                                         .open(cleanedFile)) {
-            SAMRecordIterator recIt = samReader.iterator();
+            final SAMRecordIterator recIt = samReader.iterator();
             Assert.assertTrue(recIt.hasNext() && recIt.next().getCigarString().equals(expectedCigar));
         }
         try (final SamReader samReader = SamReaderFactory.makeDefault()

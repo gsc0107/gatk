@@ -44,7 +44,7 @@ public interface CommandLineProgramTester {
      * @return String[] of command line arguments
      */
     default String[] makeCommandLineArgs(final List<String> args, final String toolname) {
-        List<String> curatedArgs = injectDefaultVerbosity(args);
+        final List<String> curatedArgs = injectDefaultVerbosity(args);
         final String[] commandLineArgs = new String[curatedArgs.size() + 1];
         commandLineArgs[0] = toolname;
         int i = 1;
@@ -64,12 +64,12 @@ public interface CommandLineProgramTester {
         // global toggle for BunnyLog output.
         BunnyLog.setEnabled(false);
 
-        for (String arg : args) {
+        for (final String arg : args) {
             if (arg.equalsIgnoreCase("--" + StandardArgumentDefinitions.VERBOSITY_NAME) || arg.equalsIgnoreCase("-" + StandardArgumentDefinitions.VERBOSITY_NAME)) {
                 return args;
             }
         }
-        List<String> argsWithVerbosity = new ArrayList<>(args);
+        final List<String> argsWithVerbosity = new ArrayList<>(args);
         argsWithVerbosity.add("--" + StandardArgumentDefinitions.VERBOSITY_NAME);
         argsWithVerbosity.add(Log.LogLevel.ERROR.name());
         return argsWithVerbosity;

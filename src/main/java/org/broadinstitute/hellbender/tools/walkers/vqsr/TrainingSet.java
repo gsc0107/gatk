@@ -51,19 +51,19 @@ public class TrainingSet {
     }
 
     private boolean getBooleanAttribute(final FeatureInput<VariantContext> variantSource, final String key) {
-        String attributeValue = variantSource.getAttribute(key);
+        final String attributeValue = variantSource.getAttribute(key);
         return attributeValue != null && attributeValue.equals("true");
     }
 
     private double getDoubleAttributeOrElse(
             final FeatureInput<VariantContext> variantSource, final String key, final double defaultValue) {
-        String attributeValue = variantSource.getAttribute(key);
+        final String attributeValue = variantSource.getAttribute(key);
         try {
             return attributeValue == null ?
                     defaultValue :
                     Double.valueOf(attributeValue);
         }
-        catch (NumberFormatException e) {
+        catch (final NumberFormatException e) {
             throw new UserException.MalformedFile("Malformed floating point value" + key);
         }
     }

@@ -41,15 +41,15 @@ public class ExampleLocusWalker extends LocusWalker {
         try {
             outputStream = OUTPUT_FILE != null ? new PrintStream(OUTPUT_FILE) : System.out;
         }
-        catch ( FileNotFoundException e ) {
+        catch ( final FileNotFoundException e ) {
             throw new UserException.CouldNotReadInputFile(OUTPUT_FILE, e);
         }
     }
 
     @Override
-    public void apply(AlignmentContext alignmentContext, ReferenceContext referenceContext, FeatureContext featureContext) {
+    public void apply(final AlignmentContext alignmentContext, final ReferenceContext referenceContext, final FeatureContext featureContext) {
         // Get pileup and counts
-        ReadPileup pileup = alignmentContext.getBasePileup();
+        final ReadPileup pileup = alignmentContext.getBasePileup();
         // print the locus and coverage
         outputStream.printf("Current locus %s:%d (coverage=%s)\n", alignmentContext.getContig(),
             alignmentContext.getPosition(), pileup.size());
@@ -59,10 +59,10 @@ public class ExampleLocusWalker extends LocusWalker {
         }
         // print the overlapping variants if there are some
         if(featureContext.hasBackingDataSource()) {
-            List<VariantContext> vars = featureContext.getValues(variants);
+            final List<VariantContext> vars = featureContext.getValues(variants);
             if(!vars.isEmpty()) {
                 outputStream.println("\tOverlapping variant(s):");
-                for (VariantContext variant : vars) {
+                for (final VariantContext variant : vars) {
                     outputStream.printf("\t\t%s:%d-%d, Ref:%s, Alt(s):%s\n", variant.getContig(), variant.getStart(),
                         variant.getEnd(), variant.getReference(), variant.getAlternateAlleles());
                 }

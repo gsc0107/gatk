@@ -65,7 +65,7 @@ public final class AlignmentContextUnitTest extends BaseTest{
         Assert.assertEquals((Iterable<?>) acFWD.getBasePileup(), (Iterable<?>)pileup, "Forward Pileup");
 
         final AlignmentContext acREV = ac.stratify(AlignmentContext.ReadOrientation.REVERSE);
-        AlignmentContext emptyAC= new AlignmentContext(loc, new ReadPileup(loc));
+        final AlignmentContext emptyAC= new AlignmentContext(loc, new ReadPileup(loc));
         Assert.assertEquals(acREV.getLocation(), loc, "Reverse Loc");
         Assert.assertEquals((Iterable<?>)acREV.getBasePileup(), (Iterable<?>)emptyAC.getBasePileup(), "Reverse pileup");
         Assert.assertNotNull(ac.toString());

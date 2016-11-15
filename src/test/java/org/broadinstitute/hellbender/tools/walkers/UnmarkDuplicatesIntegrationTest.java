@@ -29,13 +29,13 @@ public class UnmarkDuplicatesIntegrationTest extends CommandLineProgramTest {
     }
 
     @Test(dataProvider = "testUnmarkDuplicatesProvider")
-    public void testUnmarkDuplicates(String samFile, int duplicateCount, File referenceFile) throws IOException {
+    public void testUnmarkDuplicates(final String samFile, final int duplicateCount, final File referenceFile) throws IOException {
         final File inputBam = new File(getTestDataDir(), samFile);
         Assert.assertEquals(getDuplicateCountForBam(inputBam, referenceFile), duplicateCount, "Wrong number of duplicates in original input file");
 
         final File outputBam = createTempFile("testUnmarkDuplicates", ".bam");
 
-        ArgumentsBuilder args = new ArgumentsBuilder();
+        final ArgumentsBuilder args = new ArgumentsBuilder();
         args.addInput(inputBam).addOutput(outputBam);
 
         if(referenceFile != null) {
@@ -54,7 +54,7 @@ public class UnmarkDuplicatesIntegrationTest extends CommandLineProgramTest {
             factory.referenceSequence(referenceFile);
         }
         try ( final SamReader reader = factory.open(bam) ) {
-            for ( SAMRecord read : reader ) {
+            for ( final SAMRecord read : reader ) {
                 if ( read.getDuplicateReadFlag() ) {
                     ++duplicateCount;
                 }

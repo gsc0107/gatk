@@ -60,9 +60,9 @@ public final class RecalibrationTablesUnitTest extends BaseTest {
         Assert.assertEquals(tables.getQualityScoreTable(), tables.getQualityScoreTable());
         testDimensions(tables.getQualityScoreTable(), numReadGroups, qualCov.maximumKeyValue() + 1);
 
-        for (NestedIntegerArray<RecalDatum> table : tables.getAdditionalTables()){
+        for (final NestedIntegerArray<RecalDatum> table : tables.getAdditionalTables()){
             Assert.assertNotNull(table);
-            Covariate cov = tables.getCovariateForTable(table);
+            final Covariate cov = tables.getCovariateForTable(table);
             testDimensions(table, numReadGroups, qualCov.maximumKeyValue() + 1, cov.maximumKeyValue() + 1);
         }
     }
@@ -94,8 +94,8 @@ public final class RecalibrationTablesUnitTest extends BaseTest {
         merged.combine(tables);
 
         for ( int i = 0; i < tables.numTables(); i++ ) {
-            NestedIntegerArray<RecalDatum> table = tables.getTable(i);
-            NestedIntegerArray<RecalDatum> mergedTable = merged.getTable(i);
+            final NestedIntegerArray<RecalDatum> table = tables.getTable(i);
+            final NestedIntegerArray<RecalDatum> mergedTable = merged.getTable(i);
 
             Assert.assertEquals(table.getAllLeaves().size(), mergedTable.getAllLeaves().size());
             for ( final NestedIntegerArray.Leaf<RecalDatum> leaf : table.getAllLeaves() ) {
@@ -114,8 +114,8 @@ public final class RecalibrationTablesUnitTest extends BaseTest {
         merged.combine(tables);
 
         for ( int i = 0; i < tables.numTables(); i++ ) {
-            NestedIntegerArray<RecalDatum> table = tables.getTable(i);
-            NestedIntegerArray<RecalDatum> mergedTable = merged.getTable(i);
+            final NestedIntegerArray<RecalDatum> table = tables.getTable(i);
+            final NestedIntegerArray<RecalDatum> mergedTable = merged.getTable(i);
 
             Assert.assertEquals(table.getAllLeaves().size(), mergedTable.getAllLeaves().size());
             for ( final NestedIntegerArray.Leaf<RecalDatum> leaf : table.getAllLeaves() ) {
@@ -136,8 +136,8 @@ public final class RecalibrationTablesUnitTest extends BaseTest {
 
         merged.combine(tables);
         for ( int i = 0; i < tables.numTables(); i++ ) {
-            NestedIntegerArray<RecalDatum> table = tables.getTable(i);
-            NestedIntegerArray<RecalDatum> mergedTable = merged.getTable(i);
+            final NestedIntegerArray<RecalDatum> table = tables.getTable(i);
+            final NestedIntegerArray<RecalDatum> mergedTable = merged.getTable(i);
 
             Assert.assertEquals(table.getAllLeaves().size(), mergedTable.getAllLeaves().size());
             for ( final NestedIntegerArray.Leaf<RecalDatum> leaf : table.getAllLeaves() ) {

@@ -158,7 +158,7 @@ public final class RevertOriginalBaseQualitiesAndAddMateCigar extends PicardComm
      * @param revertOriginalBaseQualities true if we are to revert original base qualities, false otherwise
      * @return whether we can skip or not, and the explanation why.
      */
-    public static CanSkipSamFile canSkipSAMFile(final File inputFile, final int maxRecordsToExamine, boolean revertOriginalBaseQualities,
+    public static CanSkipSamFile canSkipSAMFile(final File inputFile, final int maxRecordsToExamine, final boolean revertOriginalBaseQualities,
                                                 final File referenceFasta) {
         final SamReader in = SamReaderFactory.makeDefault().referenceSequence(referenceFasta).enable(SamReaderFactory.Option.EAGERLY_DECODE).open(inputFile);
         final Iterator<SAMRecord> iterator = in.iterator();

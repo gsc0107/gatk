@@ -128,8 +128,8 @@ public final class AnalyzeCovariatesIntegrationTest extends CommandLineProgramTe
 
 
     @DataProvider
-    public Iterator<Object[]> alternativeInOutAbsenceCombinations(Method m) {
-        List<Object[]> result = new LinkedList<>();
+    public Iterator<Object[]> alternativeInOutAbsenceCombinations(final Method m) {
+        final List<Object[]> result = new LinkedList<>();
         if (m.getName().endsWith("Exception")) {
            result.add(new Object[] { true, false, false, false ,false});
         }
@@ -148,7 +148,7 @@ public final class AnalyzeCovariatesIntegrationTest extends CommandLineProgramTe
      * @return never <code>null</code>.
      */
     @DataProvider
-    public Iterator<Object[]> alternativeAfterFileProvider (Method m) {
+    public Iterator<Object[]> alternativeAfterFileProvider (final Method m) {
         final boolean expectsException = m.getName().endsWith("Exception");
         final List<Object[]> result = new LinkedList<>();
         for (final Object[] data : DIFFERENT_PARAMETERS_AFTER_FILES) {

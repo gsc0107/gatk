@@ -80,12 +80,12 @@ public final class PileupSpark extends LocusWalkerSpark {
         getAlignments(ctx).map(pileupFunction(metadata, outputInsertLength, showVerbose)).saveAsTextFile(outputFile);
     }
 
-    private static Function<Tuple3<AlignmentContext, ReferenceContext, FeatureContext>, String> pileupFunction(List<FeatureInput<Feature>> metadata,
-                                                                                                               boolean outputInsertLength, boolean showVerbose) {
+    private static Function<Tuple3<AlignmentContext, ReferenceContext, FeatureContext>, String> pileupFunction(final List<FeatureInput<Feature>> metadata,
+                                                                                                               final boolean outputInsertLength, final boolean showVerbose) {
         return (Function<Tuple3<AlignmentContext, ReferenceContext, FeatureContext>, String>) t -> {
-            AlignmentContext alignmentContext = t._1();
-            ReferenceContext referenceContext = t._2();
-            FeatureContext featureContext = t._3();
+            final AlignmentContext alignmentContext = t._1();
+            final ReferenceContext referenceContext = t._2();
+            final FeatureContext featureContext = t._3();
             final String features = getFeaturesString(featureContext, metadata);
             final ReadPileup basePileup = alignmentContext.getBasePileup();
             final StringBuilder s = new StringBuilder();
@@ -103,7 +103,7 @@ public final class PileupSpark extends LocusWalkerSpark {
         };
     }
 
-    private static String getFeaturesString(final FeatureContext featureContext, List<FeatureInput<Feature>> metadata) {
+    private static String getFeaturesString(final FeatureContext featureContext, final List<FeatureInput<Feature>> metadata) {
         String featuresString = featureContext.getValues(metadata).stream()
                 .map(Feature::toString).collect(Collectors.joining(", "));
         if (!featuresString.isEmpty()) {

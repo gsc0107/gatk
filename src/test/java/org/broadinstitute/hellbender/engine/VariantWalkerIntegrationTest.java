@@ -24,10 +24,10 @@ public final class VariantWalkerIntegrationTest extends CommandLineProgramTest {
 
     @Test(expectedExceptions = UserException.class)
     public void testRequiresIndexForInterval() throws Exception {
-        String fileIn = "count_variants_withSequenceDict_noIndex.vcf";
-        String moreArgs = "-L 1";
+        final String fileIn = "count_variants_withSequenceDict_noIndex.vcf";
+        final String moreArgs = "-L 1";
         final File ORIG_FILE = new File(getTestDataDir(), fileIn);
-        ArgumentsBuilder ab = new ArgumentsBuilder();
+        final ArgumentsBuilder ab = new ArgumentsBuilder();
         ab.add("--variant " + ORIG_FILE.getAbsolutePath());
         ab.add(moreArgs);
         this.runCommandLine(ab.getArgsArray());
@@ -35,10 +35,10 @@ public final class VariantWalkerIntegrationTest extends CommandLineProgramTest {
 
     @Test(expectedExceptions = UserException.MalformedGenomeLoc.class)
     public void testMissingContigForInterval() throws Exception {
-        String fileIn = "count_variants_withSequenceDict.vcf";
-        String moreArgs = "-L 25";
+        final String fileIn = "count_variants_withSequenceDict.vcf";
+        final String moreArgs = "-L 25";
         final File ORIG_FILE = new File(getTestDataDir(), fileIn);
-        ArgumentsBuilder ab = new ArgumentsBuilder();
+        final ArgumentsBuilder ab = new ArgumentsBuilder();
         ab.add("--variant " + ORIG_FILE.getAbsolutePath());
         ab.add(moreArgs);
         this.runCommandLine(ab.getArgsArray());
@@ -46,10 +46,10 @@ public final class VariantWalkerIntegrationTest extends CommandLineProgramTest {
 
     @Test(expectedExceptions = UserException.class)
     public void testRequiresSequenceDictionaryForInterval() throws Exception {
-        String fileIn = "count_variants.vcf";
-        String moreArgs = "-L 1";
+        final String fileIn = "count_variants.vcf";
+        final String moreArgs = "-L 1";
         final File ORIG_FILE = new File(getTestDataDir(), fileIn);
-        ArgumentsBuilder ab = new ArgumentsBuilder();
+        final ArgumentsBuilder ab = new ArgumentsBuilder();
         ab.add("--variant " + ORIG_FILE.getAbsolutePath());
         ab.add(moreArgs);
         this.runCommandLine(ab.getArgsArray());
@@ -69,8 +69,8 @@ public final class VariantWalkerIntegrationTest extends CommandLineProgramTest {
 
         @Override
         public void apply(
-                VariantContext variant,
-                ReadsContext readsContext, ReferenceContext referenceContext, FeatureContext featureContext ) {
+                final VariantContext variant,
+                final ReadsContext readsContext, final ReferenceContext referenceContext, final FeatureContext featureContext ) {
             // no-op
         }
     }
@@ -88,7 +88,7 @@ public final class VariantWalkerIntegrationTest extends CommandLineProgramTest {
         final SAMSequenceDictionary toolDict = tool.getBestAvailableSequenceDictionary();
         Assert.assertFalse(toolDict.getSequences().stream().allMatch(seqRec -> seqRec.getSequenceLength() == 0));
 
-        SAMSequenceDictionary refDict = new ReferenceFileSource(new File(hg19MiniReference)).getSequenceDictionary();
+        final SAMSequenceDictionary refDict = new ReferenceFileSource(new File(hg19MiniReference)).getSequenceDictionary();
         toolDict.assertSameDictionary(refDict);
         refDict.assertSameDictionary(toolDict);
         Assert.assertEquals(toolDict, refDict);

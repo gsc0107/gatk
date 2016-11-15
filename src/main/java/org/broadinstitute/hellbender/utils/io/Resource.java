@@ -17,7 +17,7 @@ public final class Resource {
      *
      * If the relative class is null then the system classloader will be used and the path must be absolute.
      */
-    public Resource(String path, Class<?> relativeClass) {
+    public Resource(final String path, final Class<?> relativeClass) {
         this.path = path;
         this.relativeClass = relativeClass;
     }

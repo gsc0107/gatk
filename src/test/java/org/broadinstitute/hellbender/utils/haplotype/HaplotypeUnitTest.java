@@ -124,7 +124,7 @@ public final class HaplotypeUnitTest extends BaseTest {
         basicInsertTest("G", "C", 17, h1Cigar, bases, h1bases);
     }
 
-    private void basicInsertTest(String ref, String alt, int loc, Cigar cigar, String hap, String newHap) {
+    private void basicInsertTest(final String ref, final String alt, final int loc, final Cigar cigar, final String hap, final String newHap) {
         final Haplotype h = new Haplotype(hap.getBytes());
         final Allele h1refAllele = Allele.create(ref, true);
         final Allele h1altAllele = Allele.create(alt, false);
@@ -159,7 +159,7 @@ public final class HaplotypeUnitTest extends BaseTest {
 
     @DataProvider(name = "TrimmingData")
     public Object[][] makeTrimmingData() {
-        List<Object[]> tests = new ArrayList<>();
+        final List<Object[]> tests = new ArrayList<>();
 
         // this functionality can be adapted to provide input data for whatever you might want in your data
         final GenomeLoc loc = new UnvalidatingGenomeLoc("20", 0, 10, 20);

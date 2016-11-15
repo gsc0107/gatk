@@ -30,61 +30,61 @@ import static org.mockito.Mockito.*;
 public class JoinReadsWithRefBasesSparkUnitTest extends BaseTest {
     @DataProvider(name = "bases")
     public Object[][] bases(){
-        Object[][] data = new Object[2][];
-        List<Class<?>> classes = Arrays.asList(Read.class, SAMRecord.class);
+        final Object[][] data = new Object[2][];
+        final List<Class<?>> classes = Arrays.asList(Read.class, SAMRecord.class);
         for (int i = 0; i < classes.size(); ++i) {
-            Class<?> c = classes.get(i);
-            ReadsPreprocessingPipelineSparkTestData testData = new ReadsPreprocessingPipelineSparkTestData(c);
+            final Class<?> c = classes.get(i);
+            final ReadsPreprocessingPipelineSparkTestData testData = new ReadsPreprocessingPipelineSparkTestData(c);
 
-            List<GATKRead> reads = testData.getReads();
-            List<SimpleInterval> intervals = testData.getAllIntervals();
-            List<KV<GATKRead, ReferenceBases>> kvReadRefBases = testData.getKvReadsRefBases();
+            final List<GATKRead> reads = testData.getReads();
+            final List<SimpleInterval> intervals = testData.getAllIntervals();
+            final List<KV<GATKRead, ReferenceBases>> kvReadRefBases = testData.getKvReadsRefBases();
             data[i] = new Object[]{reads, kvReadRefBases, intervals};
         }
         return data;
     }
 
     @Test(dataProvider = "bases", groups = "spark")
-    public void refBasesShuffleTest(List<GATKRead> reads, List<KV<GATKRead, ReferenceBases>> kvReadRefBases,
-                                    List<SimpleInterval> intervals) throws IOException {
-        JavaSparkContext ctx = SparkContextFactory.getTestSparkContext();
+    public void refBasesShuffleTest(final List<GATKRead> reads, final List<KV<GATKRead, ReferenceBases>> kvReadRefBases,
+                                    final List<SimpleInterval> intervals) throws IOException {
+        final JavaSparkContext ctx = SparkContextFactory.getTestSparkContext();
 
-        JavaRDD<GATKRead> rddReads = ctx.parallelize(reads);
+        final JavaRDD<GATKRead> rddReads = ctx.parallelize(reads);
 
-        ReferenceMultiSource mockSource = mock(ReferenceMultiSource.class, withSettings().serializable());
-        for (SimpleInterval i : intervals) {
+        final ReferenceMultiSource mockSource = mock(ReferenceMultiSource.class, withSettings().serializable());
+        for (final SimpleInterval i : intervals) {
             when(mockSource.getReferenceBases(any(PipelineOptions.class), eq(i))).thenReturn(FakeReferenceSource.bases(i));
         }
         when(mockSource.getReferenceWindowFunction()).thenReturn(ReferenceWindowFunctions.IDENTITY_FUNCTION);
 
-        JavaPairRDD<GATKRead, ReferenceBases> rddResult = ShuffleJoinReadsWithRefBases.addBases(mockSource, rddReads);
-        Map<GATKRead, ReferenceBases> result = rddResult.collectAsMap();
+        final JavaPairRDD<GATKRead, ReferenceBases> rddResult = ShuffleJoinReadsWithRefBases.addBases(mockSource, rddReads);
+        final Map<GATKRead, ReferenceBases> result = rddResult.collectAsMap();
 
-        for (KV<GATKRead, ReferenceBases> kv : kvReadRefBases) {
-            ReferenceBases referenceBases = result.get(kv.getKey());
+        for (final KV<GATKRead, ReferenceBases> kv : kvReadRefBases) {
+            final ReferenceBases referenceBases = result.get(kv.getKey());
             Assert.assertNotNull(referenceBases);
             Assert.assertEquals(kv.getValue(),referenceBases);
         }
     }
 
     @Test(dataProvider = "bases", groups = "spark")
-    public void refBasesBroadcastTest(List<GATKRead> reads, List<KV<GATKRead, ReferenceBases>> kvReadRefBases,
-                                      List<SimpleInterval> intervals) throws IOException {
-        JavaSparkContext ctx = SparkContextFactory.getTestSparkContext();
+    public void refBasesBroadcastTest(final List<GATKRead> reads, final List<KV<GATKRead, ReferenceBases>> kvReadRefBases,
+                                      final List<SimpleInterval> intervals) throws IOException {
+        final JavaSparkContext ctx = SparkContextFactory.getTestSparkContext();
 
-        JavaRDD<GATKRead> rddReads = ctx.parallelize(reads);
+        final JavaRDD<GATKRead> rddReads = ctx.parallelize(reads);
 
-        ReferenceMultiSource mockSource = mock(ReferenceMultiSource.class, withSettings().serializable());
-        for (SimpleInterval i : intervals) {
+        final ReferenceMultiSource mockSource = mock(ReferenceMultiSource.class, withSettings().serializable());
+        for (final SimpleInterval i : intervals) {
             when(mockSource.getReferenceBases(any(PipelineOptions.class), eq(i))).thenReturn(FakeReferenceSource.bases(i));
         }
         when(mockSource.getReferenceWindowFunction()).thenReturn(ReferenceWindowFunctions.IDENTITY_FUNCTION);
 
-        JavaPairRDD<GATKRead, ReferenceBases> rddResult = BroadcastJoinReadsWithRefBases.addBases(mockSource, rddReads);
-        Map<GATKRead, ReferenceBases> result = rddResult.collectAsMap();
+        final JavaPairRDD<GATKRead, ReferenceBases> rddResult = BroadcastJoinReadsWithRefBases.addBases(mockSource, rddReads);
+        final Map<GATKRead, ReferenceBases> result = rddResult.collectAsMap();
 
-        for (KV<GATKRead, ReferenceBases> kv : kvReadRefBases) {
-            ReferenceBases referenceBases = result.get(kv.getKey());
+        for (final KV<GATKRead, ReferenceBases> kv : kvReadRefBases) {
+            final ReferenceBases referenceBases = result.get(kv.getKey());
             Assert.assertNotNull(referenceBases);
             Assert.assertEquals(kv.getValue(),referenceBases);
         }

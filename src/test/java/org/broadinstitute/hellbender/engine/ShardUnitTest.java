@@ -143,7 +143,7 @@ public class ShardUnitTest extends BaseTest {
     }
 
     @Test(dataProvider = "DivideIntervalIntoShardsTestData")
-    public void testDivideIntervalIntoShards( final SimpleInterval originalInterval, final int shardSize, final int shardStep, final int shardPadding, final SAMSequenceDictionary dictionary, List<ShardBoundary> expectedShards  ) {
+    public void testDivideIntervalIntoShards(final SimpleInterval originalInterval, final int shardSize, final int shardStep, final int shardPadding, final SAMSequenceDictionary dictionary, final List<ShardBoundary> expectedShards  ) {
         final List<ShardBoundary> shards = Shard.divideIntervalIntoShards(originalInterval, shardSize, shardStep, shardPadding, dictionary);
 
         Assert.assertEquals(shards.size(), expectedShards.size(), "Wrong number of shards");

@@ -39,9 +39,9 @@ public final class RnaSeqMetricsCollector extends SAMRecordMultiLevelCollector<R
     private final boolean collectCoverageStatistics;
     
     public RnaSeqMetricsCollector(final Set<MetricAccumulationLevel> accumulationLevels, final List<SAMReadGroupRecord> samRgRecords,
-                                  final Long ribosomalBasesInitialValue, OverlapDetector<Gene> geneOverlapDetector, OverlapDetector<Interval> ribosomalSequenceOverlapDetector,
+                                  final Long ribosomalBasesInitialValue, final OverlapDetector<Gene> geneOverlapDetector, final OverlapDetector<Interval> ribosomalSequenceOverlapDetector,
                                   final Set<Integer> ignoredSequenceIndices, final int minimumLength, final StrandSpecificity strandSpecificity,
-                                  final double rrnaFragmentPercentage, boolean collectCoverageStatistics) {
+                                  final double rrnaFragmentPercentage, final boolean collectCoverageStatistics) {
         this.ribosomalInitialValue  = ribosomalBasesInitialValue;
         this.ignoredSequenceIndices = ignoredSequenceIndices;
         this.geneOverlapDetector    = geneOverlapDetector;
@@ -60,13 +60,13 @@ public final class RnaSeqMetricsCollector extends SAMRecordMultiLevelCollector<R
 
     public static OverlapDetector<Interval> makeOverlapDetector(final File samFile, final SAMFileHeader header, final File ribosomalIntervalsFile) {
 
-        OverlapDetector<Interval> ribosomalSequenceOverlapDetector = new OverlapDetector<>(0, 0);
+        final OverlapDetector<Interval> ribosomalSequenceOverlapDetector = new OverlapDetector<>(0, 0);
         if (ribosomalIntervalsFile != null) {
 
             final IntervalList ribosomalIntervals = IntervalList.fromFile(ribosomalIntervalsFile);
             try {
                 SequenceUtil.assertSequenceDictionariesEqual(header.getSequenceDictionary(), ribosomalIntervals.getHeader().getSequenceDictionary());
-            } catch (SequenceUtil.SequenceListsDifferException e) {
+            } catch (final SequenceUtil.SequenceListsDifferException e) {
                 throw new UserException("Sequence dictionaries differ in " + samFile.getAbsolutePath() + " and " + ribosomalIntervalsFile.getAbsolutePath(), e);
             }
             final IntervalList uniquedRibosomalIntervals = ribosomalIntervals.uniqued();
@@ -107,7 +107,7 @@ public final class RnaSeqMetricsCollector extends SAMRecordMultiLevelCollector<R
         }
 
         @Override
-        public void acceptRecord(SAMRecord rec) {
+        public void acceptRecord(final SAMRecord rec) {
             // Filter out some reads, and collect the total number of PF bases
             if (rec.getReadFailsVendorQualityCheckFlag() || rec.isSecondaryOrSupplementary()) return;
 

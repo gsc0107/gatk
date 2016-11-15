@@ -85,11 +85,11 @@ public class VariantRecalibratorIntegrationTest extends CommandLineProgramTest {
         final int hack = Utils.getRandomGenerator().nextInt();
 
         // use an ArrayList - ArgumentBuilder tokenizes using the "=" in the resource args
-        List<String> args = new ArrayList<>(params.length);
+        final List<String> args = new ArrayList<>(params.length);
         Stream.of(params).forEach(arg -> args.add(arg));
 
-        File recalOut = createTempFile("testVarRecalSnp", ".vcf");
-        File tranchesOut = createTempFile("testVarRecalSnp", ".txt");
+        final File recalOut = createTempFile("testVarRecalSnp", ".vcf");
+        final File tranchesOut = createTempFile("testVarRecalSnp", ".txt");
         args.addAll(addTempFileArgs(recalOut, tranchesOut));
 
         final VariantRecalibrator varRecalTool = new VariantRecalibrator();
@@ -107,10 +107,10 @@ public class VariantRecalibratorIntegrationTest extends CommandLineProgramTest {
         // the tool to require 4 attempts to acquire enough negative training data to succeed
 
         // use an ArrayList - ArgumentBuilder tokenizes using the "=" in the resource args
-        List<String> args = new ArrayList<>(params.length);
+        final List<String> args = new ArrayList<>(params.length);
         Stream.of(params).forEach(arg -> args.add(arg));
-        File recalOut = createTempFile("testVarRecalMaxAttempts", ".vcf");
-        File tranchesOut = createTempFile("testVarRecalMaxAttempts", ".txt");
+        final File recalOut = createTempFile("testVarRecalMaxAttempts", ".vcf");
+        final File tranchesOut = createTempFile("testVarRecalMaxAttempts", ".txt");
         args.addAll(addTempFileArgs(recalOut, tranchesOut));
 
         args.add("--max_attempts");
@@ -123,7 +123,7 @@ public class VariantRecalibratorIntegrationTest extends CommandLineProgramTest {
     }
 
     private List<String> addTempFileArgs(final File recalOutFile, final File tranchesOutFile) {
-        List<java.lang.String> args = new ArrayList<>(2);
+        final List<java.lang.String> args = new ArrayList<>(2);
         args.add("--output");
         args.add(recalOutFile.getAbsolutePath());
         args.add("--tranches_file");

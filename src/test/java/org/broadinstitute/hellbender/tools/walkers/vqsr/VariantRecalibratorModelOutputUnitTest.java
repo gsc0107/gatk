@@ -24,28 +24,28 @@ public class VariantRecalibratorModelOutputUnitTest {
         final double priorCounts = 20.0;
         final double epsilon = 1e-6;
 
-        Random rand = new Random(12878);
-        MultivariateGaussian goodGaussian1 = new MultivariateGaussian(1, numAnnotations);
+        final Random rand = new Random(12878);
+        final MultivariateGaussian goodGaussian1 = new MultivariateGaussian(1, numAnnotations);
         goodGaussian1.initializeRandomMu(rand);
         goodGaussian1.initializeRandomSigma(rand);
 
-        MultivariateGaussian goodGaussian2 = new MultivariateGaussian(1, numAnnotations);
+        final MultivariateGaussian goodGaussian2 = new MultivariateGaussian(1, numAnnotations);
         goodGaussian2.initializeRandomMu(rand);
         goodGaussian2.initializeRandomSigma(rand);
 
-        MultivariateGaussian badGaussian1 = new MultivariateGaussian(1, numAnnotations);
+        final MultivariateGaussian badGaussian1 = new MultivariateGaussian(1, numAnnotations);
         badGaussian1.initializeRandomMu(rand);
         badGaussian1.initializeRandomSigma(rand);
 
-        List<MultivariateGaussian> goodGaussianList = new ArrayList<>();
+        final List<MultivariateGaussian> goodGaussianList = new ArrayList<>();
         goodGaussianList.add(goodGaussian1);
         goodGaussianList.add(goodGaussian2);
 
-        List<MultivariateGaussian> badGaussianList = new ArrayList<>();
+        final List<MultivariateGaussian> badGaussianList = new ArrayList<>();
         badGaussianList.add(badGaussian1);
 
-        GaussianMixtureModel goodModel = new GaussianMixtureModel(goodGaussianList, shrinkage, dirichlet, priorCounts);
-        GaussianMixtureModel badModel = new GaussianMixtureModel(badGaussianList, shrinkage, dirichlet, priorCounts);
+        final GaussianMixtureModel goodModel = new GaussianMixtureModel(goodGaussianList, shrinkage, dirichlet, priorCounts);
+        final GaussianMixtureModel badModel = new GaussianMixtureModel(badGaussianList, shrinkage, dirichlet, priorCounts);
 
         if (printTables) {
             logger.info("Good model mean matrix:");
@@ -66,8 +66,8 @@ public class VariantRecalibratorModelOutputUnitTest {
             badGaussian1.sigma.print(10, 3);
         }
 
-        VariantRecalibrator vqsr = new VariantRecalibrator();
-        List<String> annotationList = new ArrayList<>();
+        final VariantRecalibrator vqsr = new VariantRecalibrator();
+        final List<String> annotationList = new ArrayList<>();
         annotationList.add("QD");
         annotationList.add("MQ");
         annotationList.add("FS");
@@ -76,12 +76,12 @@ public class VariantRecalibratorModelOutputUnitTest {
         annotationList.add("MQRankSum");
 
 
-        GATKReport report = vqsr.writeModelReport(goodModel, badModel, annotationList);
+        final GATKReport report = vqsr.writeModelReport(goodModel, badModel, annotationList);
         if(printTables)
             report.print(System.out);
 
         //Check values for Gaussian means
-        GATKReportTable goodMus = report.getTable("PositiveModelMeans");
+        final GATKReportTable goodMus = report.getTable("PositiveModelMeans");
         for(int i = 0; i < annotationList.size(); i++) {
             Assert.assertEquals(goodGaussian1.mu[i], (Double)goodMus.get(0,annotationList.get(i)), epsilon);
         }
@@ -89,13 +89,13 @@ public class VariantRecalibratorModelOutputUnitTest {
             Assert.assertEquals(goodGaussian2.mu[i], (Double)goodMus.get(1,annotationList.get(i)), epsilon);
         }
 
-        GATKReportTable badMus = report.getTable("NegativeModelMeans");
+        final GATKReportTable badMus = report.getTable("NegativeModelMeans");
         for(int i = 0; i < annotationList.size(); i++) {
             Assert.assertEquals(badGaussian1.mu[i], (Double)badMus.get(0,annotationList.get(i)), epsilon);
         }
 
         //Check values for Gaussian covariances
-        GATKReportTable goodSigma = report.getTable("PositiveModelCovariances");
+        final GATKReportTable goodSigma = report.getTable("PositiveModelCovariances");
         for(int i = 0; i < annotationList.size(); i++) {
             for(int j = 0; j < annotationList.size(); j++) {
                 Assert.assertEquals(goodGaussian1.sigma.get(i,j), (Double)goodSigma.get(i,annotationList.get(j)), epsilon);
@@ -109,7 +109,7 @@ public class VariantRecalibratorModelOutputUnitTest {
             }
         }
 
-        GATKReportTable badSigma = report.getTable("NegativeModelCovariances");
+        final GATKReportTable badSigma = report.getTable("NegativeModelCovariances");
         for(int i = 0; i < annotationList.size(); i++) {
             for(int j = 0; j < annotationList.size(); j++) {
                 Assert.assertEquals(badGaussian1.sigma.get(i,j), (Double)badSigma.get(i,annotationList.get(j)), epsilon);
@@ -131,10 +131,10 @@ public class VariantRecalibratorModelOutputUnitTest {
 
         final double epsilon = 1e-6;
 
-        double[] meanVector = {16.13, 2.45, 0.37, 59.08, 0.14, 0.91};
+        final double[] meanVector = {16.13, 2.45, 0.37, 59.08, 0.14, 0.91};
         final String columnName = "Mean";
         final String formatString = "%.3f";
-        GATKReportTable vectorTable = vqsr.makeVectorTable("AnnotationMeans", "Mean for each annotation, used to normalize data", annotationList, meanVector, columnName, formatString);
+        final GATKReportTable vectorTable = vqsr.makeVectorTable("AnnotationMeans", "Mean for each annotation, used to normalize data", annotationList, meanVector, columnName, formatString);
         for(int i = 0; i < annotationList.size(); i++) {
             Assert.assertEquals(meanVector[i], (Double)vectorTable.get(i, columnName), epsilon);
         }
@@ -146,7 +146,7 @@ public class VariantRecalibratorModelOutputUnitTest {
         }
     }
 
-    private String vectorToString(double[] meanVec) {
+    private String vectorToString(final double[] meanVec) {
         String returnString = "";
         for (int j = 0; j < meanVec.length; j++) {
             returnString += String.format("%.3f", meanVec[j]);

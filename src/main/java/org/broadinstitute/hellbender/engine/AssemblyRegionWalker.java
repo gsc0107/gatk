@@ -194,7 +194,7 @@ public abstract class AssemblyRegionWalker extends GATKTool {
      * Multiple filters can be composed by using {@link org.broadinstitute.hellbender.engine.filters.ReadFilter} composition methods.
      */
     public CountingReadFilter makeReadFilter(){
-        GATKReadFilterPluginDescriptor readFilterPlugin =
+        final GATKReadFilterPluginDescriptor readFilterPlugin =
                 commandLineParser.getPluginDescriptor(GATKReadFilterPluginDescriptor.class);
         return readFilterPlugin.getMergedCountingReadFilter(getHeaderForReads());
     }
@@ -228,7 +228,7 @@ public abstract class AssemblyRegionWalker extends GATKTool {
     @Override
     public final void traverse() {
 
-        CountingReadFilter countedFilter = makeReadFilter();
+        final CountingReadFilter countedFilter = makeReadFilter();
 
         // Since we're processing regions rather than individual reads, tell the progress
         // meter to check the time more frequently (every 10 regions instead of every 1000 regions).
@@ -257,7 +257,7 @@ public abstract class AssemblyRegionWalker extends GATKTool {
      * @param referenceContext Reference bases spanning the fully-padded interval of the shard
      * @param featureContext Features spanning the fully-padded interval of the shard
      */
-    private void processReadShard(Shard<GATKRead> shard, ReferenceContext referenceContext, FeatureContext featureContext ) {
+    private void processReadShard(final Shard<GATKRead> shard, final ReferenceContext referenceContext, final FeatureContext featureContext ) {
         // Divide each shard into one or more assembly regions using our AssemblyRegionEvaluator:
         final Iterable<AssemblyRegion> assemblyRegions = AssemblyRegion.createFromReadShard(shard,
                 getHeaderForReads(), referenceContext, featureContext, assemblyRegionEvaluator(),

@@ -47,7 +47,7 @@ public class CallVariantsFromAlignedContigsSAMSparkTest extends BaseTest {
         read3.setIsReverseStrand(true);
         read3.setIsSupplementaryAlignment(true);
 
-        List<GATKRead> reads = new ArrayList<>(3);
+        final List<GATKRead> reads = new ArrayList<>(3);
         reads.add(read1);
         reads.add(read2);
         reads.add(read3);
@@ -79,7 +79,7 @@ public class CallVariantsFromAlignedContigsSAMSparkTest extends BaseTest {
         read5.setIsReverseStrand(false);
         read5.setIsSupplementaryAlignment(true);
 
-        List<GATKRead> reads2 = new ArrayList<>(2);
+        final List<GATKRead> reads2 = new ArrayList<>(2);
         reads2.add(read4);
         reads2.add(read5);
 

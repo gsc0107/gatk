@@ -128,7 +128,7 @@ public class ReadClipper {
         return clipRead(algorithm, true);
     }
 
-    private GATKRead clipRead(final ClippingRepresentation algorithm, boolean runAsserts) {
+    private GATKRead clipRead(final ClippingRepresentation algorithm, final boolean runAsserts) {
         Utils.nonNull(algorithm);
         if (ops == null) {
             return getRead();
@@ -465,7 +465,7 @@ public class ReadClipper {
      * @param clippingOp clipping operation to be performed
      * @return a new read, without the clipped bases
      */
-    protected GATKRead clipByReferenceCoordinates(final int refStart, final int refStop, ClippingRepresentation clippingOp, boolean runAsserts) {
+    protected GATKRead clipByReferenceCoordinates(final int refStart, final int refStop, final ClippingRepresentation clippingOp, final boolean runAsserts) {
         if (read.isEmpty()) {
             return read;
         }

@@ -35,11 +35,11 @@ public class ReferenceTwoBitSource implements ReferenceSource, Serializable {
     private final TwoBitFile twoBitFile;
     private final Map<String, TwoBitRecord> twoBitSeqEntries;
 
-    public ReferenceTwoBitSource(PipelineOptions popts, String referenceURL) throws IOException {
+    public ReferenceTwoBitSource(final PipelineOptions popts, final String referenceURL) throws IOException {
         this.referenceURL = referenceURL;
         Utils.validateArg(isTwoBit(this.referenceURL), "ReferenceTwoBitSource can only take .2bit files");
-        byte[] bytes = ByteStreams.toByteArray(BucketUtils.openFile(this.referenceURL, popts));
-        ByteAccess byteAccess = new DirectFullByteArrayByteAccess(bytes);
+        final byte[] bytes = ByteStreams.toByteArray(BucketUtils.openFile(this.referenceURL, popts));
+        final ByteAccess byteAccess = new DirectFullByteArrayByteAccess(bytes);
         this.twoBitFile = new TwoBitFile(byteAccess);
         this.twoBitSeqEntries = JavaConversions.mapAsJavaMap(twoBitFile.seqRecords());
     }
@@ -54,29 +54,29 @@ public class ReferenceTwoBitSource implements ReferenceSource, Serializable {
      *         contig end if necessary
      */
     @Override
-    public ReferenceBases getReferenceBases(PipelineOptions pipelineOptions, SimpleInterval interval) throws IOException {
+    public ReferenceBases getReferenceBases(final PipelineOptions pipelineOptions, final SimpleInterval interval) throws IOException {
         final SimpleInterval queryInterval = cropIntervalAtContigEnd(interval);
         final String bases = twoBitFile.extract(simpleIntervalToReferenceRegion(queryInterval));
         return new ReferenceBases(bases.getBytes(), queryInterval);
     }
 
     @Override
-    public SAMSequenceDictionary getReferenceSequenceDictionary(SAMSequenceDictionary optReadSequenceDictionaryToMatch) throws IOException {
-        List<SAMSequenceRecord> records = twoBitSeqEntries.entrySet().stream()
+    public SAMSequenceDictionary getReferenceSequenceDictionary(final SAMSequenceDictionary optReadSequenceDictionaryToMatch) throws IOException {
+        final List<SAMSequenceRecord> records = twoBitSeqEntries.entrySet().stream()
                 .map(pair -> new SAMSequenceRecord(pair.getKey(), pair.getValue().dnaSize()))
                 .collect(Collectors.toList());
         return new SAMSequenceDictionary(records);
     }
 
-    public static boolean isTwoBit(String file) {
+    public static boolean isTwoBit(final String file) {
         return file.endsWith(TWO_BIT_EXTENSION);
     }
 
-    private static ReferenceRegion simpleIntervalToReferenceRegion(SimpleInterval interval) {
+    private static ReferenceRegion simpleIntervalToReferenceRegion(final SimpleInterval interval) {
         // ADAM and GA4GH both use zero-based half-open intervals for genome coordinates
-        String contig = interval.getContig();
-        long start = interval.getGA4GHStart();
-        long end = interval.getGA4GHEnd();
+        final String contig = interval.getContig();
+        final long start = interval.getGA4GHStart();
+        final long end = interval.getGA4GHEnd();
         return new ReferenceRegion(contig, start, end, null);
     }
 

@@ -50,14 +50,14 @@ public abstract class HaplotypeBAMWriter implements AutoCloseable {
 
         final private Function<HaplotypeBAMDestination, HaplotypeBAMWriter> factory;
 
-        WriterType(Function<HaplotypeBAMDestination, HaplotypeBAMWriter> factory) {
+        WriterType(final Function<HaplotypeBAMDestination, HaplotypeBAMWriter> factory) {
             this.factory = factory;
         }
 
         /**
          * Create an instance of the  HaplotypeBAMWriter corresponding to this type.
          */
-        public HaplotypeBAMWriter create(HaplotypeBAMDestination destination) {
+        public HaplotypeBAMWriter create(final HaplotypeBAMDestination destination) {
             Utils.nonNull(destination, "destination cannot be null");
             return factory.apply(destination); }
     }

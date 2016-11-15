@@ -87,7 +87,7 @@ public abstract class AS_StrandBiasTest extends StrandBiasTest implements Reduci
         return annotationString;
     }
 
-    protected String encode(List<Integer> alleleValues) {
+    protected String encode(final List<Integer> alleleValues) {
         String annotationString = "";
         for (int j =0; j < alleleValues.size(); j++) {
             annotationString += alleleValues.get(j);
@@ -148,7 +148,7 @@ public abstract class AS_StrandBiasTest extends StrandBiasTest implements Reduci
                     combined.getAttribute(a).set(1, (int) combined.getAttribute(a).get(1) + (int) toAdd.getAttribute(a).get(1));
                 }
                 else {
-                    List<Integer> alleleData = new ArrayList<>();
+                    final List<Integer> alleleData = new ArrayList<>();
                     alleleData.add(0, toAdd.getAttribute(a).get(0));
                     alleleData.add(1, toAdd.getAttribute(a).get(1));
                     combined.putAttribute(a,alleleData);
@@ -205,7 +205,7 @@ public abstract class AS_StrandBiasTest extends StrandBiasTest implements Reduci
         return Collections.emptyMap();
     }
 
-    public static String rawValueAsString(int[][] table) {
+    public static String rawValueAsString(final int[][] table) {
         return table[0][0]+","+table[0][1]+ PRINT_DELIM +table[1][0]+","+table[1][1];
     }
 }

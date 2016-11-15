@@ -28,7 +28,7 @@ public final class ReadClipperTestUtils {
      * @param cigarString string used to create a CIGAR
      * @return artificial read
      */
-    public static GATKRead makeReadFromCigar(String cigarString) {
+    public static GATKRead makeReadFromCigar(final String cigarString) {
         return makeReadFromCigar(TextCigarCodec.decode(cigarString));
     }
 
@@ -38,11 +38,11 @@ public final class ReadClipperTestUtils {
      * @param cigar
      * @return artificial read
      */
-    public static GATKRead makeReadFromCigar(Cigar cigar) {
+    public static GATKRead makeReadFromCigar(final Cigar cigar) {
         return makeReadFromCigar(cigar, 0);
     }
 
-    private static GATKRead makeReadFromCigar(Cigar cigar, int lengthChange) {
+    private static GATKRead makeReadFromCigar(final Cigar cigar, final int lengthChange) {
         int readLength = cigar.getReadLength();
         if (readLength >= -lengthChange) {
             readLength += lengthChange;
@@ -65,7 +65,7 @@ public final class ReadClipperTestUtils {
      * @param lengthChange change in read length relative the CIGAR length
      * @return artificial read
      */
-    public static GATKRead makeReadFromCigar(String cigarString, int lengthChange) {
+    public static GATKRead makeReadFromCigar(final String cigarString, final int lengthChange) {
         return makeReadFromCigar(TextCigarCodec.decode(cigarString), lengthChange);
     }
 
@@ -73,7 +73,7 @@ public final class ReadClipperTestUtils {
      * This function generates every valid permutation of cigar strings (with a given set of cigarElement) with a given length.
      * See {@link ReadClipperTestUtils#generateCigarList(int, CigarElement[]) for a full description.}
      */
-    public static List<Cigar> generateCigarList(int maximumLength) {
+    public static List<Cigar> generateCigarList(final int maximumLength) {
         return generateCigarList(maximumLength, cigarElements);
     }
 
@@ -89,10 +89,10 @@ public final class ReadClipperTestUtils {
      * @param maximumCigarElements the maximum number of elements in the cigar
      * @return a list with all valid Cigar objects
      */
-    public static List<Cigar> generateCigarList(int maximumCigarElements, CigarElement[] cigarElements) {
-        int numCigarElements = cigarElements.length;
-        LinkedList<Cigar> cigarList = new LinkedList<>();
-        byte[] cigarCombination = new byte[maximumCigarElements];
+    public static List<Cigar> generateCigarList(final int maximumCigarElements, final CigarElement[] cigarElements) {
+        final int numCigarElements = cigarElements.length;
+        final LinkedList<Cigar> cigarList = new LinkedList<>();
+        final byte[] cigarCombination = new byte[maximumCigarElements];
 
         Arrays.fill(cigarCombination, (byte) 0);
         int currentIndex = 0;
@@ -124,9 +124,9 @@ public final class ReadClipperTestUtils {
         return cigarList;
     }
 
-    private static Cigar createCigarFromCombination(byte[] cigarCombination, CigarElement[] cigarElements) {
-        Cigar cigar = new Cigar();
-        for (byte i : cigarCombination) {
+    private static Cigar createCigarFromCombination(final byte[] cigarCombination, final CigarElement[] cigarElements) {
+        final Cigar cigar = new Cigar();
+        for (final byte i : cigarCombination) {
             cigar.add(cigarElements[i]);
         }
         return cigar;

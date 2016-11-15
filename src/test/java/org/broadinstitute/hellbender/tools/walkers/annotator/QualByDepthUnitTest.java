@@ -25,7 +25,7 @@ public class QualByDepthUnitTest extends BaseTest {
 
     @DataProvider(name = "UsingAD")
     public Object[][] makeUsingADData() {
-        List<Object[]> tests = new ArrayList<>();
+        final List<Object[]> tests = new ArrayList<>();
 
         final Allele A = Allele.create("A", true);
         final Allele C = Allele.create("C");
@@ -124,7 +124,7 @@ public class QualByDepthUnitTest extends BaseTest {
 
     @DataProvider(name = "nullQD")
     public Object[][] nullQD() {
-        List<Object[]> tests = new ArrayList<>();
+        final List<Object[]> tests = new ArrayList<>();
 
         final Allele A = Allele.create("A", true);
         final Allele C = Allele.create("C");

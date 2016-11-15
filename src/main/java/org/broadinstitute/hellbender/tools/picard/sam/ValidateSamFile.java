@@ -81,7 +81,7 @@ public final class ValidateSamFile extends PicardCommandLineProgram {
             IOUtil.assertFileIsWritable(OUTPUT);
             try {
                 out = new PrintWriter(OUTPUT);
-            } catch (FileNotFoundException e) {
+            } catch (final FileNotFoundException e) {
                 // we already asserted this so we should not get here
                 throw new GATKException("Unexpected exception", e);
             }

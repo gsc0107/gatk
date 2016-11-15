@@ -344,7 +344,7 @@ public final class Utils {
      * @param nCopies how many copies?
      * @return a string
      */
-    public static String dupString(final String s, int nCopies) {
+    public static String dupString(final String s, final int nCopies) {
         if ( s == null || s.equals("") ) { throw new IllegalArgumentException("Bad s " + s); }
         if ( nCopies < 0 ) { throw new IllegalArgumentException("nCopies must be >= 0 but got " + nCopies); }
 
@@ -571,7 +571,7 @@ public final class Utils {
      * @return the original collection
      * @throws IllegalArgumentException if collection is null or empty
      */
-    public static <I, T extends Collection<I>> T nonEmpty(T collection, String message){
+    public static <I, T extends Collection<I>> T nonEmpty(final T collection, final String message){
         nonNull(collection, "The collection is null: " + message);
         if(collection.isEmpty()){
             throw new IllegalArgumentException("The collection is empty: " + message);
@@ -588,7 +588,7 @@ public final class Utils {
      * @return the original string
      * @throws IllegalArgumentException if string is null or empty
      */
-    public static String nonEmpty(String string, String message){
+    public static String nonEmpty(final String string, final String message){
         nonNull(string, "The string is null: " + message);
         if(string.isEmpty()){
             throw new IllegalArgumentException("The string is empty: " + message);
@@ -615,7 +615,7 @@ public final class Utils {
      * @return the original collection
      * @throws IllegalArgumentException if collection is null or empty
      */
-    public static  <I, T extends Collection<I>> T nonEmpty(T collection){
+    public static  <I, T extends Collection<I>> T nonEmpty(final T collection){
         return nonEmpty(collection, "collection must not be null or empty.");
     }
 
@@ -991,7 +991,7 @@ public final class Utils {
      * @param query the query sequence
      */
     public static int lastIndexOf(final byte[] reference, final byte[] query) {
-        int queryLength = query.length;
+        final int queryLength = query.length;
 
         // start search from the last possible matching position and search to the left
         for (int r = reference.length - queryLength; r >= 0; r--) {

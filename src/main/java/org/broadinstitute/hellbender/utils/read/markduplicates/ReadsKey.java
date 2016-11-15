@@ -64,7 +64,7 @@ public final class ReadsKey {
     /**
      * Returns true if the key is a fragment key.
      */
-    public static boolean isFragment(String key) {
+    public static boolean isFragment(final String key) {
         return key.startsWith(FRAGMENT_PREFIX);
     }
 }

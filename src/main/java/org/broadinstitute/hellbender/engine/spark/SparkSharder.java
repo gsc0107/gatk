@@ -48,9 +48,9 @@ public class SparkSharder {
      * @param <L> the {@link Locatable} type
      * @return an RDD of {@link Shard} of overlapping {@link Locatable} objects (including overlapping only padding)
      */
-    public static <L extends Locatable> JavaRDD<Shard<L>> shard(JavaSparkContext ctx, JavaRDD<L> locatables, Class<L> locatableClass,
-                                                                SAMSequenceDictionary sequenceDictionary, List<ShardBoundary> intervals,
-                                                                int maxLocatableLength) {
+    public static <L extends Locatable> JavaRDD<Shard<L>> shard(final JavaSparkContext ctx, final JavaRDD<L> locatables, final Class<L> locatableClass,
+                                                                final SAMSequenceDictionary sequenceDictionary, final List<ShardBoundary> intervals,
+                                                                final int maxLocatableLength) {
         return shard(ctx, locatables, locatableClass, sequenceDictionary, intervals, maxLocatableLength, false);
     }
 
@@ -67,11 +67,11 @@ public class SparkSharder {
      * @param <L> the {@link Locatable} type
      * @return an RDD of {@link Shard} of overlapping {@link Locatable} objects (including overlapping only padding)
      */
-    public static <L extends Locatable> JavaRDD<Shard<L>> shard(JavaSparkContext ctx, JavaRDD<L> locatables, Class<L> locatableClass,
-                                                                SAMSequenceDictionary sequenceDictionary, List<ShardBoundary> intervals,
-                                                                int maxLocatableLength, boolean useShuffle) {
+    public static <L extends Locatable> JavaRDD<Shard<L>> shard(final JavaSparkContext ctx, final JavaRDD<L> locatables, final Class<L> locatableClass,
+                                                                final SAMSequenceDictionary sequenceDictionary, final List<ShardBoundary> intervals,
+                                                                final int maxLocatableLength, final boolean useShuffle) {
 
-        List<ShardBoundary> paddedIntervals = intervals.stream().map(sb -> new ShardBoundary(sb.getInterval(), sb.getPaddedInterval()) {
+        final List<ShardBoundary> paddedIntervals = intervals.stream().map(sb -> new ShardBoundary(sb.getInterval(), sb.getPaddedInterval()) {
             private static final long serialVersionUID = 1L;
             @Override
             public String getContig() {
@@ -87,20 +87,20 @@ public class SparkSharder {
             }
         }).collect(Collectors.toList());
         if (useShuffle) {
-            OverlapDetector<ShardBoundary> overlapDetector = OverlapDetector.create(paddedIntervals);
-            Broadcast<OverlapDetector<ShardBoundary>> overlapDetectorBroadcast = ctx.broadcast(overlapDetector);
-            JavaPairRDD<ShardBoundary, L> intervalsToLocatables = locatables.flatMapToPair(locatable -> {
-                Set<ShardBoundary> overlaps = overlapDetectorBroadcast.getValue().getOverlaps(locatable);
+            final OverlapDetector<ShardBoundary> overlapDetector = OverlapDetector.create(paddedIntervals);
+            final Broadcast<OverlapDetector<ShardBoundary>> overlapDetectorBroadcast = ctx.broadcast(overlapDetector);
+            final JavaPairRDD<ShardBoundary, L> intervalsToLocatables = locatables.flatMapToPair(locatable -> {
+                final Set<ShardBoundary> overlaps = overlapDetectorBroadcast.getValue().getOverlaps(locatable);
                 return overlaps.stream().map(key -> new Tuple2<>(key, locatable)).collect(Collectors.toList()).iterator();
             });
-            JavaPairRDD<ShardBoundary, Iterable<L>> grouped = intervalsToLocatables.groupByKey();
+            final JavaPairRDD<ShardBoundary, Iterable<L>> grouped = intervalsToLocatables.groupByKey();
             return grouped.map((org.apache.spark.api.java.function.Function<Tuple2<ShardBoundary, Iterable<L>>, Shard<L>>) value -> new ShardBoundaryShard<>(value._1(), value._2()));
         }
         return joinOverlapping(ctx, locatables, locatableClass, sequenceDictionary, paddedIntervals, maxLocatableLength,
                 new MapFunction<Tuple2<ShardBoundary, Iterable<L>>, Shard<L>>() {
             private static final long serialVersionUID = 1L;
             @Override
-            public Shard<L> call(Tuple2<ShardBoundary, Iterable<L>> value) throws Exception {
+            public Shard<L> call(final Tuple2<ShardBoundary, Iterable<L>> value) throws Exception {
                 return new ShardBoundaryShard<>(value._1(), value._2());
             }
         });
@@ -120,17 +120,17 @@ public class SparkSharder {
      * @param <T> the return type of <code>f</code>
      * @return
      */
-    private static <L extends Locatable, I extends Locatable, T> JavaRDD<T> joinOverlapping(JavaSparkContext ctx, JavaRDD<L> locatables, Class<L> locatableClass,
-                                                                                            SAMSequenceDictionary sequenceDictionary, List<I> intervals,
-                                                                                            int maxLocatableLength, MapFunction<Tuple2<I, Iterable<L>>, T> f) {
+    private static <L extends Locatable, I extends Locatable, T> JavaRDD<T> joinOverlapping(final JavaSparkContext ctx, final JavaRDD<L> locatables, final Class<L> locatableClass,
+                                                                                            final SAMSequenceDictionary sequenceDictionary, final List<I> intervals,
+                                                                                            final int maxLocatableLength, final MapFunction<Tuple2<I, Iterable<L>>, T> f) {
         return joinOverlapping(ctx, locatables, locatableClass, sequenceDictionary, intervals, maxLocatableLength,
                 (FlatMapFunction2<Iterator<L>, Iterator<I>, T>) (locatablesIterator, shardsIterator) -> Iterators.transform(locatablesPerShard(locatablesIterator, shardsIterator, sequenceDictionary, maxLocatableLength), new Function<Tuple2<I,Iterable<L>>, T>() {
                     @Nullable
                     @Override
-                    public T apply(@Nullable Tuple2<I, Iterable<L>> input) {
+                    public T apply(@Nullable final Tuple2<I, Iterable<L>> input) {
                         try {
                             return f.call(input);
-                        } catch (Exception e) {
+                        } catch (final Exception e) {
                             throw new RuntimeException(e);
                         }
                     }
@@ -154,43 +154,43 @@ public class SparkSharder {
      * @param <T> the return type of <code>f</code>
      * @return
      */
-    private static <L extends Locatable, I extends Locatable, T> JavaRDD<T> joinOverlapping(JavaSparkContext ctx, JavaRDD<L> locatables, Class<L> locatableClass,
-                                                                                            SAMSequenceDictionary sequenceDictionary, List<I> intervals,
-                                                                                            int maxLocatableLength, FlatMapFunction2<Iterator<L>, Iterator<I>, T> f) {
+    private static <L extends Locatable, I extends Locatable, T> JavaRDD<T> joinOverlapping(final JavaSparkContext ctx, final JavaRDD<L> locatables, final Class<L> locatableClass,
+                                                                                            final SAMSequenceDictionary sequenceDictionary, final List<I> intervals,
+                                                                                            final int maxLocatableLength, final FlatMapFunction2<Iterator<L>, Iterator<I>, T> f) {
 
-        List<PartitionLocatable<SimpleInterval>> partitionReadExtents = computePartitionReadExtents(locatables, sequenceDictionary, maxLocatableLength);
+        final List<PartitionLocatable<SimpleInterval>> partitionReadExtents = computePartitionReadExtents(locatables, sequenceDictionary, maxLocatableLength);
 
         // For each interval find which partition it starts and ends in.
         // An interval is processed in the partition it starts in. However, we need to make sure that
         // subsequent partitions are coalesced if needed, so for each partition p find the latest subsequent
         // partition that is needed to read all of the intervals that start in p.
-        List<Integer> maxEndPartitionIndexes = new ArrayList<>();
+        final List<Integer> maxEndPartitionIndexes = new ArrayList<>();
         for (int i = 0; i < locatables.getNumPartitions(); i++) {
             maxEndPartitionIndexes.add(i);
         }
-        OverlapDetector<PartitionLocatable<SimpleInterval>> overlapDetector = OverlapDetector.create(partitionReadExtents);
-        List<PartitionLocatable<I>> indexedIntervals = new ArrayList<>();
-        for (I interval : intervals) {
-            int[] partitionIndexes = overlapDetector.getOverlaps(interval).stream()
+        final OverlapDetector<PartitionLocatable<SimpleInterval>> overlapDetector = OverlapDetector.create(partitionReadExtents);
+        final List<PartitionLocatable<I>> indexedIntervals = new ArrayList<>();
+        for (final I interval : intervals) {
+            final int[] partitionIndexes = overlapDetector.getOverlaps(interval).stream()
                     .mapToInt(PartitionLocatable::getPartitionIndex).toArray();
             if (partitionIndexes.length == 0) {
                 // interval does not overlap any partition - skip it
                 continue;
             }
             Arrays.sort(partitionIndexes);
-            int startIndex = partitionIndexes[0];
-            int endIndex = partitionIndexes[partitionIndexes.length - 1];
+            final int startIndex = partitionIndexes[0];
+            final int endIndex = partitionIndexes[partitionIndexes.length - 1];
             indexedIntervals.add(new PartitionLocatable<I>(startIndex, interval));
             if (endIndex > maxEndPartitionIndexes.get(startIndex)) {
                 maxEndPartitionIndexes.set(startIndex, endIndex);
             }
         }
 
-        JavaRDD<L> coalescedRdd = coalesce(locatables, locatableClass, new RangePartitionCoalescer(maxEndPartitionIndexes));
+        final JavaRDD<L> coalescedRdd = coalesce(locatables, locatableClass, new RangePartitionCoalescer(maxEndPartitionIndexes));
 
         // Create an RDD of intervals with the same number of partitions as the locatables, and where each interval
         // is in its start partition.
-        JavaRDD<I> intervalsRdd = ctx.parallelize(indexedIntervals)
+        final JavaRDD<I> intervalsRdd = ctx.parallelize(indexedIntervals)
                 .mapToPair(interval ->
                         new Tuple2<>(interval.getPartitionIndex(), interval.getLocatable()))
                 .partitionBy(new KeyPartitioner(locatables.getNumPartitions())).values();
@@ -203,13 +203,13 @@ public class SparkSharder {
      * Turn a pair of iterators over intervals and locatables, into a single iterator over pairs made up of an interval and
      * the locatables that overlap it. Intervals with no overlapping locatables are dropped.
      */
-    static <L extends Locatable, I extends Locatable> Iterator<Tuple2<I, Iterable<L>>> locatablesPerShard(Iterator<L> locatables, Iterator<I> shards, SAMSequenceDictionary sequenceDictionary, int maxLocatableLength) {
+    static <L extends Locatable, I extends Locatable> Iterator<Tuple2<I, Iterable<L>>> locatablesPerShard(final Iterator<L> locatables, final Iterator<I> shards, final SAMSequenceDictionary sequenceDictionary, final int maxLocatableLength) {
         if (!shards.hasNext()) {
             return Collections.emptyIterator();
         }
-        PeekingIterator<L> peekingLocatables = Iterators.peekingIterator(locatables);
-        PeekingIterator<I> peekingShards = Iterators.peekingIterator(shards);
-        Iterator<Tuple2<I, Iterable<L>>> iterator = new AbstractIterator<Tuple2<I, Iterable<L>>>() {
+        final PeekingIterator<L> peekingLocatables = Iterators.peekingIterator(locatables);
+        final PeekingIterator<I> peekingShards = Iterators.peekingIterator(shards);
+        final Iterator<Tuple2<I, Iterable<L>>> iterator = new AbstractIterator<Tuple2<I, Iterable<L>>>() {
             // keep track of current and next, since locatables can overlap two shards
             I currentShard = peekingShards.next();
             I nextShard = peekingShards.hasNext() ? peekingShards.next() : null;
@@ -225,9 +225,9 @@ public class SparkSharder {
                     if (toRightOf(currentShard, peekingLocatables.peek(), sequenceDictionary)) {
                         break;
                     }
-                    L locatable = peekingLocatables.next();
+                    final L locatable = peekingLocatables.next();
                     if (locatable.getContig() != null) {
-                        int size = locatable.getEnd() - locatable.getStart() + 1;
+                        final int size = locatable.getEnd() - locatable.getStart() + 1;
                         if (size > maxLocatableLength) {
                             throw new UserException(String.format("Max size of locatable exceeded. Max size is %s, but locatable size is %s. Try increasing shard size and/or padding. Locatable: %s", maxLocatableLength, size, locatable));
                         }
@@ -240,7 +240,7 @@ public class SparkSharder {
                     }
                 }
                 // current shard is finished, either because the current locatable is to the right of it, or there are no more locatables
-                Tuple2<I, Iterable<L>> tuple = new Tuple2<>(currentShard, currentLocatables);
+                final Tuple2<I, Iterable<L>> tuple = new Tuple2<>(currentShard, currentLocatables);
                 currentShard = nextShard;
                 nextShard = peekingShards.hasNext() ? peekingShards.next() : null;
                 currentLocatables = nextLocatables;
@@ -254,9 +254,9 @@ public class SparkSharder {
     /**
      * @return <code>true</code> if the locatable is to the right of the given interval
      */
-    private static <I extends Locatable, L extends Locatable> boolean toRightOf(I interval, L locatable, SAMSequenceDictionary sequenceDictionary) {
-        int intervalContigIndex = sequenceDictionary.getSequenceIndex(interval.getContig());
-        int locatableContigIndex = sequenceDictionary.getSequenceIndex(locatable.getContig());
+    private static <I extends Locatable, L extends Locatable> boolean toRightOf(final I interval, final L locatable, final SAMSequenceDictionary sequenceDictionary) {
+        final int intervalContigIndex = sequenceDictionary.getSequenceIndex(interval.getContig());
+        final int locatableContigIndex = sequenceDictionary.getSequenceIndex(locatable.getContig());
         return (intervalContigIndex == locatableContigIndex && interval.getEnd() < locatable.getStart()) // locatable on same contig, to the right
                 || intervalContigIndex < locatableContigIndex; // locatable on subsequent contig
     }
@@ -264,25 +264,25 @@ public class SparkSharder {
     /**
      * For each partition, find the interval that spans it.
      */
-    static <L extends Locatable> List<PartitionLocatable<SimpleInterval>> computePartitionReadExtents(JavaRDD<L> locatables, SAMSequenceDictionary sequenceDictionary, int maxLocatableLength) {
+    static <L extends Locatable> List<PartitionLocatable<SimpleInterval>> computePartitionReadExtents(final JavaRDD<L> locatables, final SAMSequenceDictionary sequenceDictionary, final int maxLocatableLength) {
         // Find the first locatable in each partition. This is very efficient since only the first record in each partition is read.
         // If a partition is empty then set the locatable to null
-        List<PartitionLocatable<L>> allSplitPoints = locatables.mapPartitions(
+        final List<PartitionLocatable<L>> allSplitPoints = locatables.mapPartitions(
                 (FlatMapFunction<Iterator<L>, PartitionLocatable<L>>) it -> ImmutableList.of(new PartitionLocatable<>(-1, it.hasNext() ? it.next() : null)).iterator()
         ).collect();
-        List<PartitionLocatable<L>> splitPoints = new ArrayList<>(); // fill in index and remove nulls (empty partitions)
+        final List<PartitionLocatable<L>> splitPoints = new ArrayList<>(); // fill in index and remove nulls (empty partitions)
         for (int i = 0; i < allSplitPoints.size(); i++) {
-            L locatable = allSplitPoints.get(i).getLocatable();
+            final L locatable = allSplitPoints.get(i).getLocatable();
             if (locatable != null) {
                 splitPoints.add(new PartitionLocatable<L>(i, locatable));
             }
         }
-        List<PartitionLocatable<SimpleInterval>> extents = new ArrayList<>();
+        final List<PartitionLocatable<SimpleInterval>> extents = new ArrayList<>();
         for (int i = 0; i < splitPoints.size(); i++) {
-            PartitionLocatable<L> splitPoint = splitPoints.get(i);
-            int partitionIndex = splitPoint.getPartitionIndex();
-            Locatable current = splitPoint.getLocatable();
-            int intervalContigIndex = sequenceDictionary.getSequenceIndex(current.getContig());
+            final PartitionLocatable<L> splitPoint = splitPoints.get(i);
+            final int partitionIndex = splitPoint.getPartitionIndex();
+            final Locatable current = splitPoint.getLocatable();
+            final int intervalContigIndex = sequenceDictionary.getSequenceIndex(current.getContig());
             final Locatable next;
             final int nextContigIndex;
             if (i < splitPoints.size() - 1) {
@@ -296,11 +296,11 @@ public class SparkSharder {
                 addPartitionReadExtent(extents, partitionIndex, current.getContig(), current.getStart(), next.getStart() + maxLocatableLength);
             } else {
                 // complete current contig
-                int contigEnd = sequenceDictionary.getSequence(current.getContig()).getSequenceLength();
+                final int contigEnd = sequenceDictionary.getSequence(current.getContig()).getSequenceLength();
                 addPartitionReadExtent(extents, partitionIndex, current.getContig(), current.getStart(), contigEnd);
                 // add any whole contigs up to next (exclusive)
                 for (int contigIndex = intervalContigIndex + 1; contigIndex < nextContigIndex; contigIndex++) {
-                    SAMSequenceRecord sequence = sequenceDictionary.getSequence(contigIndex);
+                    final SAMSequenceRecord sequence = sequenceDictionary.getSequence(contigIndex);
                     addPartitionReadExtent(extents, partitionIndex, sequence.getSequenceName(), 1, sequence.getSequenceLength());
                 }
                 // add start of next contig
@@ -312,14 +312,14 @@ public class SparkSharder {
         return extents;
     }
 
-    private static void addPartitionReadExtent(List<PartitionLocatable<SimpleInterval>> extents, int partitionIndex, String contig, int start, int end) {
-        SimpleInterval extent = new SimpleInterval(contig, start, end);
+    private static void addPartitionReadExtent(final List<PartitionLocatable<SimpleInterval>> extents, final int partitionIndex, final String contig, final int start, final int end) {
+        final SimpleInterval extent = new SimpleInterval(contig, start, end);
         extents.add(new PartitionLocatable<>(partitionIndex, extent));
     }
 
-    private static <T> JavaRDD<T> coalesce(JavaRDD<T> rdd, Class<T> cls, PartitionCoalescer partitionCoalescer) {
-        RDD<T> coalescedRdd = rdd.rdd().coalesce(rdd.getNumPartitions(), false, Option.apply(partitionCoalescer), null);
-        ClassTag<T> tag = ClassTag$.MODULE$.apply(cls);
+    private static <T> JavaRDD<T> coalesce(final JavaRDD<T> rdd, final Class<T> cls, final PartitionCoalescer partitionCoalescer) {
+        final RDD<T> coalescedRdd = rdd.rdd().coalesce(rdd.getNumPartitions(), false, Option.apply(partitionCoalescer), null);
+        final ClassTag<T> tag = ClassTag$.MODULE$.apply(cls);
         return new JavaRDD<>(coalescedRdd, tag);
     }
 
@@ -329,7 +329,7 @@ public class SparkSharder {
 
         private int numPartitions;
 
-        public KeyPartitioner(int numPartitions) {
+        public KeyPartitioner(final int numPartitions) {
             this.numPartitions = numPartitions;
         }
 
@@ -339,7 +339,7 @@ public class SparkSharder {
         }
 
         @Override
-        public int getPartition(Object key) {
+        public int getPartition(final Object key) {
             return (Integer) key;
         }
 
@@ -352,7 +352,7 @@ public class SparkSharder {
         private final L interval;
 
 
-        public PartitionLocatable(int partitionIndex, L interval) {
+        public PartitionLocatable(final int partitionIndex, final L interval) {
             this.partitionIndex = partitionIndex;
             this.interval = interval;
         }
@@ -389,11 +389,11 @@ public class SparkSharder {
         }
 
         @Override
-        public boolean equals(Object o) {
+        public boolean equals(final Object o) {
             if (this == o) return true;
             if (o == null || getClass() != o.getClass()) return false;
 
-            PartitionLocatable<?> that = (PartitionLocatable<?>) o;
+            final PartitionLocatable<?> that = (PartitionLocatable<?>) o;
 
             if (partitionIndex != that.partitionIndex) return false;
             return interval.equals(that.interval);

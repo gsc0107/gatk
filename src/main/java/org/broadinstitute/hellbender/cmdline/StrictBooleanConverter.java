@@ -9,7 +9,7 @@ import joptsimple.ValueConverter;
  */
 public final class StrictBooleanConverter implements ValueConverter<String> {
     @Override
-    public String convert( String value ) {
+    public String convert(final String value ) {
         if ( value.equalsIgnoreCase("true") || value.equalsIgnoreCase("t")) {
             return "true";
         } else if (value.equalsIgnoreCase("false") || value.equalsIgnoreCase("f")) {

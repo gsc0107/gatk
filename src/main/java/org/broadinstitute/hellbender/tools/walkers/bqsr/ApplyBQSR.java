@@ -57,7 +57,7 @@ public final class ApplyBQSR extends ReadWalker{
     }
 
     @Override
-    public void apply( GATKRead read, ReferenceContext referenceContext, FeatureContext featureContext ) {
+    public void apply(final GATKRead read, final ReferenceContext referenceContext, final FeatureContext featureContext ) {
         outputWriter.addRead(transform.apply(read));
     }
 

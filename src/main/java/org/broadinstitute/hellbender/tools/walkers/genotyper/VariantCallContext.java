@@ -15,12 +15,12 @@ public final class VariantCallContext extends VariantContext {
     // Should this site be emitted?
     private boolean shouldEmit = true;
 
-    VariantCallContext(VariantContext vc, boolean confidentlyCalledP) {
+    VariantCallContext(final VariantContext vc, final boolean confidentlyCalledP) {
         super(vc);
         this.confidentlyCalled = confidentlyCalledP;
     }
 
-    VariantCallContext(VariantContext vc, boolean confidentlyCalledP, boolean shouldEmit) {
+    VariantCallContext(final VariantContext vc, final boolean confidentlyCalledP, final boolean shouldEmit) {
         super(vc);
         this.confidentlyCalled = confidentlyCalledP;
         this.shouldEmit = shouldEmit;
@@ -34,7 +34,7 @@ public final class VariantCallContext extends VariantContext {
      * @param callConfidenceThreshold the Unified Argument Collection STANDARD_CONFIDENCE_FOR_CALLING
      * @return true if call was confidently ref
      */
-    public boolean isCalledRef(double callConfidenceThreshold) {
+    public boolean isCalledRef(final double callConfidenceThreshold) {
         return (confidentlyCalled && (getPhredScaledQual() < callConfidenceThreshold));
     }
 
@@ -43,7 +43,7 @@ public final class VariantCallContext extends VariantContext {
      * @param callConfidenceThreshold the Unified Argument Collection STANDARD_CONFIDENCE_FOR_CALLING
      * @return true if call was confidently alt
      */
-    public boolean isCalledAlt(double callConfidenceThreshold) {
+    public boolean isCalledAlt(final double callConfidenceThreshold) {
         return (confidentlyCalled && (getPhredScaledQual() > callConfidenceThreshold));
     }
 

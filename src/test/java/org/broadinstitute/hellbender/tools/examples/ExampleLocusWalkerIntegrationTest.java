@@ -16,7 +16,7 @@ public class ExampleLocusWalkerIntegrationTest extends CommandLineProgramTest {
 
     @Test
     public void testExampleVariantWalker() throws IOException {
-        IntegrationTestSpec testSpec = new IntegrationTestSpec(
+        final IntegrationTestSpec testSpec = new IntegrationTestSpec(
             " -L 1" +
                 " -R " + hg19MiniReference +
                 " -I " + TEST_DATA_DIRECTORY + "reads_data_source_test1.bam" +

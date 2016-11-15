@@ -100,8 +100,8 @@ public final class ProcessController {
      * @param command Command to run.
      * @return The result code.
      */
-    public static int exec(String[] command) {
-        ProcessController controller = ProcessController.getThreadLocal();
+    public static int exec(final String[] command) {
+        final ProcessController controller = ProcessController.getThreadLocal();
         return controller.exec(new ProcessSettings(command)).getExitValue();
     }
 
@@ -112,16 +112,16 @@ public final class ProcessController {
      * @param settings Settings to be run.
      * @return The output of the command.
      */
-    public ProcessOutput exec(ProcessSettings settings) {
+    public ProcessOutput exec(final ProcessSettings settings) {
         if (destroyed)
             throw new IllegalStateException("This controller was destroyed");
 
-        ProcessBuilder builder = new ProcessBuilder(settings.getCommand());
+        final ProcessBuilder builder = new ProcessBuilder(settings.getCommand());
         builder.directory(settings.getDirectory());
 
-        Map<String, String> settingsEnvironment = settings.getEnvironment();
+        final Map<String, String> settingsEnvironment = settings.getEnvironment();
         if (settingsEnvironment != null) {
-            Map<String, String> builderEnvironment = builder.environment();
+            final Map<String, String> builderEnvironment = builder.environment();
             builderEnvironment.clear();
             builderEnvironment.putAll(settingsEnvironment);
         }
@@ -138,14 +138,14 @@ public final class ProcessController {
                 process = builder.start();
             }
             running.add(this);
-        } catch (IOException e) {
-            String message = String.format("Unable to start command: %s\nReason: %s",
+        } catch (final IOException e) {
+            final String message = String.format("Unable to start command: %s\nReason: %s",
                     StringUtils.join(builder.command(), " "),
                     e.getMessage());
             throw new GATKException(message);
         }
 
-        int exitCode;
+        final int exitCode;
 
         try {
             // Notify the background threads to start capturing.
@@ -158,13 +158,13 @@ public final class ProcessController {
             }
 
             // Write stdin content
-            InputStreamSettings stdinSettings = settings.getStdinSettings();
-            Set<StreamLocation> streamLocations = stdinSettings.getStreamLocations();
+            final InputStreamSettings stdinSettings = settings.getStdinSettings();
+            final Set<StreamLocation> streamLocations = stdinSettings.getStreamLocations();
             if (!streamLocations.isEmpty()) {
                 try {
-                    OutputStream stdinStream = process.getOutputStream();
-                    for (StreamLocation location : streamLocations) {
-                        InputStream inputStream;
+                    final OutputStream stdinStream = process.getOutputStream();
+                    for (final StreamLocation location : streamLocations) {
+                        final InputStream inputStream;
                         switch (location) {
                             case Buffer:
                                 inputStream = new ByteArrayInputStream(stdinSettings.getInputBuffer());
@@ -172,7 +172,7 @@ public final class ProcessController {
                             case File:
                                 try {
                                     inputStream = FileUtils.openInputStream(stdinSettings.getInputFile());
-                                } catch (IOException e) {
+                                } catch (final IOException e) {
                                     throw new UserException.BadInput(e.getMessage());
                                 }
                                 break;
@@ -190,7 +190,7 @@ public final class ProcessController {
                         }
                     }
                     stdinStream.flush();
-                } catch (IOException e) {
+                } catch (final IOException e) {
                     throw new GATKException("Error writing to stdin on command: " + StringUtils.join(builder.command(), " "), e);
                 }
             }
@@ -199,9 +199,9 @@ public final class ProcessController {
             try {
                 process.getOutputStream().close();
                 process.waitFor();
-            } catch (IOException e) {
+            } catch (final IOException e) {
                 throw new GATKException("Unable to close stdin on command: " + StringUtils.join(builder.command(), " "), e);
-            } catch (InterruptedException e) {
+            } catch (final InterruptedException e) {
                 throw new GATKException("Process interrupted", e);
             } finally {
                 while (!destroyed && stdout == null || stderr == null) {
@@ -213,7 +213,7 @@ public final class ProcessController {
                         try {
                             if (stdout == null || stderr == null)
                                 fromCapture.wait();
-                        } catch (InterruptedException e) {
+                        } catch (final InterruptedException e) {
                             // Log the error, ignore the interrupt and wait patiently
                             // for the OutputCaptures to (via finally) return their
                             // stdout and stderr.
@@ -273,7 +273,7 @@ public final class ProcessController {
     protected void finalize() throws Throwable {
         try {
             tryDestroy();
-        } catch (Exception e) {
+        } catch (final Exception e) {
             logger.error(e);
         }
         super.finalize();
@@ -289,7 +289,7 @@ public final class ProcessController {
          * @param key The stdout or stderr key for this output capture.
          * @param controllerId Unique id of the controller.
          */
-        public OutputCapture(ProcessStream key, int controllerId) {
+        public OutputCapture(final ProcessStream key, final int controllerId) {
             super(String.format("OutputCapture-%d-%s-%s-%d", controllerId, key.name().toLowerCase(),
                     Thread.currentThread().getName(), Thread.currentThread().getId()));
             this.controllerId = controllerId;
@@ -322,10 +322,10 @@ public final class ProcessController {
                         processStream = capturedProcessStream;
                         capturedProcessStream.readAndClose();
                     }
-                } catch (InterruptedException e) {
+                } catch (final InterruptedException e) {
                     logger.info("OutputCapture interrupted, exiting");
                     break;
-                } catch (IOException e) {
+                } catch (final IOException e) {
                     logger.error("Error reading process output", e);
                 } finally {
                     // Send the string back to the process controller.

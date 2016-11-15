@@ -15,7 +15,7 @@ public final class TabbedInputParser extends BasicInputParser {
      *
      * @param stream  The input stream(s) to parse
      */
-    public TabbedInputParser(boolean treatGroupedDelimitersAsOne, InputStream... stream) {
+    public TabbedInputParser(final boolean treatGroupedDelimitersAsOne, final InputStream... stream) {
         super(treatGroupedDelimitersAsOne, stream);
     }
 
@@ -24,7 +24,7 @@ public final class TabbedInputParser extends BasicInputParser {
      *
      * @param file  The file(s) to parse
      */
-    public TabbedInputParser(boolean treatGroupedDelimitersAsOne, File... file) {
+    public TabbedInputParser(final boolean treatGroupedDelimitersAsOne, final File... file) {
         super(treatGroupedDelimitersAsOne, file);
     }
 

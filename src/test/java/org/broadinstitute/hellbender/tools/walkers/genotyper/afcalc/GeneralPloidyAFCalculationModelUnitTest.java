@@ -60,7 +60,7 @@ public final class GeneralPloidyAFCalculationModelUnitTest extends BaseTest {
         int numAltAlleles;
         String name;
         int ploidy;
-        private GetGLsTest(String name, int numAltAlleles, int ploidy, Genotype... arg) {
+        private GetGLsTest(final String name, final int numAltAlleles, final int ploidy, final Genotype... arg) {
             super(GetGLsTest.class, name);
             GLs = GenotypesContext.create(arg);
             this.name = name;
@@ -73,8 +73,8 @@ public final class GeneralPloidyAFCalculationModelUnitTest extends BaseTest {
         }
     }
 
-    private static Genotype createGenotype(String name, double[] gls, int ploidy) {
-        Allele[] alleles = new Allele[ploidy];
+    private static Genotype createGenotype(final String name, final double[] gls, final int ploidy) {
+        final Allele[] alleles = new Allele[ploidy];
         
         for (int i=0; i < ploidy; i++)
             alleles[i] = Allele.NO_CALL;
@@ -125,17 +125,17 @@ public final class GeneralPloidyAFCalculationModelUnitTest extends BaseTest {
     }
 
     @Test(dataProvider = "getGLs")
-    public void testGLs(GetGLsTest cfg) {
+    public void testGLs(final GetGLsTest cfg) {
         final int len = GenotypeLikelihoods.numLikelihoods(1 + cfg.numAltAlleles, cfg.ploidy * cfg.GLs.size());
-        double[] priors = new double[len];  // flat priors
+        final double[] priors = new double[len];  // flat priors
 
         final GeneralPloidyExactAFCalculator calc = new GeneralPloidyExactAFCalculator();
         calc.combineSinglePools(cfg.GLs, cfg.ploidy,cfg.numAltAlleles + 1, priors);
         int nameIndex = 1;
 
         for ( int allele = 0; allele < cfg.numAltAlleles; allele++, nameIndex+=2 ) {
-            int expectedAlleleCount = Integer.valueOf(cfg.name.substring(nameIndex, nameIndex + 1));
-            int calculatedAlleleCount = calc.getAltAlleleCountOfMAP(allele);
+            final int expectedAlleleCount = Integer.valueOf(cfg.name.substring(nameIndex, nameIndex + 1));
+            final int calculatedAlleleCount = calc.getAltAlleleCountOfMAP(allele);
             Assert.assertEquals(calculatedAlleleCount, expectedAlleleCount);
         }
     }

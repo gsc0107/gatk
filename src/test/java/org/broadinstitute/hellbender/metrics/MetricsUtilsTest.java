@@ -45,9 +45,9 @@ public class MetricsUtilsTest extends BaseTest {
     }
 
     @Test(dataProvider = "metricsPaths", groups = "cloud")
-    public void testSaveMetrics(String destinationPrefix) throws IOException {
+    public void testSaveMetrics(final String destinationPrefix) throws IOException {
         final String outputPath = BucketUtils.getTempFilePath(destinationPrefix, ".txt", getAuthentication());
-        TestMetric testMetric = new TestMetric();
+        final TestMetric testMetric = new TestMetric();
         testMetric.value1 = 10;
         testMetric.value2 = 5;
 
@@ -55,7 +55,7 @@ public class MetricsUtilsTest extends BaseTest {
         metrics.addMetric(testMetric);
         MetricsUtils.saveMetrics(metrics, outputPath,getAuthentication());
         Assert.assertTrue(BucketUtils.fileExists(outputPath, getAuthenticatedPipelineOptions()));
-        File localCopy = copyFileToLocalTmpFile(outputPath);
+        final File localCopy = copyFileToLocalTmpFile(outputPath);
 
         final File expectedMetrics = createTempFile("expectedMetrics", ".txt");
         metrics.write(expectedMetrics);
@@ -63,8 +63,8 @@ public class MetricsUtilsTest extends BaseTest {
         Assert.assertTrue(MetricsFile.areMetricsEqual(localCopy, expectedMetrics));
     }
 
-    private File copyFileToLocalTmpFile(String outputPath) throws IOException {
-        File localCopy = createTempFile("local_metrics_copy",".txt");
+    private File copyFileToLocalTmpFile(final String outputPath) throws IOException {
+        final File localCopy = createTempFile("local_metrics_copy",".txt");
         BucketUtils.copyFile(outputPath, getAuthenticatedPipelineOptions(), localCopy.getAbsolutePath());
         return localCopy;
     }

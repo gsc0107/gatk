@@ -282,7 +282,7 @@ public final class BQSRReadTransformer implements ReadTransformer {
         return mapping;
     }
 
-    private static byte[] createIdentityMatrix(int maxQual) {
+    private static byte[] createIdentityMatrix(final int maxQual) {
         final byte[] bytes = new byte[maxQual];
         for (int i = 0; i < bytes.length; i++) {
             bytes[i] = (byte) i;

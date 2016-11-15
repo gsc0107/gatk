@@ -47,7 +47,7 @@ public class AlleleSubsettingUtilsUnitTest extends BaseTest {
 
     @DataProvider(name = "updatePLsSACsAndADData")
     public Object[][] makeUpdatePLsSACsAndADData() {
-        List<Object[]> tests = new ArrayList<>();
+        final List<Object[]> tests = new ArrayList<>();
 
         final List<Allele> AA = Arrays.asList(Aref, Aref);
         final List<Allele> AC = Arrays.asList(Aref,C);
@@ -186,7 +186,7 @@ public class AlleleSubsettingUtilsUnitTest extends BaseTest {
     // regression test for https://github.com/broadinstitute/gatk/issues/2157
     @Test
     public void testCalculateMostLikelyAllelesTieDoesntRemoveAllTiedAlleles(){
-        VariantContext vc = new VariantContextBuilder(null, "1", 100, 100, Arrays.asList(Aref, C, G))
+        final VariantContext vc = new VariantContextBuilder(null, "1", 100, 100, Arrays.asList(Aref, C, G))
                 .genotypes(Arrays.asList(new GenotypeBuilder("sample1", Arrays.asList(C,G)).PL( new double[]{5, 5, 5, 5, 0, 5}).make())).make();
         Assert.assertEquals(AlleleSubsettingUtils.calculateMostLikelyAlleles(vc, 2, 1), Arrays.asList(Aref,C)) ;
     }
@@ -205,13 +205,13 @@ public class AlleleSubsettingUtilsUnitTest extends BaseTest {
     }
 
     @Test(dataProvider = "getAllelesWithScores")
-    public void testThatFilteringWorksCorrectly(int numToKeep, List<Allele> alleles, double[] scores, List<Allele> expected ){
+    public void testThatFilteringWorksCorrectly(final int numToKeep, final List<Allele> alleles, final double[] scores, final List<Allele> expected ){
         Assert.assertEquals(AlleleSubsettingUtils.filterToMaxNumberOfAltAllelesBasedOnScores(numToKeep, alleles, scores), expected);
     }
 
     @Test
     public void testCalculateMostLikelyAllelesPreconditions(){
-        VariantContext vc = new VariantContextBuilder(null, "1", 100, 100, Arrays.asList(Aref, C, G)).make();
+        final VariantContext vc = new VariantContextBuilder(null, "1", 100, 100, Arrays.asList(Aref, C, G)).make();
         Assert.assertThrows(IllegalArgumentException.class, () -> AlleleSubsettingUtils.calculateMostLikelyAlleles(null, 2, 2));
         Assert.assertThrows(IllegalArgumentException.class, () -> AlleleSubsettingUtils.calculateMostLikelyAlleles(vc, 0, 2));
         Assert.assertThrows(IllegalArgumentException.class, () -> AlleleSubsettingUtils.calculateMostLikelyAlleles(vc, 2, 0));

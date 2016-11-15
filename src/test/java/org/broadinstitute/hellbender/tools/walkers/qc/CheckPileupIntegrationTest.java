@@ -28,7 +28,7 @@ public class CheckPileupIntegrationTest extends CommandLineProgramTest {
         final File emptyTemp = createTempFile("empty", "txt");
         emptyTemp.createNewFile();
         // pileup was generated with "samtools -f hg19MiniReference -B --min-BQ 0 reads_data_source_test1.bam"
-        IntegrationTestSpec testSpec = new IntegrationTestSpec(
+        final IntegrationTestSpec testSpec = new IntegrationTestSpec(
             " -R " + hg19MiniReference +
             " -I " + TEST_DATA_DIRECTORY + "reads_data_source_test1.bam" +
             " -pileup " +  TEST_OUTPUT_DIRECTORY + "reads_data_source_test1.samtools.pileup" +
@@ -44,7 +44,7 @@ public class CheckPileupIntegrationTest extends CommandLineProgramTest {
     @Test
     public void testBAQPileup() throws IOException {
         // pileup was generated with "samtools -f hg19MiniReference --min-BQ 0 reads_data_source_test1.bam"
-        IntegrationTestSpec testSpec = new IntegrationTestSpec(
+        final IntegrationTestSpec testSpec = new IntegrationTestSpec(
                 " --continue_after_error " +
                 " -R " + hg19MiniReference +
                 " -I " + TEST_DATA_DIRECTORY + "reads_data_source_test1.bam" +

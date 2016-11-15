@@ -26,7 +26,7 @@ public final class StrandOddsRatioUnitTest {
     @DataProvider(name = "UsingSOR")
     public Object[][] makeUsingSORData() {
         final double LOG_OF_TWO =  0.6931472;
-        List<Object[]> tests = new ArrayList<>();
+        final List<Object[]> tests = new ArrayList<>();
         tests.add(new Object[]{0, 0, 0, 0, LOG_OF_TWO});
         tests.add(new Object[]{100000, 100000, 100000, 100000, LOG_OF_TWO}  );
         tests.add(new Object[]{Integer.MAX_VALUE, Integer.MAX_VALUE, Integer.MAX_VALUE, Integer.MAX_VALUE, LOG_OF_TWO}  );
@@ -52,8 +52,8 @@ public final class StrandOddsRatioUnitTest {
     }
 
     @Test(dataProvider = "UsingSOR")
-    public void testUsingSOR(final int refpos, final int refneg, final int altpos, final int altneg, double expectedOddsRatio ) {
-        int[][] contingencyTable = new int[2][2];
+    public void testUsingSOR(final int refpos, final int refneg, final int altpos, final int altneg, final double expectedOddsRatio ) {
+        final int[][] contingencyTable = new int[2][2];
         contingencyTable[0][0] = refpos;
         contingencyTable[0][1] = refneg;
         contingencyTable[1][0] = altpos;
@@ -94,7 +94,7 @@ public final class StrandOddsRatioUnitTest {
     }
 
     private GATKRead makeRead(final boolean forward) {
-        Cigar cigar = TextCigarCodec.decode("10M");
+        final Cigar cigar = TextCigarCodec.decode("10M");
         final GATKRead read = ArtificialReadUtils.createArtificialRead(cigar);
         read.setIsReverseStrand(!forward);
         return read;

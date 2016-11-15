@@ -379,7 +379,7 @@ public final class PileupElementUnitTest extends LocusIteratorByStateBaseTest {
     }
 
     @Test(dataProvider = "adjacentElementTestData")
-    public void testAdjacentElements(GATKRead read, int goodOffset, boolean atStartOfCurrentCigar, boolean atEndOfCurrentCigar, CigarOperator prev, CigarOperator next) throws Exception {
+    public void testAdjacentElements(final GATKRead read, final int goodOffset, final boolean atStartOfCurrentCigar, final boolean atEndOfCurrentCigar, final CigarOperator prev, final CigarOperator next) throws Exception {
         final PileupElement pe = PileupElement.createPileupForReadAndOffset(read, goodOffset);
         Assert.assertEquals(pe.atStartOfCurrentCigar(), atStartOfCurrentCigar, "atStartOfCurrentCigar");
         Assert.assertEquals(pe.atEndOfCurrentCigar(), atEndOfCurrentCigar, "atEndOfCurrentCigar");
@@ -409,7 +409,7 @@ public final class PileupElementUnitTest extends LocusIteratorByStateBaseTest {
     }
 
     @Test(dataProvider = "elementData_badOffsetWithinBounds", expectedExceptions = IllegalStateException.class)
-    public void testBadOffsetWithinBounds(GATKRead read, int badOffset) throws Exception {
+    public void testBadOffsetWithinBounds(final GATKRead read, final int badOffset) throws Exception {
         PileupElement.createPileupForReadAndOffset(read, badOffset);
     }
 
@@ -423,7 +423,7 @@ public final class PileupElementUnitTest extends LocusIteratorByStateBaseTest {
     }
 
     @Test(dataProvider = "elementData_badOffsetOutOfBounds", expectedExceptions = IllegalArgumentException.class)
-    public void testBadOffsetOutOfBounds(GATKRead read, int badOffset) throws Exception {
+    public void testBadOffsetOutOfBounds(final GATKRead read, final int badOffset) throws Exception {
         PileupElement.createPileupForReadAndOffset(read, badOffset);
     }
 }

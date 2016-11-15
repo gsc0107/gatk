@@ -24,7 +24,7 @@ public final class CompressedDataList<T>  implements Iterable<T> {
 
     @Override
     public Iterator<T> iterator(){
-        Iterator<T> it = new Iterator<T>() {
+        final Iterator<T> it = new Iterator<T>() {
             private Iterator<T> keySetIterator = valueCounts.keySet().iterator();
             private T currentKey = valueCounts.isEmpty() ? null : keySetIterator.next();
             private int currentValueIndex = 0;
@@ -60,9 +60,9 @@ public final class CompressedDataList<T>  implements Iterable<T> {
     @Override
     public String toString(){
         String str = "";
-        Object[] keys = valueCounts.keySet().toArray();
+        final Object[] keys = valueCounts.keySet().toArray();
         Arrays.sort(keys);
-        for (Object i: keys){
+        for (final Object i: keys){
             if(!str.isEmpty()) {
                 str += ",";
             }

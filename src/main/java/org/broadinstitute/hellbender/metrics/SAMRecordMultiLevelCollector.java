@@ -9,7 +9,7 @@ public abstract class SAMRecordMultiLevelCollector<BEAN extends MetricBase,
         HKEY extends Comparable<HKEY>> extends MultiLevelCollector<BEAN, HKEY, SAMRecord> {
 
     @Override
-    protected SAMRecord makeArg(SAMRecord samRec, final ReferenceSequence refSeq) {
+    protected SAMRecord makeArg(final SAMRecord samRec, final ReferenceSequence refSeq) {
         return samRec;
     }
 }

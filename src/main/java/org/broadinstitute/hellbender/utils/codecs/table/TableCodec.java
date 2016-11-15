@@ -49,11 +49,11 @@ public final class TableCodec extends AsciiFeatureCodec<TableFeature> {
     }
 
     @Override
-    public TableFeature decode(String line) {
+    public TableFeature decode(final String line) {
         if (line.startsWith(HEADER_DELIMITER) || line.startsWith(COMMENT_DELIMITER) || line.startsWith(IGV_HEADER_DELIMITER)) {
             return null;
         }
-        String[] split = line.split(DELIMITER_REGEX);
+        final String[] split = line.split(DELIMITER_REGEX);
         if (split.length < 1) {
             throw new IllegalArgumentException("TableCodec line = " + line + " is not a valid table format");
         }

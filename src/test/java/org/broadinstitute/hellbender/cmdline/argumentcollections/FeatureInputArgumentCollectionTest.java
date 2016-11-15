@@ -10,23 +10,23 @@ public final class FeatureInputArgumentCollectionTest extends BaseTest{
 
     @Test(expectedExceptions = UserException.CommandLineException.class)
     public void testRequiredIsRequired(){
-        Object req = new Object(){
+        final Object req = new Object(){
             @ArgumentCollection
             private RequiredFeatureInputArgumentCollection ric = new RequiredFeatureInputArgumentCollection();
         };
-        CommandLineParser clp = new CommandLineParser(req);
-        String[] args = {};
+        final CommandLineParser clp = new CommandLineParser(req);
+        final String[] args = {};
         clp.parseArguments(System.out, args);
     }
 
     @Test
     public void testOptionalIsOptional(){
-        Object req = new Object(){
+        final Object req = new Object(){
             @ArgumentCollection
             private OptionalFeatureInputArgumentCollection ric = new OptionalFeatureInputArgumentCollection();
         };
-        CommandLineParser clp = new CommandLineParser(req);
-        String[] args = {};
+        final CommandLineParser clp = new CommandLineParser(req);
+        final String[] args = {};
         clp.parseArguments(System.out, args);
     }
 }

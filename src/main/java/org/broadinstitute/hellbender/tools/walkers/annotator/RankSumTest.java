@@ -82,7 +82,7 @@ public abstract class RankSumTest extends InfoFieldAnnotation {
      * @param bestAllele the most likely allele for this read
      * @return a Double representing the element to be used in the rank sum test, or null if it should not be used
      */
-    protected OptionalDouble getElementForRead(final GATKRead read, final int refLoc, ReadLikelihoods<Allele>.BestAllele bestAllele) {
+    protected OptionalDouble getElementForRead(final GATKRead read, final int refLoc, final ReadLikelihoods<Allele>.BestAllele bestAllele) {
         return getElementForRead(read, refLoc);
     }
 

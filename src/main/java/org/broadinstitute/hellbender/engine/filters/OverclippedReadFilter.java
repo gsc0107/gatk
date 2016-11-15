@@ -46,7 +46,7 @@ public final class OverclippedReadFilter extends ReadFilter{
     public boolean test(final GATKRead read) {
         int alignedLength = 0;
         int softClipBlocks = 0;
-        int minSoftClipBlocks = doNotRequireSoftclipsOnBothEnds ? 1 : 2;
+        final int minSoftClipBlocks = doNotRequireSoftclipsOnBothEnds ? 1 : 2;
         CigarOperator prevOperator = null;
 
         for ( final CigarElement element : read.getCigarElements() ) {

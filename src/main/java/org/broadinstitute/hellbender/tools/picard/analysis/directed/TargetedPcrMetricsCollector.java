@@ -23,7 +23,7 @@ public final class TargetedPcrMetricsCollector extends TargetMetricsCollector<Ta
     }
 
     @Override
-    public TargetedPcrMetrics convertMetric(TargetMetrics targetMetrics) {
+    public TargetedPcrMetrics convertMetric(final TargetMetrics targetMetrics) {
         final TargetedPcrMetrics pcrMetrics = new TargetedPcrMetrics();
         TargetMetricsCollector.reflectiveCopy(targetMetrics, pcrMetrics,
                 new String[]{"PROBE_SET",           "PROBE_TERRITORY",    "ON_PROBE_BASES",    "NEAR_PROBE_BASES",    "OFF_PROBE_BASES",    "PCT_SELECTED_BASES",  "PCT_OFF_PROBE",    "ON_PROBE_VS_SELECTED",    "MEAN_PROBE_COVERAGE"},

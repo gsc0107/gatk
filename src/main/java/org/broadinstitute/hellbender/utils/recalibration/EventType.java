@@ -42,7 +42,7 @@ public enum EventType {
      * @return an EventType
      */
     public static EventType eventFrom(final String representation) {
-        for (EventType eventType : cachedValues) {
+        for (final EventType eventType : cachedValues) {
             if (eventType.representation.equals(representation)) {
                 return eventType;
             }

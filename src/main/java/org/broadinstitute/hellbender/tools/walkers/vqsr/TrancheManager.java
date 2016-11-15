@@ -25,7 +25,7 @@ public class TrancheManager {
     public static abstract class SelectionMetric {
         String name = null;
 
-        public SelectionMetric(String name) {
+        public SelectionMetric(final String name) {
             this.name = name;
         }
 
@@ -61,7 +61,7 @@ public class TrancheManager {
             runningSensitivity = new double[data.size()];
 
             for ( int i = data.size() - 1; i >= 0; i-- ) {
-                VariantDatum datum = data.get(i);
+                final VariantDatum datum = data.get(i);
                 nCalledAtTruth += datum.atTruthSite ? 1 : 0;
                 runningSensitivity[i] = 1 - nCalledAtTruth / (1.0 * nTrueSites);
             }
@@ -100,9 +100,9 @@ public class TrancheManager {
             writeTranchesDebuggingInfo(debugFile, data, metric);
         }
 
-        List<Tranche> tranches = new ArrayList<>();
-        for ( double trancheThreshold : trancheThresholds ) {
-            Tranche t = findTranche(data, metric, trancheThreshold, model);
+        final List<Tranche> tranches = new ArrayList<>();
+        for ( final double trancheThreshold : trancheThresholds ) {
+            final Tranche t = findTranche(data, metric, trancheThreshold, model);
 
             if ( t == null ) {
                 if ( tranches.size() == 0 ) {
@@ -122,16 +122,16 @@ public class TrancheManager {
 
     private static void writeTranchesDebuggingInfo(final File f, final List<VariantDatum> tranchesData, final SelectionMetric metric ) {
         try {
-            PrintStream out = new PrintStream(f);
+            final PrintStream out = new PrintStream(f);
             out.println("Qual metricValue runningValue");
             for ( int i = 0; i < tranchesData.size(); i++ ) {
-                VariantDatum  d = tranchesData.get(i);
-                int score = metric.datumValue(d);
-                double runningValue = metric.getRunningMetric(i);
+                final VariantDatum  d = tranchesData.get(i);
+                final int score = metric.datumValue(d);
+                final double runningValue = metric.getRunningMetric(i);
                 out.printf("%.4f %d %.4f%n", d.lod, score, runningValue);
             }
             out.close();
-        } catch (FileNotFoundException e) {
+        } catch (final FileNotFoundException e) {
             throw new UserException.CouldNotCreateOutputFile(f, e);
         }
     }
@@ -143,12 +143,12 @@ public class TrancheManager {
             final VariantRecalibratorArgumentCollection.Mode model ) {
         logger.info(String.format("  Tranche threshold %.2f => selection metric threshold %.3f", trancheThreshold, metric.getThreshold(trancheThreshold)));
 
-        double metricThreshold = metric.getThreshold(trancheThreshold);
-        int n = data.size();
+        final double metricThreshold = metric.getThreshold(trancheThreshold);
+        final int n = data.size();
         for ( int i = 0; i < n; i++ ) {
             if ( metric.getRunningMetric(i) >= metricThreshold ) {
                 // we've found the largest group of variants with sensitivity >= our target truth sensitivity
-                Tranche t = trancheOfVariants(data, i, trancheThreshold, model);
+                final Tranche t = trancheOfVariants(data, i, trancheThreshold, model);
                 logger.info(String.format("  Found tranche for %.3f: %.3f threshold starting with variant %d; running score is %.3f ",
                         trancheThreshold, metricThreshold, i, metric.getRunningMetric(i)));
                 logger.info(String.format("  Tranche is %s", t));
@@ -166,7 +166,7 @@ public class TrancheManager {
             final VariantRecalibratorArgumentCollection.Mode model ) {
         int numKnown = 0, numNovel = 0, knownTi = 0, knownTv = 0, novelTi = 0, novelTv = 0;
 
-        double minLod = data.get(minI).lod;
+        final double minLod = data.get(minI).lod;
         for ( final VariantDatum datum : data ) {
             if ( datum.lod >= minLod ) {
                 //if( ! datum.isKnown ) System.out.println(datum.pos);
@@ -184,11 +184,11 @@ public class TrancheManager {
             }
         }
 
-        double knownTiTv = knownTi / Math.max(1.0 * knownTv, 1.0);
-        double novelTiTv = novelTi / Math.max(1.0 * novelTv, 1.0);
+        final double knownTiTv = knownTi / Math.max(1.0 * knownTv, 1.0);
+        final double novelTiTv = novelTi / Math.max(1.0 * novelTv, 1.0);
 
-        int accessibleTruthSites = countCallsAtTruth(data, Double.NEGATIVE_INFINITY);
-        int nCallsAtTruth = countCallsAtTruth(data, minLod);
+        final int accessibleTruthSites = countCallsAtTruth(data, Double.NEGATIVE_INFINITY);
+        final int nCallsAtTruth = countCallsAtTruth(data, minLod);
 
         return new Tranche(ts, minLod, numKnown, knownTiTv, numNovel, novelTiTv, accessibleTruthSites, nCallsAtTruth, model);
     }
@@ -197,9 +197,9 @@ public class TrancheManager {
         return (1.0 - desiredFDR / 100.0) * (targetTiTv - 0.5) + 0.5;
     }
 
-    public static int countCallsAtTruth(final List<VariantDatum> data, double minLOD ) {
+    public static int countCallsAtTruth(final List<VariantDatum> data, final double minLOD ) {
         int n = 0;
-        for ( VariantDatum d : data ) { n += (d.atTruthSite && d.lod >= minLOD ? 1 : 0); }
+        for ( final VariantDatum d : data ) { n += (d.atTruthSite && d.lod >= minLOD ? 1 : 0); }
         return n;
     }
 }

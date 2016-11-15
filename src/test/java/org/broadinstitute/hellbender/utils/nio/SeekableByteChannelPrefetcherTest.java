@@ -18,8 +18,8 @@ public class SeekableByteChannelPrefetcherTest {
 
     @Test
     public void testRead() throws Exception {
-        SeekableByteChannel chan1 = Files.newByteChannel(Paths.get(input));
-        SeekableByteChannel chan2 = new SeekableByteChannelPrefetcher(Files.newByteChannel(Paths.get(input)), 1024);
+        final SeekableByteChannel chan1 = Files.newByteChannel(Paths.get(input));
+        final SeekableByteChannel chan2 = new SeekableByteChannelPrefetcher(Files.newByteChannel(Paths.get(input)), 1024);
 
         testReading(chan1, chan2, 0);
         testReading(chan1, chan2, 128);
@@ -32,8 +32,8 @@ public class SeekableByteChannelPrefetcherTest {
 
     @Test
     public void testSeek() throws Exception {
-        SeekableByteChannel chan1 = Files.newByteChannel(Paths.get(input));
-        SeekableByteChannel chan2 = new SeekableByteChannelPrefetcher(Files.newByteChannel(Paths.get(input)), 1024);
+        final SeekableByteChannel chan1 = Files.newByteChannel(Paths.get(input));
+        final SeekableByteChannel chan2 = new SeekableByteChannelPrefetcher(Files.newByteChannel(Paths.get(input)), 1024);
 
         testSeeking(chan1, chan2, 1024);
         testSeeking(chan1, chan2, 1500);
@@ -52,9 +52,9 @@ public class SeekableByteChannelPrefetcherTest {
         testSeeking(chan1, chan2, (int)chan1.size()-129);
     }
 
-    private void testReading(SeekableByteChannel chan1, SeekableByteChannel chan2, int howMuch) throws IOException {
-        ByteBuffer one = ByteBuffer.allocate(howMuch);
-        ByteBuffer two = ByteBuffer.allocate(howMuch);
+    private void testReading(final SeekableByteChannel chan1, final SeekableByteChannel chan2, final int howMuch) throws IOException {
+        final ByteBuffer one = ByteBuffer.allocate(howMuch);
+        final ByteBuffer two = ByteBuffer.allocate(howMuch);
 
         readFully(chan1, one);
         readFully(chan2, two);
@@ -63,9 +63,9 @@ public class SeekableByteChannelPrefetcherTest {
         Assert.assertEquals(one.array(), two.array());
     }
 
-    private void testSeeking(SeekableByteChannel chan1, SeekableByteChannel chan2, int position) throws IOException {
-        ByteBuffer one = ByteBuffer.allocate(128);
-        ByteBuffer two = ByteBuffer.allocate(128);
+    private void testSeeking(final SeekableByteChannel chan1, final SeekableByteChannel chan2, final int position) throws IOException {
+        final ByteBuffer one = ByteBuffer.allocate(128);
+        final ByteBuffer two = ByteBuffer.allocate(128);
 
         chan1.position(position);
         chan2.position(position);
@@ -77,7 +77,7 @@ public class SeekableByteChannelPrefetcherTest {
         Assert.assertEquals(one.array(), two.array());
     }
 
-    private void readFully(ReadableByteChannel chan, ByteBuffer buf) throws IOException {
+    private void readFully(final ReadableByteChannel chan, final ByteBuffer buf) throws IOException {
         // the countdown isn't strictly necessary but it protects us against infinite loops
         // for some potential bugs in the channel implementation.
         int countdown = buf.capacity();

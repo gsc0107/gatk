@@ -25,7 +25,7 @@ public final class SampleDB {
     protected SampleDB addSample(final Sample newSample) {
         Sample updatedSample = newSample;
 
-        Sample prevSample = samples.get(newSample.getID());
+        final Sample prevSample = samples.get(newSample.getID());
         if (prevSample != null) {
             updatedSample = prevSample.mergeSamples(newSample);
         }
@@ -45,7 +45,7 @@ public final class SampleDB {
      * @param id
      * @return sample Object with this ID, or null if this does not exist
      */
-    public Sample getSample(String id) {
+    public Sample getSample(final String id) {
         return samples.get(id);
     }
 
@@ -95,7 +95,7 @@ public final class SampleDB {
      * @return Map from family ID -> set of family members for all samples in sampleIds with
      * non-null family ids
      */
-    public final Map<String, Set<Sample>> getFamilies(Collection<String> sampleIds) {
+    public final Map<String, Set<Sample>> getFamilies(final Collection<String> sampleIds) {
         final Map<String, Set<Sample>> families = new TreeMap<>();
 
         for (final Sample sample : samples.values()) {
@@ -117,7 +117,7 @@ public final class SampleDB {
      * @param familyId
      * @return Set of all samples with the given family id.
      */
-    public Set<Sample> getFamily(String familyId) {
+    public Set<Sample> getFamily(final String familyId) {
         return getFamilies().get(familyId);
     }
 
@@ -179,8 +179,8 @@ public final class SampleDB {
     }
 
     public Set<String> getFounderIds(){
-        Set<String> founders = new LinkedHashSet<>();
-        for (Sample sample : getSamples()) {
+        final Set<String> founders = new LinkedHashSet<>();
+        for (final Sample sample : getSamples()) {
             if (getParents(sample).size() < 1) {
                 founders.add(sample.getID());
             }
@@ -193,8 +193,8 @@ public final class SampleDB {
      * @param offSpring child of mother to return
      * @return sample object with relationship mother, if exists, or null
      */
-    public Sample getMother(Sample offSpring) {
-        String maternalID = offSpring.getMaternalID();
+    public Sample getMother(final Sample offSpring) {
+        final String maternalID = offSpring.getMaternalID();
         return null == maternalID ? null : samples.get(maternalID);
     }
 
@@ -203,8 +203,8 @@ public final class SampleDB {
      * @param offSpring child of father to return
      * @return sample object with relationship father, if exists, or null
      */
-    public Sample getFather(Sample offSpring) {
-        String paternalID = offSpring.getPaternalID();
+    public Sample getFather(final Sample offSpring) {
+        final String paternalID = offSpring.getPaternalID();
         return null == paternalID ? null : samples.get(paternalID);
     }
 

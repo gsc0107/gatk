@@ -153,7 +153,7 @@ public final class AFCalculatorTestBuilder {
         if ( samples.size() > nSamples )
             throw new IllegalStateException("too many samples");
 
-        VariantContextBuilder vcb = new VariantContextBuilder("x", "1", 1, 1, getAlleles());
+        final VariantContextBuilder vcb = new VariantContextBuilder("x", "1", 1, 1, getAlleles());
         vcb.genotypes(samples);
         return vcb.make();
     }
@@ -171,8 +171,8 @@ public final class AFCalculatorTestBuilder {
         }
     }
 
-    public Genotype makePL(final List<Allele> expectedGT, int ... pls) {
-        GenotypeBuilder gb = new GenotypeBuilder("sample" + sampleNameCounter++);
+    public Genotype makePL(final List<Allele> expectedGT, final int ... pls) {
+        final GenotypeBuilder gb = new GenotypeBuilder("sample" + sampleNameCounter++);
         gb.alleles(expectedGT);
         gb.PL(pls);
         return gb.make();
@@ -188,7 +188,7 @@ public final class AFCalculatorTestBuilder {
     }
 
     public Genotype makePL(final GenotypeType type, final int nonTypePL, final int altI) {
-        GenotypeBuilder gb = new GenotypeBuilder("sample" + sampleNameCounter++);
+        final GenotypeBuilder gb = new GenotypeBuilder("sample" + sampleNameCounter++);
         gb.alleles(getAlleles(type, altI));
 
         final int[] pls = new int[numPLs()];

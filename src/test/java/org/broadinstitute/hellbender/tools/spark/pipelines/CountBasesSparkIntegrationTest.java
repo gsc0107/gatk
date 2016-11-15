@@ -30,7 +30,7 @@ public final class CountBasesSparkIntegrationTest extends CommandLineProgramTest
     public void countBases(final String fileName, final String referenceFileName, final long expectedCount) throws Exception {
         final File unsortedBam = new File(getTestDataDir(), fileName);
         final File outputTxt = createTempFile("count_bases", ".txt");
-        ArgumentsBuilder args = new ArgumentsBuilder();
+        final ArgumentsBuilder args = new ArgumentsBuilder();
         args.addInput(unsortedBam);
         args.addOutput(outputTxt);
         if (null != referenceFileName) {
@@ -45,7 +45,7 @@ public final class CountBasesSparkIntegrationTest extends CommandLineProgramTest
 
     @Test(groups = "spark")
     public void testNoNPRWhenOutputIsUnspecified(){
-        ArgumentsBuilder args = new ArgumentsBuilder();
+        final ArgumentsBuilder args = new ArgumentsBuilder();
         args.addInput(new File(getTestDataDir(), "count_bases.bam"));
         this.runCommandLine(args.getArgsArray());
     }

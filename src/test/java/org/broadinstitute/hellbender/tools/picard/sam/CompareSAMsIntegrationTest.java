@@ -70,7 +70,7 @@ public final class CompareSAMsIntegrationTest extends CommandLineProgramTest {
 
      @Test(dataProvider="testDataInvalidFormats", expectedExceptions=SAMFormatException.class)
         public void testCompareInvalidSAMFormats(
-                String fileName1, String fileName2, ValidationStringency stringency, boolean expectedResult) throws Exception {
+             final String fileName1, final String fileName2, final ValidationStringency stringency, final boolean expectedResult) throws Exception {
          compareSAMHelper(fileName1,  fileName2,  null, stringency, expectedResult);
     }
 

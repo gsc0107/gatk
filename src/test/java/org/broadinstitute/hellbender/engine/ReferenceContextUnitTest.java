@@ -52,7 +52,7 @@ public final class ReferenceContextUnitTest extends BaseTest {
     @Test(dataProvider = "WindowlessReferenceIntervalDataProvider")
     public void testWindowlessReferenceContext( final SimpleInterval interval, final String expectedBases ) {
         try (ReferenceDataSource reference = new ReferenceFileSource(TEST_REFERENCE)) {
-            ReferenceContext refContext = new ReferenceContext(reference, interval);
+            final ReferenceContext refContext = new ReferenceContext(reference, interval);
 
             checkReferenceContextBases(refContext, expectedBases);
             Assert.assertEquals(refContext.getInterval(), interval, "Wrong interval in reference context");
@@ -83,7 +83,7 @@ public final class ReferenceContextUnitTest extends BaseTest {
     @Test(dataProvider = "WindowedReferenceIntervalDataProvider")
     public void testWindowedContext( final SimpleInterval interval, final int windowStartOffset, final int windowStopOffset, final SimpleInterval expectedWindow, final String expectedBases ) {
         try (ReferenceDataSource reference = new ReferenceFileSource(TEST_REFERENCE)) {
-            ReferenceContext refContext = new ReferenceContext(reference, interval, windowStartOffset, windowStopOffset);
+            final ReferenceContext refContext = new ReferenceContext(reference, interval, windowStartOffset, windowStopOffset);
 
             checkReferenceContextBases(refContext, expectedBases);
             Assert.assertEquals(refContext.getInterval(), interval, "Wrong interval in reference context");
@@ -98,7 +98,7 @@ public final class ReferenceContextUnitTest extends BaseTest {
     @Test(dataProvider = "WindowedReferenceIntervalDataProvider")
     public void testWindowedContextUsingIntervalObjects( final SimpleInterval interval, final int windowStartOffset, final int windowStopOffset, final SimpleInterval expectedWindow, final String expectedBases ) {
         try (ReferenceDataSource reference = new ReferenceFileSource(TEST_REFERENCE)) {
-            ReferenceContext refContext = new ReferenceContext(reference, interval, expectedWindow);
+            final ReferenceContext refContext = new ReferenceContext(reference, interval, expectedWindow);
 
             checkReferenceContextBases(refContext, expectedBases);
             Assert.assertEquals(refContext.getInterval(), interval, "Wrong interval in reference context");
@@ -183,10 +183,10 @@ public final class ReferenceContextUnitTest extends BaseTest {
     }
 
     private void checkReferenceContextBases( final ReferenceContext refContext, final String expectedBases ) {
-        byte[] contextBases = refContext.getBases();
+        final byte[] contextBases = refContext.getBases();
 
-        List<Byte> contextBasesFromIterator = new ArrayList<>();
-        Iterator<Byte> baseIterator = refContext.iterator();
+        final List<Byte> contextBasesFromIterator = new ArrayList<>();
+        final Iterator<Byte> baseIterator = refContext.iterator();
         while ( baseIterator.hasNext() ) {
             contextBasesFromIterator.add(baseIterator.next());
         }
@@ -194,7 +194,7 @@ public final class ReferenceContextUnitTest extends BaseTest {
         Assert.assertEquals(contextBases.length, expectedBases.length(), "Wrong number of bases from refContext.getBases()");
         Assert.assertEquals(contextBasesFromIterator.size(), expectedBases.length(), "Wrong number of bases from refContext.iterator()");
 
-        byte[] expectedBasesByteArray = expectedBases.getBytes();
+        final byte[] expectedBasesByteArray = expectedBases.getBytes();
         for ( int baseIndex = 0; baseIndex < expectedBases.length(); ++baseIndex ) {
             Assert.assertEquals(contextBases[baseIndex], expectedBasesByteArray[baseIndex], "Base #" + (baseIndex + 1) + " incorrect from refContext.getBases()");
             Assert.assertEquals(contextBasesFromIterator.get(baseIndex).byteValue(), expectedBasesByteArray[baseIndex], "Base #" + (baseIndex + 1) + " incorrect from refContext.iterator()");
@@ -216,16 +216,16 @@ public final class ReferenceContextUnitTest extends BaseTest {
     @Test(dataProvider = "InvalidWindowDataProvider", expectedExceptions = GATKException.class)
     public void testInvalidWindowHandlingAtConstruction( final int windowStartOffset, final int windowStopOffset ) {
         try ( ReferenceDataSource reference = new ReferenceFileSource(TEST_REFERENCE) ) {
-            SimpleInterval interval = new SimpleInterval("1", 5, 10);
-            ReferenceContext refContext = new ReferenceContext(reference, interval, windowStartOffset, windowStopOffset);
+            final SimpleInterval interval = new SimpleInterval("1", 5, 10);
+            final ReferenceContext refContext = new ReferenceContext(reference, interval, windowStartOffset, windowStopOffset);
         }
     }
 
     @Test(dataProvider = "InvalidWindowDataProvider", expectedExceptions = GATKException.class)
     public void testInvalidWindowHandlingPostConstruction( final int windowStartOffset, final int windowStopOffset ) {
         try ( ReferenceDataSource reference = new ReferenceFileSource(TEST_REFERENCE) ) {
-            SimpleInterval interval = new SimpleInterval("1", 5, 10);
-            ReferenceContext refContext = new ReferenceContext(reference, interval);
+            final SimpleInterval interval = new SimpleInterval("1", 5, 10);
+            final ReferenceContext refContext = new ReferenceContext(reference, interval);
             refContext.setWindow(windowStartOffset, windowStopOffset);
         }
     }

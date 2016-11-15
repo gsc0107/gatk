@@ -80,7 +80,7 @@ public final class SeekableByteChannelPrefetcher implements SeekableByteChannel 
         private final int blockSize;
         private Future<ByteBuffer> futureBuf;
 
-        public WorkUnit(SeekableByteChannel chan, int blockSize, long blockIndex) {
+        public WorkUnit(final SeekableByteChannel chan, final int blockSize, final long blockIndex) {
             this.chan = chan;
             this.buf = ByteBuffer.allocate(blockSize);
             this.futureBuf = null;
@@ -90,7 +90,7 @@ public final class SeekableByteChannelPrefetcher implements SeekableByteChannel 
 
         @Override
         public ByteBuffer call() throws IOException {
-            long pos = ((long)blockSize) * blockIndex;
+            final long pos = ((long)blockSize) * blockIndex;
             if (pos > chan.size()) {
                 return null;
             }
@@ -104,7 +104,7 @@ public final class SeekableByteChannelPrefetcher implements SeekableByteChannel 
             return futureBuf.get();
         }
 
-        public WorkUnit resetForIndex(long blockIndex) {
+        public WorkUnit resetForIndex(final long blockIndex) {
             this.blockIndex = blockIndex;
             buf.flip();
             futureBuf = null;
@@ -118,7 +118,7 @@ public final class SeekableByteChannelPrefetcher implements SeekableByteChannel 
         }
     }
 
-    public SeekableByteChannelPrefetcher(SeekableByteChannel chan, int bufSize) throws IOException {
+    public SeekableByteChannelPrefetcher(final SeekableByteChannel chan, final int bufSize) throws IOException {
         if (!chan.isOpen()) {
             throw new IllegalArgumentException("channel must be open");
         }
@@ -134,7 +134,7 @@ public final class SeekableByteChannelPrefetcher implements SeekableByteChannel 
 
     // if we don't already have that block and the fetching thread is idle,
     // make sure it now goes looking for that block index.
-    private void ensureFetching(long blockIndex) {
+    private void ensureFetching(final long blockIndex) {
         if (null != fetching) {
             if (fetching.futureBuf.isDone()) {
                 full.add(fetching);
@@ -143,7 +143,7 @@ public final class SeekableByteChannelPrefetcher implements SeekableByteChannel 
                 return;
             }
         }
-        for (WorkUnit w : full) {
+        for (final WorkUnit w : full) {
             if (w.blockIndex == blockIndex) {
                 return;
             }
@@ -163,10 +163,10 @@ public final class SeekableByteChannelPrefetcher implements SeekableByteChannel 
 
     // Return a buffer at this position, blocking if necessary.
     // Start a background read of the buffer after this one (if there isn't one already).
-    public ByteBuffer fetch(long position) throws InterruptedException, ExecutionException {
-        long blockIndex = position / bufSize;
+    public ByteBuffer fetch(final long position) throws InterruptedException, ExecutionException {
+        final long blockIndex = position / bufSize;
         boolean goingBack = false;
-        for (WorkUnit w : full) {
+        for (final WorkUnit w : full) {
             if (w.blockIndex == blockIndex) {
                 ensureFetching(blockIndex+1);
                 nbHit++;
@@ -218,26 +218,26 @@ public final class SeekableByteChannelPrefetcher implements SeekableByteChannel 
      * @param dst
      */
     @Override
-    public int read(ByteBuffer dst) throws IOException {
+    public int read(final ByteBuffer dst) throws IOException {
         if (!open) throw new ClosedChannelException();
         msBetweenCallsToRead += betweenCallsToRead.elapsed(TimeUnit.MILLISECONDS);
-        ByteBuffer src;
+        final ByteBuffer src;
         try {
-            Stopwatch waitingForData = Stopwatch.createStarted();
+            final Stopwatch waitingForData = Stopwatch.createStarted();
             src = fetch(position);
             msWaitingForData += waitingForData.elapsed(TimeUnit.MILLISECONDS);
-        } catch (InterruptedException e) {
+        } catch (final InterruptedException e) {
             return 0;
-        } catch (ExecutionException e) {
+        } catch (final ExecutionException e) {
             throw new RuntimeException(e);
         }
-        Stopwatch copyingData = Stopwatch.createStarted();
+        final Stopwatch copyingData = Stopwatch.createStarted();
         int bytesToCopy = dst.remaining();
-        byte[] array = src.array();
+        final byte[] array = src.array();
         // src.position is how far we've written into the array
-        long blockIndex = position / bufSize;
-        int offset = (int)(position - (blockIndex * bufSize));
-        int availableToCopy = src.position() - offset;
+        final long blockIndex = position / bufSize;
+        final int offset = (int)(position - (blockIndex * bufSize));
+        final int availableToCopy = src.position() - offset;
         if (availableToCopy < bytesToCopy) {
             bytesToCopy = availableToCopy;
         }
@@ -254,7 +254,7 @@ public final class SeekableByteChannelPrefetcher implements SeekableByteChannel 
      * Writing isn't supported.
      */
     @Override
-    public int write(ByteBuffer src) throws IOException {
+    public int write(final ByteBuffer src) throws IOException {
         throw new NonWritableChannelException();
     }
 
@@ -297,7 +297,7 @@ public final class SeekableByteChannelPrefetcher implements SeekableByteChannel 
      * @throws IOException              If some other I/O error occurs
      */
     @Override
-    public SeekableByteChannel position(long newPosition) throws IOException {
+    public SeekableByteChannel position(final long newPosition) throws IOException {
         if (!open) throw new ClosedChannelException();
         position = newPosition;
         return this;
@@ -320,7 +320,7 @@ public final class SeekableByteChannelPrefetcher implements SeekableByteChannel 
      * Not supported.
      */
     @Override
-    public SeekableByteChannel truncate(long size) throws IOException {
+    public SeekableByteChannel truncate(final long size) throws IOException {
         throw new NonWritableChannelException();
     }
 

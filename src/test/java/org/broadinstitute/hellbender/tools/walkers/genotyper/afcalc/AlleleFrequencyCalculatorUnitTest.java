@@ -183,7 +183,7 @@ public class AlleleFrequencyCalculatorUnitTest extends BaseTest {
         return makeGenotype(ploidy, PLsForObviousCall(ploidy, numAlleles, alleles, PL));
     }
     //note the call is irrelevant to the AFCalculator, which only looks at PLs
-    private static Genotype makeGenotype(final int ploidy, int ... pls) {
+    private static Genotype makeGenotype(final int ploidy, final int ... pls) {
         return new GenotypeBuilder("sample" + sampleNameCounter++).alleles(Collections.nCopies(ploidy, Allele.NO_CALL)).PL(pls).make();
     }
 

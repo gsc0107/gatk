@@ -102,7 +102,7 @@ public final class GenomeLocSortedSet extends AbstractSet<GenomeLoc> {
      */
     public long coveredSize() {
         long s = 0;
-        for ( GenomeLoc e : this )
+        for ( final GenomeLoc e : this )
             s += e.size();
         return s;
     }
@@ -113,10 +113,10 @@ public final class GenomeLocSortedSet extends AbstractSet<GenomeLoc> {
      * @param loc the location before which we are counting bases
      * @return the number of base pairs over all previous intervals
      */
-    public long sizeBeforeLoc(GenomeLoc loc) {
+    public long sizeBeforeLoc(final GenomeLoc loc) {
         long s = 0;
 
-        for ( GenomeLoc e : this ) {
+        for ( final GenomeLoc e : this ) {
             if ( e.isBefore(loc) )
                 s += e.size();
             else if ( e.isPast(loc) )
@@ -331,10 +331,10 @@ public final class GenomeLocSortedSet extends AbstractSet<GenomeLoc> {
         return false;
     }
 
-    public GenomeLocSortedSet subtractRegions(GenomeLocSortedSet toRemoveSet) {
-        LinkedList<GenomeLoc> good = new LinkedList<>();
-        Stack<GenomeLoc> toProcess = new Stack<>();
-        Stack<GenomeLoc> toExclude = new Stack<>();
+    public GenomeLocSortedSet subtractRegions(final GenomeLocSortedSet toRemoveSet) {
+        final LinkedList<GenomeLoc> good = new LinkedList<>();
+        final Stack<GenomeLoc> toProcess = new Stack<>();
+        final Stack<GenomeLoc> toExclude = new Stack<>();
 
         // initialize the stacks
         toProcess.addAll(mArray);
@@ -349,12 +349,12 @@ public final class GenomeLocSortedSet extends AbstractSet<GenomeLoc> {
                 break;
             }
 
-            GenomeLoc p = toProcess.peek();
-            GenomeLoc e = toExclude.peek();
+            final GenomeLoc p = toProcess.peek();
+            final GenomeLoc e = toExclude.peek();
 
             if ( p.overlapsP(e) ) {
                 toProcess.pop();
-                for ( GenomeLoc newP : p.subtract(e) )
+                for ( final GenomeLoc newP : p.subtract(e) )
                     toProcess.push(newP);
             } else if ( p.compareContigs(e) < 0 ) {
                 good.add(toProcess.pop());         // p is now good
@@ -380,7 +380,7 @@ public final class GenomeLocSortedSet extends AbstractSet<GenomeLoc> {
      * a simple removal of an interval contained in this list.  The interval must be identical to one in the list (no partial locations or overlapping)
      * @param location the GenomeLoc to remove
      */
-    public void remove(GenomeLoc location) {
+    public void remove(final GenomeLoc location) {
         Utils.validateArg(mArray.contains(location), () -> "Unable to remove location: " + location + ", not in the list");
         mArray.remove(location);
     }
@@ -408,8 +408,8 @@ public final class GenomeLocSortedSet extends AbstractSet<GenomeLoc> {
      *
      * @return the sorted genome loc list
      */
-    public static GenomeLocSortedSet createSetFromList(GenomeLocParser parser,List<GenomeLoc> locs) {
-        GenomeLocSortedSet set = new GenomeLocSortedSet(parser);
+    public static GenomeLocSortedSet createSetFromList(final GenomeLocParser parser, final List<GenomeLoc> locs) {
+        final GenomeLocSortedSet set = new GenomeLocSortedSet(parser);
         set.addAll(locs);
         return set;
     }
@@ -424,9 +424,9 @@ public final class GenomeLocSortedSet extends AbstractSet<GenomeLoc> {
     }
 
     public String toString() {
-        StringBuilder s = new StringBuilder();
+        final StringBuilder s = new StringBuilder();
         s.append("[");
-        for ( GenomeLoc e : this ) {
+        for ( final GenomeLoc e : this ) {
             s.append(" ");
             s.append(e.toString());
         }

@@ -60,16 +60,16 @@ public class AddContextDataToReadSpark {
             final SAMSequenceDictionary sequenceDictionary,
             final int shardSize, final int shardPadding) {
         // TODO: this static method should not be filtering the unmapped reads.  To be addressed in another issue.
-        JavaRDD<GATKRead> mappedReads = reads.filter(read -> ReadFilterLibrary.MAPPED.test(read));
-        JavaPairRDD<GATKRead, Tuple2<Iterable<GATKVariant>, ReferenceBases>> withVariantsWithRef;
+        final JavaRDD<GATKRead> mappedReads = reads.filter(read -> ReadFilterLibrary.MAPPED.test(read));
+        final JavaPairRDD<GATKRead, Tuple2<Iterable<GATKVariant>, ReferenceBases>> withVariantsWithRef;
         if (joinStrategy.equals(JoinStrategy.BROADCAST)) {
             // Join Reads and Variants
-            JavaPairRDD<GATKRead, Iterable<GATKVariant>> withVariants = BroadcastJoinReadsWithVariants.join(mappedReads, variants);
+            final JavaPairRDD<GATKRead, Iterable<GATKVariant>> withVariants = BroadcastJoinReadsWithVariants.join(mappedReads, variants);
             // Join Reads with ReferenceBases
             withVariantsWithRef = BroadcastJoinReadsWithRefBases.addBases(referenceSource, withVariants);
         } else if (joinStrategy.equals(JoinStrategy.SHUFFLE)) {
             // Join Reads and Variants
-            JavaPairRDD<GATKRead, Iterable<GATKVariant>> withVariants = ShuffleJoinReadsWithVariants.join(mappedReads, variants);
+            final JavaPairRDD<GATKRead, Iterable<GATKVariant>> withVariants = ShuffleJoinReadsWithVariants.join(mappedReads, variants);
             // Join Reads with ReferenceBases
             withVariantsWithRef = ShuffleJoinReadsWithRefBases.addBases(referenceSource, withVariants);
         } else if (joinStrategy.equals(JoinStrategy.OVERLAPS_PARTITIONER)) {
@@ -106,21 +106,21 @@ public class AddContextDataToReadSpark {
         final IntervalsSkipList<GATKVariant> variantSkipList = new IntervalsSkipList<>(variants.collect());
         final Broadcast<IntervalsSkipList<GATKVariant>> variantsBroadcast = ctx.broadcast(variantSkipList);
 
-        int maxLocatableSize = Math.min(shardSize, shardPadding);
-        JavaRDD<Shard<GATKRead>> shardedReads = SparkSharder.shard(ctx, mappedReads, GATKRead.class, sequenceDictionary, intervalShards, maxLocatableSize);
+        final int maxLocatableSize = Math.min(shardSize, shardPadding);
+        final JavaRDD<Shard<GATKRead>> shardedReads = SparkSharder.shard(ctx, mappedReads, GATKRead.class, sequenceDictionary, intervalShards, maxLocatableSize);
         return shardedReads.flatMapToPair(new PairFlatMapFunction<Shard<GATKRead>, GATKRead, ReadContextData>() {
             private static final long serialVersionUID = 1L;
             @Override
-            public Iterator<Tuple2<GATKRead, ReadContextData>> call(Shard<GATKRead> shard) throws Exception {
+            public Iterator<Tuple2<GATKRead, ReadContextData>> call(final Shard<GATKRead> shard) throws Exception {
                 // get reference bases for this shard (padded)
-                SimpleInterval paddedInterval = shard.getInterval().expandWithinContig(shardPadding, sequenceDictionary);
-                ReferenceBases referenceBases = bReferenceSource.getValue().getReferenceBases(null, paddedInterval);
+                final SimpleInterval paddedInterval = shard.getInterval().expandWithinContig(shardPadding, sequenceDictionary);
+                final ReferenceBases referenceBases = bReferenceSource.getValue().getReferenceBases(null, paddedInterval);
                 final IntervalsSkipList<GATKVariant> intervalsSkipList = variantsBroadcast.getValue();
-                Iterator<Tuple2<GATKRead, ReadContextData>> transform = Iterators.transform(shard.iterator(), new Function<GATKRead, Tuple2<GATKRead, ReadContextData>>() {
+                final Iterator<Tuple2<GATKRead, ReadContextData>> transform = Iterators.transform(shard.iterator(), new Function<GATKRead, Tuple2<GATKRead, ReadContextData>>() {
                     @Nullable
                     @Override
-                    public Tuple2<GATKRead, ReadContextData> apply(@Nullable GATKRead r) {
-                        List<GATKVariant> overlappingVariants;
+                    public Tuple2<GATKRead, ReadContextData> apply(@Nullable final GATKRead r) {
+                        final List<GATKVariant> overlappingVariants;
                         if (SimpleInterval.isValid(r.getContig(), r.getStart(), r.getEnd())) {
                             overlappingVariants = intervalsSkipList.getOverlapping(new SimpleInterval(r));
                         } else {

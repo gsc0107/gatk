@@ -24,18 +24,18 @@ public final class FeatureDataSourceUnitTest extends BaseTest {
 
     @Test(expectedExceptions = IllegalArgumentException.class)
     public void testHandleNullFile() {
-        FeatureDataSource<VariantContext> featureSource = new FeatureDataSource<>(null);
+        final FeatureDataSource<VariantContext> featureSource = new FeatureDataSource<>(null);
     }
 
     @Test(expectedExceptions = UserException.CouldNotReadInputFile.class)
     public void testHandleNonExistentFile() {
-        FeatureDataSource<VariantContext> featureSource = new FeatureDataSource<>(
+        final FeatureDataSource<VariantContext> featureSource = new FeatureDataSource<>(
                 BaseTest.getSafeNonExistentFile("nonexistent.vcf"));
     }
 
     @Test(expectedExceptions = IllegalArgumentException.class)
     public void testHandleInvalidQueryLookahead() {
-        FeatureDataSource<VariantContext> featureSource = new FeatureDataSource<>(QUERY_TEST_VCF, "MyName", -1);
+        final FeatureDataSource<VariantContext> featureSource = new FeatureDataSource<>(QUERY_TEST_VCF, "MyName", -1);
     }
 
     @Test(expectedExceptions = UserException.class)
@@ -82,7 +82,7 @@ public final class FeatureDataSourceUnitTest extends BaseTest {
     @Test(dataProvider = "CompleteIterationTestData")
     public void testCompleteIterationOverFile( final File vcfFile, final List<String> expectedVariantIDs ) {
         try ( FeatureDataSource<VariantContext> featureSource = new FeatureDataSource<>(vcfFile) ) {
-            Iterator<VariantContext> iter = featureSource.iterator();
+            final Iterator<VariantContext> iter = featureSource.iterator();
 
             checkTraversalResults(iter, expectedVariantIDs, vcfFile, null);
         }
@@ -140,7 +140,7 @@ public final class FeatureDataSourceUnitTest extends BaseTest {
     public void testTraversalByIntervals( final List<SimpleInterval> intervalsForTraversal, final List<String> expectedVariantIDs ) {
         try ( FeatureDataSource<VariantContext> featureSource = new FeatureDataSource<>(QUERY_TEST_VCF) ) {
             featureSource.setIntervalsForTraversal(intervalsForTraversal);
-            Iterator<VariantContext> iter = featureSource.iterator();
+            final Iterator<VariantContext> iter = featureSource.iterator();
 
             checkTraversalResults(iter, expectedVariantIDs, QUERY_TEST_VCF, intervalsForTraversal);
         }
@@ -151,7 +151,7 @@ public final class FeatureDataSourceUnitTest extends BaseTest {
 
         int recordCount = 0;
         while ( traversalResults.hasNext() ) {
-            VariantContext record = traversalResults.next();
+            final VariantContext record = traversalResults.next();
             Assert.assertTrue(recordCount < expectedVariantIDs.size(), "Too many records returned during iteration over " + vcfFile.getAbsolutePath() + intervalString);
             Assert.assertEquals(record.getID(), expectedVariantIDs.get(recordCount),
                                 "Record #" + (recordCount + 1) + " encountered in iteration over " + vcfFile.getAbsolutePath() + intervalString + " is incorrect");
@@ -218,7 +218,7 @@ public final class FeatureDataSourceUnitTest extends BaseTest {
     public void testBlowUpOnOverflow() {
         final SimpleInterval queryInterval = new SimpleInterval("4", 777, Integer.MAX_VALUE);
         try (final FeatureDataSource<VariantContext> featureSource = new FeatureDataSource<>(QUERY_TEST_VCF)) {
-            Iterator<VariantContext> featureIterator = featureSource.query(queryInterval);
+            final Iterator<VariantContext> featureIterator = featureSource.query(queryInterval);
         }
     }
 
@@ -235,8 +235,8 @@ public final class FeatureDataSourceUnitTest extends BaseTest {
 
             // Use query() here rather than queryAndPrefetch() so that query() will have test coverage
             // (the other tests below use queryAndPrefetch())
-            Iterator<VariantContext> featureIterator = featureSource.query(queryInterval);
-            List<VariantContext> queryResults = new ArrayList<>();
+            final Iterator<VariantContext> featureIterator = featureSource.query(queryInterval);
+            final List<VariantContext> queryResults = new ArrayList<>();
             while (featureIterator.hasNext()) {
                 queryResults.add(featureIterator.next());
             }
@@ -266,16 +266,16 @@ public final class FeatureDataSourceUnitTest extends BaseTest {
         // Query set #1:
         // Re-use the queries + expected results from the IndependentFeatureQueryTestData DataProvider above,
         // but this time aggregated together and executed on the same FeatureDataSource
-        List<Pair<SimpleInterval, List<String>>> aggregatedIndependentQueries = new ArrayList<>();
-        Object[][] independentQueryTestData = getIndependentFeatureQueryTestData();
-        for ( Object[] queryTest : independentQueryTestData ) {
+        final List<Pair<SimpleInterval, List<String>>> aggregatedIndependentQueries = new ArrayList<>();
+        final Object[][] independentQueryTestData = getIndependentFeatureQueryTestData();
+        for ( final Object[] queryTest : independentQueryTestData ) {
             aggregatedIndependentQueries.add(Pair.of((SimpleInterval)queryTest[0], (List<String>)queryTest[1]));
         }
 
         // Query set #2:
         // Large intervals with regularly-increasing start positions. Represents typical query access patterns
         // ideal for the caching implementation in FeatureDataSource, as it minimizes cache misses.
-        List<Pair<SimpleInterval, List<String>>> regularlyIncreasingQueries = Arrays.asList(
+        final List<Pair<SimpleInterval, List<String>>> regularlyIncreasingQueries = Arrays.asList(
                 Pair.of(new SimpleInterval("1", 1, 100), Arrays.asList("a")),
                 Pair.of(new SimpleInterval("1", 50, 150), Arrays.asList("a")),
                 Pair.of(new SimpleInterval("1", 100, 200), Arrays.asList("a", "b", "c")),
@@ -306,7 +306,7 @@ public final class FeatureDataSourceUnitTest extends BaseTest {
 
         // Query set #3:
         // Cache miss hell: lots of cache misses in this query set due to either backing up or skipping ahead too far
-        List<Pair<SimpleInterval, List<String>>> cacheMissQueries = Arrays.asList(
+        final List<Pair<SimpleInterval, List<String>>> cacheMissQueries = Arrays.asList(
                 Pair.of(new SimpleInterval("1", 100, 200), Arrays.asList("a", "b", "c")),
                 // Cache miss due to backup
                 Pair.of(new SimpleInterval("1", 99, 205), Arrays.asList("a", "b", "c", "d")),
@@ -346,7 +346,7 @@ public final class FeatureDataSourceUnitTest extends BaseTest {
         try (final FeatureDataSource<VariantContext> featureSource = new FeatureDataSource<>(QUERY_TEST_VCF)) {
 
             // This test re-uses the same FeatureDataSource across queries to test caching of query results.
-            for ( Pair<SimpleInterval, List<String>> testQuery : testQueries ) {
+            for ( final Pair<SimpleInterval, List<String>> testQuery : testQueries ) {
                 final SimpleInterval queryInterval = testQuery.getLeft();
                 final List<String> expectedVariantIDs = testQuery.getRight();
 
@@ -423,12 +423,12 @@ public final class FeatureDataSourceUnitTest extends BaseTest {
         }
 
         @Override
-        public boolean equals( Object other ) {
+        public boolean equals(final Object other ) {
             if ( other == null || ! (other instanceof ArtificialTestFeature) ) {
                 return false;
             }
 
-            ArtificialTestFeature otherFeature = (ArtificialTestFeature)other;
+            final ArtificialTestFeature otherFeature = (ArtificialTestFeature)other;
             return chr.equals(otherFeature.getContig()) && start == otherFeature.getStart() && end == otherFeature.getEnd();
         }
 
@@ -439,7 +439,7 @@ public final class FeatureDataSourceUnitTest extends BaseTest {
     }
 
     private FeatureCache<ArtificialTestFeature> initializeFeatureCache( final List<ArtificialTestFeature> features, final String cacheContig, final int cacheStart, final int cacheEnd ) {
-        FeatureCache<ArtificialTestFeature> cache = new FeatureCache<>();
+        final FeatureCache<ArtificialTestFeature> cache = new FeatureCache<>();
 
         cache.fill(features.iterator(), new SimpleInterval(cacheContig, cacheStart, cacheEnd));
         return cache;
@@ -458,9 +458,9 @@ public final class FeatureDataSourceUnitTest extends BaseTest {
 
     @Test(dataProvider = "FeatureCacheFillDataProvider")
     public void testCacheFill( final List<ArtificialTestFeature> features, final String cacheContig, final int cacheStart, final int cacheEnd) {
-        FeatureCache<ArtificialTestFeature> cache = initializeFeatureCache(features, cacheContig, cacheStart, cacheEnd);
+        final FeatureCache<ArtificialTestFeature> cache = initializeFeatureCache(features, cacheContig, cacheStart, cacheEnd);
 
-        List<ArtificialTestFeature> cachedFeatures = cache.getCachedFeaturesUpToStopPosition(cacheEnd);
+        final List<ArtificialTestFeature> cachedFeatures = cache.getCachedFeaturesUpToStopPosition(cacheEnd);
         Assert.assertEquals(cache.getContig(), cacheContig, "Wrong contig reported by cache after fill");
         Assert.assertEquals(cache.getCacheStart(), cacheStart, "Wrong start position reported by cache after fill");
         Assert.assertEquals(cache.getCacheEnd(), cacheEnd, "Wrong stop position reported by cache after fill");
@@ -469,10 +469,10 @@ public final class FeatureDataSourceUnitTest extends BaseTest {
 
     @DataProvider(name = "FeatureCacheHitDetectionDataProvider")
     public Object[][] getFeatureCacheHitDetectionData() {
-        List<ArtificialTestFeature> features = Arrays.asList(new ArtificialTestFeature("1", 1, 100),
+        final List<ArtificialTestFeature> features = Arrays.asList(new ArtificialTestFeature("1", 1, 100),
                                                              new ArtificialTestFeature("1", 50, 150),
                                                              new ArtificialTestFeature("1", 200, 300));
-        FeatureCache<ArtificialTestFeature> cache = initializeFeatureCache(features, "1", 50, 250);
+        final FeatureCache<ArtificialTestFeature> cache = initializeFeatureCache(features, "1", 50, 250);
 
         return new Object[][] {
                 // Exact match for cache boundaries
@@ -507,7 +507,7 @@ public final class FeatureDataSourceUnitTest extends BaseTest {
     public Object[][] getFeatureCacheTrimmingData() {
         // Features are required to always be sorted by start position, but stop positions need not be sorted.
         // This complicates cache trimming.
-        List<ArtificialTestFeature> feats = Arrays.asList(
+        final List<ArtificialTestFeature> feats = Arrays.asList(
                 new ArtificialTestFeature("1", 1, 1),     // Feature 0
                 new ArtificialTestFeature("1", 1, 100),   // Feature 1
                 new ArtificialTestFeature("1", 1, 1),     // Feature 2
@@ -526,11 +526,11 @@ public final class FeatureDataSourceUnitTest extends BaseTest {
                 new ArtificialTestFeature("1", 100, 150), // Feature 15
                 new ArtificialTestFeature("1", 100, 199)  // Feature 16
         );
-        FeatureCache<ArtificialTestFeature> cache = initializeFeatureCache(feats, "1", 1, 200);
+        final FeatureCache<ArtificialTestFeature> cache = initializeFeatureCache(feats, "1", 1, 200);
 
         // Pairing of start position to which to trim the cache with the List of Features we expect to see
         // in the cache after trimming
-        List<Pair<Integer, List<ArtificialTestFeature>>> trimOperations = Arrays.asList(
+        final List<Pair<Integer, List<ArtificialTestFeature>>> trimOperations = Arrays.asList(
                 Pair.of(1, Arrays.asList(feats.get(0), feats.get(1), feats.get(2), feats.get(3), feats.get(4), feats.get(5), feats.get(6), feats.get(7), feats.get(8), feats.get(9), feats.get(10), feats.get(11), feats.get(12), feats.get(13), feats.get(14), feats.get(15), feats.get(16))),
                 Pair.of(2, Arrays.asList(feats.get(1), feats.get(3), feats.get(4), feats.get(5), feats.get(6), feats.get(7), feats.get(8), feats.get(9), feats.get(10), feats.get(11), feats.get(12), feats.get(13), feats.get(14), feats.get(15), feats.get(16))),
                 Pair.of(3, Arrays.asList(feats.get(1), feats.get(3), feats.get(4), feats.get(5), feats.get(6), feats.get(7), feats.get(8), feats.get(9), feats.get(10), feats.get(11), feats.get(12), feats.get(13), feats.get(14), feats.get(15), feats.get(16))),
@@ -558,7 +558,7 @@ public final class FeatureDataSourceUnitTest extends BaseTest {
     public void testCacheTrimming( final FeatureCache<ArtificialTestFeature> cache, final List<Pair<Integer, List<ArtificialTestFeature>>> trimOperations ) {
         // Repeatedly trim the cache to ever-increasing start positions, and verify after each trim operation
         // that the cache holds the correct Features in the correc order
-        for ( Pair<Integer, List<ArtificialTestFeature>> trimOperation : trimOperations ) {
+        for ( final Pair<Integer, List<ArtificialTestFeature>> trimOperation : trimOperations ) {
             final int trimPosition = trimOperation.getLeft();
             final List<ArtificialTestFeature> expectedFeatures = trimOperation.getRight();
 
@@ -571,7 +571,7 @@ public final class FeatureDataSourceUnitTest extends BaseTest {
 
     @DataProvider(name = "FeatureCacheRetrievalDataProvider")
     public Object[][] getFeatureCacheRetrievalData() {
-        List<ArtificialTestFeature> feats = Arrays.asList(
+        final List<ArtificialTestFeature> feats = Arrays.asList(
                 new ArtificialTestFeature("1", 1, 1),      // Feature 0
                 new ArtificialTestFeature("1", 1, 100),    // Feature 1
                 new ArtificialTestFeature("1", 5, 5),      // Feature 2
@@ -584,11 +584,11 @@ public final class FeatureDataSourceUnitTest extends BaseTest {
                 new ArtificialTestFeature("1", 75, 75),    // Feature 9
                 new ArtificialTestFeature("1", 80, 100)    // Feature 10
         );
-        FeatureCache<ArtificialTestFeature> cache = initializeFeatureCache(feats, "1", 1, 100);
+        final FeatureCache<ArtificialTestFeature> cache = initializeFeatureCache(feats, "1", 1, 100);
 
         // Pairing of end position with which to bound cache retrieval with the List of Features we expect to see
         // after retrieval
-        List<Pair<Integer, List<ArtificialTestFeature>>> retrievalOperations = Arrays.asList(
+        final List<Pair<Integer, List<ArtificialTestFeature>>> retrievalOperations = Arrays.asList(
                 Pair.of(100, Arrays.asList(feats.get(0), feats.get(1), feats.get(2), feats.get(3), feats.get(4), feats.get(5), feats.get(6), feats.get(7), feats.get(8), feats.get(9), feats.get(10))),
                 Pair.of(80, Arrays.asList(feats.get(0), feats.get(1), feats.get(2), feats.get(3), feats.get(4), feats.get(5), feats.get(6), feats.get(7), feats.get(8), feats.get(9), feats.get(10))),
                 Pair.of(79, Arrays.asList(feats.get(0), feats.get(1), feats.get(2), feats.get(3), feats.get(4), feats.get(5), feats.get(6), feats.get(7), feats.get(8), feats.get(9))),
@@ -614,7 +614,7 @@ public final class FeatureDataSourceUnitTest extends BaseTest {
 
     @Test(dataProvider = "FeatureCacheRetrievalDataProvider")
     public void testCacheFeatureRetrieval( final FeatureCache<ArtificialTestFeature> cache, final List<Pair<Integer, List<ArtificialTestFeature>>> retrievalOperations ) {
-        for ( Pair<Integer, List<ArtificialTestFeature>> retrievalOperation: retrievalOperations ) {
+        for ( final Pair<Integer, List<ArtificialTestFeature>> retrievalOperation: retrievalOperations ) {
             final int stopPosition = retrievalOperation.getLeft();
             final List<ArtificialTestFeature> expectedFeatures = retrievalOperation.getRight();
 
@@ -629,8 +629,8 @@ public final class FeatureDataSourceUnitTest extends BaseTest {
      */
     @Test
     public void testHandleCachingOfEmptyRegion() {
-        FeatureCache<ArtificialTestFeature> cache = new FeatureCache<>();
-        List<ArtificialTestFeature> emptyRegion = new ArrayList<>();
+        final FeatureCache<ArtificialTestFeature> cache = new FeatureCache<>();
+        final List<ArtificialTestFeature> emptyRegion = new ArrayList<>();
 
         cache.fill(emptyRegion.iterator(), new SimpleInterval("1", 1, 100));
 

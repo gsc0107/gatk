@@ -182,7 +182,7 @@ public final class ValidateVariants extends VariantWalker {
         for (final ValidationType t : validationTypes) {
             try{
                 applyValidationType(vc, reportedRefAllele, observedRefAllele, rsIDs, t);
-            } catch (TribbleException e) {
+            } catch (final TribbleException e) {
                 if ( WARN_ON_ERROR ) {
                     logger.warn("***** " + e.getMessage() + " *****");
                 } else {
@@ -197,9 +197,9 @@ public final class ValidateVariants extends VariantWalker {
      *  If there's no RSID or if there was not dbsnp file passed in as an argument,
      *  an empty set is returned (and then no validation is performed, see applyValidationType.
      */
-    private Set<String> getRSIDs(FeatureContext featureContext) {
-        Set<String> rsIDs = new LinkedHashSet<>();
-        for (VariantContext rsID : featureContext.getValues(dbsnp.dbsnp)) {
+    private Set<String> getRSIDs(final FeatureContext featureContext) {
+        final Set<String> rsIDs = new LinkedHashSet<>();
+        for (final VariantContext rsID : featureContext.getValues(dbsnp.dbsnp)) {
             rsIDs.addAll(Arrays.asList(rsID.getID().split(VCFConstants.ID_FIELD_SEPARATOR)));
         }
         return rsIDs;
@@ -231,7 +231,7 @@ public final class ValidateVariants extends VariantWalker {
         }
     }
 
-    private void applyValidationType(VariantContext vc, Allele reportedRefAllele, Allele observedRefAllele, Set<String> rsIDs, ValidationType t) {
+    private void applyValidationType(final VariantContext vc, final Allele reportedRefAllele, final Allele observedRefAllele, final Set<String> rsIDs, final ValidationType t) {
         // Note: VariantContext.validateRSIDs blows up on an empty list (but works fine with null).
         // The workaround is to not pass an empty list.
         switch( t ) {

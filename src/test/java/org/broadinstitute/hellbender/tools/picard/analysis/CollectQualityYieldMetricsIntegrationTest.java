@@ -40,7 +40,7 @@ public final class CollectQualityYieldMetricsIntegrationTest extends CommandLine
         final File expectedFile = new File(TEST_DATA_DIR, outName);   //file created using picard 1.130
         final File outfile = BaseTest.createTempFile("testCollectQualityYield", ".metrics");
 
-        ArgumentsBuilder args = new ArgumentsBuilder();
+        final ArgumentsBuilder args = new ArgumentsBuilder();
         args.add("--I");
         args.add(input.getCanonicalPath());
         args.add("--O");

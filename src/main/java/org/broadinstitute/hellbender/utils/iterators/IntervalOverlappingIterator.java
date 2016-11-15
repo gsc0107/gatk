@@ -40,8 +40,8 @@ public class IntervalOverlappingIterator<T extends Locatable> implements Iterabl
      * @param intervals  sorted list of intervals to traverse
      * @param dictionary sequence dictionary indicating the ordering of contigs
      */
-    public IntervalOverlappingIterator(Iterator<T> iterator, List<SimpleInterval> intervals,
-        SAMSequenceDictionary dictionary) {
+    public IntervalOverlappingIterator(final Iterator<T> iterator, final List<SimpleInterval> intervals,
+                                       final SAMSequenceDictionary dictionary) {
         Utils.nonNull(iterator);
         Utils.nonEmpty(intervals);
         Utils.nonNull(dictionary);
@@ -67,7 +67,7 @@ public class IntervalOverlappingIterator<T extends Locatable> implements Iterabl
         if (!hasNext()) {
             throw new NoSuchElementException();
         }
-        T toReturn = next;
+        final T toReturn = next;
         advance();
         return toReturn;
     }
@@ -84,7 +84,7 @@ public class IntervalOverlappingIterator<T extends Locatable> implements Iterabl
                 // keep the next because it overlaps
                 return;
             } else {
-                int comparison = IntervalUtils.compareLocatables(currentInterval, next, dictionary);
+                final int comparison = IntervalUtils.compareLocatables(currentInterval, next, dictionary);
                 // only advance if the current interval is before the next record
                 if(comparison < 0) {
                     // advance the interval and try with th next one

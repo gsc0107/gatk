@@ -108,12 +108,12 @@ public class CountingReadFilter extends ReadFilter {
 
         CountingReadFilter delegateCountingFilter;
 
-        public CountingNegateReadFilter(CountingReadFilter delegate) {
+        public CountingNegateReadFilter(final CountingReadFilter delegate) {
             this.delegateCountingFilter = delegate;
         }
 
         @Override
-        public boolean test(GATKRead read) {
+        public boolean test(final GATKRead read) {
             final boolean accept = !delegateCountingFilter.test(read);
             if (!accept) {
                 filteredCount++;

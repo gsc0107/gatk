@@ -15,21 +15,21 @@ public final class MeanQualityHistogramGeneratorUnitTest extends BaseTest {
         final MeanQualityByCycleSpark.HistogramGenerator hg = new MeanQualityByCycleSpark.HistogramGenerator(false);
         Assert.assertEquals(hg.useOriginalQualities, false);
 
-        GATKRead read1 = ArtificialReadUtils.createArtificialRead("aa".getBytes(), new byte[]{50, 50}, "2M");
+        final GATKRead read1 = ArtificialReadUtils.createArtificialRead("aa".getBytes(), new byte[]{50, 50}, "2M");
         hg.addRead(read1);
         assertEqualsLongArray(hg.firstReadCountsByCycle, new long[]{0, 1, 1});
         assertEqualsDoubleArray(hg.firstReadTotalsByCycle, new double[]{0, 50, 50}, 1e-05);
         assertEqualsLongArray(hg.secondReadCountsByCycle, new long[]{0, 0, 0});
         assertEqualsDoubleArray(hg.secondReadTotalsByCycle, new double[]{0, 0, 0}, 1e-05);
 
-        GATKRead read2 = ArtificialReadUtils.createArtificialRead("aaa".getBytes(), new byte[]{11, 12, 13}, "3M");
+        final GATKRead read2 = ArtificialReadUtils.createArtificialRead("aaa".getBytes(), new byte[]{11, 12, 13}, "3M");
         hg.addRead(read2);
         assertEqualsLongArray(hg.firstReadCountsByCycle, new long[]{0, 2, 2, 1});
         assertEqualsDoubleArray(hg.firstReadTotalsByCycle, new double[]{0, 61, 62, 13}, 1e-05);
         assertEqualsLongArray(hg.secondReadCountsByCycle, new long[]{0, 0, 0, 0});
         assertEqualsDoubleArray(hg.secondReadTotalsByCycle, new double[]{0, 0, 0, 0}, 1e-05);
 
-        GATKRead read3 = ArtificialReadUtils.createArtificialRead("aa".getBytes(), new byte[]{50, 60}, "2M");
+        final GATKRead read3 = ArtificialReadUtils.createArtificialRead("aa".getBytes(), new byte[]{50, 60}, "2M");
         read3.setIsReverseStrand(true);
         hg.addRead(read3);
         assertEqualsLongArray(hg.firstReadCountsByCycle, new long[]{0, 3, 3, 1});
@@ -37,7 +37,7 @@ public final class MeanQualityHistogramGeneratorUnitTest extends BaseTest {
         assertEqualsLongArray(hg.secondReadCountsByCycle, new long[]{0, 0, 0, 0});
         assertEqualsDoubleArray(hg.secondReadTotalsByCycle, new double[]{0, 0, 0, 0}, 1e-05);
 
-        GATKRead read4 = ArtificialReadUtils.createArtificialRead("aaa".getBytes(), new byte[]{11, 13, 15}, "3M");
+        final GATKRead read4 = ArtificialReadUtils.createArtificialRead("aaa".getBytes(), new byte[]{11, 13, 15}, "3M");
         read4.setIsReverseStrand(true);
         hg.addRead(read4);
         assertEqualsLongArray(hg.firstReadCountsByCycle, new long[]{0, 4, 4, 2});
@@ -45,7 +45,7 @@ public final class MeanQualityHistogramGeneratorUnitTest extends BaseTest {
         assertEqualsLongArray(hg.secondReadCountsByCycle, new long[]{0, 0, 0, 0});
         assertEqualsDoubleArray(hg.secondReadTotalsByCycle, new double[]{0, 0, 0, 0}, 1e-05);
 
-        GATKRead read5 = ArtificialReadUtils.createArtificialRead("aaa".getBytes(), new byte[]{11, 12, 13}, "3M");
+        final GATKRead read5 = ArtificialReadUtils.createArtificialRead("aaa".getBytes(), new byte[]{11, 12, 13}, "3M");
         read5.setIsSecondOfPair();
         hg.addRead(read5);
         assertEqualsLongArray(hg.firstReadCountsByCycle, new long[]{0, 4, 4, 2});
@@ -54,7 +54,7 @@ public final class MeanQualityHistogramGeneratorUnitTest extends BaseTest {
         assertEqualsDoubleArray(hg.secondReadTotalsByCycle, new double[]{0, 11, 12, 13}, 1e-05);
 
         final MeanQualityByCycleSpark.HistogramGenerator hg2 = new MeanQualityByCycleSpark.HistogramGenerator(false);
-        GATKRead read1b = ArtificialReadUtils.createArtificialRead("aaaaa".getBytes(), new byte[]{51, 52, 53, 54, 55}, "5M");
+        final GATKRead read1b = ArtificialReadUtils.createArtificialRead("aaaaa".getBytes(), new byte[]{51, 52, 53, 54, 55}, "5M");
         hg2.addRead(read1b);
 
         final MeanQualityByCycleSpark.HistogramGenerator hg2Plus1 = hg2.merge(hg);  //add short to long
@@ -80,14 +80,14 @@ public final class MeanQualityHistogramGeneratorUnitTest extends BaseTest {
         final MeanQualityByCycleSpark.HistogramGenerator hg = new MeanQualityByCycleSpark.HistogramGenerator(true);
         Assert.assertEquals(hg.useOriginalQualities, true);
 
-        GATKRead read1 = ArtificialReadUtils.createArtificialRead("aa".getBytes(), new byte[]{50, 50}, "2M");
+        final GATKRead read1 = ArtificialReadUtils.createArtificialRead("aa".getBytes(), new byte[]{50, 50}, "2M");
         hg.addRead(read1);
         assertEqualsLongArray(hg.firstReadCountsByCycle, new long[0]);
         assertEqualsDoubleArray(hg.firstReadTotalsByCycle, new double[0], 1e-05);
         assertEqualsLongArray(hg.secondReadCountsByCycle, new long[0]);
         assertEqualsDoubleArray(hg.secondReadTotalsByCycle, new double[0], 1e-05);
 
-        GATKRead read2 = ArtificialReadUtils.createArtificialRead("aa".getBytes(), new byte[]{50, 50}, "2M");
+        final GATKRead read2 = ArtificialReadUtils.createArtificialRead("aa".getBytes(), new byte[]{50, 50}, "2M");
         read2.setAttribute(SAMTag.OQ.name(), SAMUtils.phredToFastq(new byte[]{30, 40}));
         hg.addRead(read2);
 

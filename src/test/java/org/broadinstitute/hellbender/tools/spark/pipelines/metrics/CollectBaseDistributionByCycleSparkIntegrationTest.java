@@ -50,7 +50,7 @@ public final class CollectBaseDistributionByCycleSparkIntegrationTest extends Co
         final File outfile = BaseTest.createTempFile("test", ".metrics");
         final File pdf = BaseTest.createTempFile("test", ".pdf");
 
-        ArgumentsBuilder args = new ArgumentsBuilder();
+        final ArgumentsBuilder args = new ArgumentsBuilder();
         args.add("-" + "I");
         args.add(unsortedBam.getCanonicalPath());
         args.add("-" + "O");

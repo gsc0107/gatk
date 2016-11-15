@@ -37,11 +37,11 @@ public final class ReferenceBases implements Serializable {
     }
 
     @Override
-    public boolean equals(Object o) {
+    public boolean equals(final Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        ReferenceBases that = (ReferenceBases) o;
+        final ReferenceBases that = (ReferenceBases) o;
 
         if (!Arrays.equals(getBases(), that.getBases())) return false;
         return getInterval().equals(that.getInterval());
@@ -68,12 +68,12 @@ public final class ReferenceBases implements Serializable {
      * @param subsetInterval, the subset to be returned
      * @return the subset of ReferenceBases
      */
-    public ReferenceBases getSubset(SimpleInterval subsetInterval) {
+    public ReferenceBases getSubset(final SimpleInterval subsetInterval) {
         if (!this.interval.contains(subsetInterval)) {
             throw new GATKException("Reference doesn't match input interval (asked for "+subsetInterval.toString()+" but we have "+this.interval+")");
         }
-        int start = subsetInterval.getStart() - this.interval.getStart();
-        int end = subsetInterval.getEnd() - this.interval.getStart();
+        final int start = subsetInterval.getStart() - this.interval.getStart();
+        final int end = subsetInterval.getEnd() - this.interval.getStart();
         return new ReferenceBases(Arrays.copyOfRange(this.bases, start, end + 1), subsetInterval);
     }
 }

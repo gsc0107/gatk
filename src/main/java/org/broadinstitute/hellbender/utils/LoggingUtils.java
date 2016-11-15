@@ -48,11 +48,11 @@ public class LoggingUtils {
 
 
     // Package-private for unit test access
-    static Log.LogLevel levelFromLog4jLevel(Level log4jLevel) {
+    static Log.LogLevel levelFromLog4jLevel(final Level log4jLevel) {
         return loggingLevelNamespaceMap.inverse().get(log4jLevel);
     }
 
-    private static Level levelToLog4jLevel(Log.LogLevel picardLevel) {
+    private static Level levelToLog4jLevel(final Log.LogLevel picardLevel) {
         return loggingLevelNamespaceMap.get(picardLevel);
     }
 
@@ -65,10 +65,10 @@ public class LoggingUtils {
      * from http://stackoverflow.com/questions/470430/java-util-logging-logger-doesnt-respect-java-util-logging-level
      */
     private static void setJavaUtilLoggingLevel(final Log.LogLevel verbosity) {
-        Logger topLogger = java.util.logging.Logger.getLogger("");
+        final Logger topLogger = java.util.logging.Logger.getLogger("");
 
         Handler consoleHandler = null;
-        for (Handler handler : topLogger.getHandlers()) {
+        for (final Handler handler : topLogger.getHandlers()) {
             if (handler instanceof ConsoleHandler) {
                 consoleHandler = handler;
                 break;
@@ -82,7 +82,7 @@ public class LoggingUtils {
         consoleHandler.setLevel(levelToJavaUtilLevel(verbosity));
     }
 
-    private static java.util.logging.Level levelToJavaUtilLevel(Log.LogLevel picardLevel) {
+    private static java.util.logging.Level levelToJavaUtilLevel(final Log.LogLevel picardLevel) {
         return javaUtilLevelNamespaceMap.get(picardLevel);
     }
 
@@ -102,7 +102,7 @@ public class LoggingUtils {
 
     }
 
-    private static void setLog4JLoggingLevel(Log.LogLevel verbosity) {
+    private static void setLog4JLoggingLevel(final Log.LogLevel verbosity) {
         // Now establish the logging level used by log4j by propagating the requested
         // logging level to all loggers associated with our logging configuration.
         final LoggerContext loggerContext = (LoggerContext) LogManager.getContext(false);

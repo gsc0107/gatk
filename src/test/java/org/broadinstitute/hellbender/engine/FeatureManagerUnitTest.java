@@ -171,16 +171,16 @@ public final class FeatureManagerUnitTest extends BaseTest {
 
     @Test
     public void testHandleRequestForValidFeatureInputs() {
-        ValidFeatureArgumentSource toolInstance = new ValidFeatureArgumentSource();
+        final ValidFeatureArgumentSource toolInstance = new ValidFeatureArgumentSource();
 
         // Initialize two of the FeatureInput fields as they would be initialized by the argument-parsing
         // system to simulate a run of the tool with two FeatureInputs.
         toolInstance.variantContextFeatureInput = new FeatureInput<>(FEATURE_MANAGER_TEST_DIRECTORY + "feature_data_source_test.vcf");
         toolInstance.bedListFeatureInput.add(new FeatureInput<>(FEATURE_MANAGER_TEST_DIRECTORY + "minimal_bed_file.bed"));
 
-        FeatureManager manager = new FeatureManager(toolInstance);
-        List<VariantContext> vcFeatures = manager.getFeatures(toolInstance.variantContextFeatureInput, new SimpleInterval("1", 1, 2000));
-        List<BEDFeature> bedFeatures = manager.getFeatures(toolInstance.bedListFeatureInput.get(0), new SimpleInterval("1", 1, 1));
+        final FeatureManager manager = new FeatureManager(toolInstance);
+        final List<VariantContext> vcFeatures = manager.getFeatures(toolInstance.variantContextFeatureInput, new SimpleInterval("1", 1, 2000));
+        final List<BEDFeature> bedFeatures = manager.getFeatures(toolInstance.bedListFeatureInput.get(0), new SimpleInterval("1", 1, 1));
 
         Assert.assertEquals(vcFeatures.size(), 14, "Wrong number of Features returned from VariantContext test Feature file");
         Assert.assertEquals(bedFeatures.size(), 1, "Wrong number of Features returned from BED test Feature file");
@@ -189,14 +189,14 @@ public final class FeatureManagerUnitTest extends BaseTest {
 
     @Test
     public void testGetAllSequenceDictionaries() {
-        ValidFeatureArgumentSource toolInstance = new ValidFeatureArgumentSource();
+        final ValidFeatureArgumentSource toolInstance = new ValidFeatureArgumentSource();
 
         // Initialize two of the FeatureInput fields as they would be initialized by the argument-parsing
         // system to simulate a run of the tool with two FeatureInputs.
         toolInstance.variantContextFeatureInput = new FeatureInput<>(FEATURE_MANAGER_TEST_DIRECTORY + "feature_data_source_test.vcf");
         toolInstance.bedListFeatureInput.add(new FeatureInput<>(FEATURE_MANAGER_TEST_DIRECTORY + "minimal_bed_file.bed"));
 
-        FeatureManager manager = new FeatureManager(toolInstance);
+        final FeatureManager manager = new FeatureManager(toolInstance);
         final List<SAMSequenceDictionary> dictionaries = manager.getAllSequenceDictionaries();
         Assert.assertEquals(dictionaries.size(), 2);
         Assert.assertEquals(dictionaries.stream().map(dict -> dict.size()).collect(Collectors.toSet()), Sets.newHashSet(1, 4));
@@ -287,7 +287,7 @@ public final class FeatureManagerUnitTest extends BaseTest {
 
     @Test(expectedExceptions = GATKException.class)
     public void testHandleRequestForNonExistentFeatureInput() {
-        FeatureManager manager = new FeatureManager(new ValidFeatureArgumentSource());
+        final FeatureManager manager = new FeatureManager(new ValidFeatureArgumentSource());
 
         // Requests for FeatureInputs not declared in the tool's class hierarchy (or associated ArgumentCollections)
         // should throw an exception

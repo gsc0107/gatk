@@ -135,7 +135,7 @@ class FeatureIntervalIterator<T extends Feature> implements CloseableTribbleIter
             featuresInCurrentInterval = featureReader.query(currentInterval.getContig(), currentInterval.getStart(), currentInterval.getEnd());
             return true;
         }
-        catch ( IOException e ) {
+        catch ( final IOException e ) {
             throw new GATKException("Error querying " + sourceName + " over interval " + currentInterval, e);
         }
     }

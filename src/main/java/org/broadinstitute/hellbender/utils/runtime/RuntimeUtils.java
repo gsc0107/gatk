@@ -23,9 +23,9 @@ public final class RuntimeUtils {
      * @param executable Relative path
      * @return The absolute file path.
      */
-    public static File which(String executable) {
-        for (String path: PATHS) {
-            File file = new File(path, executable);
+    public static File which(final String executable) {
+        for (final String path: PATHS) {
+            final File file = new File(path, executable);
             if (file.exists())
                 return file.getAbsoluteFile();
         }

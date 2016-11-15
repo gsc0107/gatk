@@ -83,7 +83,7 @@ public final class FisherStrand extends StrandBiasTest implements StandardAnnota
         return makeValueObjectForAnnotation(pValueForContingencyTable(originalTable));
     }
 
-    public static String makeValueObjectForAnnotation(double pValue) {
+    public static String makeValueObjectForAnnotation(final double pValue) {
         return String.format("%.3f", QualityUtils.phredScaleErrorRate(Math.max(pValue, MIN_PVALUE))); // prevent INFINITYs
     }
 

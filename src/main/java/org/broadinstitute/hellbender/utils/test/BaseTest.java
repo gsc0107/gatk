@@ -157,8 +157,8 @@ public abstract class BaseTest {
       return getNonNullEnvironmentVariable("GOOGLE_APPLICATION_CREDENTIALS");
     }
 
-    protected static String getNonNullEnvironmentVariable(String envVarName) {
-        String value = System.getenv(envVarName);
+    protected static String getNonNullEnvironmentVariable(final String envVarName) {
+        final String value = System.getenv(envVarName);
         if (null == value) {
             throw new UserException("For this test, please define environment variable \""+envVarName+"\"");
         }
@@ -190,13 +190,13 @@ public abstract class BaseTest {
         hg19GenomeLocParser = new GenomeLocParser(hg19ReferenceReader);
     }
 
-    protected List<GenomeLoc> intervalStringsToGenomeLocs( String... intervals) {
+    protected List<GenomeLoc> intervalStringsToGenomeLocs(final String... intervals) {
         return intervalStringsToGenomeLocs(Arrays.asList(intervals));
     }
 
-    protected List<GenomeLoc> intervalStringsToGenomeLocs( List<String> intervals ) {
-        List<GenomeLoc> locs = new ArrayList<>();
-        for (String interval: intervals)
+    protected List<GenomeLoc> intervalStringsToGenomeLocs(final List<String> intervals ) {
+        final List<GenomeLoc> locs = new ArrayList<>();
+        for (final String interval: intervals)
             locs.add(hg19GenomeLocParser.parseGenomeLoc(interval));
         return Collections.unmodifiableList(locs);
     }
@@ -226,7 +226,7 @@ public abstract class BaseTest {
      * @param fileName the name of a file
      * @return a File resolved using getToolTestDataDir as the parent and fileName
      */
-    public File getTestFile(String fileName) {
+    public File getTestFile(final String fileName) {
         return new File(getToolTestDataDir(), fileName);
     }
 
@@ -265,14 +265,14 @@ public abstract class BaseTest {
         /**
          * Create a new TestDataProvider instance bound to the class variable C
          */
-        public TestDataProvider(Class<?> c, String name) {
+        public TestDataProvider(final Class<?> c, final String name) {
             if ( ! tests.containsKey(c) )
                 tests.put(c, new ArrayList<>());
             tests.get(c).add(this);
             this.name = name;
         }
 
-        public TestDataProvider(Class<?> c) {
+        public TestDataProvider(final Class<?> c) {
             this(c, "");
         }
 
@@ -283,9 +283,9 @@ public abstract class BaseTest {
         /**
          * Return all of the data providers in the form expected by TestNG of type class C
          */
-        public static Object[][] getTests(Class<?> c) {
-            List<Object[]> params2 = new ArrayList<>();
-            for ( Object x : tests.get(c) ) params2.add(new Object[]{x});
+        public static Object[][] getTests(final Class<?> c) {
+            final List<Object[]> params2 = new ArrayList<>();
+            for ( final Object x : tests.get(c) ) params2.add(new Object[]{x});
             return params2.toArray(new Object[][]{});
         }
 
@@ -421,7 +421,7 @@ public abstract class BaseTest {
      * @param runnable a code block to execute
      * @return everything written to {@link System#out} by runnable
      */
-    public static String captureStdout(Runnable runnable){
+    public static String captureStdout(final Runnable runnable){
         return captureSystemStream(runnable, System.out, System::setOut);
     }
 
@@ -431,12 +431,12 @@ public abstract class BaseTest {
      * @param runnable a code block to execute
      * @return everything written to {@link System#err} by runnable
      */
-    public static String captureStderr(Runnable runnable){
+    public static String captureStderr(final Runnable runnable){
         return captureSystemStream(runnable, System.err, System::setErr);
     }
 
-    private static String captureSystemStream(Runnable runnable,  PrintStream stream, Consumer<? super PrintStream> setter){
-        ByteArrayOutputStream out = new ByteArrayOutputStream();
+    private static String captureSystemStream(final Runnable runnable, final PrintStream stream, final Consumer<? super PrintStream> setter){
+        final ByteArrayOutputStream out = new ByteArrayOutputStream();
         setter.accept(new PrintStream(out));
         try {
             runnable.run();
@@ -446,7 +446,7 @@ public abstract class BaseTest {
         return out.toString();
     }
 
-    public static void assertContains(String actual, String expectedSubstring){
+    public static void assertContains(final String actual, final String expectedSubstring){
         Assert.assertTrue(actual.contains(expectedSubstring),  expectedSubstring +" was not found in " + actual+ ".");
     }
 

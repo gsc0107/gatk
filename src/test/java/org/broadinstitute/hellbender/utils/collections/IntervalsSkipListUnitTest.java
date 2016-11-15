@@ -15,15 +15,15 @@ public final class IntervalsSkipListUnitTest extends BaseTest {
 
     @DataProvider(name="intervals")
     public Object[][] intervals(){
-        ArrayList<Locatable> input = Lists.newArrayList(
+        final ArrayList<Locatable> input = Lists.newArrayList(
                 new SimpleInterval("1",  10, 100),
                 new SimpleInterval("2", 200, 300)
         );
-        ArrayList<Locatable> empty = new ArrayList<>();
-        ArrayList<Locatable> contig1 = Lists.newArrayList(
+        final ArrayList<Locatable> empty = new ArrayList<>();
+        final ArrayList<Locatable> contig1 = Lists.newArrayList(
                 new SimpleInterval("1",  10, 100)
         );
-        ArrayList<Locatable> contig2 = Lists.newArrayList(
+        final ArrayList<Locatable> contig2 = Lists.newArrayList(
                 new SimpleInterval("2", 200, 300)
                 );
 
@@ -39,9 +39,9 @@ public final class IntervalsSkipListUnitTest extends BaseTest {
     }
 
     @Test(dataProvider = "intervals")
-    public void testOverlap(ArrayList<Locatable> input, SimpleInterval query, ArrayList<Locatable> expected) throws Exception {
-        IntervalsSkipList<Locatable> ints = new IntervalsSkipList<>(input);
-        List<Locatable> actual = ints.getOverlapping(query);
+    public void testOverlap(final ArrayList<Locatable> input, final SimpleInterval query, final ArrayList<Locatable> expected) throws Exception {
+        final IntervalsSkipList<Locatable> ints = new IntervalsSkipList<>(input);
+        final List<Locatable> actual = ints.getOverlapping(query);
         Assert.assertEquals(
                 actual,
                 expected

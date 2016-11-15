@@ -13,7 +13,7 @@ public final class VariantTypesVariantFilter implements VariantFilter {
 
     private final Set<VariantContext.Type> sampleTypes;
 
-    public VariantTypesVariantFilter(Set<VariantContext.Type> includeTypes) {
+    public VariantTypesVariantFilter(final Set<VariantContext.Type> includeTypes) {
         Utils.nonNull(includeTypes);
         sampleTypes = includeTypes;
     }

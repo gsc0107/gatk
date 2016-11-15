@@ -92,8 +92,8 @@ public final class LocusIteratorByStateUnitTest extends LocusIteratorByStateBase
         li = makeLIBS(reads, DownsamplingMethod.NONE, true, header);
 
         Assert.assertTrue(li.hasNext());
-        AlignmentContext context = li.next();
-        ReadPileup pileup = context.getBasePileup();
+        final AlignmentContext context = li.next();
+        final ReadPileup pileup = context.getBasePileup();
         Assert.assertEquals(pileup.size(), 2, "Should see only 2 reads in pileup, even with unmapped and all I reads");
 
         final List<GATKRead> rawReads = li.transferReadsFromAllPreviousPileups();
@@ -281,7 +281,7 @@ public final class LocusIteratorByStateUnitTest extends LocusIteratorByStateBase
             final AlignmentContext alignmentContext = li.next();
             final ReadPileup p = alignmentContext.getBasePileup();
             Assert.assertTrue(p.size() == 1);
-            PileupElement pe = p.iterator().next();
+            final PileupElement pe = p.iterator().next();
             Assert.assertTrue(pe.isBeforeInsertion());
             Assert.assertFalse(pe.isAfterInsertion());
             Assert.assertEquals(pe.getBasesOfImmediatelyFollowingInsertion(), "A");
@@ -301,7 +301,7 @@ public final class LocusIteratorByStateUnitTest extends LocusIteratorByStateBase
             final AlignmentContext alignmentContext = li.next();
             final ReadPileup p = alignmentContext.getBasePileup();
             Assert.assertTrue(p.size() == 1);
-            PileupElement pe = p.iterator().next();
+            final PileupElement pe = p.iterator().next();
             Assert.assertTrue(pe.isBeforeInsertion());
             Assert.assertFalse(pe.isAfterInsertion());
             Assert.assertEquals(pe.getBasesOfImmediatelyFollowingInsertion(), "AAAAAAAAAA");
@@ -321,7 +321,7 @@ public final class LocusIteratorByStateUnitTest extends LocusIteratorByStateBase
         read.setCigar("1I");
 
         // create the iterator by state with the fake reads and fake records
-        LocusIteratorByState libs = makeLIBSwithNs(Collections.singletonList(read), header);
+        final LocusIteratorByState libs = makeLIBSwithNs(Collections.singletonList(read), header);
 
         while(libs.hasNext()) {
             final AlignmentContext alignmentContext = libs.next();

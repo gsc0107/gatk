@@ -55,10 +55,10 @@ public class IntervalOverlappingIteratorUnitTest extends BaseTest {
     }
 
     @Test(dataProvider = "data")
-    public void testIterator(List<SimpleInterval> intervals, SAMSequenceDictionary dictionary, Locatable[] records,	Locatable[] expected) {
-        IntervalOverlappingIterator<Locatable> iterator = new IntervalOverlappingIterator<>(Arrays.asList(records).iterator(), intervals, dictionary);
+    public void testIterator(final List<SimpleInterval> intervals, final SAMSequenceDictionary dictionary, final Locatable[] records, final Locatable[] expected) {
+        final IntervalOverlappingIterator<Locatable> iterator = new IntervalOverlappingIterator<>(Arrays.asList(records).iterator(), intervals, dictionary);
         int index = 0;
-        for(Locatable loc: iterator) {
+        for(final Locatable loc: iterator) {
             // assert that the locations are the expected
             Assert.assertEquals(loc, expected[index++]);
         }

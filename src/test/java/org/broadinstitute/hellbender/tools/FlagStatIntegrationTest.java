@@ -10,7 +10,7 @@ import java.io.File;
 public final class FlagStatIntegrationTest extends CommandLineProgramTest{
 
     @Test(dataProvider = "filenames")
-    public void testSamCount(String fileIn) throws Exception {
+    public void testSamCount(final String fileIn) throws Exception {
         final File ORIG_BAM = new File(getTestDataDir(), fileIn);
         final String[] args = new String[]{
                 "--input" , ORIG_BAM.getAbsolutePath(),
@@ -44,8 +44,8 @@ public final class FlagStatIntegrationTest extends CommandLineProgramTest{
 
     @Test
     public void testEqualFS(){
-        FlagStat.FlagStatus l1 = makeFlagStatus();
-        FlagStat.FlagStatus l2 = makeFlagStatus();
+        final FlagStat.FlagStatus l1 = makeFlagStatus();
+        final FlagStat.FlagStatus l2 = makeFlagStatus();
         Assert.assertEquals(l1, l2);
         Assert.assertEquals(l1.hashCode(), l2.hashCode());
         Assert.assertNotSame(l1, l2);
@@ -53,8 +53,8 @@ public final class FlagStatIntegrationTest extends CommandLineProgramTest{
 
     @Test
     public void testNonEqualFS(){
-        FlagStat.FlagStatus l1 = makeFlagStatus();
-        FlagStat.FlagStatus l2 = makeFlagStatus();
+        final FlagStat.FlagStatus l1 = makeFlagStatus();
+        final FlagStat.FlagStatus l2 = makeFlagStatus();
         l2.duplicates++;
         Assert.assertNotEquals(l1, l2);
         Assert.assertNotEquals(l1.hashCode(), l2.hashCode());
@@ -62,7 +62,7 @@ public final class FlagStatIntegrationTest extends CommandLineProgramTest{
     }
 
     private FlagStat.FlagStatus makeFlagStatus() {
-        FlagStat.FlagStatus l = new FlagStat.FlagStatus();
+        final FlagStat.FlagStatus l = new FlagStat.FlagStatus();
         l.readCount = 19;
         l.QC_failure = 2;
         l.duplicates = 0;

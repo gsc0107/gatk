@@ -366,7 +366,7 @@ public final class AnalyzeCovariates extends CommandLineProgram {
         try {
             logger.info("Generating csv file '" + csvFile + "'");
             RecalUtils.generateCsv(csvFile, reports);
-        } catch (FileNotFoundException e) {
+        } catch (final FileNotFoundException e) {
             throw new UserException(
                     String.format("There is a problem creating the intermediary Csv file '%s': %s",
                             csvFile, e.getMessage()),e);

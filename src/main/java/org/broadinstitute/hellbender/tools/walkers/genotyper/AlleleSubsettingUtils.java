@@ -147,14 +147,14 @@ public final class AlleleSubsettingUtils {
             throw new IllegalArgumentException("Genotype must have SAC");
         }
 
-        Class<?> clazz = g.getExtendedAttributes().get(GATKVCFConstants.STRAND_COUNT_BY_SAMPLE_KEY).getClass();
+        final Class<?> clazz = g.getExtendedAttributes().get(GATKVCFConstants.STRAND_COUNT_BY_SAMPLE_KEY).getClass();
 
         if ( clazz.equals(String.class) ) {
             final String SACsString = (String) g.getExtendedAttributes().get(GATKVCFConstants.STRAND_COUNT_BY_SAMPLE_KEY);
-            String[] stringSACs = SACsString.split(",");
+            final String[] stringSACs = SACsString.split(",");
             final int[] intSACs = new int[stringSACs.length];
             int i = 0;
-            for (String sac : stringSACs) {
+            for (final String sac : stringSACs) {
                 intSACs[i++] = Integer.parseInt(sac);
             }
 
@@ -204,7 +204,7 @@ public final class AlleleSubsettingUtils {
      *
      */
     @VisibleForTesting
-    static List<Allele> filterToMaxNumberOfAltAllelesBasedOnScores(int numAltAllelesToKeep, List<Allele> alleles, double[] likelihoodSums) {
+    static List<Allele> filterToMaxNumberOfAltAllelesBasedOnScores(final int numAltAllelesToKeep, final List<Allele> alleles, final double[] likelihoodSums) {
         final int nonRefAltAlleleIndex = alleles.indexOf(GATKVCFConstants.NON_REF_SYMBOLIC_ALLELE);
         final int numAlleles = alleles.size();
         final Set<Integer> properAltIndexesToKeep = IntStream.range(1, numAlleles).filter(n -> n != nonRefAltAlleleIndex).boxed()

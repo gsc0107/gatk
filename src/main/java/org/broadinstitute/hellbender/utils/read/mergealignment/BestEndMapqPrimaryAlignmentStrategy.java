@@ -53,7 +53,7 @@ public final class BestEndMapqPrimaryAlignmentStrategy implements PrimaryAlignme
      * Randomly picks one of the best alignments and puts it into the 0th slot of the list.
      * @param recs List of alignments sorted in descending order of alignment quality.
      */
-    private void randomlySelectPrimaryFromBest(List<SAMRecord> recs) {
+    private void randomlySelectPrimaryFromBest(final List<SAMRecord> recs) {
         if (recs.isEmpty()) return;
         final int bestMapq = recs.get(0).getMappingQuality();
         int i;

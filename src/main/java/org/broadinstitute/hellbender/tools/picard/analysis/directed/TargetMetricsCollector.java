@@ -137,7 +137,7 @@ public abstract class TargetMetricsCollector<METRIC_TYPE extends MultiLevelMetri
                 try {
                     final Field outputField = mtClass.getField(field.getName());
                     outputField.set(outputMetrics, field.get(targetMetrics));
-                } catch (Exception e) {
+                } catch (final Exception e) {
                     throw new GATKException("Exception while copying targetMetrics to " + outputMetrics.getClass().getName(), e);
                 }
             }
@@ -145,8 +145,8 @@ public abstract class TargetMetricsCollector<METRIC_TYPE extends MultiLevelMetri
 
         for(int i = 0; i < targetKeys.length; i++) {
             try {
-                Field targetMetricField = TargetMetrics.class.getField(targetKeys[i]);
-                Field outputMetricField = mtClass.getField(outputKeys[i]);
+                final Field targetMetricField = TargetMetrics.class.getField(targetKeys[i]);
+                final Field outputMetricField = mtClass.getField(outputKeys[i]);
                 outputMetricField.set(outputMetrics, targetMetricField.get(targetMetrics));
             } catch(final Exception exc) {
                 throw new GATKException("Exception while copying TargetMetrics." + targetKeys[i] + " to " + mtClass.getName() + "." + outputKeys[i], exc);
@@ -254,7 +254,7 @@ public abstract class TargetMetricsCollector<METRIC_TYPE extends MultiLevelMetri
             metrics.GENOME_SIZE      = genomeSize;
 
             this.coverageByTarget = new LinkedHashMap<>(coverageTargets.size() * 2, 0.5f);
-            for (Interval target : coverageTargets) {
+            for (final Interval target : coverageTargets) {
                 this.coverageByTarget.put(target, new Coverage(target,0));
             }
 
@@ -476,7 +476,7 @@ public abstract class TargetMetricsCollector<METRIC_TYPE extends MultiLevelMetri
                 log.info("Calculating GC metrics");
 
                 // Setup the output file if we're outputting per-target coverage
-                FormatUtil fmt = new FormatUtil();
+                final FormatUtil fmt = new FormatUtil();
                 final PrintWriter out;
                 try {
                     if (perTargetOutput != null) {
@@ -487,7 +487,7 @@ public abstract class TargetMetricsCollector<METRIC_TYPE extends MultiLevelMetri
                         out = null;
                     }
                 }
-                catch (IOException ioe) { throw new RuntimeIOException(ioe); }
+                catch (final IOException ioe) { throw new RuntimeIOException(ioe); }
 
                 final int bins = 101;
                 final long[] targetBasesByGc  = new long[bins];
@@ -546,7 +546,7 @@ public abstract class TargetMetricsCollector<METRIC_TYPE extends MultiLevelMetri
 
 
         @Override
-        public void addMetricsToFile(MetricsFile<METRIC_TYPE, Integer> hsMetricsComparableMetricsFile) {
+        public void addMetricsToFile(final MetricsFile<METRIC_TYPE, Integer> hsMetricsComparableMetricsFile) {
             hsMetricsComparableMetricsFile.addMetric(convertMetric(this.metrics));
         }
     }

@@ -71,7 +71,7 @@ public class SAMPileupCodecUnitTest extends BaseTest {
         final StringBuilder bases = new StringBuilder();
         final StringBuilder qualities = new StringBuilder();
         final List<SAMPileupElement> elements = new ArrayList<>();
-        for(Object[] obj: getOneSAMPileupElementData()) {
+        for(final Object[] obj: getOneSAMPileupElementData()) {
             bases.append(obj[0]);
             qualities.append(obj[1]);
             elements.add((SAMPileupElement) obj[2]);

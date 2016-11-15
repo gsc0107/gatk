@@ -71,7 +71,7 @@ public class ReferenceAPISource implements ReferenceSource, Serializable {
 
     public ReferenceAPISource( final PipelineOptions pipelineOptions, final String referenceURL ) {
         Utils.nonNull(pipelineOptions);
-        String referenceName = getReferenceSetID(referenceURL);
+        final String referenceName = getReferenceSetID(referenceURL);
         this.referenceMap = getReferenceNameToReferenceTable(pipelineOptions, referenceName);
         this.referenceNameToIdTable = getReferenceNameToIdTableFromMap(referenceMap);
 
@@ -136,11 +136,11 @@ public class ReferenceAPISource implements ReferenceSource, Serializable {
         this.referenceNameToIdTable = getReferenceNameToIdTableFromMap(referenceMap);
     }
 
-    public static boolean isApiSourceUrl(String url) {
+    public static boolean isApiSourceUrl(final String url) {
         return url.startsWith(URL_PREFIX);
     }
 
-    public static String getReferenceSetID(String url) {
+    public static String getReferenceSetID(final String url) {
         Utils.validateArg(isApiSourceUrl(url), () -> "Not a reference API source URL: "+url);
         return url.substring(URL_PREFIX.length());
     }
@@ -167,13 +167,13 @@ public class ReferenceAPISource implements ReferenceSource, Serializable {
        * @param interval - the range of bases to retrieve.
        * @return the reference bases specified by interval and apiData (using the Google Genomics API).
        */
-      public ReferenceBases getReferenceBases(final PipelineOptions pipelineOptions, final SimpleInterval interval, int pageSize) {
+      public ReferenceBases getReferenceBases(final PipelineOptions pipelineOptions, final SimpleInterval interval, final int pageSize) {
           Utils.nonNull(interval);
 
           if (genomicsService == null) {
               if (pipelineOptions == null) {
                   // Fall back on the saved apiKey for Spark.
-                  GCSOptions options = PipelineOptionsFactory.as(GCSOptions.class);
+                  final GCSOptions options = PipelineOptionsFactory.as(GCSOptions.class);
                   options.setApiKey(apiKey);
                   genomicsService = createGenomicsService(options);
               } else {
@@ -192,7 +192,7 @@ public class ReferenceAPISource implements ReferenceSource, Serializable {
               if (result.getSequence() == null) {
                   throw new UserException("No reference bases returned in query for interval " + interval + ". Is the interval valid for this reference?");
               }
-              byte[] received = result.getSequence().getBytes();
+              final byte[] received = result.getSequence().getBytes();
               byte[] bases = received;
               if (received.length < interval.size()) {
                   final List<byte[]> blobs = new ArrayList<>();
@@ -209,7 +209,7 @@ public class ReferenceAPISource implements ReferenceSource, Serializable {
                   throw new UserException.ReferenceAPIReturnedUnexpectedNumberOfBytes(interval, bases);
               }
               return new ReferenceBases(bases, interval);
-          } catch (IOException e) {
+          } catch (final IOException e) {
               throw new UserException("Query to genomics service failed for reference interval " + interval, e);
           }
       }
@@ -232,8 +232,8 @@ public class ReferenceAPISource implements ReferenceSource, Serializable {
      * @return returns a mapping from reference name to String ID.
      */
     public Map<String, String> getReferenceNameToIdTableFromMap(final Map<String, Reference> referenceMap) {
-        Map<String, String> ret = new LinkedHashMap<>();
-        for (Map.Entry<String,Reference> e : referenceMap.entrySet()) {
+        final Map<String, String> ret = new LinkedHashMap<>();
+        for (final Map.Entry<String,Reference> e : referenceMap.entrySet()) {
             ret.put(e.getKey(), e.getValue().getId());
         }
         return ret;
@@ -249,10 +249,10 @@ public class ReferenceAPISource implements ReferenceSource, Serializable {
      * @return a SAMSequenceDictionary that lists the referenceset's contigs and their length.
      */
     public SAMSequenceDictionary getReferenceSequenceDictionaryFromMap(final Map<String, Reference> referenceMap, final SAMSequenceDictionary optReadSequenceDictionaryToMatch) {
-        SAMSequenceDictionary refDictionary = new SAMSequenceDictionary();
-        ArrayList<SAMSequenceRecord> refContigs = new ArrayList<>();
+        final SAMSequenceDictionary refDictionary = new SAMSequenceDictionary();
+        final ArrayList<SAMSequenceRecord> refContigs = new ArrayList<>();
 
-        for (Map.Entry<String, Reference> e : referenceMap.entrySet()) {
+        for (final Map.Entry<String, Reference> e : referenceMap.entrySet()) {
             if (e.getKey()!=null && e.getValue().getLength()!=null) {
                 refContigs.add(new SAMSequenceRecord(e.getKey(), e.getValue().getLength().intValue()));
             }
@@ -272,7 +272,7 @@ public class ReferenceAPISource implements ReferenceSource, Serializable {
         // So we sort them.
         Collections.sort(refContigs, new Comparator<SAMSequenceRecord>() {
             @Override
-            public int compare(SAMSequenceRecord o1, SAMSequenceRecord o2) {
+            public int compare(final SAMSequenceRecord o1, final SAMSequenceRecord o2) {
 
                 // if those are ordered in the readDictionary, then match that order
                 if (null != optReadSequenceDictionaryToMatchIndex) {
@@ -282,31 +282,31 @@ public class ReferenceAPISource implements ReferenceSource, Serializable {
                 }
 
                 // otherwise, order them in karyotypic order.
-                int r1 = getRank(o1.getSequenceName());
-                int r2 = getRank(o2.getSequenceName());
+                final int r1 = getRank(o1.getSequenceName());
+                final int r2 = getRank(o2.getSequenceName());
                 if (r1 < r2) return -1;
                 if (r2 < r1) return 1;
                 return o1.getSequenceName().compareTo(o2.getSequenceName());
             }
 
-            private int getRank(String name) {
+            private int getRank(final String name) {
                 if (name.equalsIgnoreCase("x")) return 23;
                 if (name.equalsIgnoreCase("y")) return 24;
                 if (name.equalsIgnoreCase("m")) return 25;
                 if (name.equalsIgnoreCase("mt")) return 25;
-                StringBuilder b = new StringBuilder();
-                for (char c : name.toCharArray()) {
+                final StringBuilder b = new StringBuilder();
+                for (final char c : name.toCharArray()) {
                     if (Character.isDigit(c)) {
                         b.append(c);
                     }
                 }
-                String numsOnly = b.toString();
+                final String numsOnly = b.toString();
                 if (numsOnly.isEmpty()) return 0;
                 return Integer.parseInt(numsOnly);
             }
         });
 
-        for (SAMSequenceRecord s : refContigs) {
+        for (final SAMSequenceRecord s : refContigs) {
             refDictionary.addSequence(s);
         }
         return refDictionary;
@@ -331,10 +331,10 @@ public class ReferenceAPISource implements ReferenceSource, Serializable {
             final SearchReferencesRequest content = new SearchReferencesRequest();
             content.setReferenceSetId(referenceSetID);
             final SearchReferencesResponse found = genomicsService.references().search(content).execute();
-            for (Reference r : found.getReferences()) {
+            for (final Reference r : found.getReferences()) {
                 ret.put(r.getName(), r);
             }
-        } catch (IOException e) {
+        } catch (final IOException e) {
             throw new UserException("Error while looking up reference set " + referenceSetID, e);
         }
         return ret;
@@ -355,7 +355,7 @@ public class ReferenceAPISource implements ReferenceSource, Serializable {
         catch ( GeneralSecurityException|ClassNotFoundException e ) {
             throw new UserException("Authentication failed for Google genomics service", e);
         }
-        catch ( IOException e ) {
+        catch ( final IOException e ) {
             throw new UserException("Unable to access Google genomics service", e);
         }
     }
@@ -363,10 +363,10 @@ public class ReferenceAPISource implements ReferenceSource, Serializable {
     // TODO: Move these to a CustomCoder. That will allow us to do something else (possibly better) for Spark.
     // TODO: See Issue #849.
     // implement methods for Java serialization, since Reference does not implement Serializable
-    private void writeObject(ObjectOutputStream stream) throws IOException {
-        JsonFactory jsonFactory = com.google.api.client.googleapis.util.Utils.getDefaultJsonFactory();
+    private void writeObject(final ObjectOutputStream stream) throws IOException {
+        final JsonFactory jsonFactory = com.google.api.client.googleapis.util.Utils.getDefaultJsonFactory();
         stream.writeInt(referenceMap.size());
-        for (Map.Entry<String, Reference> e : referenceMap.entrySet()) {
+        for (final Map.Entry<String, Reference> e : referenceMap.entrySet()) {
             stream.writeUTF(e.getKey());
             stream.writeUTF(jsonFactory.toString(e.getValue()));
         }
@@ -374,10 +374,10 @@ public class ReferenceAPISource implements ReferenceSource, Serializable {
         stream.writeObject(apiKey);
     }
     
-    private void readObject(ObjectInputStream stream) throws IOException, ClassNotFoundException {
-        JsonFactory jsonFactory = com.google.api.client.googleapis.util.Utils.getDefaultJsonFactory();
+    private void readObject(final ObjectInputStream stream) throws IOException, ClassNotFoundException {
+        final JsonFactory jsonFactory = com.google.api.client.googleapis.util.Utils.getDefaultJsonFactory();
         final Map<String, Reference> refs = new LinkedHashMap<>();
-        int size = stream.readInt();
+        final int size = stream.readInt();
         for (int i = 0; i < size; i++) {
             refs.put(stream.readUTF(), jsonFactory.fromString(stream.readUTF(), Reference.class));
         }

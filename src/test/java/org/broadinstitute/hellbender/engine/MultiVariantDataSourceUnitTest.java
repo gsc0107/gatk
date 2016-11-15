@@ -56,7 +56,7 @@ public final class MultiVariantDataSourceUnitTest extends BaseTest {
 
     @Test
     public void testGetName() {
-        List<FeatureInput<VariantContext>> featureInputs = new ArrayList<>();
+        final List<FeatureInput<VariantContext>> featureInputs = new ArrayList<>();
         featureInputs.add(new FeatureInput<>(baseVariants.getAbsolutePath(), "sourceName1"));
 
         try (final MultiVariantDataSource multiVariantSource =
@@ -67,7 +67,7 @@ public final class MultiVariantDataSourceUnitTest extends BaseTest {
         featureInputs.add(new FeatureInput<>(baseVariantsAlternateDictionary.getAbsolutePath(), "sourceName2"));
         try (final MultiVariantDataSource multiVariantSource =
                      new MultiVariantDataSource(featureInputs, FeatureDataSource.DEFAULT_QUERY_LOOKAHEAD_BASES)) {
-            String name = multiVariantSource.getName();
+            final String name = multiVariantSource.getName();
             Assert.assertTrue(name.contains("sourceName1"));
             Assert.assertTrue(name.contains("sourceName2"));
         }
@@ -75,7 +75,7 @@ public final class MultiVariantDataSourceUnitTest extends BaseTest {
 
     @Test
     public void testGetSequenceDictionaryCompatible() {
-        List<FeatureInput<VariantContext>> featureInputs = new ArrayList<>();
+        final List<FeatureInput<VariantContext>> featureInputs = new ArrayList<>();
 
         featureInputs.add(new FeatureInput<>(
                 new File(MULTI_VARIANT_TEST_DIRECTORY, "interleavedVariants_1.vcf").getAbsolutePath(), "interleavedVariants_1"));
@@ -91,7 +91,7 @@ public final class MultiVariantDataSourceUnitTest extends BaseTest {
     @Test
     public void testGetSequenceDictionaryAlternate() {
         // tests the case where the files have alternate/disjoint contig sets
-        List<FeatureInput<VariantContext>> featureInputs = new ArrayList<>();
+        final List<FeatureInput<VariantContext>> featureInputs = new ArrayList<>();
         featureInputs.add(new FeatureInput<>(baseVariants.getAbsolutePath(), "baseVariants"));
         featureInputs.add(new FeatureInput<>(baseVariantsAlternateDictionary.getAbsolutePath(), "baseVariantsAlternateDictionary"));
 
@@ -103,7 +103,7 @@ public final class MultiVariantDataSourceUnitTest extends BaseTest {
 
     @Test(expectedExceptions = UserException.IncompatibleSequenceDictionaries.class)
     public void testGetSequenceDictionaryIncompatible() {
-        List<FeatureInput<VariantContext>> featureInputs = new ArrayList<>();
+        final List<FeatureInput<VariantContext>> featureInputs = new ArrayList<>();
         featureInputs.add(new FeatureInput<>(baseVariants.getAbsolutePath(), "baseVariants"));
         featureInputs.add(new FeatureInput<>(baseVariantsConflictingDictionary.getAbsolutePath(), "baseVariantsConflictingDictionary"));
 
@@ -115,7 +115,7 @@ public final class MultiVariantDataSourceUnitTest extends BaseTest {
 
     @Test
     public void testIterator() {
-        List<FeatureInput<VariantContext>> featureInputs = new ArrayList<>();
+        final List<FeatureInput<VariantContext>> featureInputs = new ArrayList<>();
 
         featureInputs.add(new FeatureInput<>(
                 new File(MULTI_VARIANT_TEST_DIRECTORY, "interleavedVariants_1.vcf").getAbsolutePath(), "interleavedVariants_1"));
@@ -134,14 +134,14 @@ public final class MultiVariantDataSourceUnitTest extends BaseTest {
     @Test
     public void testIteratorOverlapping() {
         //Test interleaved files that include some variants that start at the same position in both files
-        String expectedIDOrder[] = new String[] {
+        final String[] expectedIDOrder = new String[] {
                 "a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n",
                 "o", "o_overlap",
                 "p", "q", "r", "s", "t", "u", "v", "w",
                 "x", "x_overlap",
                 "y", "z"
         };
-        List<FeatureInput<VariantContext>> featureInputs = new ArrayList<>();
+        final List<FeatureInput<VariantContext>> featureInputs = new ArrayList<>();
 
         featureInputs.add(new FeatureInput<>(
                 new File(MULTI_VARIANT_TEST_DIRECTORY, "interleavedVariants_1_WithOverlap.vcf").getAbsolutePath(),
@@ -163,7 +163,7 @@ public final class MultiVariantDataSourceUnitTest extends BaseTest {
 
     @Test
     public void testSerialQueries() {
-        List<FeatureInput<VariantContext>> featureInputs = new ArrayList<>();
+        final List<FeatureInput<VariantContext>> featureInputs = new ArrayList<>();
 
         featureInputs.add(new FeatureInput<>(
                 new File(MULTI_VARIANT_TEST_DIRECTORY, "interleavedVariants_1.vcf").getAbsolutePath(), "interleavedVariants_1"));
@@ -194,7 +194,7 @@ public final class MultiVariantDataSourceUnitTest extends BaseTest {
 
     @Test
     public void testSetIntervals() {
-        List<FeatureInput<VariantContext>> featureInputs = new ArrayList<>();
+        final List<FeatureInput<VariantContext>> featureInputs = new ArrayList<>();
         featureInputs.add(new FeatureInput<>(
                 new File(MULTI_VARIANT_TEST_DIRECTORY, "interleavedVariants_1.vcf").getAbsolutePath(), "interleavedVariants_1"));
         featureInputs.add(new FeatureInput<>(
@@ -232,7 +232,7 @@ public final class MultiVariantDataSourceUnitTest extends BaseTest {
                   new MultiVariantDataSource(
                     Collections.singletonList(new FeatureInput<>(
                         vcfFile.getAbsolutePath(), vcfFile.getName())), FeatureDataSource.DEFAULT_QUERY_LOOKAHEAD_BASES) ) {
-            Iterator<VariantContext> iter = multiVariantSource.iterator();
+            final Iterator<VariantContext> iter = multiVariantSource.iterator();
 
             checkTraversalResults(iter, expectedVariantIDs, vcfFile, null);
         }
@@ -293,7 +293,7 @@ public final class MultiVariantDataSourceUnitTest extends BaseTest {
                       Collections.singletonList(new FeatureInput<>(QUERY_TEST_VCF.getAbsolutePath(), QUERY_TEST_VCF.getName())),
                       FeatureDataSource.DEFAULT_QUERY_LOOKAHEAD_BASES) ) {
             multiVariantSource.setIntervalsForTraversal(intervalsForTraversal);
-            Iterator<VariantContext> iter = multiVariantSource.iterator();
+            final Iterator<VariantContext> iter = multiVariantSource.iterator();
 
             checkTraversalResults(iter, expectedVariantIDs, QUERY_TEST_VCF, intervalsForTraversal);
         }
@@ -304,7 +304,7 @@ public final class MultiVariantDataSourceUnitTest extends BaseTest {
 
         int recordCount = 0;
         while ( traversalResults.hasNext() ) {
-            VariantContext record = traversalResults.next();
+            final VariantContext record = traversalResults.next();
             Assert.assertTrue(recordCount < expectedVariantIDs.size(), "Too many records returned during iteration over " + vcfFile.getAbsolutePath() + intervalString);
             Assert.assertEquals(record.getID(), expectedVariantIDs.get(recordCount),
                     "Record #" + (recordCount + 1) + " encountered in iteration over " + vcfFile.getAbsolutePath() + intervalString + " is incorrect");
@@ -340,7 +340,7 @@ public final class MultiVariantDataSourceUnitTest extends BaseTest {
                new MultiVariantDataSource(
                        Collections.singletonList(new FeatureInput<>(QUERY_TEST_GVCF.getAbsolutePath(), QUERY_TEST_GVCF.getName())),
                        FeatureDataSource.DEFAULT_QUERY_LOOKAHEAD_BASES) ) {
-            Iterator<VariantContext> it = multiVariantSource.query(queryInterval);
+            final Iterator<VariantContext> it = multiVariantSource.query(queryInterval);
             checkTraversalResults(it, expectedVariantIDs, QUERY_TEST_GVCF, Collections.singletonList(queryInterval));
         }
     }

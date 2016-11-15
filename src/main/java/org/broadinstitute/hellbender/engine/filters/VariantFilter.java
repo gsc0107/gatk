@@ -8,9 +8,9 @@ import java.util.function.Predicate;
 public interface VariantFilter extends Predicate<VariantContext>{
 
     //HACK: These methods are a hack to get to get the type system to accept compositions of ReadFilters.
-    default VariantFilter and(VariantFilter filter ) { return Predicate.super.and(filter)::test; }
+    default VariantFilter and(final VariantFilter filter ) { return Predicate.super.and(filter)::test; }
 
-    default VariantFilter or(VariantFilter filter ) {
+    default VariantFilter or(final VariantFilter filter ) {
         return Predicate.super.or(filter)::test;
     }
 

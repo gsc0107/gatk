@@ -234,7 +234,7 @@ public final class AlleleBiasedDownsamplingUtils {
 
             return sampleContamination;
 
-        } catch (IOException e) {
+        } catch (final IOException e) {
             throw new UserException.CouldNotReadInputFile("I/O Error while reading sample-contamination file " + file.getAbsolutePath() + ": " + e.getMessage());
         }
     }

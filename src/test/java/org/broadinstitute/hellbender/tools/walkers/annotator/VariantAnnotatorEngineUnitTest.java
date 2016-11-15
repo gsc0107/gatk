@@ -431,7 +431,7 @@ public final class VariantAnnotatorEngineUnitTest extends BaseTest {
     @Test
     public void testAnnotationsHaveDescriptions() throws Exception {
 
-        Set<String> sampleSet = Collections.singleton("FRED");
+        final Set<String> sampleSet = Collections.singleton("FRED");
         final Set<VCFHeaderLine> headerInfo = new LinkedHashSet<>();
         final List<String> annotationsToExclude= Collections.emptyList();
         final FeatureInput<VariantContext> dbSNPBinding = null;
@@ -450,11 +450,11 @@ public final class VariantAnnotatorEngineUnitTest extends BaseTest {
         final List<FeatureInput<VariantContext>> features = Collections.emptyList();
 
         final VariantAnnotatorEngine variantAnnotatorEngine = VariantAnnotatorEngine.ofAllMinusExcluded(annotationsToExclude, dbSNPBinding, features);
-        for (GenotypeAnnotation ga : variantAnnotatorEngine.getGenotypeAnnotations()) {
+        for (final GenotypeAnnotation ga : variantAnnotatorEngine.getGenotypeAnnotations()) {
             Assert.assertFalse(ga.getDescriptions().contains(null), "getDescriptions contains null:" + ga);
             Assert.assertFalse(ga.getKeyNames().contains(null), "getKeyNames contains null" + ga);
         }
-        for (InfoFieldAnnotation ifa : variantAnnotatorEngine.getInfoAnnotations()) {
+        for (final InfoFieldAnnotation ifa : variantAnnotatorEngine.getInfoAnnotations()) {
             Assert.assertFalse(ifa.getDescriptions().contains(null), "getDescriptions contains null:" + ifa);
             Assert.assertFalse(ifa.getKeyNames().contains(null), "getKeyNames contains null:" + ifa);
         }

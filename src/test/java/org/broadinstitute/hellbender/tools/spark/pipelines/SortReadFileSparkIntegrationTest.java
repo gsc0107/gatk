@@ -36,8 +36,8 @@ public final class SortReadFileSparkIntegrationTest extends CommandLineProgramTe
         final File inputFile = new File(getTestDataDir(), inputFileName);
         final File expectedOutputFile = new File(getTestDataDir(), expectedOutputFileName);
         final File actualOutputFile = createTempFile("sort_sam", outputExtension);
-        File referenceFile = null == referenceFileName ? null : new File(getTestDataDir(), referenceFileName);
-        ArgumentsBuilder args = new ArgumentsBuilder();
+        final File referenceFile = null == referenceFileName ? null : new File(getTestDataDir(), referenceFileName);
+        final ArgumentsBuilder args = new ArgumentsBuilder();
         args.add("--input"); args.add(inputFile.getCanonicalPath());
         args.add("--output"); args.add(actualOutputFile.getCanonicalPath());
         if (null != referenceFile) {
@@ -60,7 +60,7 @@ public final class SortReadFileSparkIntegrationTest extends CommandLineProgramTe
         final File unsortedBam = new File(getTestDataDir(), "count_reads.bam");
         final File sortedBam = new File(getTestDataDir(), "count_reads_sorted.bam");
         final File outputBam = createTempFile("sort_bam_spark", ".bam");
-        ArgumentsBuilder args = new ArgumentsBuilder();
+        final ArgumentsBuilder args = new ArgumentsBuilder();
         args.add("--"+ StandardArgumentDefinitions.INPUT_LONG_NAME); args.add(unsortedBam.getCanonicalPath());
         args.add("--"+StandardArgumentDefinitions.OUTPUT_LONG_NAME); args.add(outputBam.getCanonicalPath());
         args.add("--numReducers"); args.add("1");

@@ -42,7 +42,7 @@ public class GATKReadAdaptersUnitTest extends BaseTest {
 
     @DataProvider(name = "readPairsForToString")
     public Object[][] readPairsForToString() {
-        List<Object[]> testCases = new ArrayList<>();
+        final List<Object[]> testCases = new ArrayList<>();
 
         final SAMRecord samRecord = basicSAMRecord();
         final GATKRead basicSamRead = new SAMRecordToGATKReadAdapter(samRecord);
@@ -139,7 +139,7 @@ public class GATKReadAdaptersUnitTest extends BaseTest {
         read.setNumberReads(2);
         read.setReadNumber(0);
         read.setProperPlacement(false);
-        Map<String, List<Object>> infoMap = new LinkedHashMap<>();
+        final Map<String, List<Object>> infoMap = new LinkedHashMap<>();
         infoMap.put(SAMTag.PG.name(), Collections.singletonList(BASIC_PROGRAM));
         read.setInfo(infoMap);
 
@@ -147,7 +147,7 @@ public class GATKReadAdaptersUnitTest extends BaseTest {
     }
 
     private static List<GATKRead> getUnmappedReads() {
-        List<GATKRead> unmappedReads = new ArrayList<>();
+        final List<GATKRead> unmappedReads = new ArrayList<>();
 
         final SAMRecord unmappedFlagSam = basicSAMRecord();
         unmappedFlagSam.setReadUnmappedFlag(true);
@@ -186,12 +186,12 @@ public class GATKReadAdaptersUnitTest extends BaseTest {
 
     @DataProvider(name = "GetAndSetPositionData")
     public Object[][] getAndSetPositionData() {
-        List<Object[]> testCases = new ArrayList<>();
+        final List<Object[]> testCases = new ArrayList<>();
 
         testCases.add(new Object[]{basicReadBackedBySam(), BASIC_READ_CONTIG, BASIC_READ_START, BASIC_READ_END});
         testCases.add(new Object[]{basicReadBackedByGoogle(), BASIC_READ_CONTIG, BASIC_READ_START, BASIC_READ_END});
 
-        for ( GATKRead unmappedRead : getUnmappedReads() ) {
+        for ( final GATKRead unmappedRead : getUnmappedReads() ) {
             testCases.add(new Object[]{unmappedRead, null, ReadConstants.UNSET_POSITION, ReadConstants.UNSET_POSITION});
         }
 
@@ -233,7 +233,7 @@ public class GATKReadAdaptersUnitTest extends BaseTest {
 
     @DataProvider(name = "GetAssignedPositionData")
     public Object[][] getAssignedPositionData() {
-        List<Object[]> testCases = new ArrayList<>();
+        final List<Object[]> testCases = new ArrayList<>();
 
         testCases.add(new Object[]{basicReadBackedBySam(), BASIC_READ_CONTIG, BASIC_READ_START});
         testCases.add(new Object[]{basicReadBackedByGoogle(), BASIC_READ_CONTIG, BASIC_READ_START});
@@ -599,16 +599,16 @@ public class GATKReadAdaptersUnitTest extends BaseTest {
     @DataProvider(name = "GetAndSetCigarData")
     public Object[][] getAndSetCigarData() {
 
-        SAMRecord noCigarSam = basicSAMRecord();
+        final SAMRecord noCigarSam = basicSAMRecord();
         noCigarSam.setCigar(null);
 
-        SAMRecord emptyCigarSam = basicSAMRecord();
+        final SAMRecord emptyCigarSam = basicSAMRecord();
         emptyCigarSam.setCigar(new Cigar());
 
-        Read noCigarRead = basicGoogleGenomicsRead();
+        final Read noCigarRead = basicGoogleGenomicsRead();
         noCigarRead.getAlignment().setCigar(null);
 
-        Read emptyCigarRead = basicGoogleGenomicsRead();
+        final Read emptyCigarRead = basicGoogleGenomicsRead();
         emptyCigarRead.getAlignment().setCigar(null);
 
         return new Object[][]{
@@ -644,10 +644,10 @@ public class GATKReadAdaptersUnitTest extends BaseTest {
 
     @DataProvider(name = "GetAndSetReadGroupData")
     public Object[][] getAndSetReadGroupData() {
-        SAMRecord noRGSam = basicSAMRecord();
+        final SAMRecord noRGSam = basicSAMRecord();
         noRGSam.clearAttributes();
 
-        Read noRGGoogleRead = basicGoogleGenomicsRead();
+        final Read noRGGoogleRead = basicGoogleGenomicsRead();
         noRGGoogleRead.setReadGroupId(null);
 
         return new Object[][] {
@@ -671,23 +671,23 @@ public class GATKReadAdaptersUnitTest extends BaseTest {
 
     @DataProvider(name = "IsPairedData")
     public Object[][] isPairedData() {
-        SAMRecord unpairedSAM = basicSAMRecord();
+        final SAMRecord unpairedSAM = basicSAMRecord();
         unpairedSAM.setReadPairedFlag(false);
 
-        Read unpairedGoogleRead = basicGoogleGenomicsRead();
+        final Read unpairedGoogleRead = basicGoogleGenomicsRead();
         unpairedGoogleRead.setNumberReads(1);
 
-        SAMRecord properlyPairedSAM = basicSAMRecord();
+        final SAMRecord properlyPairedSAM = basicSAMRecord();
         properlyPairedSAM.setProperPairFlag(true);
 
-        Read properlyPairedGoogleRead = basicGoogleGenomicsRead();
+        final Read properlyPairedGoogleRead = basicGoogleGenomicsRead();
         properlyPairedGoogleRead.setProperPlacement(true);
 
-        SAMRecord unpairedProperlyPairedSAM = basicSAMRecord();
+        final SAMRecord unpairedProperlyPairedSAM = basicSAMRecord();
         unpairedProperlyPairedSAM.setReadPairedFlag(false);
         unpairedProperlyPairedSAM.setProperPairFlag(true);
 
-        Read unpairedProperlyPairedGoogleRead = basicGoogleGenomicsRead();
+        final Read unpairedProperlyPairedGoogleRead = basicGoogleGenomicsRead();
         unpairedProperlyPairedGoogleRead.setNumberReads(1);
         unpairedProperlyPairedGoogleRead.setProperPlacement(true);
 
@@ -733,7 +733,7 @@ public class GATKReadAdaptersUnitTest extends BaseTest {
 
     @DataProvider(name = "IsUnmappedData")
     public Object[][] isUnmappedData() {
-        List<Object[]> testCases = new ArrayList<>();
+        final List<Object[]> testCases = new ArrayList<>();
 
         for ( final GATKRead unmappedRead : getUnmappedReads() ) {
             testCases.add(new Object[]{ unmappedRead, true });
@@ -761,34 +761,34 @@ public class GATKReadAdaptersUnitTest extends BaseTest {
 
     @DataProvider(name = "MateIsUnmappedData")
     public Object[][] mateIsUnmappedData() {
-        SAMRecord samWithUnmappedMate = basicSAMRecord();
+        final SAMRecord samWithUnmappedMate = basicSAMRecord();
         samWithUnmappedMate.setMateUnmappedFlag(true);
 
-        SAMRecord samWithUnmappedMate2 = basicSAMRecord();
+        final SAMRecord samWithUnmappedMate2 = basicSAMRecord();
         samWithUnmappedMate2.setMateReferenceName(SAMRecord.NO_ALIGNMENT_REFERENCE_NAME);
 
-        SAMRecord samWithUnmappedMate3 = basicSAMRecord();
+        final SAMRecord samWithUnmappedMate3 = basicSAMRecord();
         samWithUnmappedMate3.setMateAlignmentStart(SAMRecord.NO_ALIGNMENT_START);
 
-        Read googleReadWithUnmappedMate = basicGoogleGenomicsRead();
+        final Read googleReadWithUnmappedMate = basicGoogleGenomicsRead();
 
         // We have to explicitly set the mate reverse strand flag in order to ensure that we can call getSAMString
         // on the read once its been wrapped by the adapter; if it hasn't been explicitly set the adapter will
         // throw when we query for the flags.
-        Position newPosition = new Position();
+        final Position newPosition = new Position();
         newPosition.setReverseStrand(false);
         googleReadWithUnmappedMate.setNextMatePosition(newPosition);
 
-        Read googleReadWithUnmappedMate2 = basicGoogleGenomicsRead();
+        final Read googleReadWithUnmappedMate2 = basicGoogleGenomicsRead();
         googleReadWithUnmappedMate2.getNextMatePosition().setReferenceName(SAMRecord.NO_ALIGNMENT_REFERENCE_NAME);
 
-        Read googleReadWithUnmappedMate3 = basicGoogleGenomicsRead();
+        final Read googleReadWithUnmappedMate3 = basicGoogleGenomicsRead();
         googleReadWithUnmappedMate3.getNextMatePosition().setPosition(-1l);
 
-        Read googleReadWithUnmappedMate4 = basicGoogleGenomicsRead();
+        final Read googleReadWithUnmappedMate4 = basicGoogleGenomicsRead();
         googleReadWithUnmappedMate4.getNextMatePosition().setReferenceName(null);
 
-        Read googleReadWithUnmappedMate5 = basicGoogleGenomicsRead();
+        final Read googleReadWithUnmappedMate5 = basicGoogleGenomicsRead();
         googleReadWithUnmappedMate5.getNextMatePosition().setPosition(null);
 
         return new Object[][] {
@@ -826,10 +826,10 @@ public class GATKReadAdaptersUnitTest extends BaseTest {
 
     @DataProvider(name = "InvalidMateIsUnmappedData")
     public Object[][] invalidMateIsUnmappedData() {
-        SAMRecord unpairedSAM = basicSAMRecord();
+        final SAMRecord unpairedSAM = basicSAMRecord();
         unpairedSAM.setReadPairedFlag(false);
 
-        Read unpairedGoogleRead = basicGoogleGenomicsRead();
+        final Read unpairedGoogleRead = basicGoogleGenomicsRead();
         unpairedGoogleRead.setNumberReads(1);
 
         return new Object[][] {
@@ -846,10 +846,10 @@ public class GATKReadAdaptersUnitTest extends BaseTest {
 
     @DataProvider(name = "IsReverseStrandData")
     public Object[][] isReverseStrandData() {
-        SAMRecord reverseStrandSam = basicSAMRecord();
+        final SAMRecord reverseStrandSam = basicSAMRecord();
         reverseStrandSam.setReadNegativeStrandFlag(true);
 
-        Read reverseStrandGoogleRead = basicGoogleGenomicsRead();
+        final Read reverseStrandGoogleRead = basicGoogleGenomicsRead();
         reverseStrandGoogleRead.getAlignment().getPosition().setReverseStrand(true);
 
         return new Object[][] {
@@ -873,10 +873,10 @@ public class GATKReadAdaptersUnitTest extends BaseTest {
 
     @DataProvider(name = "MateIsReverseStrandData")
     public Object[][] mateIsReverseStrandData() {
-        SAMRecord samWithReverseStrandMate = basicSAMRecord();
+        final SAMRecord samWithReverseStrandMate = basicSAMRecord();
         samWithReverseStrandMate.setMateNegativeStrandFlag(true);
 
-        Read googleReadWithReverseStrandMate = basicGoogleGenomicsRead();
+        final Read googleReadWithReverseStrandMate = basicGoogleGenomicsRead();
         googleReadWithReverseStrandMate.getNextMatePosition().setReverseStrand(true);
 
         return new Object[][] {
@@ -905,10 +905,10 @@ public class GATKReadAdaptersUnitTest extends BaseTest {
 
     @DataProvider(name = "InvalidMateIsReverseStrandData")
     public Object[][] invalidMateIsReverseStrandData() {
-        SAMRecord unpairedSAM = basicSAMRecord();
+        final SAMRecord unpairedSAM = basicSAMRecord();
         unpairedSAM.setReadPairedFlag(false);
 
-        Read unpairedGoogleRead = basicGoogleGenomicsRead();
+        final Read unpairedGoogleRead = basicGoogleGenomicsRead();
         unpairedGoogleRead.setNumberReads(1);
 
         return new Object[][] {
@@ -925,11 +925,11 @@ public class GATKReadAdaptersUnitTest extends BaseTest {
 
     @DataProvider(name = "ReadNumberTestData")
     public Object[][] readNumberTestData() {
-        SAMRecord secondOfPairSam = basicSAMRecord();
+        final SAMRecord secondOfPairSam = basicSAMRecord();
         secondOfPairSam.setSecondOfPairFlag(true);
         secondOfPairSam.setFirstOfPairFlag(false);
 
-        Read secondOfPairGoogleRead = basicGoogleGenomicsRead();
+        final Read secondOfPairGoogleRead = basicGoogleGenomicsRead();
         secondOfPairGoogleRead.setReadNumber(1);
 
         return new Object[][] {
@@ -956,21 +956,21 @@ public class GATKReadAdaptersUnitTest extends BaseTest {
 
     @DataProvider(name = "GetReadNumberOfUnpairedReadData")
     public Object[][] getReadNumberOfUnpairedReadData() {
-        SAMRecord unpairedSAM = basicSAMRecord();
+        final SAMRecord unpairedSAM = basicSAMRecord();
         unpairedSAM.setFirstOfPairFlag(true);
         unpairedSAM.setSecondOfPairFlag(false);
         unpairedSAM.setReadPairedFlag(false);
 
-        SAMRecord unpairedSAM2 = basicSAMRecord();
+        final SAMRecord unpairedSAM2 = basicSAMRecord();
         unpairedSAM2.setSecondOfPairFlag(true);
         unpairedSAM2.setFirstOfPairFlag(false);
         unpairedSAM2.setReadPairedFlag(false);
 
-        Read unpairedGoogleRead = basicGoogleGenomicsRead();
+        final Read unpairedGoogleRead = basicGoogleGenomicsRead();
         unpairedGoogleRead.setReadNumber(0);
         unpairedGoogleRead.setNumberReads(1);
 
-        Read unpairedGoogleRead2 = basicGoogleGenomicsRead();
+        final Read unpairedGoogleRead2 = basicGoogleGenomicsRead();
         unpairedGoogleRead2.setReadNumber(1);
         unpairedGoogleRead2.setNumberReads(1);
 
@@ -1094,7 +1094,7 @@ public class GATKReadAdaptersUnitTest extends BaseTest {
     @Test(expectedExceptions = GATKException.ReadAttributeTypeMismatch.class)
     public void testGetNonByteArrayAttributeAsByteArray() {
         // Only SAMRecord-backed reads can encounter a type mismatch for byte array attributes
-        SAMRecord sam = basicSAMRecord();
+        final SAMRecord sam = basicSAMRecord();
         sam.setAttribute("DR", 5);
         final GATKRead samBackedRead = new SAMRecordToGATKReadAdapter(sam);
 
@@ -1270,8 +1270,8 @@ public class GATKReadAdaptersUnitTest extends BaseTest {
     @Test
     public void testSAMStringUnmappedMateContig() {
         // test the special case of an unpaired read to make sure we get the proper mate contig name
-        SAMFileHeader samHeader = getSAMHeader();
-        SAMRecord samRec = ArtificialReadUtils.createArtificialSAMRecord(
+        final SAMFileHeader samHeader = getSAMHeader();
+        final SAMRecord samRec = ArtificialReadUtils.createArtificialSAMRecord(
                 samHeader,
                 BASIC_READ_NAME,
                 samHeader.getSequenceIndex(BASIC_READ_CONTIG),
@@ -1449,7 +1449,7 @@ public class GATKReadAdaptersUnitTest extends BaseTest {
     }
 
     //  pull the flags field out of a string produced by getSAMString()
-    private int parseSAMStringFlags(String samString) {
+    private int parseSAMStringFlags(final String samString) {
         final Pattern p = Pattern.compile("(\\t)(\\d+)"); // find the int field in the second column, which are the flags
         final  Matcher m = p.matcher(samString);
         Assert.assertTrue(m.find());
@@ -1458,7 +1458,7 @@ public class GATKReadAdaptersUnitTest extends BaseTest {
 
     @DataProvider(name="copyData")
     public Object[][] getCopyData() {
-        List<Object[]> testCases = new ArrayList<>();
+        final List<Object[]> testCases = new ArrayList<>();
 
         testCases.add(new Object[]{basicReadBackedBySam()});
         testCases.add(new Object[]{basicReadBackedByGoogle()});
@@ -1501,7 +1501,7 @@ public class GATKReadAdaptersUnitTest extends BaseTest {
         Assert.assertEquals(read, read.deepCopy());
 
         GATKRead deepCopy = read.deepCopy();
-        byte attr[] = new byte[]{'B', 'I'};
+        final byte[] attr = new byte[]{'B', 'I'};
         read.setAttribute("BI", attr);
         Assert.assertEquals(read.getAttributeAsByteArray("BI"), attr);
         Assert.assertNull(deepCopy.getAttributeAsByteArray("BI"));

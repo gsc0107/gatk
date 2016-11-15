@@ -27,7 +27,7 @@ public final class BaseRecalibratorSparkIntegrationTest extends CommandLineProgr
         final String args;
         final String expectedFileName;
 
-        private BQSRTest(String referenceURL, String bam, String knownSites, String args, String expectedFileName) {
+        private BQSRTest(final String referenceURL, final String bam, final String knownSites, final String args, final String expectedFileName) {
             this.referenceURL = referenceURL;
             this.bam = bam;
             this.knownSites = knownSites;
@@ -139,9 +139,9 @@ public final class BaseRecalibratorSparkIntegrationTest extends CommandLineProgr
     }
 
     @Test(dataProvider = "BQSRTest", groups = "spark")
-    public void testBQSRSpark(BQSRTest params) throws IOException {
-        ArgumentsBuilder ab = new ArgumentsBuilder().add(params.getCommandLineNoApiKey());
-        IntegrationTestSpec spec = new IntegrationTestSpec(
+    public void testBQSRSpark(final BQSRTest params) throws IOException {
+        final ArgumentsBuilder ab = new ArgumentsBuilder().add(params.getCommandLineNoApiKey());
+        final IntegrationTestSpec spec = new IntegrationTestSpec(
                 ab.getString(),
                 Arrays.asList(params.expectedFileName));
         spec.executeTest("testBQSRSpark-" + params.args, this);
@@ -187,8 +187,8 @@ public final class BaseRecalibratorSparkIntegrationTest extends CommandLineProgr
 
     @Test(dataProvider = "BQSRCloudTest", groups = {"cloud", "spark"})
     public void testBQSRSparkCloud(final BQSRTest params) throws IOException {
-        ArgumentsBuilder ab = new ArgumentsBuilder().add(params.getCommandLine());
-        IntegrationTestSpec spec = new IntegrationTestSpec(
+        final ArgumentsBuilder ab = new ArgumentsBuilder().add(params.getCommandLine());
+        final IntegrationTestSpec spec = new IntegrationTestSpec(
                 ab.getString(),
                 Arrays.asList(params.expectedFileName));
         spec.executeTest("testBQSRSparkCloud-" + params.args, this);
@@ -200,10 +200,10 @@ public final class BaseRecalibratorSparkIntegrationTest extends CommandLineProgr
         final String hiSeqBam_chr20 = getResourceDir() + WGS_B37_CH20_1M_1M1K_BAM;
         final String dbSNPb37_chr20 = getResourceDir() + DBSNP_138_B37_CH20_1M_1M1K_VCF;
 
-        BQSRTest params = new BQSRTest(b37_reference_20_21, hiSeqBam_chr20, dbSNPb37_chr20, "-indelBQSR -enableBAQ " +"--joinStrategy BROADCAST", getResourceDir() + BQSRTestData.EXPECTED_WGS_B37_CH20_1M_1M1K_RECAL);
+        final BQSRTest params = new BQSRTest(b37_reference_20_21, hiSeqBam_chr20, dbSNPb37_chr20, "-indelBQSR -enableBAQ " +"--joinStrategy BROADCAST", getResourceDir() + BQSRTestData.EXPECTED_WGS_B37_CH20_1M_1M1K_RECAL);
 
-        ArgumentsBuilder ab = new ArgumentsBuilder().add(params.getCommandLineNoApiKey());
-        IntegrationTestSpec spec = new IntegrationTestSpec(
+        final ArgumentsBuilder ab = new ArgumentsBuilder().add(params.getCommandLineNoApiKey());
+        final IntegrationTestSpec spec = new IntegrationTestSpec(
                 ab.getString(),
                 1,
                 UserException.Require2BitReferenceForBroadcast.class);
@@ -230,9 +230,9 @@ public final class BaseRecalibratorSparkIntegrationTest extends CommandLineProgr
 
     // TODO: re-enable once ReadsSparkSource natively supports files in GCS buckets
     @Test(dataProvider = "BQSRTestBucket", groups = {"spark", "bucket"}, enabled = false)
-    public void testBQSRBucket(BQSRTest params) throws IOException {
-        ArgumentsBuilder ab = new ArgumentsBuilder().add(params.getCommandLine());
-        IntegrationTestSpec spec = new IntegrationTestSpec(
+    public void testBQSRBucket(final BQSRTest params) throws IOException {
+        final ArgumentsBuilder ab = new ArgumentsBuilder().add(params.getCommandLine());
+        final IntegrationTestSpec spec = new IntegrationTestSpec(
                 ab.getString(),
                 Arrays.asList(params.expectedFileName));
         spec.executeTest("testBQSRBucket-" + params.args, this);
@@ -279,7 +279,7 @@ public final class BaseRecalibratorSparkIntegrationTest extends CommandLineProgr
 
         final String  NO_DBSNP = "";
         final BQSRTest params = new BQSRTest(chr2021Reference2bit, HiSeqBam_chr17, NO_DBSNP, "", localResources + BQSRTestData.EXPECTED_WGS_B37_CH20_1M_1M1K_RECAL);
-        IntegrationTestSpec spec = new IntegrationTestSpec(
+        final IntegrationTestSpec spec = new IntegrationTestSpec(
                 params.getCommandLine(),
                 1,
                 UserException.CommandLineException.class);
@@ -296,7 +296,7 @@ public final class BaseRecalibratorSparkIntegrationTest extends CommandLineProgr
 
         final String dbSNPb37_chr2021 = resourceDir + DBSNP_138_B37_CH20_1M_1M1K_VCF;
         final BQSRTest params = new BQSRTest(hg19Ref, HiSeqBam_chr17, dbSNPb37_chr2021, "", localResources + BQSRTestData.EXPECTED_WGS_B37_CH20_1M_1M1K_RECAL);
-        IntegrationTestSpec spec = new IntegrationTestSpec(
+        final IntegrationTestSpec spec = new IntegrationTestSpec(
                 params.getCommandLine(),
                 1,
                 UserException.IncompatibleSequenceDictionaries.class);

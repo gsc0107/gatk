@@ -77,7 +77,7 @@ public final class GATKReportTable {
         FORMAT_START(4);
 
         private final int index;
-        TableDataHeaderFields(int index) { this.index = index; }
+        TableDataHeaderFields(final int index) { this.index = index; }
         public int index() { return index; }
     }
 
@@ -92,7 +92,7 @@ public final class GATKReportTable {
         DESCRIPTION(3);
 
         private final int index;
-        TableNameHeaderFields(int index) { this.index = index; }
+        TableNameHeaderFields(final int index) { this.index = index; }
         public int index() { return index; }
     }
 
@@ -103,7 +103,7 @@ public final class GATKReportTable {
      * @param reader        the reader
      * @param version       the GATK report version
      */
-    public GATKReportTable(BufferedReader reader, GATKReportVersion version) {
+    public GATKReportTable(final BufferedReader reader, final GATKReportVersion version) {
 
         switch ( version ) {
             case V1_1:
@@ -112,7 +112,7 @@ public final class GATKReportTable {
                 try {
                     tableData = reader.readLine().split(SEPARATOR);
                     tableNameData = reader.readLine().split(SEPARATOR);
-                } catch (IOException e) {
+                } catch (final IOException e) {
                     throw new GATKException(COULD_NOT_READ_HEADER + e.getMessage());
                 }
 
@@ -139,7 +139,7 @@ public final class GATKReportTable {
                 final String columnLine;
                 try {
                     columnLine = reader.readLine();
-                } catch (IOException e) {
+                } catch (final IOException e) {
                     throw new GATKException(COULD_NOT_READ_COLUMN_NAMES);
                 }
 
@@ -168,13 +168,13 @@ public final class GATKReportTable {
 
                         }
                     }
-                } catch (IOException e) {
+                } catch (final IOException e) {
                     throw new GATKException(COULD_NOT_READ_DATA_LINE + e.getMessage());
                 }
 
                 try {
                     reader.readLine();
-                } catch (IOException e) {
+                } catch (final IOException e) {
                     throw new GATKException(COULD_NOT_READ_EMPTY_LINE + e.getMessage());
                 }
             break;
@@ -231,9 +231,9 @@ public final class GATKReportTable {
     * @param name the name of the table or column
     * @return true if the name is valid, false if otherwise
     */
-    private boolean isValidName(String name) {
-        Pattern p = Pattern.compile(INVALID_TABLE_NAME_REGEX);
-        Matcher m = p.matcher(name);
+    private boolean isValidName(final String name) {
+        final Pattern p = Pattern.compile(INVALID_TABLE_NAME_REGEX);
+        final Matcher m = p.matcher(name);
 
         return !m.find();
     }
@@ -244,9 +244,9 @@ public final class GATKReportTable {
      * @param description the name of the table or column
      * @return true if the name is valid, false if otherwise
      */
-    private boolean isValidDescription(String description) {
-        Pattern p = Pattern.compile("\\r|\\n");
-        Matcher m = p.matcher(description);
+    private boolean isValidDescription(final String description) {
+        final Pattern p = Pattern.compile("\\r|\\n");
+        final Matcher m = p.matcher(description);
 
         return !m.find();
     }
@@ -292,7 +292,7 @@ public final class GATKReportTable {
      * @param columnName   the name of the column
      * @param format       the format string used to display data
      */
-    public void addColumn(String columnName, String format) {
+    public void addColumn(final String columnName, final String format) {
         columnNameToIndex.put(columnName, columnInfo.size());
         columnInfo.add(new GATKReportColumn(columnName, format));
     }
@@ -354,7 +354,7 @@ public final class GATKReportTable {
     public void set(final int rowIndex, final int colIndex, Object value) {
         expandTo(rowIndex, true);
         verifyEntry(rowIndex, colIndex);
-        GATKReportColumn column = columnInfo.get(colIndex);
+        final GATKReportColumn column = columnInfo.get(colIndex);
 
         // We do not accept internal null values
         if (value == null)
@@ -378,13 +378,13 @@ public final class GATKReportTable {
     * @param columnName   the name of the column
     */
     public void increment(final Object rowID, final String columnName) {
-        int prevValue;
+        final int prevValue;
         if ( !rowIdToIndex.containsKey(rowID) ) {
             rowIdToIndex.put(rowID, underlyingData.size());
             underlyingData.add(new Object[getNumColumns()]);
             prevValue = 0;
         } else {
-            Object obj = get(rowID, columnName);
+            final Object obj = get(rowID, columnName);
             if ( !(obj instanceof Integer) )
                 throw new GATKException("Attempting to increment a value in a cell that is not an integer");
             prevValue = (Integer)obj;
@@ -404,14 +404,14 @@ public final class GATKReportTable {
             if ( column.getDataType().equals(GATKReportDataType.Integer) ) {
                 try {
                     newValue = Long.parseLong((String) value);
-                } catch (Exception e) {
+                } catch (final Exception e) {
                     /** do nothing */
                 }
             }
             if ( column.getDataType().equals(GATKReportDataType.Decimal) ) {
                 try {
                     newValue = Double.parseDouble((String) value);
-                } catch (Exception e) {
+                } catch (final Exception e) {
                     /** do nothing */
                 }
             }
@@ -452,7 +452,7 @@ public final class GATKReportTable {
      * @param columnIndex the index of the column
      * @return the value stored at the specified position in the table
      */
-    public Object get(int rowIndex, int columnIndex) {
+    public Object get(final int rowIndex, final int columnIndex) {
         verifyEntry(rowIndex, columnIndex);
         return underlyingData.get(rowIndex)[columnIndex];
     }
@@ -472,7 +472,7 @@ public final class GATKReportTable {
      * @param out the PrintStream to which the table should be written
      * @param sortingWay how to sort the table
      */
-     void write(final PrintStream out, Sorting sortingWay) {
+     void write(final PrintStream out, final Sorting sortingWay) {
 
          /*
           * Table header:
@@ -520,7 +520,7 @@ public final class GATKReportTable {
                  final TreeMap<Object, Integer> sortedMap;
                  try {
                      sortedMap = new TreeMap<>(rowIdToIndex);
-                 } catch (ClassCastException e) {
+                 } catch (final ClassCastException e) {
                      throw new GATKException("Unable to sort the rows based on the row IDs because the ID Objects are of different types");
                  }
                  for ( final Map.Entry<Object, Integer> rowKey : sortedMap.entrySet() )
@@ -584,7 +584,7 @@ public final class GATKReportTable {
 
         // update the row index map
         final int currentNumRows = getNumRows();
-        for ( Map.Entry<Object, Integer> entry : table.rowIdToIndex.entrySet() )
+        for ( final Map.Entry<Object, Integer> entry : table.rowIdToIndex.entrySet() )
             rowIdToIndex.put(entry.getKey(), entry.getValue() + currentNumRows);
     }
 
@@ -647,7 +647,7 @@ public final class GATKReportTable {
                 final TreeMap<Object, Integer> sortedMap;
                 try {
                     sortedMap = new TreeMap<>(rowIdToIndex);
-                } catch (ClassCastException e) {
+                } catch (final ClassCastException e) {
                     return underlyingData;
                 }
 

@@ -16,12 +16,12 @@ public class ChannelAsSeekableStream extends SeekableStream {
     private final String source;
     private ByteBuffer oneByte;
 
-    public ChannelAsSeekableStream(SeekableByteChannel chan) {
+    public ChannelAsSeekableStream(final SeekableByteChannel chan) {
         this.chan = chan;
         this.source = null;
     }
 
-    public ChannelAsSeekableStream(SeekableByteChannel chan, String source) {
+    public ChannelAsSeekableStream(final SeekableByteChannel chan, final String source) {
         this.chan = chan;
         this.source = source;
     }
@@ -30,7 +30,7 @@ public class ChannelAsSeekableStream extends SeekableStream {
     public long length() {
         try {
             return chan.size();
-        } catch (IOException x) {
+        } catch (final IOException x) {
             throw new RuntimeException(x);
         }
     }
@@ -41,7 +41,7 @@ public class ChannelAsSeekableStream extends SeekableStream {
     }
 
     @Override
-    public void seek(long position) throws IOException {
+    public void seek(final long position) throws IOException {
         chan.position(position);
     }
 
@@ -72,8 +72,8 @@ public class ChannelAsSeekableStream extends SeekableStream {
     }
 
     @Override
-    public int read(byte[] buffer, int offset, int length) throws IOException {
-        ByteBuffer buf = ByteBuffer.wrap(buffer, offset, length);
+    public int read(final byte[] buffer, final int offset, final int length) throws IOException {
+        final ByteBuffer buf = ByteBuffer.wrap(buffer, offset, length);
         return chan.read(buf);
     }
 

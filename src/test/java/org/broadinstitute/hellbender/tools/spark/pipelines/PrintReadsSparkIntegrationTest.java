@@ -48,7 +48,7 @@ public final class PrintReadsSparkIntegrationTest extends CommandLineProgramTest
     }
 
     @Test(dataProvider="testingData", groups="spark")
-    public void testFileToFile(String fileIn, String extOut, String reference) throws Exception {
+    public void testFileToFile(final String fileIn, final String extOut, final String reference) throws Exception {
         final File outFile = BaseTest.createTempFile(fileIn + ".", extOut);
         outFile.deleteOnExit();
         final File originalFile = new File(TEST_DATA_DIR, fileIn);
@@ -77,7 +77,7 @@ public final class PrintReadsSparkIntegrationTest extends CommandLineProgramTest
     public void testCoordinateSorted() throws Exception {
         final File inBam = new File(getTestDataDir(), "print_reads.sorted.bam");
         final File outBam = BaseTest.createTempFile("print_reads_spark", ".bam");
-        ArgumentsBuilder args = new ArgumentsBuilder();
+        final ArgumentsBuilder args = new ArgumentsBuilder();
         args.add("--" + StandardArgumentDefinitions.INPUT_LONG_NAME);
         args.add(inBam.getCanonicalPath());
         args.add("--" + StandardArgumentDefinitions.OUTPUT_LONG_NAME);
@@ -93,7 +93,7 @@ public final class PrintReadsSparkIntegrationTest extends CommandLineProgramTest
         final File inBam = new File(getTestDataDir(), "print_reads.sorted.bam");
         final File expectedBam = new File(getTestDataDir(), "print_reads.sorted.chr1_1.bam");
         final File outBam = BaseTest.createTempFile("print_reads_spark", ".bam");
-        ArgumentsBuilder args = new ArgumentsBuilder();
+        final ArgumentsBuilder args = new ArgumentsBuilder();
         args.add("--" + StandardArgumentDefinitions.INPUT_LONG_NAME);
         args.add(inBam.getCanonicalPath());
         args.add("--" + StandardArgumentDefinitions.OUTPUT_LONG_NAME);
@@ -110,7 +110,7 @@ public final class PrintReadsSparkIntegrationTest extends CommandLineProgramTest
         final File inCram = new File(getTestDataDir(), "print_reads.sorted.cram");
         final File inRef = new File(getTestDataDir(), "print_reads.chr1only.fasta");
         final File outBam = BaseTest.createTempFile("print_reads_spark", ".bam");
-        ArgumentsBuilder args = new ArgumentsBuilder();
+        final ArgumentsBuilder args = new ArgumentsBuilder();
         args.add("--" + StandardArgumentDefinitions.INPUT_LONG_NAME);
         args.add(inCram.getCanonicalPath());
         args.add("-R");
@@ -137,7 +137,7 @@ public final class PrintReadsSparkIntegrationTest extends CommandLineProgramTest
     }
 
     @Test(dataProvider="testFileToFile_queryNameSorted", expectedExceptions = UserException.class, groups="spark")
-    public void testFileToFile_queryNameSorted(String fileIn, String extOut, String reference) throws Exception {
+    public void testFileToFile_queryNameSorted(final String fileIn, final String extOut, final String reference) throws Exception {
         final File outFile = BaseTest.createTempFile(fileIn + ".", extOut);
         outFile.deleteOnExit();
         final File originalFile = new File(TEST_DATA_DIR, fileIn);
@@ -165,7 +165,7 @@ public final class PrintReadsSparkIntegrationTest extends CommandLineProgramTest
     public void testNameSorted() throws Exception {
         final File inBam = new File(getTestDataDir(), "print_reads.bam");
         final File outBam = BaseTest.createTempFile("print_reads", ".bam");
-        ArgumentsBuilder args = new ArgumentsBuilder();
+        final ArgumentsBuilder args = new ArgumentsBuilder();
         args.add("--" + StandardArgumentDefinitions.INPUT_LONG_NAME);
         args.add(inBam.getCanonicalPath());
         args.add("--" + StandardArgumentDefinitions.OUTPUT_LONG_NAME);
@@ -184,7 +184,7 @@ public final class PrintReadsSparkIntegrationTest extends CommandLineProgramTest
         final File samWithOneMalformedRead = new File(getTestDataDir(), "print_reads_one_malformed_read.sam");
         final File outBam = BaseTest.createTempFile("print_reads_testReadFiltering", ".bam");
 
-        ArgumentsBuilder args = new ArgumentsBuilder();
+        final ArgumentsBuilder args = new ArgumentsBuilder();
         args.add("--" + StandardArgumentDefinitions.INPUT_LONG_NAME);
         args.add(samWithOneMalformedRead.getCanonicalPath());
         args.add("--" + StandardArgumentDefinitions.OUTPUT_LONG_NAME);
@@ -211,7 +211,7 @@ public final class PrintReadsSparkIntegrationTest extends CommandLineProgramTest
         final File inCram = new File(TEST_DATA_DIR, "print_reads.sorted.cram");
         final File outCram = BaseTest.createTempFile("print_reads_bad_reference", ".cram");
 
-        ArgumentsBuilder args = new ArgumentsBuilder();
+        final ArgumentsBuilder args = new ArgumentsBuilder();
         args.add("--" + StandardArgumentDefinitions.INPUT_LONG_NAME);
         args.add(inCram.getCanonicalPath());
         args.add("--" + StandardArgumentDefinitions.OUTPUT_LONG_NAME);
@@ -315,9 +315,9 @@ public final class PrintReadsSparkIntegrationTest extends CommandLineProgramTest
         }
         int count = 0;
         try (final SamReader reader = factory.open(outFile)) {
-            Iterator<SAMRecord> it = reader.iterator();
+            final Iterator<SAMRecord> it = reader.iterator();
             while (it.hasNext()) {
-                SAMRecord rec = it.next();
+                final SAMRecord rec = it.next();
                 count++;
             }
         }

@@ -26,8 +26,8 @@ public final class VariantShardUnitTest extends BaseTest {
     }
 
     @Test(dataProvider = "variantShards")
-    public void getVariantShardsFromIntervalTest(GATKRead read, Iterable<VariantShard> expectedShards) {
-            List<VariantShard> foundShards = VariantShard.getVariantShardsFromInterval(read);
+    public void getVariantShardsFromIntervalTest(final GATKRead read, final Iterable<VariantShard> expectedShards) {
+            final List<VariantShard> foundShards = VariantShard.getVariantShardsFromInterval(read);
             Assert.assertEquals(foundShards, expectedShards);
     }
 }

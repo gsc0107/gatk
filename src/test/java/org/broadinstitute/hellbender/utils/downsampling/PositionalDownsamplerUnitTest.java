@@ -97,7 +97,7 @@ public class PositionalDownsamplerUnitTest extends BaseTest {
         Assert.assertFalse(downsampler.hasPendingItems());
         Assert.assertNull(downsampler.peekPending());
 
-        List<GATKRead> downsampledReads = downsampler.consumeFinalizedItems();
+        final List<GATKRead> downsampledReads = downsampler.consumeFinalizedItems();
         Assert.assertFalse(downsampler.hasFinalizedItems());
         Assert.assertFalse(downsampler.hasPendingItems());
         Assert.assertNull(downsampler.peekFinalized());
@@ -107,13 +107,13 @@ public class PositionalDownsamplerUnitTest extends BaseTest {
             Assert.assertTrue(downsampledReads.isEmpty());
         }
         else {
-            List<Integer> downsampledStackSizes = getDownsampledStackSizesAndVerifySortedness(downsampledReads);
+            final List<Integer> downsampledStackSizes = getDownsampledStackSizesAndVerifySortedness(downsampledReads);
 
             Assert.assertEquals(downsampledStackSizes.size(), expectedStackSizes.size());
             Assert.assertEquals(downsampledStackSizes, expectedStackSizes);
 
-            int numReadsActuallyEliminated = allReads.size() - downsampledReads.size();
-            int numReadsReportedEliminated = downsampler.getNumberOfDiscardedItems();
+            final int numReadsActuallyEliminated = allReads.size() - downsampledReads.size();
+            final int numReadsReportedEliminated = downsampler.getNumberOfDiscardedItems();
             Assert.assertEquals(numReadsActuallyEliminated, numReadsReportedEliminated);
         }
 
@@ -196,20 +196,20 @@ public class PositionalDownsamplerUnitTest extends BaseTest {
     }
 
     private List<Integer> getDownsampledStackSizesAndVerifySortedness( final List<GATKRead> downsampledReads ) {
-        List<Integer> stackSizes = new ArrayList<>();
+        final List<Integer> stackSizes = new ArrayList<>();
 
         if ( downsampledReads.isEmpty() ) {
             return stackSizes;
         }
 
-        Iterator<GATKRead> iter = downsampledReads.iterator();
+        final Iterator<GATKRead> iter = downsampledReads.iterator();
         Assert.assertTrue(iter.hasNext());
 
         GATKRead previousRead = iter.next();
         int currentStackSize = 1;
 
         while ( iter.hasNext() ) {
-            GATKRead currentRead = iter.next();
+            final GATKRead currentRead = iter.next();
 
             final int positionComparison = ReadCoordinateComparator.compareCoordinates(previousRead, currentRead, header);
 

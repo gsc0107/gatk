@@ -17,7 +17,7 @@ public class AlleleSpecificAnnotationDataUnitTest extends BaseTest{
         final Allele Aref= Allele.create("A", true);
         final Allele T= Allele.create("T", false);
         final List<Allele> alleles= Arrays.asList(Aref, T);
-        String rawData= "1|2";
+        final String rawData= "1|2";
         final AlleleSpecificAnnotationData<Integer> asad = new AlleleSpecificAnnotationData<>(alleles, rawData);
         Assert.assertEquals(asad.getAlleles(), alleles);
         Assert.assertEquals(asad.getRefAllele(), Aref);
@@ -38,7 +38,7 @@ public class AlleleSpecificAnnotationDataUnitTest extends BaseTest{
         final Allele A= Allele.create("A", false);
         final Allele T= Allele.create("T", false);
         final List<Allele> alleles= Arrays.asList(A, T);
-        String rawData= "1|2";
+        final String rawData= "1|2";
         new AlleleSpecificAnnotationData<>(alleles, rawData);
     }
 
@@ -47,7 +47,7 @@ public class AlleleSpecificAnnotationDataUnitTest extends BaseTest{
         final Allele Aref= Allele.create("A", true);
         final Allele Tref= Allele.create("T", true);
         final List<Allele> alleles= Arrays.asList(Aref, Tref);
-        String rawData= "1|2";
+        final String rawData= "1|2";
         new AlleleSpecificAnnotationData<>(alleles, rawData);
     }
 

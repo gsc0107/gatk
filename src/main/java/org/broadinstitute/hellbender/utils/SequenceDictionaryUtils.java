@@ -163,10 +163,10 @@ public final class SequenceDictionaryUtils {
                 throw new UserException.IncompatibleSequenceDictionaries("No overlapping contigs found", name1, dict1, name2, dict2);
 
             case UNEQUAL_COMMON_CONTIGS: {
-                List<SAMSequenceRecord> x = findDisequalCommonContigs(getCommonContigsByName(dict1, dict2), dict1, dict2);
-                SAMSequenceRecord elt1 = x.get(0);
-                SAMSequenceRecord elt2 = x.get(1);
-                UserException ex = new UserException.IncompatibleSequenceDictionaries(String.format("Found contigs with the same name but different lengths:\n  contig %s = %s / %d\n  contig %s = %s / %d",
+                final List<SAMSequenceRecord> x = findDisequalCommonContigs(getCommonContigsByName(dict1, dict2), dict1, dict2);
+                final SAMSequenceRecord elt1 = x.get(0);
+                final SAMSequenceRecord elt2 = x.get(1);
+                final UserException ex = new UserException.IncompatibleSequenceDictionaries(String.format("Found contigs with the same name but different lengths:\n  contig %s = %s / %d\n  contig %s = %s / %d",
                         name1, elt1.getSequenceName(), elt1.getSequenceLength(),
                         name2, elt2.getSequenceName(), elt2.getSequenceLength()),
                         name1, dict1, name2, dict2);
@@ -177,7 +177,7 @@ public final class SequenceDictionaryUtils {
             case NON_CANONICAL_HUMAN_ORDER: {
                 // We only get NON_CANONICAL_HUMAN_ORDER if the caller explicitly requested that we check contig ordering,
                 // so we should always throw when we see it.
-                UserException ex;
+                final UserException ex;
                 if ( nonCanonicalHumanContigOrder(dict1) ) {
                     ex = new UserException.LexicographicallySortedSequenceDictionary(name1, dict1);
                 }
@@ -191,7 +191,7 @@ public final class SequenceDictionaryUtils {
             case OUT_OF_ORDER: {
                 // We only get OUT_OF_ORDER if the caller explicitly requested that we check contig ordering,
                 // so we should always throw when we see it.
-                UserException ex = new UserException.IncompatibleSequenceDictionaries(
+                final UserException ex = new UserException.IncompatibleSequenceDictionaries(
                                 "The relative ordering of the common contigs in " + name1 + " and " + name2 +
                                 " is not the same; to fix this please see: "
                                 + "(https://www.broadinstitute.org/gatk/guide/article?id=1328), "
@@ -267,7 +267,7 @@ public final class SequenceDictionaryUtils {
      * @param dict2 second sequence dictionary
      * @return true if dict1's set of contigs supersets dict2's
      */
-    private static boolean supersets( SAMSequenceDictionary dict1, SAMSequenceDictionary dict2 ) {
+    private static boolean supersets(final SAMSequenceDictionary dict1, final SAMSequenceDictionary dict2 ) {
         // Cannot rely on SAMSequenceRecord.equals() as it's too strict (takes extended attributes into account).
         for ( final SAMSequenceRecord dict2Record : dict2.getSequences() ) {
             final SAMSequenceRecord dict1Record = dict1.getSequence(dict2Record.getSequenceName());
@@ -290,7 +290,7 @@ public final class SequenceDictionaryUtils {
      * @param dict2
      * @return true if all of the common contigs are equivalent
      */
-    private static boolean commonContigsHaveSameLengths(Set<String> commonContigs, SAMSequenceDictionary dict1, SAMSequenceDictionary dict2) {
+    private static boolean commonContigsHaveSameLengths(final Set<String> commonContigs, final SAMSequenceDictionary dict1, final SAMSequenceDictionary dict2) {
         return findDisequalCommonContigs(commonContigs, dict1, dict2) == null;
     }
 
@@ -303,10 +303,10 @@ public final class SequenceDictionaryUtils {
      * @param dict2
      * @return
      */
-    private static List<SAMSequenceRecord> findDisequalCommonContigs(Set<String> commonContigs, SAMSequenceDictionary dict1, SAMSequenceDictionary dict2) {
-        for ( String name : commonContigs ) {
-            SAMSequenceRecord elt1 = dict1.getSequence(name);
-            SAMSequenceRecord elt2 = dict2.getSequence(name);
+    private static List<SAMSequenceRecord> findDisequalCommonContigs(final Set<String> commonContigs, final SAMSequenceDictionary dict1, final SAMSequenceDictionary dict2) {
+        for ( final String name : commonContigs ) {
+            final SAMSequenceRecord elt1 = dict1.getSequence(name);
+            final SAMSequenceRecord elt2 = dict2.getSequence(name);
             if ( ! sequenceRecordsAreEquivalent(elt1, elt2) )
                 return Arrays.asList(elt1,elt2);
         }
@@ -351,9 +351,9 @@ public final class SequenceDictionaryUtils {
      * @param dict
      * @return
      */
-    private static boolean nonCanonicalHumanContigOrder(SAMSequenceDictionary dict) {
+    private static boolean nonCanonicalHumanContigOrder(final SAMSequenceDictionary dict) {
         SAMSequenceRecord chr1 = null, chr2 = null, chr10 = null;
-        for ( SAMSequenceRecord elt : dict.getSequences() ) {
+        for ( final SAMSequenceRecord elt : dict.getSequences() ) {
             if ( isHumanSeqRecord(elt, CHR1_HG18, CHR1_HG19, CHR1_B36, CHR1_B37) ) chr1 = elt;
             if ( isHumanSeqRecord(elt, CHR2_HG18, CHR2_HG19, CHR2_B36, CHR2_B37) ) chr2 = elt;
             if ( isHumanSeqRecord(elt, CHR10_HG18, CHR10_HG19, CHR10_B36, CHR10_B37) ) chr10 = elt;
@@ -371,8 +371,8 @@ public final class SequenceDictionaryUtils {
      * @param recs the list of records to check for name and length equivalence
      * @return true if elt has the same name and length as any of the recs
      */
-    private static boolean isHumanSeqRecord(SAMSequenceRecord elt, SAMSequenceRecord... recs) {
-        for (SAMSequenceRecord rec : recs) {
+    private static boolean isHumanSeqRecord(final SAMSequenceRecord elt, final SAMSequenceRecord... recs) {
+        for (final SAMSequenceRecord rec : recs) {
             if (elt.getSequenceLength() == rec.getSequenceLength() && elt.getSequenceName().equals(rec.getSequenceName())) {
                 return true;
             }
@@ -391,15 +391,15 @@ public final class SequenceDictionaryUtils {
      * @param dict2 second SAMSequenceDictionary
      * @return true if the common contigs occur in the same relative order in both dict1 and dict2, otherwise false
      */
-    private static boolean commonContigsAreInSameRelativeOrder(Set<String> commonContigs, SAMSequenceDictionary dict1, SAMSequenceDictionary dict2) {
+    private static boolean commonContigsAreInSameRelativeOrder(final Set<String> commonContigs, final SAMSequenceDictionary dict1, final SAMSequenceDictionary dict2) {
         final List<SAMSequenceRecord> list1 = getSequencesOfName(commonContigs, dict1);
         final List<SAMSequenceRecord> list2 = getSequencesOfName(commonContigs, dict2);
         list1.sort(SEQUENCE_INDEX_ORDER);
         list2.sort(SEQUENCE_INDEX_ORDER);
 
         for ( int i = 0; i < list1.size(); i++ ) {
-            SAMSequenceRecord elt1 = list1.get(i);
-            SAMSequenceRecord elt2 = list2.get(i);
+            final SAMSequenceRecord elt1 = list1.get(i);
+            final SAMSequenceRecord elt2 = list2.get(i);
             if ( ! elt1.getSequenceName().equals(elt2.getSequenceName()) )
                 return false;
         }
@@ -414,9 +414,9 @@ public final class SequenceDictionaryUtils {
      * @param dict
      * @return
      */
-    private static List<SAMSequenceRecord> getSequencesOfName(Set<String> commonContigs, SAMSequenceDictionary dict) {
-        List<SAMSequenceRecord> l = new ArrayList<>(commonContigs.size());
-        for ( String name : commonContigs ) {
+    private static List<SAMSequenceRecord> getSequencesOfName(final Set<String> commonContigs, final SAMSequenceDictionary dict) {
+        final List<SAMSequenceRecord> l = new ArrayList<>(commonContigs.size());
+        for ( final String name : commonContigs ) {
             l.add(dict.getSequence(name) );
         }
 
@@ -434,9 +434,9 @@ public final class SequenceDictionaryUtils {
      *         otherwise false
      */
     private static boolean commonContigsAreAtSameIndices( final Set<String> commonContigs, final SAMSequenceDictionary dict1, final SAMSequenceDictionary dict2 ) {
-        for ( String commonContig : commonContigs ) {
-            SAMSequenceRecord dict1Record = dict1.getSequence(commonContig);
-            SAMSequenceRecord dict2Record = dict2.getSequence(commonContig);
+        for ( final String commonContig : commonContigs ) {
+            final SAMSequenceRecord dict1Record = dict1.getSequence(commonContig);
+            final SAMSequenceRecord dict2Record = dict2.getSequence(commonContig);
 
             // Each common contig must have the same index in both dictionaries
             if ( dict1Record.getSequenceIndex() != dict2Record.getSequenceIndex() ) {
@@ -453,15 +453,15 @@ public final class SequenceDictionaryUtils {
      * @param dict2
      * @return
      */
-    public static Set<String> getCommonContigsByName(SAMSequenceDictionary dict1, SAMSequenceDictionary dict2) {
-        Set<String> intersectingSequenceNames = getContigNames(dict1);
+    public static Set<String> getCommonContigsByName(final SAMSequenceDictionary dict1, final SAMSequenceDictionary dict2) {
+        final Set<String> intersectingSequenceNames = getContigNames(dict1);
         intersectingSequenceNames.retainAll(getContigNames(dict2));
         return intersectingSequenceNames;
     }
 
-    public static Set<String> getContigNames(SAMSequenceDictionary dict) {
-        Set<String> contigNames = new LinkedHashSet<String>(Utils.optimumHashSize(dict.size()));
-        for (SAMSequenceRecord dictionaryEntry : dict.getSequences())
+    public static Set<String> getContigNames(final SAMSequenceDictionary dict) {
+        final Set<String> contigNames = new LinkedHashSet<String>(Utils.optimumHashSize(dict.size()));
+        for (final SAMSequenceRecord dictionaryEntry : dict.getSequences())
             contigNames.add(dictionaryEntry.getSequenceName());
         return contigNames;
     }
@@ -478,9 +478,9 @@ public final class SequenceDictionaryUtils {
     public static String getDictionaryAsString( final SAMSequenceDictionary dict ) {
         Utils.nonNull(dict, "Sequence dictionary must be non-null");
 
-        StringBuilder s = new StringBuilder("[ ");
+        final StringBuilder s = new StringBuilder("[ ");
 
-        for ( SAMSequenceRecord dictionaryEntry : dict.getSequences() ) {
+        for ( final SAMSequenceRecord dictionaryEntry : dict.getSequences() ) {
             s.append(dictionaryEntry.getSequenceName());
             s.append("(length:");
             s.append(dictionaryEntry.getSequenceLength());

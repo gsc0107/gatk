@@ -39,7 +39,7 @@ public final class MappingQualityRankSumTestUnitTest {
     }
 
     private GATKRead makeRead(final int mq) {
-        Cigar cigar = TextCigarCodec.decode("10M");
+        final Cigar cigar = TextCigarCodec.decode("10M");
         final GATKRead read = ArtificialReadUtils.createArtificialRead(cigar);
         read.setMappingQuality(mq);
         return read;

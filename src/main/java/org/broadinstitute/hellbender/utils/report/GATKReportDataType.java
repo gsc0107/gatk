@@ -45,14 +45,14 @@ public enum GATKReportDataType {
 
     private final java.lang.String dataTypeString;
 
-    private GATKReportDataType(java.lang.String dataTypeString) {
+    private GATKReportDataType(final java.lang.String dataTypeString) {
         this.dataTypeString = dataTypeString;
     }
 
     private static final Map<java.lang.String, GATKReportDataType> lookup = new LinkedHashMap<>();
 
     static {
-        for (GATKReportDataType s : EnumSet.allOf(GATKReportDataType.class))
+        for (final GATKReportDataType s : EnumSet.allOf(GATKReportDataType.class))
             lookup.put(s.dataTypeString, s);
     }
 
@@ -69,8 +69,8 @@ public enum GATKReportDataType {
      * @param object the object ot derive the data type from
      * @return the appropriate data type
      */
-    public static GATKReportDataType fromObject(Object object) {
-        GATKReportDataType value;
+    public static GATKReportDataType fromObject(final Object object) {
+        final GATKReportDataType value;
         if (object instanceof java.lang.Boolean) {
             value = GATKReportDataType.Boolean;
 
@@ -104,10 +104,10 @@ public enum GATKReportDataType {
      * @param format the format string to derive the data type from
      * @return the appropriate data type
      */
-    public static GATKReportDataType fromFormatString(java.lang.String format) {
+    public static GATKReportDataType fromFormatString(final java.lang.String format) {
         if (format.equals(""))
             return Unknown;
-        for (GATKReportDataType type : lookup.values()) {
+        for (final GATKReportDataType type : lookup.values()) {
             if (format.matches(type.toString()) )
                 return type;
         }
@@ -121,9 +121,9 @@ public enum GATKReportDataType {
      * @param obj The input string
      * @return an object that matches the data type.
      */
-    Object Parse(Object obj) {
+    Object Parse(final Object obj) {
         if (obj instanceof java.lang.String) {
-            java.lang.String str = obj.toString();
+            final java.lang.String str = obj.toString();
             switch (this) {
                 case Decimal:
                     return Double.parseDouble(str);

@@ -52,7 +52,7 @@ public final class BaseRecalibrationEngine implements Serializable {
         private static final long serialVersionUID = 1L;
 
         @Override
-        public SimpleInterval apply( GATKRead read ) {
+        public SimpleInterval apply(final GATKRead read ) {
             return BAQ.getReferenceWindowForRead(read, BAQ.DEFAULT_BANDWIDTH);
         }
     }
@@ -121,9 +121,9 @@ public final class BaseRecalibrationEngine implements Serializable {
 
         RecalUtils.parsePlatformForRead(read, readsHeader, recalArgs);
 
-        int[] isSNP = new int[read.getLength()];
-        int[] isInsertion = new int[isSNP.length];
-        int[] isDeletion = new int[isSNP.length];
+        final int[] isSNP = new int[read.getLength()];
+        final int[] isInsertion = new int[isSNP.length];
+        final int[] isDeletion = new int[isSNP.length];
 
         //Note: this function modifies the isSNP, isInsertion and isDeletion arguments so it can't be skipped, BAQ or no BAQ
         final int nErrors = calculateIsSNPOrIndel(read, refDS, isSNP, isInsertion, isDeletion);
@@ -282,9 +282,9 @@ public final class BaseRecalibrationEngine implements Serializable {
     }
 
     private ReadTransformer makeReadTransform() {
-        ReadTransformer f0 = BaseRecalibrationEngine::consolidateCigar;
+        final ReadTransformer f0 = BaseRecalibrationEngine::consolidateCigar;
 
-        ReadTransformer f = f0.andThen(this::setDefaultBaseQualities)
+        final ReadTransformer f = f0.andThen(this::setDefaultBaseQualities)
                 .andThen(this::resetOriginalBaseQualities)
                 .andThen(ReadClipper::hardClipAdaptorSequence)
                 .andThen(ReadClipper::hardClipSoftClippedBases);
@@ -313,10 +313,10 @@ public final class BaseRecalibrationEngine implements Serializable {
         if (recalArgs.defaultBaseQualities < 0) {
             return read;
         }
-        byte[] reads = read.getBases();
-        byte[] quals = read.getBaseQualities();
+        final byte[] reads = read.getBases();
+        final byte[] quals = read.getBaseQualities();
         if (quals == null || quals.length < reads.length) {
-            byte[] new_quals = new byte[reads.length];
+            final byte[] new_quals = new byte[reads.length];
             Arrays.fill(new_quals, recalArgs.defaultBaseQualities);
             read.setBaseQualities(new_quals);
         }
@@ -374,7 +374,7 @@ public final class BaseRecalibrationEngine implements Serializable {
      * @param isDel storage for deletion events (must be of length read.getBases().length and initialized to all 0's)
      * @return the total number of SNP and indel events
      */
-    protected static int calculateIsSNPOrIndel(final GATKRead read, final ReferenceDataSource ref, int[] snp, int[] isIns, int[] isDel) {
+    protected static int calculateIsSNPOrIndel(final GATKRead read, final ReferenceDataSource ref, final int[] snp, final int[] isIns, final int[] isDel) {
         final byte[] refBases = ref.queryAndPrefetch(read.getContig(), read.getStart(), read.getEnd()).getBases();
         int readPos = 0;
         int refPos = 0;
@@ -387,7 +387,7 @@ public final class BaseRecalibrationEngine implements Serializable {
                 case EQ:
                 case X:
                     for (int i = 0; i < elementLength; i++) {
-                        int snpInt = (BaseUtils.basesAreEqual(read.getBase(readPos), refBases[refPos]) ? 0 : 1);
+                        final int snpInt = (BaseUtils.basesAreEqual(read.getBase(readPos), refBases[refPos]) ? 0 : 1);
                         snp[readPos] = snpInt;
                         nEvents += snpInt;
                         readPos++;

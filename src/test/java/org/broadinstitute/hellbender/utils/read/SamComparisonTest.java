@@ -16,9 +16,9 @@ public final class SamComparisonTest {
                             final int expectedUnmappedLeft, final int expectedUnmappedRight, final int expectedMissingLeft,
                             final int expectedMissingRight, final boolean areEqual) throws IOException {
 
-        SamReaderFactory factory = SamReaderFactory.makeDefault();
-        File sam1 = new File(TEST_FILES_DIR, f1);
-        File sam2 = new File(TEST_FILES_DIR, f2);
+        final SamReaderFactory factory = SamReaderFactory.makeDefault();
+        final File sam1 = new File(TEST_FILES_DIR, f1);
+        final File sam2 = new File(TEST_FILES_DIR, f2);
 
         try (final SamReader reader1 = factory.open(sam1);
              final SamReader reader2 = factory.open(sam2)) {

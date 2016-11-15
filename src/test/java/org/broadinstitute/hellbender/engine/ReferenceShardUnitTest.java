@@ -20,8 +20,8 @@ public final class ReferenceShardUnitTest extends BaseTest {
     }
 
     @Test(dataProvider = "reads")
-    public void getVariantShardsFromIntervalTest(GATKRead r, ReferenceShard expectedShard) {
-        ReferenceShard foundShard = ReferenceShard.getShardNumberFromInterval(r);
+    public void getVariantShardsFromIntervalTest(final GATKRead r, final ReferenceShard expectedShard) {
+        final ReferenceShard foundShard = ReferenceShard.getShardNumberFromInterval(r);
         Assert.assertEquals(foundShard, expectedShard);
     }
 }

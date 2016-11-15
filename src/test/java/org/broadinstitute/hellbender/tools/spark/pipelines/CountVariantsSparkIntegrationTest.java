@@ -23,7 +23,7 @@ public final class CountVariantsSparkIntegrationTest extends CommandLineProgramT
     @Test(dataProvider = "filenames", groups = "spark")
     public void test(final File fileIn, final long expected) throws Exception {
         final File outputTxt = createTempFile("count_variants", ".txt");
-        ArgumentsBuilder args = new ArgumentsBuilder();
+        final ArgumentsBuilder args = new ArgumentsBuilder();
         args.addVCF(fileIn);
         args.addOutput(outputTxt);
         this.runCommandLine(args.getArgsArray());
@@ -43,8 +43,8 @@ public final class CountVariantsSparkIntegrationTest extends CommandLineProgramT
 
     @DataProvider(name="intervals")
     public Object[][] intervals(){
-        File vcf = new File(largeFileTestDir, "dbsnp_138.b37.20.21.vcf");
-        File vcf_gz = new File(largeFileTestDir, "dbsnp_138.b37.20.21.vcf.blockgz.gz");
+        final File vcf = new File(largeFileTestDir, "dbsnp_138.b37.20.21.vcf");
+        final File vcf_gz = new File(largeFileTestDir, "dbsnp_138.b37.20.21.vcf.blockgz.gz");
         return new Object[][]{
                 new Object[]{vcf, "", 9594L}, // no intervals specified
                 new Object[]{vcf, "-L 20", 5657L},
@@ -64,7 +64,7 @@ public final class CountVariantsSparkIntegrationTest extends CommandLineProgramT
     @Test(dataProvider = "intervals", groups = "spark")
     public void testCountVariantsWithIntervals(final File fileIn, final String intervalArgs, final long expected) throws Exception {
         final File outputTxt = createTempFile("count_variants", ".txt");
-        ArgumentsBuilder args = new ArgumentsBuilder();
+        final ArgumentsBuilder args = new ArgumentsBuilder();
         args.addVCF(fileIn);
         args.add(intervalArgs);
         args.addReference(new File(largeFileTestDir, "human_g1k_v37.20.21.fasta"));
@@ -80,7 +80,7 @@ public final class CountVariantsSparkIntegrationTest extends CommandLineProgramT
 
             final String readIn = FileUtils.readFileToString(outputTxt.getAbsoluteFile());
             Assert.assertEquals((int)Integer.valueOf(readIn), expected);
-            String errString = baosErr.toString();
+            final String errString = baosErr.toString();
             Assert.assertFalse(errString.contains("Warning: using GzipCodec, which is not splittable,"), errString);
         } finally {
             System.setErr(err); //put this back in
@@ -89,7 +89,7 @@ public final class CountVariantsSparkIntegrationTest extends CommandLineProgramT
 
     @Test(groups = "spark")
     public void testNoNPRWhenOutputIsUnspecified(){
-        ArgumentsBuilder args = new ArgumentsBuilder();
+        final ArgumentsBuilder args = new ArgumentsBuilder();
         args.addVCF(COUNT_VARIANTS_VCF);
         this.runCommandLine(args.getArgsArray());
     }

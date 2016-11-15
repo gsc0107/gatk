@@ -26,7 +26,7 @@ public final class ApplyBQSRIntegrationTest extends CommandLineProgramTest {
         final String args[];
         final String expectedFile;
 
-        private ABQSRTest(String bam, String reference, String outputExtension, String args[], String expectedFile) {
+        private ABQSRTest(final String bam, final String reference, final String outputExtension, final String[] args, final String expectedFile) {
             this.bam= bam;
             this.reference = reference;
             this.outputExtension = outputExtension;
@@ -54,7 +54,7 @@ public final class ApplyBQSRIntegrationTest extends CommandLineProgramTest {
 
     @DataProvider(name = "ApplyBQSRTest")
     public Object[][] createABQSRTestData() {
-        List<Object[]> tests = new ArrayList<>();
+        final List<Object[]> tests = new ArrayList<>();
 
         //Note: these outputs were created using GATK3
         tests.add(new Object[]{new ABQSRTest(hiSeqBam, null, ".bam", null, resourceDir + "expected.HiSeq.1mb.1RG.2k_lines.alternate.recalibrated.DIQ.bam")});
@@ -79,8 +79,8 @@ public final class ApplyBQSRIntegrationTest extends CommandLineProgramTest {
     }
 
     @Test(dataProvider = "ApplyBQSRTest")
-    public void testApplyBQSR(ABQSRTest params) throws IOException {
-        File outFile = BaseTest.createTempFile("applyBQSRTest", params.outputExtension);
+    public void testApplyBQSR(final ABQSRTest params) throws IOException {
+        final File outFile = BaseTest.createTempFile("applyBQSRTest", params.outputExtension);
         final ArrayList<String> args = new ArrayList<>();
         File refFile = null;
 
@@ -104,7 +104,7 @@ public final class ApplyBQSRIntegrationTest extends CommandLineProgramTest {
 
     @Test
     public void testPRNoFailWithHighMaxCycle() throws IOException {
-        IntegrationTestSpec spec = new IntegrationTestSpec(
+        final IntegrationTestSpec spec = new IntegrationTestSpec(
                         " -I " + hiSeqBamAligned +
                         " --bqsr_recal_file " + resourceDir + "HiSeq.1mb.1RG.highMaxCycle.table.gz" +
                         " -O /dev/null",
@@ -115,7 +115,7 @@ public final class ApplyBQSRIntegrationTest extends CommandLineProgramTest {
 
     @Test
     public void testHelp() throws IOException {
-        IntegrationTestSpec spec = new IntegrationTestSpec(
+        final IntegrationTestSpec spec = new IntegrationTestSpec(
                 " -I " + hiSeqBamAligned +
                         " --help --bqsr_recal_file " + resourceDir + "HiSeq.1mb.1RG.highMaxCycle.table.gz" +
                         " -O /dev/null",
@@ -125,7 +125,7 @@ public final class ApplyBQSRIntegrationTest extends CommandLineProgramTest {
 
     @Test
     public void testPRFailWithLowMaxCycle() throws IOException {
-        IntegrationTestSpec spec = new IntegrationTestSpec(
+        final IntegrationTestSpec spec = new IntegrationTestSpec(
                         " -I " + hiSeqBamAligned +
                         " --bqsr_recal_file " + resourceDir + "HiSeq.1mb.1RG.lowMaxCycle.table.gz" +
                         " -O /dev/null",

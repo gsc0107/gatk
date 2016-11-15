@@ -77,7 +77,7 @@ public class BaseRecalibratorSparkSharded extends SparkCommandLineProgram {
     private AuthHolder auth;
 
     @Override
-    protected void runPipeline( JavaSparkContext ctx ) {
+    protected void runPipeline(final JavaSparkContext ctx ) {
         if ( readArguments.getReadFilesNames().size() != 1 ) {
             throw new UserException("Sorry, we only support a single reads input for now.");
         }
@@ -88,29 +88,29 @@ public class BaseRecalibratorSparkSharded extends SparkCommandLineProgram {
 
         final ReferenceMultiSource rds = new ReferenceMultiSource(auth, referenceURL, BaseRecalibrationEngine.BQSR_REFERENCE_WINDOW_FUNCTION);
 
-        SAMFileHeader readsHeader = new ReadsSparkSource(ctx, readArguments.getReadValidationStringency()).getHeader(bam, referenceURL, auth);
+        final SAMFileHeader readsHeader = new ReadsSparkSource(ctx, readArguments.getReadValidationStringency()).getHeader(bam, referenceURL, auth);
         final SAMSequenceDictionary readsDictionary = readsHeader.getSequenceDictionary();
         final SAMSequenceDictionary refDictionary = rds.getReferenceSequenceDictionary(readsDictionary);
         final ReadFilter readFilterToApply = BaseRecalibrator.getStandardBQSRReadFilter(readsHeader);
 
         SequenceDictionaryUtils.validateDictionaries("reference", refDictionary, "reads", readsDictionary);
 
-        Broadcast<SAMFileHeader> readsHeaderBcast = ctx.broadcast(readsHeader);
-        Broadcast<SAMSequenceDictionary> refDictionaryBcast = ctx.broadcast(refDictionary);
+        final Broadcast<SAMFileHeader> readsHeaderBcast = ctx.broadcast(readsHeader);
+        final Broadcast<SAMSequenceDictionary> refDictionaryBcast = ctx.broadcast(refDictionary);
 
-        List<SimpleInterval> intervals = intervalArgumentCollection.intervalsSpecified() ? intervalArgumentCollection.getIntervals(readsHeader.getSequenceDictionary())
+        final List<SimpleInterval> intervals = intervalArgumentCollection.intervalsSpecified() ? intervalArgumentCollection.getIntervals(readsHeader.getSequenceDictionary())
                 : IntervalUtils.getAllIntervalsForReference(readsHeader.getSequenceDictionary());
 
         List<String> localVariants = knownVariants;
         localVariants = hackilyCopyFromGCSIfNecessary(localVariants);
-        List<GATKVariant> variants = VariantsSource.getVariantsList(localVariants);
+        final List<GATKVariant> variants = VariantsSource.getVariantsList(localVariants);
 
         // get reads, reference, variants
-        JavaRDD<ContextShard> readsWithContext = AddContextDataToReadSparkOptimized.add(ctx, intervals, bam, variants, auth, readFilterToApply, rds);
+        final JavaRDD<ContextShard> readsWithContext = AddContextDataToReadSparkOptimized.add(ctx, intervals, bam, variants, auth, readFilterToApply, rds);
 
         // run BaseRecalibratorEngine.
-        BaseRecalibratorEngineSparkWrapper recal = new BaseRecalibratorEngineSparkWrapper(readsHeaderBcast, refDictionaryBcast, bqsrArgs);
-        JavaRDD<RecalibrationTables> tables = readsWithContext.mapPartitions(s->recal.apply(s));
+        final BaseRecalibratorEngineSparkWrapper recal = new BaseRecalibratorEngineSparkWrapper(readsHeaderBcast, refDictionaryBcast, bqsrArgs);
+        final JavaRDD<RecalibrationTables> tables = readsWithContext.mapPartitions(s->recal.apply(s));
 
         final RecalibrationTables emptyRecalibrationTable = new RecalibrationTables(new StandardCovariateList(bqsrArgs, readsHeader));
         final RecalibrationTables table = tables.treeAggregate(emptyRecalibrationTable,
@@ -122,30 +122,30 @@ public class BaseRecalibratorSparkSharded extends SparkCommandLineProgram {
 
         try {
             BaseRecalibratorEngineSparkWrapper.saveTextualReport(outputTablesPath, readsHeader, table, bqsrArgs, auth);
-        } catch (IOException e) {
+        } catch (final IOException e) {
             throw new UserException.CouldNotCreateOutputFile(new File(outputTablesPath), e);
         }
     }
 
 
     // please add support for reading variant files from GCS.
-    private ArrayList<String> hackilyCopyFromGCSIfNecessary(List<String> localVariants) {
-        int i=0;
-        Stopwatch hacking = Stopwatch.createStarted();
+    private ArrayList<String> hackilyCopyFromGCSIfNecessary(final List<String> localVariants) {
+        final int i=0;
+        final Stopwatch hacking = Stopwatch.createStarted();
         boolean copied = false;
-        ArrayList<String> ret = new ArrayList<>();
-        for (String v : localVariants) {
+        final ArrayList<String> ret = new ArrayList<>();
+        for (final String v : localVariants) {
             if (BucketUtils.isCloudStorageUrl(v)) {
                 if (!copied) {
                     logger.info("(HACK): copying the GCS variant file to local just so we can read it back.");
                     copied=true;
                 }
                 // this only works with the API_KEY, but then again it's a hack so there's no point in polishing it. Please don't make me.
-                PipelineOptions popts = auth.asPipelineOptionsDeprecated();
-                String d = IOUtils.createTempFile("knownVariants-"+i,".vcf").getAbsolutePath();
+                final PipelineOptions popts = auth.asPipelineOptionsDeprecated();
+                final String d = IOUtils.createTempFile("knownVariants-"+i,".vcf").getAbsolutePath();
                 try {
                     BucketUtils.copyFile(v, popts, d);
-                } catch (IOException x) {
+                } catch (final IOException x) {
                     throw new UserException.CouldNotReadInputFile(v,x);
                 }
                 ret.add(d);

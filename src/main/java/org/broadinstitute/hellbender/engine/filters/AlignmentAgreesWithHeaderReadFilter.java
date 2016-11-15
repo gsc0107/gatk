@@ -19,7 +19,7 @@ public final class AlignmentAgreesWithHeaderReadFilter extends ReadFilter implem
     }
 
     @Override
-    public boolean test( GATKRead read ) {
+    public boolean test(final GATKRead read ) {
         return ReadUtils.alignmentAgreesWithHeader(samHeader, read);
     }
 }

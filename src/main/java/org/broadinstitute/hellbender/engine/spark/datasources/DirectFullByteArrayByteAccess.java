@@ -10,12 +10,12 @@ import org.bdgenomics.utils.io.ByteArrayByteAccess;
 class DirectFullByteArrayByteAccess extends ByteArrayByteAccess {
     private static final long serialVersionUID = 1L;
 
-    DirectFullByteArrayByteAccess(byte[] bytes) {
+    DirectFullByteArrayByteAccess(final byte[] bytes) {
         super(bytes);
     }
 
     @Override
-    public byte[] readFully(long offset, int length) {
+    public byte[] readFully(final long offset, final int length) {
         if ((offset != 0) || (length != this.length())) {
             throw new IllegalArgumentException("readFully can only return a reference to the full underlying byte array");
         }

@@ -18,17 +18,17 @@ public final class GATKReportUnitTest extends BaseTest {
 
     @Test
     public void testParse() throws Exception {
-        String reportPath = publicTestDir + "exampleGATKReportv2.tbl";
-        GATKReport report = new GATKReport(reportPath);
+        final String reportPath = publicTestDir + "exampleGATKReportv2.tbl";
+        final GATKReport report = new GATKReport(reportPath);
         Assert.assertEquals(report.getVersion(), GATKReportVersion.V1_1);
         Assert.assertEquals(report.getTables().size(), 5);
 
-        GATKReportTable countVariants = report.getTable("CountVariants");
+        final GATKReportTable countVariants = report.getTable("CountVariants");
         Assert.assertEquals(countVariants.get(0, "nProcessedLoci"), "63025520");
         Assert.assertEquals(countVariants.get(0, "nNoCalls"), "0");
         Assert.assertEquals(countVariants.get(0, "heterozygosity"), 4.73e-06);
 
-        GATKReportTable validationReport = report.getTable("ValidationReport");
+        final GATKReportTable validationReport = report.getTable("ValidationReport");
         Assert.assertEquals(validationReport.get(2, "PPV"), Double.NaN);
     }
 
@@ -55,15 +55,15 @@ public final class GATKReportUnitTest extends BaseTest {
     }
 
     @Test(dataProvider = "rightAlignValues")
-    public void testIsRightAlign(String value, boolean expected) {
+    public void testIsRightAlign(final String value, final boolean expected) {
         Assert.assertEquals(GATKReportColumn.isRightAlign(value), expected, "right align of '" + value + "'");
     }
 
     private GATKReport getTableWithRandomValues() {
-        Random number = new Random(123L);
+        final Random number = new Random(123L);
         final int MAX_VALUE = 20;
 
-        GATKReport report = GATKReport.newSimpleReportWithDescription(TABLE_NAME, "table with random values sorted by columns", GATKReportTable.Sorting.SORT_BY_COLUMN, "col1", "col2", "col3");
+        final GATKReport report = GATKReport.newSimpleReportWithDescription(TABLE_NAME, "table with random values sorted by columns", GATKReportTable.Sorting.SORT_BY_COLUMN, "col1", "col2", "col3");
 
         final int NUM_ROWS = 100;
         for (int x = 0; x < NUM_ROWS; x++) {
@@ -77,8 +77,8 @@ public final class GATKReportUnitTest extends BaseTest {
         assertTableSortsCorrectly(getTableWithRandomValues());
     }
 
-    private void assertTableSortsCorrectly(GATKReport inputReport) throws IOException {
-        File testingSortingTableFile = createTempFile("testSortingFile",".txt");
+    private void assertTableSortsCorrectly(final GATKReport inputReport) throws IOException {
+        final File testingSortingTableFile = createTempFile("testSortingFile",".txt");
 
         try (final PrintStream ps = new PrintStream(testingSortingTableFile)) {
             inputReport.print(ps);
@@ -92,7 +92,7 @@ public final class GATKReportUnitTest extends BaseTest {
         }
     }
 
-    private static int compareRows(GATKReportTable table, int firstRow, int secondRow){
+    private static int compareRows(final GATKReportTable table, final int firstRow, final int secondRow){
         for( int i = 0; i < table.getNumColumns(); i++){
             final Integer first = Integer.parseInt((String) table.get(firstRow, i));
             final Integer second = Integer.parseInt((String) table.get(secondRow, i));
@@ -106,8 +106,8 @@ public final class GATKReportUnitTest extends BaseTest {
 
 
     private GATKReportTable makeBasicTable() {
-        GATKReport report = GATKReport.newSimpleReport(TABLE_NAME, GATKReportTable.Sorting.SORT_BY_COLUMN, "sample", "value");
-        GATKReportTable table = report.getTable(TABLE_NAME);
+        final GATKReport report = GATKReport.newSimpleReport(TABLE_NAME, GATKReportTable.Sorting.SORT_BY_COLUMN, "sample", "value");
+        final GATKReportTable table = report.getTable(TABLE_NAME);
         report.addRow("foo.1", "hello");
         report.addRow("foo.2", "world");
         return table;
@@ -115,7 +115,7 @@ public final class GATKReportUnitTest extends BaseTest {
 
     @Test
     public void testDottedSampleName() {
-        GATKReportTable table = makeBasicTable();
+        final GATKReportTable table = makeBasicTable();
         Assert.assertEquals(table.get(0, "value"), "hello");
         Assert.assertEquals(table.get(1, "value"), "world");
     }
@@ -123,17 +123,17 @@ public final class GATKReportUnitTest extends BaseTest {
     @Test
     public void testSimpleGATKReport() throws FileNotFoundException {
         // Create a new simple GATK report named "TableName" with columns: Roger, is, and Awesome
-        GATKReport report = GATKReport.newSimpleReport(TABLE_NAME, GATKReportTable.Sorting.SORT_BY_COLUMN, "Roger", "is", "Awesome");
+        final GATKReport report = GATKReport.newSimpleReport(TABLE_NAME, GATKReportTable.Sorting.SORT_BY_COLUMN, "Roger", "is", "Awesome");
 
         // Add data to simple GATK report
         report.addRow(12, 23.45, true);
         report.addRow("ans", '3', 24.5);
         report.addRow("hi", "", 2.3);
 
-        File file = createTempFile("GATKReportGatherer-UnitTest", ".tbl");
+        final File file = createTempFile("GATKReportGatherer-UnitTest", ".tbl");
         try (PrintStream ps = new PrintStream(file)) {
             report.print(ps);
-            GATKReport inputRead = new GATKReport(file);
+            final GATKReport inputRead = new GATKReport(file);
             Assert.assertTrue(report.isSameFormat(inputRead));
         }
 
@@ -142,7 +142,9 @@ public final class GATKReportUnitTest extends BaseTest {
     @Test
     public void testGATKReportGatherer() throws FileNotFoundException {
 
-        GATKReport report1, report2, report3;
+        final GATKReport report1;
+        GATKReport report2;
+        GATKReport report3;
         report1 = new GATKReport();
         report1.addTable(TABLE_NAME, "Description", 2);
         report1.getTable(TABLE_NAME).addColumn("colA", "%s");
@@ -168,7 +170,7 @@ public final class GATKReportUnitTest extends BaseTest {
         report1.concat(report3);
 
         report1.addTable("Table2", "To contain some more data types", 3);
-        GATKReportTable table = report1.getTable("Table2");
+        final GATKReportTable table = report1.getTable("Table2");
         table.addColumn("SomeInt", "%d");
         table.addColumn("SomeFloat", "%.16E");
         table.addColumn("TrueFalse", "%B");
@@ -197,10 +199,10 @@ public final class GATKReportUnitTest extends BaseTest {
         report1.getTable("Table3").set("ZZZ", "a", "Dfs");
 
 
-        File file = createTempFile("GATKReportGatherer-UnitTest", ".tbl");
+        final File file = createTempFile("GATKReportGatherer-UnitTest", ".tbl");
         try (final PrintStream ps = new PrintStream(file)) {
             report1.print(ps);
-            GATKReport inputRead = new GATKReport(file);
+            final GATKReport inputRead = new GATKReport(file);
             Assert.assertTrue(report1.isSameFormat(inputRead));
             Assert.assertTrue(report1.equals(inputRead));
         }

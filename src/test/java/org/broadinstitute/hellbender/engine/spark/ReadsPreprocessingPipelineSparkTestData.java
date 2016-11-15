@@ -44,7 +44,7 @@ public class ReadsPreprocessingPipelineSparkTestData {
      * reads, variants, references bases and pairing those types together.
      * @param clazz The class to be used to back the GATKRead, either Read.class, or SAMRecord.class.
      */
-    public ReadsPreprocessingPipelineSparkTestData(Class<?> clazz) {
+    public ReadsPreprocessingPipelineSparkTestData(final Class<?> clazz) {
         readStartLength = Arrays.asList(KV.of(100, 50), KV.of(140, 100),
                 KV.of(ReferenceShard.REFERENCE_SHARD_SIZE, 10),
                 KV.of(3*ReferenceShard.REFERENCE_SHARD_SIZE - 1, 10));
@@ -68,7 +68,7 @@ public class ReadsPreprocessingPipelineSparkTestData {
         // The first two reads are mapped onto the same reference shard. The ReferenceBases returned should
         // be from the start of the first read [rStartLength.get(0).getKey()] to the end
         // the second [rStartLength.get(1).getKey() + rStartLength.get(1).getValue()-1].
-        SimpleInterval spannedReadInterval =
+        final SimpleInterval spannedReadInterval =
                 new SimpleInterval("1", readStartLength.get(0).getKey(), readStartLength.get(1).getKey() + readStartLength.get(1).getValue()-1);
 
         allIntervals = Lists.newArrayList(readIntervals.iterator());
@@ -103,11 +103,11 @@ public class ReadsPreprocessingPipelineSparkTestData {
         );
         final KV<GATKRead, GATKVariant> readNullVariant = KV.of(reads.get(0), null);
 
-        Iterable<GATKVariant> variant10 = Lists.newArrayList(kvReadVariant.get(1).getValue(), kvReadVariant.get(0).getValue());
-        Iterable<GATKVariant> variant2 = Lists.newArrayList(kvReadVariant.get(2).getValue());
-        Iterable<GATKVariant> variant3 = Lists.newArrayList(kvReadVariant.get(3).getValue());
-        Iterable<GATKVariant> variant4 = Lists.newArrayList(kvReadVariant.get(5).getValue());
-        Iterable<GATKVariant> noVariant = Lists.newArrayList(new ArrayList<>());
+        final Iterable<GATKVariant> variant10 = Lists.newArrayList(kvReadVariant.get(1).getValue(), kvReadVariant.get(0).getValue());
+        final Iterable<GATKVariant> variant2 = Lists.newArrayList(kvReadVariant.get(2).getValue());
+        final Iterable<GATKVariant> variant3 = Lists.newArrayList(kvReadVariant.get(3).getValue());
+        final Iterable<GATKVariant> variant4 = Lists.newArrayList(kvReadVariant.get(5).getValue());
+        final Iterable<GATKVariant> noVariant = Lists.newArrayList(new ArrayList<>());
 
         kvReadiVariant = Arrays.asList(
                 KV.of(kvReadVariant.get(0).getKey(), variant10),
@@ -133,7 +133,7 @@ public class ReadsPreprocessingPipelineSparkTestData {
      * @param clazz either Google model Read or SAMRecord
      * @return a new GAKTRead with either a Google model backed or SAMRecord backed read.
      */
-    public static GATKRead makeRead(String contig, KV<Integer, Integer> startLength, int i, Class<?> clazz) {
+    public static GATKRead makeRead(final String contig, final KV<Integer, Integer> startLength, final int i, final Class<?> clazz) {
         return makeRead(contig, startLength.getKey(), startLength.getValue(),i, clazz);
     }
 
@@ -145,7 +145,7 @@ public class ReadsPreprocessingPipelineSparkTestData {
      * @param clazz either Google model Read or SAMRecord
      * @return a new GAKTRead with either a Google model backed or SAMRecord backed read.
      */
-    public static GATKRead makeRead(String contig, int start, int length, int i, Class<?> clazz) {
+    public static GATKRead makeRead(final String contig, final int start, final int length, final int i, final Class<?> clazz) {
         if (clazz == Read.class) {
             return ArtificialReadUtils.createGoogleBackedRead(Integer.toString(i), contig, start, length);
         } else if (clazz == SAMRecord.class) {
@@ -155,11 +155,11 @@ public class ReadsPreprocessingPipelineSparkTestData {
         }
     }
 
-    private SimpleInterval makeInterval(String contig, KV<Integer, Integer> startLength) {
+    private SimpleInterval makeInterval(final String contig, final KV<Integer, Integer> startLength) {
         return new SimpleInterval(contig, startLength.getKey(), startLength.getKey() + startLength.getValue() - 1);
     }
 
-    private ReferenceBases getBases(String contig, int start, int end) {
+    private ReferenceBases getBases(final String contig, final int start, final int end) {
         return FakeReferenceSource.bases(new SimpleInterval(contig, start, end));
     }
 

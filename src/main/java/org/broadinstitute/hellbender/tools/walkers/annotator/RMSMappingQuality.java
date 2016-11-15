@@ -82,7 +82,7 @@ public final class RMSMappingQuality extends InfoFieldAnnotation implements Stan
     }
 
     @VisibleForTesting
-    static String formatedValue(double rms) {
+    static String formatedValue(final double rms) {
         return String.format("%.2f", rms);
     }
 

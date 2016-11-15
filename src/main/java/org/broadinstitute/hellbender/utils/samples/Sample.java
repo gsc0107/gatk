@@ -77,7 +77,7 @@ public final class Sample implements Comparable<Sample> {
 
         if (0 == cmp) {
             // use a null-tolerant string comparator for the optional strings
-            Comparator<String> compStr = Comparator.nullsFirst(Comparator.comparing(String::toString));
+            final Comparator<String> compStr = Comparator.nullsFirst(Comparator.comparing(String::toString));
 
             cmp = compStr.compare(familyID, other.getFamilyID());
             if (0 == cmp) {

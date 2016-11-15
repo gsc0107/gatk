@@ -80,7 +80,7 @@ public final class AlleleFrequencyCalculator extends AFCalculator {
             log10AlleleFrequencies = new Dirichlet(posteriorPseudocounts).log10MeanWeights();
         }
 
-        double[] log10POfZeroCountsByAllele = new double[numAlleles];
+        final double[] log10POfZeroCountsByAllele = new double[numAlleles];
         double log10PNoVariant = 0;
 
         for (final Genotype g : vc.getGenotypes()) {

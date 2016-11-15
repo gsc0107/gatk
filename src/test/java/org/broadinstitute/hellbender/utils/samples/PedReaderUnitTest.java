@@ -136,26 +136,26 @@ public class PedReaderUnitTest extends BaseTest {
         return PedReaderTest.getTests(PedReaderTest.class);
     }
 
-    private static final void runTest(PedReaderTest test, String myFileContents, EnumSet<PedReader.MissingPedField> missing) {
+    private static final void runTest(final PedReaderTest test, final String myFileContents, final EnumSet<PedReader.MissingPedField> missing) {
         logger.warn("Test " + test);
-        PedReader reader = new PedReader();
-        SampleDB sampleDB = new SampleDB();
-        List<Sample> readSamples = reader.parse(myFileContents, missing, sampleDB);
+        final PedReader reader = new PedReader();
+        final SampleDB sampleDB = new SampleDB();
+        final List<Sample> readSamples = reader.parse(myFileContents, missing, sampleDB);
         Assert.assertEquals(new LinkedHashSet<Sample>(test.expectedSamples), new LinkedHashSet<Sample>(readSamples));
     }
 
     @Test(enabled = true, dataProvider = "readerTest")
-    public void testPedReader(PedReaderTest test) {
+    public void testPedReader(final PedReaderTest test) {
         runTest(test, test.fileContents, EnumSet.noneOf(PedReader.MissingPedField.class));
     }
 
     @Test(enabled = true, dataProvider = "readerTest")
-    public void testPedReaderWithComments(PedReaderTest test) {
+    public void testPedReaderWithComments(final PedReaderTest test) {
         runTest(test, String.format("#comment%n%s", test.fileContents), EnumSet.noneOf(PedReader.MissingPedField.class));
     }
 
     @Test(enabled = true, dataProvider = "readerTest")
-    public void testPedReaderWithSemicolons(PedReaderTest test) {
+    public void testPedReaderWithSemicolons(final PedReaderTest test) {
         runTest(test,
                 test.fileContents.replace(String.format("%n"), ";"),
                 EnumSet.noneOf(PedReader.MissingPedField.class));
@@ -173,8 +173,8 @@ public class PedReaderUnitTest extends BaseTest {
 
 
         private PedReaderTestMissing(final String name, final String fileContents,
-                                     EnumSet<PedReader.MissingPedField> missingDesc,
-                                     EnumSet<PedReader.Field> missingFields,
+                                     final EnumSet<PedReader.MissingPedField> missingDesc,
+                                     final EnumSet<PedReader.Field> missingFields,
                                      final Sample expected) {
             super(PedReaderTestMissing.class, name);
             this.fileContents = fileContents;
@@ -221,21 +221,21 @@ public class PedReaderUnitTest extends BaseTest {
     }
 
     @Test(enabled = true, dataProvider = "readerTestMissing")
-    public void testPedReaderWithMissing(PedReaderTestMissing test) {
+    public void testPedReaderWithMissing(final PedReaderTestMissing test) {
         final String contents = sliceContents(test.missingFields, test.fileContents);
         logger.warn("Test " + test);
-        PedReader reader = new PedReader();
-        SampleDB sampleDB = new SampleDB();
+        final PedReader reader = new PedReader();
+        final SampleDB sampleDB = new SampleDB();
         reader.parse(new StringReader(contents), test.missingDesc, sampleDB);
         final Sample missingSample = sampleDB.getSample("kid");
         Assert.assertEquals(test.expected, missingSample, "Missing field value not expected value for " + test);
     }
 
-    private final static String sliceContents(EnumSet<PedReader.Field> missingFieldsSet, String full) {
-        List<String> parts = new ArrayList<String>(Arrays.asList(full.split("\\s+")));
+    private final static String sliceContents(final EnumSet<PedReader.Field> missingFieldsSet, final String full) {
+        final List<String> parts = new ArrayList<String>(Arrays.asList(full.split("\\s+")));
         final List<PedReader.Field> missingFields = new ArrayList<PedReader.Field>(missingFieldsSet);
         Collections.reverse(missingFields);
-        for ( PedReader.Field field : missingFields )
+        for ( final PedReader.Field field : missingFields )
             parts.remove(field.ordinal());
         return Utils.join("\t", parts);
     }
@@ -248,7 +248,7 @@ public class PedReaderUnitTest extends BaseTest {
         public EnumSet<PedReader.MissingPedField> expected;
         public final List<String> tags;
 
-        private PedReaderTestTagParsing(final List<String> tags, EnumSet<PedReader.MissingPedField> missingDesc) {
+        private PedReaderTestTagParsing(final List<String> tags, final EnumSet<PedReader.MissingPedField> missingDesc) {
             super(PedReaderTestTagParsing.class);
             this.tags = tags;
             this.expected = missingDesc;
@@ -289,18 +289,18 @@ public class PedReaderUnitTest extends BaseTest {
     }
 
     @Test(enabled = true, dataProvider = "readerTestTagParsing")
-    public void testPedReaderTagParsing(PedReaderTestTagParsing test) {
-        EnumSet<PedReader.MissingPedField> parsed = PedReader.parseMissingFieldTags("test", test.tags);
+    public void testPedReaderTagParsing(final PedReaderTestTagParsing test) {
+        final EnumSet<PedReader.MissingPedField> parsed = PedReader.parseMissingFieldTags("test", test.tags);
         Assert.assertEquals(test.expected, parsed, "Failed to properly parse tags " + test.tags);
     }
 
     @Test(enabled = true, expectedExceptions = UserException.class)
     public void testPedReaderTagParsing1() {
-        EnumSet<PedReader.MissingPedField> parsed = PedReader.parseMissingFieldTags("test", Arrays.asList("XXX"));
+        final EnumSet<PedReader.MissingPedField> parsed = PedReader.parseMissingFieldTags("test", Arrays.asList("XXX"));
     }
 
     @Test(enabled = true, expectedExceptions = UserException.class)
     public void testPedReaderTagParsing2() {
-        EnumSet<PedReader.MissingPedField> parsed = PedReader.parseMissingFieldTags("test", Arrays.asList("NO_SEX", "XXX"));
+        final EnumSet<PedReader.MissingPedField> parsed = PedReader.parseMissingFieldTags("test", Arrays.asList("NO_SEX", "XXX"));
     }
 }

@@ -62,15 +62,15 @@ public final class MathUtils {
         private double s = 0.0;
         private long obs_count = 0;
 
-        public void add(double obs) {
+        public void add(final double obs) {
             obs_count++;
-            double oldMean = mean;
+            final double oldMean = mean;
             mean += (obs - mean) / obs_count; // update mean
             s += (obs - oldMean) * (obs - mean);
         }
 
-        public void addAll(Collection<Number> col) {
-            for (Number o : col) {
+        public void addAll(final Collection<Number> col) {
+            for (final Number o : col) {
                 add(o.doubleValue());
             }
         }
@@ -93,14 +93,14 @@ public final class MathUtils {
 
         @Override
         public RunningAverage clone() {
-            RunningAverage ra = new RunningAverage();
+            final RunningAverage ra = new RunningAverage();
             ra.mean = this.mean;
             ra.s = this.s;
             ra.obs_count = this.obs_count;
             return ra;
         }
 
-        public void merge(RunningAverage other) {
+        public void merge(final RunningAverage other) {
             if (this.obs_count > 0 || other.obs_count > 0) { // if we have any observations at all
                 this.mean = (this.mean * this.obs_count + other.mean * other.obs_count) / (this.obs_count + other.obs_count);
                 this.s += other.s;
@@ -244,7 +244,7 @@ public final class MathUtils {
         return log10Factorial(n) -  new IndexRange(0, k.length).sum(j -> log10Factorial(k[j]));
     }
 
-    public static double log10(int i) {
+    public static double log10(final int i) {
         return Log10Cache.get(i);
     }
 
@@ -435,28 +435,28 @@ public final class MathUtils {
 
     public static double sum(final double[] values) {
         double s = 0.0;
-        for (double v : values)
+        for (final double v : values)
             s += v;
         return s;
     }
 
     public static long sum(final int[] x) {
         long total = 0;
-        for (int v : x)
+        for (final int v : x)
             total += v;
         return total;
     }
 
     public static int sum(final byte[] x) {
         int total = 0;
-        for (byte v : x)
+        for (final byte v : x)
             total += (int)v;
         return total;
     }
 
     public static long sum(final long[] x) {
         int total = 0;
-        for (long v : x)
+        for (final long v : x)
             total += v;
         return total;
     }
@@ -548,7 +548,7 @@ public final class MathUtils {
      */
     public static double log10BinomialProbability(final int n, final int k, final double log10p) {
         Utils.validateArg(log10p < 1.0e-18, "log10p: Log10-probability must be 0 or less");
-        double log10OneMinusP = Math.log10(1 - Math.pow(10.0, log10p));
+        final double log10OneMinusP = Math.log10(1 - Math.pow(10.0, log10p));
         return log10BinomialCoefficient(n, k) + log10p * k + log10OneMinusP * (n - k);
     }
 
@@ -904,11 +904,11 @@ public final class MathUtils {
      * @param counts - the counts of observation in each category
      * @return - associated likelihood
      */
-    public static double dirichletMultinomial(double[] params, int[] counts) {
+    public static double dirichletMultinomial(final double[] params, final int[] counts) {
         Utils.validateArg(params.length == counts.length, "The number of dirichlet parameters must match the number of categories");
         final double dirichletSum = sum(params);
         final int countSum = (int) sum(counts);
-        double prefactor = log10MultinomialCoefficient(countSum,counts) + log10Gamma(dirichletSum) - log10Gamma(dirichletSum+countSum);
+        final double prefactor = log10MultinomialCoefficient(countSum,counts) + log10Gamma(dirichletSum) - log10Gamma(dirichletSum+countSum);
         return prefactor + new IndexRange(0, counts.length).sum(n -> log10Gamma(counts[n] + params[n]) - log10Gamma(params[n]));
     }
 

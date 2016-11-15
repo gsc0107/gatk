@@ -13,7 +13,7 @@ public enum RScriptLibrary {
 
     private final String name;
 
-    private RScriptLibrary(String name) {
+    private RScriptLibrary(final String name) {
         this.name = name;
     }
 
@@ -33,8 +33,8 @@ public enum RScriptLibrary {
         return IOUtils.writeTempResource(new Resource(getResourcePath(), RScriptLibrary.class));
     }
 
-    public File writeLibrary(File tempDir) {
-        File libraryFile = new File(tempDir, getLibraryName());
+    public File writeLibrary(final File tempDir) {
+        final File libraryFile = new File(tempDir, getLibraryName());
         IOUtils.writeResource(new Resource(getResourcePath(), RScriptLibrary.class), libraryFile);
         return libraryFile;
     }

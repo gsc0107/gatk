@@ -39,7 +39,7 @@ public class SparkCommandLineArgumentCollectionTest {
     }
 
     @Test(dataProvider = "badSplits", expectedExceptions = UserException.BadArgumentValue.class)
-    public void testBadProperties(String property){
+    public void testBadProperties(final String property){
         final SparkCommandLineArgumentCollection sparkArgumentCollection = new SparkCommandLineArgumentCollection();
         sparkArgumentCollection.sparkProperties.add(property);
         sparkArgumentCollection.getSparkProperties();

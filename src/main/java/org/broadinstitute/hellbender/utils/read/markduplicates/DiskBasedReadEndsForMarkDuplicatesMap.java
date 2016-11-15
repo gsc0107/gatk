@@ -34,17 +34,17 @@ import java.util.Map;
 public final class DiskBasedReadEndsForMarkDuplicatesMap implements ReadEndsForMarkDuplicatesMap {
     private final CoordinateSortedPairInfoMap<String, ReadEndsForMarkDuplicates> pairInfoMap;
 
-    public DiskBasedReadEndsForMarkDuplicatesMap(int maxOpenFiles) {
+    public DiskBasedReadEndsForMarkDuplicatesMap(final int maxOpenFiles) {
         pairInfoMap = new CoordinateSortedPairInfoMap<>(maxOpenFiles, new Codec());
     }
 
     @Override
-    public ReadEndsForMarkDuplicates remove(int mateSequenceIndex, String key) {
+    public ReadEndsForMarkDuplicates remove(final int mateSequenceIndex, final String key) {
         return pairInfoMap.remove(mateSequenceIndex, key);
     }
 
     @Override
-    public void put(int mateSequenceIndex, String key, ReadEndsForMarkDuplicates readEnds) {
+    public void put(final int mateSequenceIndex, final String key, final ReadEndsForMarkDuplicates readEnds) {
         pairInfoMap.put(mateSequenceIndex, key, readEnds);
     }
 
@@ -77,7 +77,7 @@ public final class DiskBasedReadEndsForMarkDuplicatesMap implements ReadEndsForM
                 final String key = readEndsForMarkDuplicatesCodec.getInputStream().readUTF();
                 final ReadEndsForMarkDuplicates record = readEndsForMarkDuplicatesCodec.decode();
                 return new AbstractMap.SimpleEntry<>(key, record);
-            } catch (IOException e) {
+            } catch (final IOException e) {
                 throw new GATKException("Error loading ReadEndsForMarkDuplicatesMap from disk", e);
             }
         }
@@ -87,7 +87,7 @@ public final class DiskBasedReadEndsForMarkDuplicatesMap implements ReadEndsForM
             try {
                 readEndsForMarkDuplicatesCodec.getOutputStream().writeUTF(key);
                 readEndsForMarkDuplicatesCodec.encode(readEnds);
-            } catch (IOException e) {
+            } catch (final IOException e) {
                 throw new GATKException("Error spilling ReadEndsForMarkDuplicatesMap to disk.", e);
             }
         }

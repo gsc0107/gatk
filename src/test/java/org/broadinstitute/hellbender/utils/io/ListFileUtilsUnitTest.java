@@ -21,11 +21,11 @@ public class ListFileUtilsUnitTest extends BaseTest {
 
     @Test
     public void testUnpackSet() throws Exception {
-        Set<String> expected = new LinkedHashSet<>(Arrays.asList(publicTestDir + "exampleBAM.bam"));
+        final Set<String> expected = new LinkedHashSet<>(Arrays.asList(publicTestDir + "exampleBAM.bam"));
         Set<String> actual = ListFileUtils.unpackSet(Arrays.asList(publicTestDir + "exampleBAM.bam"));
         Assert.assertEquals(actual, expected);
 
-        File tempListFile = createTempListFile("testUnpackSet",
+        final File tempListFile = createTempListFile("testUnpackSet",
                 "#",
                 publicTestDir + "exampleBAM.bam",
                 "#" + publicTestDir + "foo.bam",
@@ -54,8 +54,8 @@ public class ListFileUtilsUnitTest extends BaseTest {
     }
 
     @Test(dataProvider = "includeMatchingTests")
-    public void testIncludeMatching(Set<String> values, Collection<String> filters, boolean exactMatch, Set<String> expected) {
-        Set<String> actual = ListFileUtils.includeMatching(values, ListFileUtils.IDENTITY_STRING_CONVERTER, filters, exactMatch);
+    public void testIncludeMatching(final Set<String> values, final Collection<String> filters, final boolean exactMatch, final Set<String> expected) {
+        final Set<String> actual = ListFileUtils.includeMatching(values, ListFileUtils.IDENTITY_STRING_CONVERTER, filters, exactMatch);
         Assert.assertEquals(actual, expected);
     }
 
@@ -78,8 +78,8 @@ public class ListFileUtilsUnitTest extends BaseTest {
     }
 
     @Test(dataProvider = "excludeMatchingTests")
-    public void testExcludeMatching(Set<String> values, Collection<String> filters, boolean exactMatch, Set<String> expected) {
-        Set<String> actual = ListFileUtils.excludeMatching(values, ListFileUtils.IDENTITY_STRING_CONVERTER, filters, exactMatch);
+    public void testExcludeMatching(final Set<String> values, final Collection<String> filters, final boolean exactMatch, final Set<String> expected) {
+        final Set<String> actual = ListFileUtils.excludeMatching(values, ListFileUtils.IDENTITY_STRING_CONVERTER, filters, exactMatch);
         Assert.assertEquals(actual, expected);
     }
 
@@ -93,7 +93,7 @@ public class ListFileUtilsUnitTest extends BaseTest {
                 }
             }
             return tempListFile;
-        } catch (IOException ex) {
+        } catch (final IOException ex) {
             throw new UserException("Cannot create temp file: " + ex.getMessage(), ex);
         }
     }

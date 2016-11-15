@@ -31,7 +31,7 @@ public class ShardBoundaryUnitTest extends BaseTest {
     }
 
     @Test(dataProvider = "badInputs", expectedExceptions = IllegalArgumentException.class)
-    public void testShardBoundaryBadInputs(SimpleInterval interval, SimpleInterval paddingInterval){
+    public void testShardBoundaryBadInputs(final SimpleInterval interval, final SimpleInterval paddingInterval){
         new ShardBoundary(interval, paddingInterval);
     }
 
@@ -46,7 +46,7 @@ public class ShardBoundaryUnitTest extends BaseTest {
     }
 
     @Test(dataProvider = "equality")
-    public void testEqualsAndHashCode(ShardBoundary first, ShardBoundary second, boolean expectedToBeEqual){
+    public void testEqualsAndHashCode(final ShardBoundary first, final ShardBoundary second, final boolean expectedToBeEqual){
         Assert.assertEquals(first.equals(second), expectedToBeEqual);
         if (expectedToBeEqual){
             Assert.assertEquals(first.hashCode(), second.hashCode(), "hash codes must be equal if objects are equal");

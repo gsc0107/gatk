@@ -65,7 +65,7 @@ public final class IntervalUtils {
      * using the ordering in the provided dictionary
      * @throws IllegalArgumentException if either first or second contigs could not be found in the dictionary
      */
-    public static final int compareLocatables(Locatable first, Locatable second, SAMSequenceDictionary dictionary) {
+    public static final int compareLocatables(final Locatable first, final Locatable second, final SAMSequenceDictionary dictionary) {
         Utils.nonNull(first);
         Utils.nonNull(second);
         Utils.nonNull(dictionary);
@@ -1004,11 +1004,11 @@ public final class IntervalUtils {
      *
      * chr2:1-200 -> chr2:1-100,chr2:101-200
      */
-    static public List<SimpleInterval> cutToShards(Iterable<SimpleInterval> intervals, int shardSize) {
-        ArrayList<SimpleInterval> ret = new ArrayList<>();
-        for (SimpleInterval i : intervals) {
-            int beginShard = shardIndex(i.getStart(), shardSize);
-            int endShard = shardIndex(i.getEnd(), shardSize);
+    static public List<SimpleInterval> cutToShards(final Iterable<SimpleInterval> intervals, final int shardSize) {
+        final ArrayList<SimpleInterval> ret = new ArrayList<>();
+        for (final SimpleInterval i : intervals) {
+            final int beginShard = shardIndex(i.getStart(), shardSize);
+            final int endShard = shardIndex(i.getEnd(), shardSize);
             if (beginShard==endShard) {
                 ret.add(i);
                 continue;
@@ -1027,21 +1027,21 @@ public final class IntervalUtils {
     /**
      * number of the shard this offset is in. Shards are numbered starting at zero.
      */
-    static public int shardIndex(int oneBasedOffset, int shardSize) {
+    static public int shardIndex(final int oneBasedOffset, final int shardSize) {
         return ((oneBasedOffset-1) / shardSize);
     }
 
     /**
      * first offset in this shard (1-based).
      */
-    static public int beginOfShard(int shardIndex, int shardSize) {
+    static public int beginOfShard(final int shardIndex, final int shardSize) {
         return ((shardIndex) * shardSize) + 1;
     }
 
     /**
      * last offset in this shard (1-based).
      */
-    static public int endOfShard(int shardIndex, int shardSize) {
+    static public int endOfShard(final int shardIndex, final int shardSize) {
         return beginOfShard(shardIndex+1, shardSize)-1;
     }
 

@@ -33,13 +33,13 @@ public final class SortReadFileSpark extends GATKSparkTool {
 
     @Override
     protected void runTool(final JavaSparkContext ctx) {
-        JavaRDD<GATKRead> reads = getReads();
-        int numReducers = getRecommendedNumReducers();
+        final JavaRDD<GATKRead> reads = getReads();
+        final int numReducers = getRecommendedNumReducers();
         logger.info("Using %s reducers" + numReducers);
 
         final SAMFileHeader readsHeader = getHeaderForReads();
-        ReadCoordinateComparator comparator = new ReadCoordinateComparator(readsHeader);
-        JavaRDD<GATKRead> sortedReads;
+        final ReadCoordinateComparator comparator = new ReadCoordinateComparator(readsHeader);
+        final JavaRDD<GATKRead> sortedReads;
         if (shardedOutput) {
             sortedReads = reads
                     .mapToPair(read -> new Tuple2<>(read, null))

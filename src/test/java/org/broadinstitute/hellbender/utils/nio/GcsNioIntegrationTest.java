@@ -26,14 +26,14 @@ public final class GcsNioIntegrationTest extends BaseTest {
 
     @Test
     public void testGcsEnabled() {
-        FileSystem fs = FileSystems.getFileSystem(URI.create("gs://domain-registry-alpha"));
+        final FileSystem fs = FileSystems.getFileSystem(URI.create("gs://domain-registry-alpha"));
     }
 
     @Test
     public void openPublicFile() throws IOException {
         try (InputStream inputStream = Files.newInputStream(Paths.get(URI.create(
                 "gs://pgp-harvard-data-public/hu011C57/GS000018120-DID/GS000015172-ASM/manifest.all.sig")))) {
-            int firstByte = inputStream.read();
+            final int firstByte = inputStream.read();
         }
     }
 
@@ -51,9 +51,9 @@ public final class GcsNioIntegrationTest extends BaseTest {
         final String privateFile = getGCPTestInputPath() + privateFilePath;
 
         try {
-            Path path = Paths.get(URI.create((privateFile)));
-            int firstByte = Files.newInputStream(path).read();
-        } catch (Exception x) {
+            final Path path = Paths.get(URI.create((privateFile)));
+            final int firstByte = Files.newInputStream(path).read();
+        } catch (final Exception x) {
             System.err.println("Unable to open " + privateFile);
             helpDebugAuthError();
             throw x;
@@ -72,10 +72,10 @@ public final class GcsNioIntegrationTest extends BaseTest {
         final String pathWithoutBucket = BucketUtils.getPathWithoutBucket(privateFile);
 
         try {
-            FileSystem fs = getAuthenticatedGcs(BUCKET);
-            Path path = fs.getPath(pathWithoutBucket);
-            int firstByte = Files.newInputStream(path).read();
-        } catch (Exception x) {
+            final FileSystem fs = getAuthenticatedGcs(BUCKET);
+            final Path path = fs.getPath(pathWithoutBucket);
+            final int firstByte = Files.newInputStream(path).read();
+        } catch (final Exception x) {
             System.err.println("Unable to open " + privateFile);
             helpDebugAuthError();
             throw x;
@@ -97,7 +97,7 @@ public final class GcsNioIntegrationTest extends BaseTest {
         final String BUCKET = BucketUtils.getBucket(privateFile);
         final String pathWithoutBucket = BucketUtils.getPathWithoutBucket(privateFile);
 
-        FileSystem fs = getAuthenticatedGcs(BUCKET);
+        final FileSystem fs = getAuthenticatedGcs(BUCKET);
         Path path = fs.getPath(pathWithoutBucket);
         int firstByte = Files.newInputStream(path).read();
 
@@ -106,36 +106,36 @@ public final class GcsNioIntegrationTest extends BaseTest {
         firstByte = Files.newInputStream(path).read();
     }
 
-    private FileSystem getAuthenticatedGcs(String bucket) throws IOException {
-        byte[] creds = Files.readAllBytes(Paths.get(getGoogleServiceAccountKeyPath()));
+    private FileSystem getAuthenticatedGcs(final String bucket) throws IOException {
+        final byte[] creds = Files.readAllBytes(Paths.get(getGoogleServiceAccountKeyPath()));
         return BucketUtils.getAuthenticatedGcs(getGCPTestProject(), bucket, creds);
     }
 
 
     private void helpDebugAuthError() {
         final String key = "GOOGLE_APPLICATION_CREDENTIALS";
-        String credsFile = System.getenv(key);
+        final String credsFile = System.getenv(key);
         if (null == credsFile) {
             System.err.println("$"+key+" is not defined.");
             return;
         }
         System.err.println("$"+key+" = " + credsFile);
-        Path credsPath = Paths.get(credsFile);
-        boolean exists = Files.exists(credsPath);
+        final Path credsPath = Paths.get(credsFile);
+        final boolean exists = Files.exists(credsPath);
         System.err.println("File exists: " + exists);
         if (exists) {
             try {
                 System.err.println("Key lines from file:");
                 printKeyLines(credsPath, "\"type\"", "\"project_id\"", "\"client_email\"");
-            } catch (IOException x2) {
+            } catch (final IOException x2) {
                 System.err.println("Unable to read: " + x2.getMessage());
             }
         }
     }
 
-    private void printKeyLines(Path path, String... keywords) throws IOException {
-        for (String line : Files.readAllLines(path)) {
-            for (String keyword : keywords) {
+    private void printKeyLines(final Path path, final String... keywords) throws IOException {
+        for (final String line : Files.readAllLines(path)) {
+            for (final String keyword : keywords) {
                 if (line.contains(keyword)) {
                     System.err.println(line);
                 }

@@ -10,7 +10,7 @@ import java.io.File;
  * Currently only refFlat format is accepted.
  */
 public final class GeneAnnotationReader {
-    public static OverlapDetector<Gene> loadRefFlat(File refFlatFile, SAMSequenceDictionary sequenceDictionary) {
+    public static OverlapDetector<Gene> loadRefFlat(final File refFlatFile, final SAMSequenceDictionary sequenceDictionary) {
         return RefFlatReader.load(refFlatFile, sequenceDictionary);
     }
 }

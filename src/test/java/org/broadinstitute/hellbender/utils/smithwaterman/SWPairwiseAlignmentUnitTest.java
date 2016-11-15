@@ -15,7 +15,7 @@ import java.util.List;
 public final class SWPairwiseAlignmentUnitTest extends BaseTest {
     @DataProvider(name = "ComplexReadAlignedToRef")
     public Object[][] makeComplexReadAlignedToRef() {
-        List<Object[]> tests = new ArrayList<>();
+        final List<Object[]> tests = new ArrayList<>();
 
         final String ref1     = "ACTGACTGACTG";
         tests.add(new Object[]{"AAAGGACTGACTG", ref1, 1, "12M"});
@@ -32,7 +32,7 @@ public final class SWPairwiseAlignmentUnitTest extends BaseTest {
 
     @DataProvider(name = "OddNoAlignment")
     public Object[][] makeOddNoAlignment() {
-        List<Object[]> tests = new ArrayList<>();
+        final List<Object[]> tests = new ArrayList<>();
 
         final String ref1     = "AAAGACTACTG";
         final String read1    = "AACGGACACTG";
@@ -84,10 +84,10 @@ public final class SWPairwiseAlignmentUnitTest extends BaseTest {
         //paths being selected.
 
         //Create two versions of the same sequence with different flanking regions.
-        byte[] paddedRef="GCGTCGCAGTCTTAAGGCCCCGCCTTTTCAGACAGCTTCCGCTGGGCCTGGGCCGCTGCGGGGCGGTCACGGCCCCTTTAAGCCTGAGCCCCGCCCCCTGGCTCCCCGCCCCCTCTTCTCCCCTCCCCCAAGCCAGCACCTGGTGCCCCGGCGGGTCGTGCGGCGCGGCGCTCCGCGGTGAGCGCCTGACCCCGAGGGGGCCCGGGGCCGCGTCCCTGGGCCCTCCCCACCCTTGCGGTGGCCTCGCGGGTCCCAGGGGCGGGGCTGGAGCGGCAGCAGGGCCGGGGAGATGGGCGGTGGGGAGCGCGGGAGGGACCGGGCCGAGCCGGGGGAAGGGCTCCGGTGACT".getBytes();
-        byte[] paddedHap="GCGTCGCAGTCTTAAGGCCCCGCCTTTTCAGACAGCTTCCGCTGGGCCTGGGCCGCTGCGGGGCGGTCACGGCCCCTTTAAGCCTGAGCCCCGCCCCCTGGCTCCCCGCCCCCTCTTCTCCCCTCCCCCAAGCCAGCACCTGGTGCCCCGGCGGGTCGTGCGGCGCGGCGCTCCGCGGTGAGCGCCTGACCCCGA--GGGCC---------------GGGCCCTCCCCACCCTTGCGGTGGCCTCGCGGGTCCCAGGGGCGGGGCTGGAGCGGCAGCAGGGCCGGGGAGATGGGCGGTGGGGAGCGCGGGAGGGACCGGGCCGAGCCGGGGGAAGGGCTCCGGTGACT".replace("-","").getBytes();
-        byte[] notPaddedRef=                                                                           "CTTTAAGCCTGAGCCCCGCCCCCTGGCTCCCCGCCCCCTCTTCTCCCCTCCCCCAAGCCAGCACCTGGTGCCCCGGCGGGTCGTGCGGCGCGGCGCTCCGCGGTGAGCGCCTGACCCCGAGGGGGCCCGGGGCCGCGTCCCTGGGCCCTCCCCACCCTTGCGGTGGCCTCGCGGGTCCCAGGGGCGGGGCTGGAGCGGCAGCAGGGCCGGGGAGATGGGCGGTGGGGAGCGCGGGAGGGA".getBytes();
-        byte[] notPaddedHap=                                                                           "CTTTAAGCCTGAGCCCCGCCCCCTGGCTCCCCGCCCCCTCTTCTCCCCTCCCCCAAGCCAGCACCTGGTGCCCCGGCGGGTCGTGCGGCGCGGCGCTCCGCGGTGAGCGCCTGACCCCGA---------GGGCC--------GGGCCCTCCCCACCCTTGCGGTGGCCTCGCGGGTCCCAGGGGCGGGGCTGGAGCGGCAGCAGGGCCGGGGAGATGGGCGGTGGGGAGCGCGGGAGGGA".replace("-","").getBytes();
+        final byte[] paddedRef="GCGTCGCAGTCTTAAGGCCCCGCCTTTTCAGACAGCTTCCGCTGGGCCTGGGCCGCTGCGGGGCGGTCACGGCCCCTTTAAGCCTGAGCCCCGCCCCCTGGCTCCCCGCCCCCTCTTCTCCCCTCCCCCAAGCCAGCACCTGGTGCCCCGGCGGGTCGTGCGGCGCGGCGCTCCGCGGTGAGCGCCTGACCCCGAGGGGGCCCGGGGCCGCGTCCCTGGGCCCTCCCCACCCTTGCGGTGGCCTCGCGGGTCCCAGGGGCGGGGCTGGAGCGGCAGCAGGGCCGGGGAGATGGGCGGTGGGGAGCGCGGGAGGGACCGGGCCGAGCCGGGGGAAGGGCTCCGGTGACT".getBytes();
+        final byte[] paddedHap="GCGTCGCAGTCTTAAGGCCCCGCCTTTTCAGACAGCTTCCGCTGGGCCTGGGCCGCTGCGGGGCGGTCACGGCCCCTTTAAGCCTGAGCCCCGCCCCCTGGCTCCCCGCCCCCTCTTCTCCCCTCCCCCAAGCCAGCACCTGGTGCCCCGGCGGGTCGTGCGGCGCGGCGCTCCGCGGTGAGCGCCTGACCCCGA--GGGCC---------------GGGCCCTCCCCACCCTTGCGGTGGCCTCGCGGGTCCCAGGGGCGGGGCTGGAGCGGCAGCAGGGCCGGGGAGATGGGCGGTGGGGAGCGCGGGAGGGACCGGGCCGAGCCGGGGGAAGGGCTCCGGTGACT".replace("-","").getBytes();
+        final byte[] notPaddedRef=                                                                           "CTTTAAGCCTGAGCCCCGCCCCCTGGCTCCCCGCCCCCTCTTCTCCCCTCCCCCAAGCCAGCACCTGGTGCCCCGGCGGGTCGTGCGGCGCGGCGCTCCGCGGTGAGCGCCTGACCCCGAGGGGGCCCGGGGCCGCGTCCCTGGGCCCTCCCCACCCTTGCGGTGGCCTCGCGGGTCCCAGGGGCGGGGCTGGAGCGGCAGCAGGGCCGGGGAGATGGGCGGTGGGGAGCGCGGGAGGGA".getBytes();
+        final byte[] notPaddedHap=                                                                           "CTTTAAGCCTGAGCCCCGCCCCCTGGCTCCCCGCCCCCTCTTCTCCCCTCCCCCAAGCCAGCACCTGGTGCCCCGGCGGGTCGTGCGGCGCGGCGCTCCGCGGTGAGCGCCTGACCCCGA---------GGGCC--------GGGCCCTCCCCACCCTTGCGGTGGCCTCGCGGGTCCCAGGGGCGGGGCTGGAGCGGCAGCAGGGCCGGGGAGATGGGCGGTGGGGAGCGCGGGAGGGA".replace("-","").getBytes();
         //a simplified version of the getCigar routine in the haplotype caller to align these
         final String SW_PAD = "NNNNNNNNNN";
         final String paddedsRef = SW_PAD + new String(paddedRef) + SW_PAD;
@@ -97,21 +97,21 @@ public final class SWPairwiseAlignmentUnitTest extends BaseTest {
         final SWPairwiseAlignment paddedAlignment = new SWPairwiseAlignment( paddedsRef.getBytes(), paddedsHap.getBytes(), CigarUtils.NEW_SW_PARAMETERS );
         final SWPairwiseAlignment notPaddedAlignment = new SWPairwiseAlignment( notPaddedsRef.getBytes(), notpaddedsHap.getBytes(), CigarUtils.NEW_SW_PARAMETERS );
         //Now verify that the two sequences have the same alignment and not match positions.
-        Cigar rawPadded = paddedAlignment.getCigar();
-        Cigar notPadded= notPaddedAlignment.getCigar();
-        List<CigarElement> paddedC=rawPadded.getCigarElements();
-        List<CigarElement> notPaddedC=notPadded.getCigarElements();
+        final Cigar rawPadded = paddedAlignment.getCigar();
+        final Cigar notPadded= notPaddedAlignment.getCigar();
+        final List<CigarElement> paddedC=rawPadded.getCigarElements();
+        final List<CigarElement> notPaddedC=notPadded.getCigarElements();
         Assert.assertEquals(paddedC.size(), notPaddedC.size());
         for(int i=0;i<notPaddedC.size();i++)
         {
-            CigarElement pc=paddedC.get(i);
-            CigarElement npc=notPaddedC.get(i);
+            final CigarElement pc=paddedC.get(i);
+            final CigarElement npc=notPaddedC.get(i);
             if(pc.getOperator()== CigarOperator.M && npc.getOperator()== CigarOperator.M)
             {
                 continue;
             }
-            int l1=pc.getLength();
-            int l2=npc.getLength();
+            final int l1=pc.getLength();
+            final int l2=npc.getLength();
             Assert.assertEquals(l1, l2);
             Assert.assertEquals(pc.getOperator(), npc.getOperator());
         }

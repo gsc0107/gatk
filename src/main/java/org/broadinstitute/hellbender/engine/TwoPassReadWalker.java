@@ -125,5 +125,5 @@ public abstract class TwoPassReadWalker extends ReadWalker {
      * See {@link #firstPassApply} and {@link #secondPassApply} instead.
      */
     @Override
-    final public void apply(GATKRead read, ReferenceContext referenceContext, FeatureContext featureContext) {}
+    final public void apply(final GATKRead read, final ReferenceContext referenceContext, final FeatureContext featureContext) {}
 }

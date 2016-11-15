@@ -253,7 +253,7 @@ public class SAMRecordToGATKReadAdapter implements GATKRead, Serializable {
     @Override
     public void setBaseQualities( final byte[] baseQualities ) {
         if ( baseQualities != null ) {
-            for ( byte b : baseQualities ) {
+            for ( final byte b : baseQualities ) {
                 if ( b < 0 ) {
                     throw new IllegalArgumentException("Base quality score " + b + " is invalid");
                 }
@@ -498,7 +498,7 @@ public class SAMRecordToGATKReadAdapter implements GATKRead, Serializable {
             try {
                 return Integer.parseInt(attributeValue.toString());
             }
-            catch ( NumberFormatException e ) {
+            catch ( final NumberFormatException e ) {
                 throw new GATKException.ReadAttributeTypeMismatch(attributeName, "integer", e);
             }
         }
@@ -597,11 +597,11 @@ public class SAMRecordToGATKReadAdapter implements GATKRead, Serializable {
     }
 
     @Override
-    public boolean equals(Object o) {
+    public boolean equals(final Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        SAMRecordToGATKReadAdapter that = (SAMRecordToGATKReadAdapter) o;
+        final SAMRecordToGATKReadAdapter that = (SAMRecordToGATKReadAdapter) o;
 
         return Objects.equals(samRecord, that.samRecord);
 
@@ -621,7 +621,7 @@ public class SAMRecordToGATKReadAdapter implements GATKRead, Serializable {
         return samRecord.getHeader() != null;
     }
 
-    public void setHeader(SAMFileHeader header) {
+    public void setHeader(final SAMFileHeader header) {
         samRecord.setHeaderStrict(header);
     }
 }

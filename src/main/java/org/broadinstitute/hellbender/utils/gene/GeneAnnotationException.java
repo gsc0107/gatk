@@ -8,11 +8,11 @@ import org.broadinstitute.hellbender.exceptions.GATKException;
  */
 public final class GeneAnnotationException extends GATKException {
     private static final long serialVersionUID = 1L;
-    public GeneAnnotationException(String message) {
+    public GeneAnnotationException(final String message) {
         super(message);
     }
 
-    public GeneAnnotationException(String message, Throwable throwable) {
+    public GeneAnnotationException(final String message, final Throwable throwable) {
         super(message, throwable);
     }
 }

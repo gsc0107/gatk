@@ -36,7 +36,7 @@ public final class IntegrationTestSpec {
     //Stringency for validation of bams.
     private ValidationStringency validationStringency;
 
-    public IntegrationTestSpec(String args, List<String> expectedFileNames) {
+    public IntegrationTestSpec(final String args, final List<String> expectedFileNames) {
         this.args = args;
         this.nOutputFiles = expectedFileNames.size();
         this.expectedException = null;
@@ -45,7 +45,7 @@ public final class IntegrationTestSpec {
         this.validationStringency = ValidationStringency.DEFAULT_STRINGENCY;
     }
 
-    public IntegrationTestSpec(String args, int nOutputFiles, Class<?> expectedException) {
+    public IntegrationTestSpec(final String args, final int nOutputFiles, final Class<?> expectedException) {
         if (expectedException == null) {
             throw new IllegalArgumentException("expected exception is null");
         }
@@ -83,11 +83,11 @@ public final class IntegrationTestSpec {
         return expectedFileNames;
     }
 
-    public void executeTest(final String name, CommandLineProgramTester test) throws IOException {
-        List<File> tmpFiles = new ArrayList<>();
+    public void executeTest(final String name, final CommandLineProgramTester test) throws IOException {
+        final List<File> tmpFiles = new ArrayList<>();
         for (int i = 0; i < nOutputFiles; i++) {
-            String ext = DEFAULT_TEMP_EXTENSION;
-            File fl = BaseTest.createTempFile(String.format(DEFAULT_TEMP_PREFIX + ".%d", i), ext);
+            final String ext = DEFAULT_TEMP_EXTENSION;
+            final File fl = BaseTest.createTempFile(String.format(DEFAULT_TEMP_PREFIX + ".%d", i), ext);
             tmpFiles.add(fl);
         }
 
@@ -118,7 +118,7 @@ public final class IntegrationTestSpec {
      * @param args                  the argument list
      * @param expectedException     the expected exception or null
      */
-    private void executeTest(String testName, CommandLineProgramTester testClass, File outputFileLocation, List<String> expectedFileNames, List<File> tmpFiles, String args, Class<?> expectedException) throws IOException {
+    private void executeTest(final String testName, final CommandLineProgramTester testClass, final File outputFileLocation, final List<String> expectedFileNames, final List<File> tmpFiles, String args, final Class<?> expectedException) throws IOException {
         if (outputFileLocation != null) {
             args += " -O " + outputFileLocation.getAbsolutePath();
         }
@@ -137,15 +137,15 @@ public final class IntegrationTestSpec {
      * @param args              the argument list
      * @param expectedException the expected exception or null
      */
-    private void executeTest(String testName, CommandLineProgramTester testClass, String args, Class<?> expectedException) {
-        String[] command = Utils.escapeExpressions(args);
+    private void executeTest(final String testName, final CommandLineProgramTester testClass, final String args, final Class<?> expectedException) {
+        final String[] command = Utils.escapeExpressions(args);
         // run the executable
         boolean gotAnException = false;
         try {
             final String now = LocalDateTime.now().format(DateTimeFormatter.ofPattern("HH:mm:ss"));
             System.out.println(String.format("[%s] Executing test %s:%s", now, testClass.getClass().getSimpleName(), testName));
             testClass.runCommandLine(command);
-        } catch (Exception e) {
+        } catch (final Exception e) {
             gotAnException = true;
             if (expectedException == null) {
                 // we didn't expect an exception but we got one :-(

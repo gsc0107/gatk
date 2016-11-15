@@ -94,7 +94,7 @@ public final class MultiLevelReducibleCollectorUnitTest {
             totalNumberMetricIntegerMetricsFile.addMetric(metric);
         }
 
-        public RecordCountPerUnitCollector combine(RecordCountPerUnitCollector source) {
+        public RecordCountPerUnitCollector combine(final RecordCountPerUnitCollector source) {
             Assert.assertEquals(this.metric.FINISHED, true);
             Assert.assertEquals(source.metric.FINISHED, true);
             Assert.assertEquals(this.metric.SAMPLE, source.metric.SAMPLE);
@@ -130,7 +130,7 @@ public final class MultiLevelReducibleCollectorUnitTest {
             return unitsToMetrics;
         }
 
-        public void setUnitsToMetrics(Map<String, TotalNumberMetric> inMap) {
+        public void setUnitsToMetrics(final Map<String, TotalNumberMetric> inMap) {
             unitsToMetrics = inMap;
         }
 
@@ -150,19 +150,19 @@ public final class MultiLevelReducibleCollectorUnitTest {
         * the per-unit collector level, but this test collects aggregate values for test purposes
         * so we need to combine those manually.
          */
-        public void combine(RecordCountMultiLevelCollector source) {
+        public void combine(final RecordCountMultiLevelCollector source) {
             // first, combine the per-unit metrics by delegating to the default combine method
             super.combine(source);
             // combine the test-specific stuff
             this.numProcessed = this.getNumProcessed() + source.getNumProcessed();
-            Map<String, TotalNumberMetric> combinedUnitsToMetrics = new LinkedHashMap<>(this.getUnitsToMetrics());
+            final Map<String, TotalNumberMetric> combinedUnitsToMetrics = new LinkedHashMap<>(this.getUnitsToMetrics());
             combinedUnitsToMetrics.putAll(source.getUnitsToMetrics());
             combinedUnitsToMetrics.putAll(this.getUnitsToMetrics());
             this.setUnitsToMetrics(combinedUnitsToMetrics);
         }
 
         @Override
-        public RecordCountPerUnitCollector combineUnit(RecordCountPerUnitCollector c1, RecordCountPerUnitCollector c2) {
+        public RecordCountPerUnitCollector combineUnit(final RecordCountPerUnitCollector c1, final RecordCountPerUnitCollector c2) {
            return c1.combine(c2);
         }
     }

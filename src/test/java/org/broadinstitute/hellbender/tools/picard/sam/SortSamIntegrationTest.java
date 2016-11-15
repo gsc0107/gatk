@@ -34,8 +34,8 @@ public class SortSamIntegrationTest extends CommandLineProgramTest {
         final File inputBam = new File(getTestDataDir(), inputFileName);
         final File expectedBam = new File(getTestDataDir(), expectedOutputFileName);
         final File outputBam = createTempFile("sort_sam", outputExtension);
-        File referenceFile = null == referenceFileName ? null : new File(getTestDataDir(), referenceFileName);
-        ArgumentsBuilder args = new ArgumentsBuilder();
+        final File referenceFile = null == referenceFileName ? null : new File(getTestDataDir(), referenceFileName);
+        final ArgumentsBuilder args = new ArgumentsBuilder();
         args.add("--input"); args.add(inputBam.getCanonicalPath());
         args.add("--output"); args.add(outputBam.getCanonicalPath());
         if (null != referenceFile) {

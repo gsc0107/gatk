@@ -75,14 +75,14 @@ public final class HashedListTargetCollectionUnitTest extends BaseTest {
             int current = 0;
             final SAMSequenceRecord sequence = TargetsToolsTestUtils.REFERENCE_DICTIONARY.getSequence(i);
             while (current < sequence.getSequenceLength()) {
-                int start = current + Math.max(minimumTargetIntergapSize,
+                final int start = current + Math.max(minimumTargetIntergapSize,
                         (int) Math.round(rdn.nextGaussian() * sdTargetIntergapSize + averageTargetIntergapSize));
                 if (start >= sequence.getSequenceLength()) {
                     break;
                 }
-                int size = Math.max(minimumTargetSize,
+                final int size = Math.max(minimumTargetSize,
                         (int) Math.round(rdn.nextGaussian() * sdTargetSize + averageTargetSize));
-                int stop = start + size - 1;
+                final int stop = start + size - 1;
                 if (stop >= sequence.getSequenceLength()) {
                     break;
                 }

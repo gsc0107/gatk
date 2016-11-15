@@ -21,16 +21,16 @@ public class VariantContextVariantAdapterTest extends BaseTest {
     public void testVariantAdapter(final List<GATKVariant> expectedVariantList) {
         // The test suite for reading in VCF files is FeatureDataSourceUnitTest.
         try (FeatureDataSource<VariantContext> featureSource = new FeatureDataSource<>(QUERY_TEST_VCF)) {
-            List<GATKVariant> variantList = new ArrayList<>();
-            for (VariantContext feature : featureSource) {
-                VariantContextVariantAdapter va = new VariantContextVariantAdapter(feature);
+            final List<GATKVariant> variantList = new ArrayList<>();
+            for (final VariantContext feature : featureSource) {
+                final VariantContextVariantAdapter va = new VariantContextVariantAdapter(feature);
                 variantList.add(va);
             }
             // Now, test to see that every variant is in in the expected set.
             Assert.assertEquals(variantList.size(), expectedVariantList.size());
-            for (GATKVariant v : variantList) {
+            for (final GATKVariant v : variantList) {
                 boolean matchFound = false;
-                for (GATKVariant vv : expectedVariantList) {
+                for (final GATKVariant vv : expectedVariantList) {
                     if (VariantUtils.variantsAreEqual(v, vv)) {
                         matchFound = true;
                     }
@@ -42,7 +42,7 @@ public class VariantContextVariantAdapterTest extends BaseTest {
 
     @DataProvider(name = "VariantDataProvider")
     public Object[][] getVariantData() {
-        List<GATKVariant> variantSet = new ArrayList<>();
+        final List<GATKVariant> variantSet = new ArrayList<>();
         variantSet.add(new MinimalVariant(new SimpleInterval("1", 100, 100), true, false));
         variantSet.add(new MinimalVariant(new SimpleInterval("1", 199, 200), false, true));
         variantSet.add(new MinimalVariant(new SimpleInterval("1", 200, 200), true, false));

@@ -16,7 +16,7 @@ public final class AlignmentStateMachineUnitTest extends LocusIteratorByStateBas
     }
 
     @Test(dataProvider = "AlignmentStateMachineTest")
-    public void testAlignmentStateMachineTest(LIBSTest params) {
+    public void testAlignmentStateMachineTest(final LIBSTest params) {
         final GATKRead read = params.makeRead();
         final AlignmentStateMachine state = new AlignmentStateMachine(read);
         final LIBS_position tester = new LIBS_position(read);

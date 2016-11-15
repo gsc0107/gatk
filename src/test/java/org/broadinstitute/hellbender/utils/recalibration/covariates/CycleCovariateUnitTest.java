@@ -33,12 +33,12 @@ public final class CycleCovariateUnitTest extends BaseTest {
     public void testSimpleCycles() {
         final SAMFileHeader header = ArtificialReadUtils.createArtificialSamHeaderWithReadGroup(illuminaReadGroup);
 
-        short readLength = 10;
-        GATKRead read = ArtificialReadUtils.createRandomRead(header, readLength);
+        final short readLength = 10;
+        final GATKRead read = ArtificialReadUtils.createRandomRead(header, readLength);
         read.setIsPaired(true);
         read.setReadGroup(illuminaReadGroup.getReadGroupId());
 
-        ReadCovariates readCovariates = new ReadCovariates(read.getLength(), 1, new CovariateKeyCache());
+        final ReadCovariates readCovariates = new ReadCovariates(read.getLength(), 1, new CovariateKeyCache());
         covariate.recordValues(read, header, readCovariates, true);
         verifyCovariateArray(readCovariates.getMismatchesKeySet(), 1, (short) 1);
 
@@ -55,10 +55,10 @@ public final class CycleCovariateUnitTest extends BaseTest {
         verifyCovariateArray(readCovariates.getMismatchesKeySet(), -1, -1);
     }
 
-    private void verifyCovariateArray(int[][] values, int init, int increment) {
+    private void verifyCovariateArray(final int[][] values, final int init, final int increment) {
         for (int i = 0; i < values.length; i++) {
-            short actual = Short.decode(covariate.formatKey(values[i][0]));
-            int expected = init + (increment * i);
+            final short actual = Short.decode(covariate.formatKey(values[i][0]));
+            final int expected = init + (increment * i);
             Assert.assertEquals(actual, expected);
         }
     }
@@ -67,12 +67,12 @@ public final class CycleCovariateUnitTest extends BaseTest {
     public void testMoreThanMaxCycleFails() {
         final SAMFileHeader header = ArtificialReadUtils.createArtificialSamHeaderWithReadGroup(illuminaReadGroup);
 
-        int readLength = RAC.MAXIMUM_CYCLE_VALUE + 1;
-        GATKRead read = ArtificialReadUtils.createRandomRead(readLength);
+        final int readLength = RAC.MAXIMUM_CYCLE_VALUE + 1;
+        final GATKRead read = ArtificialReadUtils.createRandomRead(readLength);
         read.setIsPaired(true);
         read.setReadGroup(illuminaReadGroup.getReadGroupId());
 
-        ReadCovariates readCovariates = new ReadCovariates(read.getLength(), 1, new CovariateKeyCache());
+        final ReadCovariates readCovariates = new ReadCovariates(read.getLength(), 1, new CovariateKeyCache());
         covariate.recordValues(read, header, readCovariates, true);
     }
 
@@ -80,16 +80,16 @@ public final class CycleCovariateUnitTest extends BaseTest {
     public void testMaxCyclePasses() {
         final SAMFileHeader header = ArtificialReadUtils.createArtificialSamHeaderWithReadGroup(illuminaReadGroup);
 
-        int readLength = RAC.MAXIMUM_CYCLE_VALUE;
-        GATKRead read = ArtificialReadUtils.createRandomRead(readLength);
+        final int readLength = RAC.MAXIMUM_CYCLE_VALUE;
+        final GATKRead read = ArtificialReadUtils.createRandomRead(readLength);
         read.setIsPaired(true);
         read.setReadGroup(illuminaReadGroup.getReadGroupId());
 
-        ReadCovariates readCovariates = new ReadCovariates(read.getLength(), 1, new CovariateKeyCache());
+        final ReadCovariates readCovariates = new ReadCovariates(read.getLength(), 1, new CovariateKeyCache());
         covariate.recordValues(read, header, readCovariates, true);
     }
 
-    public static int expectedCycle(GATKRead read, final int baseNumber, final boolean indel, final int maxCycle) {
+    public static int expectedCycle(final GATKRead read, final int baseNumber, final boolean indel, final int maxCycle) {
         return CycleCovariate.cycleFromKey(CycleCovariate.cycleKey(baseNumber, read, indel, maxCycle));
     }
 

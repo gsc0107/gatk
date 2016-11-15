@@ -19,7 +19,7 @@ public class ConvertHeaderlessHadoopBamShardToBamIntegrationTest extends Command
         final File headerSource = new File(publicTestDir + "org/broadinstitute/hellbender/engine/reads_data_source_test1.bam");
         final int expectedReadCount = 11;
 
-        List<String> args = Arrays.asList(
+        final List<String> args = Arrays.asList(
             "--bamShard", bamShard.getAbsolutePath(),
             "--bamWithHeader", headerSource.getAbsolutePath(),
             "-O", output.getAbsolutePath()

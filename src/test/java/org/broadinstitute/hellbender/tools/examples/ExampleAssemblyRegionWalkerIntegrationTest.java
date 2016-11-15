@@ -11,7 +11,7 @@ public class ExampleAssemblyRegionWalkerIntegrationTest extends CommandLineProgr
 
     @Test
     public void testExampleAssemblyRegionWalker() throws Exception {
-        IntegrationTestSpec testSpec = new IntegrationTestSpec(
+        final IntegrationTestSpec testSpec = new IntegrationTestSpec(
                 " -R " + b37_reference_20_21 +
                 " -I " + NA12878_20_21_WGS_bam +
                 " -knownVariants " + dbsnp_138_b37_20_21_vcf +

@@ -31,7 +31,7 @@ public final class SparkConverter {
      * @param realMat Apache Commons RealMatrix.  Never {@code null}
      * @return A distributed Spark matrix
      */
-    public static RowMatrix convertRealMatrixToSparkRowMatrix(JavaSparkContext sc, RealMatrix realMat, int numSlices) {
+    public static RowMatrix convertRealMatrixToSparkRowMatrix(final JavaSparkContext sc, final RealMatrix realMat, final int numSlices) {
         logger.info("Converting matrix to distributed Spark matrix...");
         final double [][] dataArray = realMat.getData();
         final LinkedList<Vector> rowsList = new LinkedList<>();
@@ -79,7 +79,7 @@ public final class SparkConverter {
 
         Utils.nonNull(r, "Input row matrix cannot be null");
 
-        int numRows;
+        final int numRows;
         if (cachedNumRows == -1) {
             // This takes a while in Spark
             numRows = (int) r.numRows();

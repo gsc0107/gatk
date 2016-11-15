@@ -24,7 +24,7 @@ public final class ReadsDownsamplingIterator implements Iterator<GATKRead>, Iter
      * @param iter wrapped iterator from which this iterator will pull reads to be downsampled
      * @param downsampler downsampler through which the reads from the wrapped iterator will be fed
      */
-    public ReadsDownsamplingIterator( Iterator<GATKRead> iter, ReadsDownsampler downsampler ) {
+    public ReadsDownsamplingIterator(final Iterator<GATKRead> iter, final ReadsDownsampler downsampler ) {
         Utils.nonNull(iter, "iterator must not be null");
         Utils.nonNull(downsampler, "downsampler must not be null");
 

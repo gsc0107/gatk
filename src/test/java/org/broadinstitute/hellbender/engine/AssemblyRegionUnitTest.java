@@ -212,7 +212,7 @@ public final class AssemblyRegionUnitTest extends BaseTest {
 
     @DataProvider(name = "BadReadsTest")
     public Object[][] makeBadReadsTest() {
-        List<Object[]> tests = new ArrayList<>();
+        final List<Object[]> tests = new ArrayList<>();
         final SAMFileHeader header = ArtificialReadUtils.createArtificialSamHeader(seq.getSequenceDictionary());
         tests.add(new Object[]{
                 header,
@@ -427,7 +427,7 @@ public final class AssemblyRegionUnitTest extends BaseTest {
             );
 
             @Override
-            public ActivityProfileState isActive( AlignmentContext locusPileup, ReferenceContext referenceContext, FeatureContext featureContext ) {
+            public ActivityProfileState isActive(final AlignmentContext locusPileup, final ReferenceContext referenceContext, final FeatureContext featureContext ) {
                 final SimpleInterval pileupInterval = new SimpleInterval(locusPileup);
                 return activeSites.contains(pileupInterval) ? new ActivityProfileState(pileupInterval, 1.0) : new ActivityProfileState(pileupInterval, 0.0);
             }

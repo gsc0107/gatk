@@ -46,12 +46,12 @@ public final class GenotypeLikelihoodCalculatorsUnitTest extends BaseTest {
         return result.iterator();
     }
     @Test(dataProvider = "genotypeCount")
-    public void testGenotypeCountSharedInstance(int ploidy, int alleleCount, int expected) throws Exception {
+    public void testGenotypeCountSharedInstance(final int ploidy, final int alleleCount, final int expected) throws Exception {
         Assert.assertEquals(calcs.genotypeCount(ploidy, alleleCount), expected);
     }
 
     @Test(dataProvider = "genotypeCount")
-    public void testInstanceSharedInstance(int ploidy, int alleleCount, int expected) throws Exception {
+    public void testInstanceSharedInstance(final int ploidy, final int alleleCount, final int expected) throws Exception {
         if (ploidy > 0) {
             final GenotypeLikelihoodCalculator inst = calcs.getInstance(ploidy, alleleCount);
             Assert.assertEquals(inst.genotypeCount(), expected);
@@ -61,12 +61,12 @@ public final class GenotypeLikelihoodCalculatorsUnitTest extends BaseTest {
     }
 
     @Test(dataProvider = "genotypeCount")
-    public void testGenotypeCountNewInstance(int ploidy, int alleleCount, int expected) throws Exception {
+    public void testGenotypeCountNewInstance(final int ploidy, final int alleleCount, final int expected) throws Exception {
         Assert.assertEquals(new GenotypeLikelihoodCalculators().genotypeCount(ploidy, alleleCount), expected);
     }
 
     @Test(dataProvider = "genotypeCount")
-    public void testInstanceNewInstance(int ploidy, int alleleCount, int expected) throws Exception {
+    public void testInstanceNewInstance(final int ploidy, final int alleleCount, final int expected) throws Exception {
         if (ploidy > 0) {
             final GenotypeLikelihoodCalculator inst = new GenotypeLikelihoodCalculators().getInstance(ploidy, alleleCount);
             Assert.assertEquals(inst.genotypeCount(), expected);

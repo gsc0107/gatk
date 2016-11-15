@@ -71,7 +71,7 @@ public class GenomicsDBIntegrationTest extends CommandLineProgramTest {
                 .addArgument("L", "20:69491-69521"));
     }
 
-    private void testExpectedVariantsFromGenomicsDB(File expected, ArgumentsBuilder baseArgs) throws IOException {
+    private void testExpectedVariantsFromGenomicsDB(final File expected, final ArgumentsBuilder baseArgs) throws IOException {
         final File output = createTempFile("variants", ".vcf");
         GenomicsDBTestUtils.runOnGenomicsDBArray( () -> {
             final ArgumentsBuilder args = baseArgs
@@ -92,7 +92,7 @@ public class GenomicsDBIntegrationTest extends CommandLineProgramTest {
                     .addArgument("concordance", GENOMICS_DB_JSONS));
     }
 
-    private static <T> void assertCondition(Iterable<T> actual, Iterable<T> expected, BiConsumer<T,T> assertion){
+    private static <T> void assertCondition(final Iterable<T> actual, final Iterable<T> expected, final BiConsumer<T,T> assertion){
         final Iterator<T> iterActual = actual.iterator();
         final Iterator<T> iterExpected = expected.iterator();
         while(iterActual.hasNext() && iterExpected.hasNext()){

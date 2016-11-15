@@ -70,11 +70,11 @@ public class HaplotypeBAMWriterUnitTest extends BaseTest {
         ) throws IOException
     {
         // create OUTPUT SAM file
-        File outFile = BaseTest.createTempFile("haplotypeBamWriterTest", ".sam");
+        final File outFile = BaseTest.createTempFile("haplotypeBamWriterTest", ".sam");
         testWriteToFile(haplotypes, genomeLoc, readLikelihoods, outFile);
         Assert.assertEquals(getReadCounts(outFile.getAbsolutePath()), 5);
 
-        File expectedFile = new File(expectedFilePath, "testSAM.sam");
+        final File expectedFile = new File(expectedFilePath, "testSAM.sam");
         IntegrationTestSpec.assertEqualTextFiles(outFile, expectedFile);
     }
 
@@ -88,11 +88,11 @@ public class HaplotypeBAMWriterUnitTest extends BaseTest {
         ) throws IOException
     {
         // create OUTPUT BAM file
-        File outFile = BaseTest.createTempFile("haplotypeBamWriterTest", ".bam");
+        final File outFile = BaseTest.createTempFile("haplotypeBamWriterTest", ".bam");
         testWriteToFile(haplotypes, genomeLoc, readLikelihoods, outFile);
         Assert.assertEquals(getReadCounts(outFile.getAbsolutePath()), 5);
 
-        File expectedFile = new File(expectedFilePath, "testBAM.bam");
+        final File expectedFile = new File(expectedFilePath, "testBAM.bam");
         SamAssertionUtils.assertEqualBamFiles(outFile, expectedFile, false, ValidationStringency.DEFAULT_STRINGENCY);
     }
 
@@ -123,7 +123,7 @@ public class HaplotypeBAMWriterUnitTest extends BaseTest {
             final Locatable genomeLoc,
             final ReadLikelihoods <Haplotype> readLikelihoods
     ) throws IOException {
-        File outputFile = BaseTest.createTempFile("fromHeaderSAM", ".sam");
+        final File outputFile = BaseTest.createTempFile("fromHeaderSAM", ".sam");
 
         try (HaplotypeBAMWriter haplotypeBAMWriter = HaplotypeBAMWriter.create(HaplotypeBAMWriter.WriterType.ALL_POSSIBLE_HAPLOTYPES, outputFile, samHeader)) {
             haplotypeBAMWriter.writeReadsAlignedToHaplotypes(
@@ -134,7 +134,7 @@ public class HaplotypeBAMWriterUnitTest extends BaseTest {
                     readLikelihoods);
         }
 
-        File expectedFile = new File(expectedFilePath, "fromHeaderSAM.sam");
+        final File expectedFile = new File(expectedFilePath, "fromHeaderSAM.sam");
         IntegrationTestSpec.assertEqualTextFiles(outputFile, expectedFile);
     }
 
@@ -174,7 +174,7 @@ public class HaplotypeBAMWriterUnitTest extends BaseTest {
     {
         final MockValidatingDestination mockDest = new MockValidatingDestination(haplotypeBaseSignature);
 
-        Set<Haplotype> calledHaplotypes = new LinkedHashSet<>(1);
+        final Set<Haplotype> calledHaplotypes = new LinkedHashSet<>(1);
         calledHaplotypes.addAll(haplotypes);
 
         try (final HaplotypeBAMWriter haplotypeBAMWriter = HaplotypeBAMWriter.create(HaplotypeBAMWriter.WriterType.CALLED_HAPLOTYPES, mockDest)) {
@@ -252,7 +252,7 @@ public class HaplotypeBAMWriterUnitTest extends BaseTest {
         public int readCount = 0;           // number of reads written to this destination
         public boolean foundBases = false;  // true we've seen a read that contains the expectedBaseSignature
 
-        private MockValidatingDestination(String baseSignature) {
+        private MockValidatingDestination(final String baseSignature) {
             super(samHeader, "testGroupID");
             expectedBaseSignature = baseSignature;
         }
@@ -261,7 +261,7 @@ public class HaplotypeBAMWriterUnitTest extends BaseTest {
         void close() {}
 
         @Override
-        public void add(GATKRead read) {
+        public void add(final GATKRead read) {
             readCount++;
 
             if (read.getBasesString().equals(expectedBaseSignature)) { // found haplotype base signature

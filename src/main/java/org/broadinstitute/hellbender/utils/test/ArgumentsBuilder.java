@@ -19,8 +19,8 @@ public final class ArgumentsBuilder {
 
     public ArgumentsBuilder(){}
 
-    public ArgumentsBuilder(Object[] args){
-        for (Object arg: args){
+    public ArgumentsBuilder(final Object[] args){
+        for (final Object arg: args){
             if (arg instanceof String){
                 this.add((String) arg);
             } else {
@@ -35,11 +35,11 @@ public final class ArgumentsBuilder {
      * @param arg A string representing one or more arguments
      * @return the ArgumentsBuilder
      */
-    public ArgumentsBuilder add(String arg){
-        List<String> chunks = Arrays.asList(StringUtils.split(arg.trim()));
-        for (String chunk : chunks){
+    public ArgumentsBuilder add(final String arg){
+        final List<String> chunks = Arrays.asList(StringUtils.split(arg.trim()));
+        for (final String chunk : chunks){
             if(chunk.contains("=")){
-                String tmp = "--"+chunk;
+                final String tmp = "--"+chunk;
                 args.addAll(Arrays.asList(tmp.split("=")));
             }
             else{
@@ -52,7 +52,7 @@ public final class ArgumentsBuilder {
     /**
      * add an input file argument {@link StandardArgumentDefinitions#INPUT_LONG_NAME}
      */
-    public ArgumentsBuilder addInput(File input) {
+    public ArgumentsBuilder addInput(final File input) {
         addFileArgument(StandardArgumentDefinitions.INPUT_LONG_NAME, input);
         return this;
     }
@@ -60,7 +60,7 @@ public final class ArgumentsBuilder {
     /**
      * add an output file argument using {@link StandardArgumentDefinitions#OUTPUT_LONG_NAME}
      */
-    public ArgumentsBuilder addOutput(File output) {
+    public ArgumentsBuilder addOutput(final File output) {
         addFileArgument(StandardArgumentDefinitions.OUTPUT_LONG_NAME, output);
         return this;
     }
@@ -68,7 +68,7 @@ public final class ArgumentsBuilder {
     /**
      * add a reference file argument using {@link StandardArgumentDefinitions#REFERENCE_LONG_NAME}
      */
-    public ArgumentsBuilder addReference(File reference){
+    public ArgumentsBuilder addReference(final File reference){
         addFileArgument(StandardArgumentDefinitions.REFERENCE_LONG_NAME, reference);
         return this;
     }
@@ -76,7 +76,7 @@ public final class ArgumentsBuilder {
     /**
      * add a vcf file argument using {@link StandardArgumentDefinitions#VARIANT_LONG_NAME}
      */
-    public ArgumentsBuilder addVCF(File fileIn) {
+    public ArgumentsBuilder addVCF(final File fileIn) {
         addFileArgument(StandardArgumentDefinitions.VARIANT_LONG_NAME, fileIn);
         return this;
     }
@@ -84,7 +84,7 @@ public final class ArgumentsBuilder {
     /**
      * add an argument with a file as its parameter
      */
-    public ArgumentsBuilder addFileArgument(String argumentName, File file){
+    public ArgumentsBuilder addFileArgument(final String argumentName, final File file){
         Utils.nonNull(file);
         Utils.nonNull(argumentName);
         add("--" + argumentName);
@@ -95,7 +95,7 @@ public final class ArgumentsBuilder {
     /**
      * add an argument with a boolean as its parameter
      */
-    public ArgumentsBuilder addBooleanArgument(String argumentName, boolean yes){
+    public ArgumentsBuilder addBooleanArgument(final String argumentName, final boolean yes){
         Utils.nonNull(argumentName);
         add("--" + argumentName);
         add(yes);
@@ -125,7 +125,7 @@ public final class ArgumentsBuilder {
     /**
      * Add any object's string representation to the arguments list
      */
-    public ArgumentsBuilder add(Object arg) {
+    public ArgumentsBuilder add(final Object arg) {
         this.args.add(arg.toString());
         return this;
     }

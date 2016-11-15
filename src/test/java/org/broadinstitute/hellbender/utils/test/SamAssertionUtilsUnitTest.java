@@ -36,7 +36,7 @@ public final class SamAssertionUtilsUnitTest extends BaseTest{
     private static final File TEST_DATA_DIR = new File(publicTestDir, "org/broadinstitute/hellbender/utils/test/SamAssertionUtilsUnitTest");
 
     @Test(dataProvider = "bamPairs")
-    public void testCompareStringent(final String expectedFile, final String actualFile, boolean expectedEqual) throws Exception {
+    public void testCompareStringent(final String expectedFile, final String actualFile, final boolean expectedEqual) throws Exception {
         final File expectedF= new File(TEST_DATA_DIR, expectedFile);
         final File actualF= new File(TEST_DATA_DIR, actualFile);
         Assert.assertEquals(expectedEqual, null == SamAssertionUtils.samsEqualStringent(actualF, expectedF, ValidationStringency.LENIENT, null));
@@ -59,12 +59,12 @@ public final class SamAssertionUtilsUnitTest extends BaseTest{
     }
 
     @Test(dataProvider = "testCRAMContentsSucceed")
-    public void testAssertCRAMContentsSucceed(File putativeCRAMFile) {
+    public void testAssertCRAMContentsSucceed(final File putativeCRAMFile) {
         SamAssertionUtils.assertCRAMContents(putativeCRAMFile);
     }
 
     @Test(dataProvider = "testCRAMContentsFail", expectedExceptions=AssertionError.class)
-    public void testAssertCRAMContentsFail(File putativeCRAMFile) {
+    public void testAssertCRAMContentsFail(final File putativeCRAMFile) {
         SamAssertionUtils.assertCRAMContents(putativeCRAMFile);
     }
 
@@ -85,12 +85,12 @@ public final class SamAssertionUtilsUnitTest extends BaseTest{
     }
 
     @Test(dataProvider = "testCRAMContentsIfCRAMSucceed")
-    public void testAssertCRAMContentsIfCRAMSucceed(File putativeCRAMFile) {
+    public void testAssertCRAMContentsIfCRAMSucceed(final File putativeCRAMFile) {
         SamAssertionUtils.assertCRAMContentsIfCRAM(putativeCRAMFile);
     }
 
     @Test(dataProvider = "testCRAMContentsIfCRAMFail", expectedExceptions = AssertionError.class)
-    public void testAssertCRAMContentsIfCRAM(File putativeCRAMFile) {
+    public void testAssertCRAMContentsIfCRAM(final File putativeCRAMFile) {
         SamAssertionUtils.assertCRAMContentsIfCRAM(putativeCRAMFile);
     }
 }

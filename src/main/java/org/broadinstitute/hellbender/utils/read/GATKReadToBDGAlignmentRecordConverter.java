@@ -17,15 +17,15 @@ public class GATKReadToBDGAlignmentRecordConverter {
     private SequenceDictionary dict;
     private RecordGroupDictionary readGroups;
 
-    public GATKReadToBDGAlignmentRecordConverter(SAMFileHeader header) {
+    public GATKReadToBDGAlignmentRecordConverter(final SAMFileHeader header) {
         this.header = header;
         this.dict = SequenceDictionary.fromSAMSequenceDictionary(header.getSequenceDictionary());
         this.readGroups = RecordGroupDictionary.fromSAMHeader(header);
     }
 
     public static AlignmentRecord convert( final GATKRead gatkRead, final SAMFileHeader header ) {
-        SequenceDictionary dict = SequenceDictionary.fromSAMSequenceDictionary(header.getSequenceDictionary());
-        RecordGroupDictionary readGroups = RecordGroupDictionary.fromSAMHeader(header);
+        final SequenceDictionary dict = SequenceDictionary.fromSAMSequenceDictionary(header.getSequenceDictionary());
+        final RecordGroupDictionary readGroups = RecordGroupDictionary.fromSAMHeader(header);
         return GATKReadToBDGAlignmentRecordConverter.convert(gatkRead, header, dict, readGroups);
     }
 

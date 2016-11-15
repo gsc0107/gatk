@@ -84,7 +84,7 @@ public final class ReadUtils {
      */
     public static void restoreHeaderIfNecessary( final GATKRead read, final SAMFileHeader header ) {
         if ( read instanceof SAMRecordToGATKReadAdapter ) {
-            SAMRecordToGATKReadAdapter readAdapter = (SAMRecordToGATKReadAdapter)read;
+            final SAMRecordToGATKReadAdapter readAdapter = (SAMRecordToGATKReadAdapter)read;
             if ( ! readAdapter.hasHeader() ) {
                 readAdapter.setHeader(header);
             }
@@ -603,7 +603,7 @@ public final class ReadUtils {
      * @param refCoord the requested reference coordinate
      * @return the read coordinate corresponding to the requested reference coordinate. (see warning!)
      */
-    public static Pair<Integer, Boolean> getReadCoordinateForReferenceCoordinate(GATKRead read, int refCoord) {
+    public static Pair<Integer, Boolean> getReadCoordinateForReferenceCoordinate(final GATKRead read, final int refCoord) {
         return getReadCoordinateForReferenceCoordinate(getSoftStart(read), read.getCigar(), refCoord, false);
     }
 
@@ -838,7 +838,7 @@ public final class ReadUtils {
         emptyRead.setBaseQualities(new byte[0]);
 
         emptyRead.clearAttributes();
-        String readGroup = read.getReadGroup();
+        final String readGroup = read.getReadGroup();
         if (readGroup != null) {
             emptyRead.setAttribute(SAMTag.RG.name(), readGroup);
         }
@@ -1021,12 +1021,12 @@ public final class ReadUtils {
              final BufferedInputStream bis = new BufferedInputStream(fileStream)) {
             return SamStreams.isCRAMFile(bis);
         }
-        catch (IOException e) {
+        catch (final IOException e) {
             throw new UserException.CouldNotReadInputFile(e.getMessage());
         }
     }
 
-    public static boolean isNonPrimary(GATKRead read) {
+    public static boolean isNonPrimary(final GATKRead read) {
         return read.isSecondaryAlignment() || read.isSupplementaryAlignment() || read.isUnmapped();
     }
 
@@ -1044,7 +1044,7 @@ public final class ReadUtils {
      * @param basePos base position in REFERENCE coordinates (not read coordinates)
      * @return whether or not the base is in the adaptor
      */
-    public static boolean isBaseInsideAdaptor(final GATKRead read, long basePos) {
+    public static boolean isBaseInsideAdaptor(final GATKRead read, final long basePos) {
         final int adaptorBoundary = ReadUtils.getAdaptorBoundary(read);
         if (adaptorBoundary == CANNOT_COMPUTE_ADAPTOR_BOUNDARY || read.getFragmentLength() > DEFAULT_ADAPTOR_SIZE)
             return false;
@@ -1065,7 +1065,7 @@ public final class ReadUtils {
         final Set<String> samples = new TreeSet<>();
         final List<SAMReadGroupRecord> readGroups = header.getReadGroups();
 
-        for ( SAMReadGroupRecord readGroup : readGroups ) {
+        for ( final SAMReadGroupRecord readGroup : readGroups ) {
             final String sample = readGroup.getSample();
             if ( sample != null ) {
                 samples.add(sample);
@@ -1132,10 +1132,10 @@ public final class ReadUtils {
      *
      * @throws UserException 
      */
-    public static void setReadsAsSupplemental(GATKRead primaryRead, List<GATKRead> supplementalReads) {
+    public static void setReadsAsSupplemental(final GATKRead primaryRead, final List<GATKRead> supplementalReads) {
         Utils.nonNull(primaryRead);
         Utils.nonEmpty(supplementalReads);
-        List<String> orderedTags = new ArrayList<>();
+        final List<String> orderedTags = new ArrayList<>();
         orderedTags.add(String.format("%s,%d,%s,%s,%s,%s;",
                 ((primaryRead.getContig()!=null)?primaryRead.getContig():"*"),
                 primaryRead.getStart(),
@@ -1145,7 +1145,7 @@ public final class ReadUtils {
                 (primaryRead.hasAttribute("NM")?primaryRead.getAttributeAsString("NM"):"0")));
 
         // create the SA tag string for every read in the sequence
-        for (GATKRead read : supplementalReads) {
+        for (final GATKRead read : supplementalReads) {
             orderedTags.add(String.format("%s,%d,%s,%s,%s,%s;",
                     ((read.getContig()!=null)?read.getContig():"*"),
                     read.getStart(),
@@ -1155,7 +1155,7 @@ public final class ReadUtils {
                     (read.hasAttribute("NM")?primaryRead.getAttributeAsString("NM"):"0")));
         }
 
-        StringBuffer primaryTag = new StringBuffer();
+        final StringBuffer primaryTag = new StringBuffer();
         for (int j = 1; j < orderedTags.size(); j++) {
             primaryTag.append(orderedTags.get(j));
         }
@@ -1165,7 +1165,7 @@ public final class ReadUtils {
 
         // Add that string sequence to the others (minus itself)
         for (int i = 0; i < supplementalReads.size(); i++) {
-            StringBuffer newTag = new StringBuffer();
+            final StringBuffer newTag = new StringBuffer();
             for (int j = 0; j < orderedTags.size(); j++) {
                 if (j-1!=i) {
                     newTag.append(orderedTags.get(j));

@@ -35,10 +35,10 @@ public final class CompareSAMs extends PicardCommandLineProgram {
         IOUtil.assertFileIsReadable(samFiles.get(0));
         IOUtil.assertFileIsReadable(samFiles.get(1));
 
-        SamReaderFactory factory = SamReaderFactory.makeDefault().validationStringency(VALIDATION_STRINGENCY);
-        SamReader sam1 = factory.referenceSequence(REFERENCE_SEQUENCE).open(samFiles.get(0));
-        SamReader sam2 = factory.referenceSequence(REFERENCE_SEQUENCE).open(samFiles.get(1));
-        SamComparison comparison = new SamComparison(sam1, sam2);
+        final SamReaderFactory factory = SamReaderFactory.makeDefault().validationStringency(VALIDATION_STRINGENCY);
+        final SamReader sam1 = factory.referenceSequence(REFERENCE_SEQUENCE).open(samFiles.get(0));
+        final SamReader sam2 = factory.referenceSequence(REFERENCE_SEQUENCE).open(samFiles.get(1));
+        final SamComparison comparison = new SamComparison(sam1, sam2);
         comparison.printReport();
         if (comparison.areEqual()) {
             System.out.println("Files match.");

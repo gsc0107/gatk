@@ -26,7 +26,7 @@ public final class OpticalDuplicateFinderTest {
     }
 
     /** Helper for testGetRapidDefaultReadNameRegexSplit */
-    private void doTestGetRapidDefaultReadNameRegexSplit(int numFields, final OpticalDuplicateFinder opticalDuplicateFinder) {
+    private void doTestGetRapidDefaultReadNameRegexSplit(final int numFields, final OpticalDuplicateFinder opticalDuplicateFinder) {
         final int[] inputFields = new int[numFields];
         final int[] expectedFields = new int[numFields];
         String readName = "";
@@ -57,8 +57,8 @@ public final class OpticalDuplicateFinderTest {
     // NB: these tests fails due to overflow in the duplicate finder test.  This has been the behavior previously, so keep it for now.
     @Test(dataProvider = "testParseReadNameDataProvider", enabled = false)
     public void testParseReadName(final String readName, final int tile, final int x, final int y) {
-        OpticalDuplicateFinder opticalDuplicateFinder = new OpticalDuplicateFinder();
-        OpticalDuplicateFinder.PhysicalLocation loc = new ReadEndsForMarkDuplicates();
+        final OpticalDuplicateFinder opticalDuplicateFinder = new OpticalDuplicateFinder();
+        final OpticalDuplicateFinder.PhysicalLocation loc = new ReadEndsForMarkDuplicates();
         Assert.assertTrue(opticalDuplicateFinder.addLocationInformation(readName, loc));
         Assert.assertEquals(loc.getTile(), tile);
         Assert.assertEquals(loc.getX(), x);

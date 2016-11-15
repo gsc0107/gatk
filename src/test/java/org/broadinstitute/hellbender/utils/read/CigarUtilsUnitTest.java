@@ -332,7 +332,7 @@ public final class CigarUtilsUnitTest {
     }
 
     @Test(dataProvider = "testData_testComputeCigar")
-    public void testComputeCigar(String s1, String s2, String expectedCigar) throws Exception {
+    public void testComputeCigar(final String s1, final String s2, final String expectedCigar) throws Exception {
         final Cigar actualCigar = CigarUtils.calculateCigar(s1.getBytes(), s2.getBytes());
         final Cigar decode = TextCigarCodec.decode(expectedCigar);
         Assert.assertEquals(actualCigar, decode);

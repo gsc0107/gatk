@@ -17,8 +17,8 @@ public class ReferenceTwoBitSourceUnitTest extends BaseTest {
 
     @DataProvider(name = "goodIntervals")
     public Object[][] goodIntervals() throws IOException {
-        ReferenceSource fastaRef = new ReferenceFileSource(fastaRefURL);
-        ReferenceSource twoBitRef = new ReferenceTwoBitSource(null, twoBitRefURL);
+        final ReferenceSource fastaRef = new ReferenceFileSource(fastaRefURL);
+        final ReferenceSource twoBitRef = new ReferenceTwoBitSource(null, twoBitRefURL);
         return new Object[][]{
                 {fastaRef, twoBitRef, "20:2-10"},
                 {fastaRef, twoBitRef, "20:4-5"},
@@ -28,10 +28,10 @@ public class ReferenceTwoBitSourceUnitTest extends BaseTest {
     }
 
     @Test(dataProvider = "goodIntervals")
-    public void testIntervalConversion(ReferenceSource fastaRef, ReferenceSource twoBitRef, String intervalString) throws IOException {
-        SimpleInterval interval = new SimpleInterval(intervalString);
-        ReferenceBases expected = fastaRef.getReferenceBases(null, interval);
-        ReferenceBases actual = twoBitRef.getReferenceBases(null, interval);
+    public void testIntervalConversion(final ReferenceSource fastaRef, final ReferenceSource twoBitRef, final String intervalString) throws IOException {
+        final SimpleInterval interval = new SimpleInterval(intervalString);
+        final ReferenceBases expected = fastaRef.getReferenceBases(null, interval);
+        final ReferenceBases actual = twoBitRef.getReferenceBases(null, interval);
         Assert.assertEquals(actual, expected);
     }
 

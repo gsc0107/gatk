@@ -47,12 +47,12 @@ public final class OverhangFixingManagerUnitTest extends BaseTest {
     @DataProvider(name = "OverhangTest")
     public Object[][] makeOverhangData() {
         final List<Object[]> tests = new ArrayList<>();
-        for ( int leftRead : Arrays.asList(10, 20, 30, 40) ) {
-            for ( int rightRead : Arrays.asList(20, 30, 40, 50) ) {
+        for ( final int leftRead : Arrays.asList(10, 20, 30, 40) ) {
+            for ( final int rightRead : Arrays.asList(20, 30, 40, 50) ) {
                 if ( leftRead >= rightRead )
                     continue;
-                for ( int leftSplice : Arrays.asList(10, 20, 30) ) {
-                    for ( int rightSplice : Arrays.asList(20, 30, 40) ) {
+                for ( final int leftSplice : Arrays.asList(10, 20, 30) ) {
+                    for ( final int rightSplice : Arrays.asList(20, 30, 40) ) {
                         if ( leftSplice >= rightSplice )
                             continue;
 
@@ -167,19 +167,19 @@ public final class OverhangFixingManagerUnitTest extends BaseTest {
     @Test
     public void testMappingReadMateRepair() {
         final OverhangFixingManager manager = new OverhangFixingManagerAlwaysSplit10000Reads(getHG19Header(), null, hg19GenomeLocParser, hg19ReferenceReader, 10000, 1, 40, false, false);
-        GATKRead read1a = ArtificialReadUtils.createArtificialRead(hg19Header, "read1", 1, 10000, new byte[]{(byte)'A', (byte)'A', (byte)'A', (byte)'A', (byte)'A', (byte)'A'}, new byte[]{(byte)'A', (byte)'A', (byte)'A', (byte)'A', (byte)'A', (byte)'A'}, "6M");
+        final GATKRead read1a = ArtificialReadUtils.createArtificialRead(hg19Header, "read1", 1, 10000, new byte[]{(byte)'A', (byte)'A', (byte)'A', (byte)'A', (byte)'A', (byte)'A'}, new byte[]{(byte)'A', (byte)'A', (byte)'A', (byte)'A', (byte)'A', (byte)'A'}, "6M");
         read1a.setMatePosition("1", 10020);
         read1a.setAttribute("MC","6M");
         read1a.setIsFirstOfPair();
-        GATKRead read1b = ArtificialReadUtils.createArtificialRead(hg19Header, "read1", 1, 10010, new byte[]{(byte)'C', (byte)'C', (byte)'A', (byte)'A', (byte)'A', (byte)'A'}, new byte[]{(byte)'C', (byte)'C', (byte)'A', (byte)'A', (byte)'A', (byte)'A'}, "6M");
+        final GATKRead read1b = ArtificialReadUtils.createArtificialRead(hg19Header, "read1", 1, 10010, new byte[]{(byte)'C', (byte)'C', (byte)'A', (byte)'A', (byte)'A', (byte)'A'}, new byte[]{(byte)'C', (byte)'C', (byte)'A', (byte)'A', (byte)'A', (byte)'A'}, "6M");
         read1b.setMatePosition("1",10020);
         read1b.setAttribute("MC","6M");
         read1b.setIsFirstOfPair();
-        List<GATKRead> readGroup = new LinkedList<GATKRead>();
+        final List<GATKRead> readGroup = new LinkedList<GATKRead>();
         readGroup.add(read1a);
         readGroup.add(read1b);
 
-        GATKRead read2 = ArtificialReadUtils.createArtificialRead(hg19Header, "read1", 1, 10020, new byte[]{(byte)'C', (byte)'C', (byte)'A', (byte)'A', (byte)'A', (byte)'A'}, new byte[]{(byte)'C', (byte)'C', (byte)'A', (byte)'A', (byte)'A', (byte)'A'}, "6M");
+        final GATKRead read2 = ArtificialReadUtils.createArtificialRead(hg19Header, "read1", 1, 10020, new byte[]{(byte)'C', (byte)'C', (byte)'A', (byte)'A', (byte)'A', (byte)'A'}, new byte[]{(byte)'C', (byte)'C', (byte)'A', (byte)'A', (byte)'A', (byte)'A'}, "6M");
         read2.setMatePosition("1",10000);
         read2.setAttribute("MC","6M");
         read2.setIsSecondOfPair();
@@ -202,26 +202,26 @@ public final class OverhangFixingManagerUnitTest extends BaseTest {
     @Test
     public void testMappingReadMateRepairNoMCTag() {
         final OverhangFixingManager manager = new OverhangFixingManagerAlwaysSplit10000Reads(getHG19Header(), null, hg19GenomeLocParser, hg19ReferenceReader, 10000, 1, 40, false, false);
-        GATKRead read1a = ArtificialReadUtils.createArtificialRead(hg19Header, "read1", 1, 10000, "AAAAAA".getBytes(), "AAAAAA".getBytes(), "6M");
+        final GATKRead read1a = ArtificialReadUtils.createArtificialRead(hg19Header, "read1", 1, 10000, "AAAAAA".getBytes(), "AAAAAA".getBytes(), "6M");
         read1a.setMatePosition("1", 10020);
         read1a.setIsFirstOfPair();
-        GATKRead read1b = ArtificialReadUtils.createArtificialRead(hg19Header, "read1", 1, 10010, "CCAAAA".getBytes(), "CCAAAA".getBytes(), "6M");
+        final GATKRead read1b = ArtificialReadUtils.createArtificialRead(hg19Header, "read1", 1, 10010, "CCAAAA".getBytes(), "CCAAAA".getBytes(), "6M");
         read1b.setMatePosition("1",10020);
         read1b.setIsFirstOfPair();
-        List<GATKRead> readGroup1 = new LinkedList<GATKRead>();
+        final List<GATKRead> readGroup1 = new LinkedList<GATKRead>();
         readGroup1.add(read1a);
         readGroup1.add(read1b);
-        GATKRead read2 = ArtificialReadUtils.createArtificialRead(hg19Header, "read1", 1, 10020,  "CCAAAA".getBytes(),  "CCAAAA".getBytes(), "6M");
+        final GATKRead read2 = ArtificialReadUtils.createArtificialRead(hg19Header, "read1", 1, 10020,  "CCAAAA".getBytes(),  "CCAAAA".getBytes(), "6M");
         read2.setMatePosition("1",10000);
         read2.setIsSecondOfPair();
 
         // Second Alignment set as secondary to see that it wont be clipped
-        GATKRead read3a = ArtificialReadUtils.createArtificialRead(hg19Header, "read2", 1, 10000,"AAAAAA".getBytes(), "AAAAAA".getBytes(), "6M");
+        final GATKRead read3a = ArtificialReadUtils.createArtificialRead(hg19Header, "read2", 1, 10000,"AAAAAA".getBytes(), "AAAAAA".getBytes(), "6M");
         read3a.setMatePosition("1", 10020);
         read3a.setIsSecondaryAlignment(true);
         read3a.setIsSecondOfPair();
-        List<GATKRead> readGroup2 = Collections.singletonList(read3a);
-        GATKRead read4 = ArtificialReadUtils.createArtificialRead(hg19Header, "read2", 1, 10020, "CCAAAA".getBytes(), "CCAAAA".getBytes(), "6M");
+        final List<GATKRead> readGroup2 = Collections.singletonList(read3a);
+        final GATKRead read4 = ArtificialReadUtils.createArtificialRead(hg19Header, "read2", 1, 10020, "CCAAAA".getBytes(), "CCAAAA".getBytes(), "6M");
         read4.setMatePosition("1",10000);
         read4.setIsFirstOfPair();
 
@@ -243,11 +243,11 @@ public final class OverhangFixingManagerUnitTest extends BaseTest {
     }
 
     private static class OverhangFixingManagerAlwaysSplit10000Reads extends OverhangFixingManager {
-        public OverhangFixingManagerAlwaysSplit10000Reads(SAMFileHeader header, GATKReadWriter writer, GenomeLocParser genomeLocParser, IndexedFastaSequenceFile referenceReader, int maxRecordsInMemory, int maxMismatchesInOverhangs, int maxBasesInOverhangs, boolean doNotFixOverhangs, boolean secondaryReads) {
+        public OverhangFixingManagerAlwaysSplit10000Reads(final SAMFileHeader header, final GATKReadWriter writer, final GenomeLocParser genomeLocParser, final IndexedFastaSequenceFile referenceReader, final int maxRecordsInMemory, final int maxMismatchesInOverhangs, final int maxBasesInOverhangs, final boolean doNotFixOverhangs, final boolean secondaryReads) {
             super(header, writer, genomeLocParser, referenceReader, maxRecordsInMemory, maxMismatchesInOverhangs, maxBasesInOverhangs, doNotFixOverhangs, secondaryReads);
         }
         @Override
-        void fixSplit(SplitRead read, Splice splice) {
+        void fixSplit(final SplitRead read, final Splice splice) {
             if ( read.read.getStart() == 10000) {
                 final GATKRead clippedRead = ReadClipper.softClipByReadCoordinates(read.read, 0, 2);
                 read.setRead(clippedRead);

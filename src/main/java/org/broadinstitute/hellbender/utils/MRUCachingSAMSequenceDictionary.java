@@ -123,8 +123,8 @@ final class MRUCachingSAMSequenceDictionary {
      * @throws GATKException if index isn't present in the dictionary
      * @return the SAMSequenceRecord for contig / index
      */
-    private SAMSequenceRecord updateCache(final String contig, int index ) {
-        SAMSequenceRecord rec = contig == null ? dict.getSequence(index) : dict.getSequence(contig);
+    private SAMSequenceRecord updateCache(final String contig, final int index ) {
+        final SAMSequenceRecord rec = contig == null ? dict.getSequence(index) : dict.getSequence(contig);
         if ( rec == null ) {
             throw new GATKException("BUG: requested unknown contig=" + contig + " index=" + index);
         } else {

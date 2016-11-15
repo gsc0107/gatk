@@ -20,18 +20,18 @@ public final class IntervalsSkipListOneContigUnitTest extends BaseTest {
 
     @DataProvider(name="intervals")
     public Object[][] intervals(){
-        ArrayList<Locatable> input = Lists.newArrayList(
+        final ArrayList<Locatable> input = Lists.newArrayList(
                 new SimpleInterval("1",10,100)
         );
-        ArrayList<Locatable> empty = new ArrayList<>();
-        ArrayList<Locatable> manyOverlapping = Lists.newArrayList(
+        final ArrayList<Locatable> empty = new ArrayList<>();
+        final ArrayList<Locatable> manyOverlapping = Lists.newArrayList(
                 new SimpleInterval("1",10,100),
                 // special case: multiple intervals starting at the same place
                 new SimpleInterval("1",20,50),
                 new SimpleInterval("1",20,50),
                 new SimpleInterval("1",20,50)
         );
-        ArrayList<Locatable> mixInput = Lists.newArrayList(
+        final ArrayList<Locatable> mixInput = Lists.newArrayList(
                 // ends before query interval
                 new SimpleInterval("1",10,20),
                 // ends in query interval
@@ -45,7 +45,7 @@ public final class IntervalsSkipListOneContigUnitTest extends BaseTest {
                 // starts after query interval
                 new SimpleInterval("1",60,100)
         );
-        ArrayList<Locatable> mixExpected = Lists.newArrayList(
+        final ArrayList<Locatable> mixExpected = Lists.newArrayList(
                 // ends in query interval
                 new SimpleInterval("1",10,60),
                 // equal to query interval
@@ -79,9 +79,9 @@ public final class IntervalsSkipListOneContigUnitTest extends BaseTest {
     }
 
     @Test(dataProvider = "intervals")
-    public void testOverlap(ArrayList<Locatable> input, SimpleInterval query, ArrayList<Locatable> expected) throws Exception {
-        IntervalsSkipListOneContig<Locatable> ints = new IntervalsSkipListOneContig<>(input);
-        List<Locatable> actual = ints.getOverlapping(query);
+    public void testOverlap(final ArrayList<Locatable> input, final SimpleInterval query, final ArrayList<Locatable> expected) throws Exception {
+        final IntervalsSkipListOneContig<Locatable> ints = new IntervalsSkipListOneContig<>(input);
+        final List<Locatable> actual = ints.getOverlapping(query);
         Assert.assertEquals(
                 actual,
                 expected
@@ -95,37 +95,37 @@ public final class IntervalsSkipListOneContigUnitTest extends BaseTest {
 
     @Test
     public void testManyIntervals() throws Exception {
-        ArrayList<Locatable> si = new ArrayList<>();
+        final ArrayList<Locatable> si = new ArrayList<>();
         final int MAX = 10_000_000;
         for (int start = 1; start<MAX; start += 100) {
             si.add(new SimpleInterval("1",start,start+10));
             si.add(new SimpleInterval("1",start,start+200));
         }
 
-        Stopwatch indexing = Stopwatch.createStarted();
-        IntervalsSkipListOneContig<Locatable> ints = new IntervalsSkipListOneContig<>(si);
+        final Stopwatch indexing = Stopwatch.createStarted();
+        final IntervalsSkipListOneContig<Locatable> ints = new IntervalsSkipListOneContig<>(si);
         indexing.stop();
 
-        Stopwatch v1 = Stopwatch.createStarted();
+        final Stopwatch v1 = Stopwatch.createStarted();
         for (int start = 101; start<MAX; start += 5000) {
-            SimpleInterval interval = new SimpleInterval("1", start + 10, start + 11);
-            List<Locatable> actual = ints.getOverlappingIgnoringIndex(interval);
+            final SimpleInterval interval = new SimpleInterval("1", start + 10, start + 11);
+            final List<Locatable> actual = ints.getOverlappingIgnoringIndex(interval);
             Assert.assertEquals(actual.size(), 3);
             // the two that start from "start", plus the long one that starts from start-100.
             // the one that starts from start-200 ends before our test point.
-            for (Locatable l : actual) {
+            for (final Locatable l : actual) {
                 Assert.assertTrue(interval.overlaps(l));
             }
         }
         v1.stop();
-        Stopwatch v2 = Stopwatch.createStarted();
+        final Stopwatch v2 = Stopwatch.createStarted();
         for (int start = 101; start<MAX; start += 5000) {
-            SimpleInterval interval = new SimpleInterval("1", start + 10, start + 11);
-            List<Locatable> actual = ints.getOverlapping(interval);
+            final SimpleInterval interval = new SimpleInterval("1", start + 10, start + 11);
+            final List<Locatable> actual = ints.getOverlapping(interval);
             Assert.assertEquals(actual.size(), 3);
             // the two that start from "start", plus the long one that starts from start-100.
             // the one that starts from start-200 ends before our test point.
-            for (Locatable l : actual) {
+            for (final Locatable l : actual) {
                 Assert.assertTrue(interval.overlaps(l));
             }
         }
@@ -137,8 +137,8 @@ public final class IntervalsSkipListOneContigUnitTest extends BaseTest {
 
     @Test
     public void testLotsOfTinyIntervals() throws Exception {
-        List<Locatable> input = new ArrayList<>();
-        int n = 1000000;
+        final List<Locatable> input = new ArrayList<>();
+        final int n = 1000000;
         for (int i = 0; i < n; i++) {
             input.add(new SimpleInterval("1", 3*i+1, 3*i+2)); //1:1-2, 1:4-5, 1:7-8
         }
@@ -155,7 +155,7 @@ public final class IntervalsSkipListOneContigUnitTest extends BaseTest {
 
     @Test(expectedExceptions = IllegalArgumentException.class)
     public void testNullArg() throws Exception {
-        List<Locatable> input = Arrays.asList(
+        final List<Locatable> input = Arrays.asList(
                 new SimpleInterval("1",10,100)
         );
         final IntervalsSkipListOneContig<Locatable> l = new IntervalsSkipListOneContig<>(input);
@@ -164,7 +164,7 @@ public final class IntervalsSkipListOneContigUnitTest extends BaseTest {
 
     @Test(expectedExceptions = IllegalArgumentException.class)
     public void testNotSameContig() throws Exception {
-        List<Locatable> input = Arrays.asList(
+        final List<Locatable> input = Arrays.asList(
                 new SimpleInterval("1",10,100),
                 new SimpleInterval("2",10,100)
         );
@@ -173,7 +173,7 @@ public final class IntervalsSkipListOneContigUnitTest extends BaseTest {
 
     @Test
     public void testQquetNotSameContig() throws Exception {
-        List<Locatable> input = Arrays.asList(
+        final List<Locatable> input = Arrays.asList(
                 new SimpleInterval("1",10,100)
         );
         final IntervalsSkipListOneContig<Locatable> l = new IntervalsSkipListOneContig<>(input);
@@ -182,7 +182,7 @@ public final class IntervalsSkipListOneContigUnitTest extends BaseTest {
     }
     @Test
     public void testEmptyInput() throws Exception {
-        List<Locatable> empty = new ArrayList<>();
+        final List<Locatable> empty = new ArrayList<>();
         final IntervalsSkipListOneContig<Locatable> l = new IntervalsSkipListOneContig<>(empty);
         Assert.assertTrue(l.getOverlapping(new SimpleInterval("", 10, 100)).isEmpty()); //try to fool it by using empty contig
         Assert.assertTrue(l.getOverlapping(new SimpleInterval("1", 10, 100)).isEmpty());

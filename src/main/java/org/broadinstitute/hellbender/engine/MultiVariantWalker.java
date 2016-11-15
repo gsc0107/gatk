@@ -53,7 +53,7 @@ public abstract class MultiVariantWalker extends VariantWalkerBase {
     protected void initializeDrivingVariants() {
         drivingVariantFiles.stream().forEach(
                 f -> {
-                    FeatureInput<VariantContext> featureInput = new FeatureInput<>(f);
+                    final FeatureInput<VariantContext> featureInput = new FeatureInput<>(f);
                     if (drivingVariantsFeatureInputs.contains(featureInput)) {
                         throw new IllegalArgumentException("Feature inputs must be unique: " + featureInput.toString());
                     }

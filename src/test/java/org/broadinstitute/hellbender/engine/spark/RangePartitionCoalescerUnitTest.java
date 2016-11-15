@@ -20,23 +20,23 @@ public class RangePartitionCoalescerUnitTest extends BaseTest {
 
     @BeforeTest
     public void setup() {
-        JavaSparkContext ctx = SparkContextFactory.getTestSparkContext();
+        final JavaSparkContext ctx = SparkContextFactory.getTestSparkContext();
         rdd = ctx.parallelize(ImmutableList.of("a", "b", "c"), 3);
         partitions = rdd.rdd().partitions();
     }
 
     @Test(expectedExceptions = IllegalArgumentException.class)
     public void testThrowsExceptionIfNumPartitionsDifferent() {
-        List<Integer> maxEndPartitionIndexes = ImmutableList.of(0, 1, 2);
-        RangePartitionCoalescer coalescer = new RangePartitionCoalescer(maxEndPartitionIndexes);
+        final List<Integer> maxEndPartitionIndexes = ImmutableList.of(0, 1, 2);
+        final RangePartitionCoalescer coalescer = new RangePartitionCoalescer(maxEndPartitionIndexes);
         coalescer.coalesce(rdd.getNumPartitions() - 1, rdd.rdd());
     }
 
     @Test
     public void testIdentity() {
-        List<Integer> maxEndPartitionIndexes = ImmutableList.of(0, 1, 2);
-        RangePartitionCoalescer coalescer = new RangePartitionCoalescer(maxEndPartitionIndexes);
-        PartitionGroup[] groups = coalescer.coalesce(rdd.getNumPartitions(), rdd.rdd());
+        final List<Integer> maxEndPartitionIndexes = ImmutableList.of(0, 1, 2);
+        final RangePartitionCoalescer coalescer = new RangePartitionCoalescer(maxEndPartitionIndexes);
+        final PartitionGroup[] groups = coalescer.coalesce(rdd.getNumPartitions(), rdd.rdd());
         assertEquals(groups.length, 3);
         assertEquals(groups[0].partitions(), JavaConversions.asScalaBuffer(ImmutableList.of(partitions[0])));
         assertEquals(groups[1].partitions(), JavaConversions.asScalaBuffer(ImmutableList.of(partitions[1])));
@@ -45,9 +45,9 @@ public class RangePartitionCoalescerUnitTest extends BaseTest {
 
     @Test
     public void testNonIdentity() {
-        List<Integer> maxEndPartitionIndexes = ImmutableList.of(1, 2, 2);
-        RangePartitionCoalescer coalescer = new RangePartitionCoalescer(maxEndPartitionIndexes);
-        PartitionGroup[] groups = coalescer.coalesce(rdd.getNumPartitions(), rdd.rdd());
+        final List<Integer> maxEndPartitionIndexes = ImmutableList.of(1, 2, 2);
+        final RangePartitionCoalescer coalescer = new RangePartitionCoalescer(maxEndPartitionIndexes);
+        final PartitionGroup[] groups = coalescer.coalesce(rdd.getNumPartitions(), rdd.rdd());
         assertEquals(groups.length, 3);
         assertEquals(groups[0].partitions(), JavaConversions.asScalaBuffer(ImmutableList.of(partitions[0], partitions[1])));
         assertEquals(groups[1].partitions(), JavaConversions.asScalaBuffer(ImmutableList.of(partitions[1], partitions[2])));

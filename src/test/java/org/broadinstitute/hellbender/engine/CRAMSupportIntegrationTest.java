@@ -95,9 +95,9 @@ public final class CRAMSupportIntegrationTest extends CommandLineProgramTest{
     }
 
     private void checkReadNames( final File outputFile, final File reference, final List<String> expectedReadNames ) throws IOException {
-        List<String> actualReadNames = new ArrayList<>();
+        final List<String> actualReadNames = new ArrayList<>();
         try ( final SamReader reader = SamReaderFactory.makeDefault().validationStringency(ValidationStringency.SILENT).referenceSequence(reference).open(outputFile) ) {
-            for ( SAMRecord read : reader ) {
+            for ( final SAMRecord read : reader ) {
                 actualReadNames.add(read.getReadName());
             }
         }
@@ -105,9 +105,9 @@ public final class CRAMSupportIntegrationTest extends CommandLineProgramTest{
     }
 
     @Test(dataProvider="testingDataNoRef", expectedExceptions = UserException.MissingReference.class)
-    public void testNoRef(String fileIn, String extOut) throws Exception {
+    public void testNoRef(final String fileIn, final String extOut) throws Exception {
         final File outFile = BaseTest.createTempFile(fileIn + ".", extOut);
-        File readInput = new File(TEST_DATA_DIR, fileIn);
+        final File readInput = new File(TEST_DATA_DIR, fileIn);
         final String[] args = new String[]{
                 "--input" , readInput.getAbsolutePath(),
                 "--output", outFile.getAbsolutePath()
@@ -123,10 +123,10 @@ public final class CRAMSupportIntegrationTest extends CommandLineProgramTest{
     }
 
     @Test(dataProvider="testingDataNoRefMultipleInputs", expectedExceptions = UserException.MissingReference.class)
-    public void testNoRefMulti(String fileIn1, String fileIn2, String extOut) throws Exception {
+    public void testNoRefMulti(final String fileIn1, final String fileIn2, final String extOut) throws Exception {
         final File outFile = BaseTest.createTempFile(fileIn1 + ".", extOut);
-        File readInput1 = new File(TEST_DATA_DIR, fileIn1);
-        File readInput2 = new File(TEST_DATA_DIR, fileIn2);
+        final File readInput1 = new File(TEST_DATA_DIR, fileIn1);
+        final File readInput2 = new File(TEST_DATA_DIR, fileIn2);
         final String[] args = new String[]{
                 "--input" , readInput1.getAbsolutePath(),
                 "--input" , readInput2.getAbsolutePath(),
@@ -145,10 +145,10 @@ public final class CRAMSupportIntegrationTest extends CommandLineProgramTest{
     // This test case shows that when a CRAM input is provided with a reference that does not have all of the contigs
     // from the CRAM in its sequence dictionary, we throw a UserException.
     @Test(dataProvider="testingDataWrongRef", expectedExceptions = UserException.IncompatibleSequenceDictionaries.class)
-    public void testWrongRef(String fileIn, String extOut, String referenceFile) throws Exception {
+    public void testWrongRef(final String fileIn, final String extOut, final String referenceFile) throws Exception {
         final File outFile = BaseTest.createTempFile(fileIn + ".", extOut);
-        File readInput = new File(TEST_DATA_DIR, fileIn);
-        File reference = new File(TEST_DATA_DIR, referenceFile);
+        final File readInput = new File(TEST_DATA_DIR, fileIn);
+        final File reference = new File(TEST_DATA_DIR, referenceFile);
         final String[] args = new String[]{
                 "--input" , readInput.getAbsolutePath(),
                 "--output", outFile.getAbsolutePath(),

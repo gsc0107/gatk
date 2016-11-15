@@ -89,9 +89,9 @@ public final class AS_InbreedingCoeff extends InfoFieldAnnotation implements AS_
         final double F;
         //shortcut to get a value closer to the non-alleleSpecific value for bialleleics
         if (vc.isBiallelic()) {
-            double refAC = heterozygosityUtils.getAlleleCount(vc.getReference());
-            double altAC = heterozygosityUtils.getAlleleCount(altAllele);
-            double refAF = refAC/(altAC+refAC);
+            final double refAC = heterozygosityUtils.getAlleleCount(vc.getReference());
+            final double altAC = heterozygosityUtils.getAlleleCount(altAllele);
+            final double refAF = refAC/(altAC+refAC);
             altAF = 1 - refAF;
             F = 1.0 - (hetCount / (2.0 * refAF * altAF * (double) heterozygosityUtils.getSampleCount())); // inbreeding coefficient
         }

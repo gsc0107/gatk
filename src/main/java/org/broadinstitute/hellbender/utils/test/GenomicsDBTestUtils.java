@@ -22,7 +22,7 @@ public final class GenomicsDBTestUtils {
      * @param workspace where to create the workspace, if something exists here already it will be deleted
      * @param loader loader.json file to use to load data from, the workspace in this file must match workspace
      */
-    public synchronized static void runOnGenomicsDBArray(GenomicsDBTestAction test, File workspace, File loader) throws IOException {
+    public synchronized static void runOnGenomicsDBArray(final GenomicsDBTestAction test, final File workspace, final File loader) throws IOException {
         //delete any existing workspace
         FileUtils.deleteQuietly(workspace);
 

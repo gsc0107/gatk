@@ -51,7 +51,7 @@ public final class MultiVariantWalkerIntegrationTest extends CommandLineProgramT
             //a single input, and it has no sequence dictionary, so skip the test since we're just
             //iterating over a single input in order
             if (locus != null && getSequenceDictionaryForDrivingVariants() != null) {
-                int locDiff = IntervalUtils.compareLocatables(
+                final int locDiff = IntervalUtils.compareLocatables(
                         locus,
                         new SimpleInterval(variant),
                         getSequenceDictionaryForDrivingVariants());
@@ -66,7 +66,7 @@ public final class MultiVariantWalkerIntegrationTest extends CommandLineProgramT
         final TestMultiVariantWalker tool = new TestMultiVariantWalker();
 
         final List<String> args = new ArrayList<>();
-        File testFile = new File(getTestDataDir(), "baseVariants.vcf");
+        final File testFile = new File(getTestDataDir(), "baseVariants.vcf");
         args.add("--variant");
         args.add(testFile.getAbsolutePath());
         args.add("--variant");
@@ -149,10 +149,10 @@ public final class MultiVariantWalkerIntegrationTest extends CommandLineProgramT
         };
 
         final List<String> args = new ArrayList<>();
-        File testFile1 = new File(getTestDataDir(), "interleavedVariants_1_WithOverlap.vcf");
+        final File testFile1 = new File(getTestDataDir(), "interleavedVariants_1_WithOverlap.vcf");
         args.add("--variant");
         args.add(testFile1.getAbsolutePath());
-        File testFile2 = new File(getTestDataDir(), "interleavedVariants_2_WithOverlap.vcf");
+        final File testFile2 = new File(getTestDataDir(), "interleavedVariants_2_WithOverlap.vcf");
         args.add("--variant");
         args.add(testFile2.getAbsolutePath());
 
@@ -165,15 +165,15 @@ public final class MultiVariantWalkerIntegrationTest extends CommandLineProgramT
         final TestMultiVariantWalker tool = new TestMultiVariantWalker();
 
         final List<String> args = new ArrayList<>();
-        File testFile1 = new File(getTestDataDir(), "interleavedVariants_1.vcf");
+        final File testFile1 = new File(getTestDataDir(), "interleavedVariants_1.vcf");
         args.add("--variant");
         args.add(testFile1.getAbsolutePath());
-        File testFile2 = new File(getTestDataDir(), "interleavedVariants_2.vcf");
+        final File testFile2 = new File(getTestDataDir(), "interleavedVariants_2.vcf");
         args.add("--variant");
         args.add(testFile2.getAbsolutePath());
 
         tool.instanceMain(args.toArray(new String[args.size()]));
-        VCFHeader header = tool.getHeaderForVariants();
+        final VCFHeader header = tool.getHeaderForVariants();
         Assert.assertEquals(header.getSequenceDictionary().getSequences().size(), 4 );
     }
 
@@ -182,10 +182,10 @@ public final class MultiVariantWalkerIntegrationTest extends CommandLineProgramT
         final TestMultiVariantWalker tool = new TestMultiVariantWalker();
 
         final List<String> args = new ArrayList<>();
-        File testFile1 = new File(getTestDataDir(), "baseVariants.vcf");
+        final File testFile1 = new File(getTestDataDir(), "baseVariants.vcf");
         args.add("--variant");
         args.add(testFile1.getAbsolutePath());
-        File testFile2 = new File(getTestDataDir(), "baseVariantsConflictingDictionary.vcf");
+        final File testFile2 = new File(getTestDataDir(), "baseVariantsConflictingDictionary.vcf");
         args.add("--variant");
         args.add(testFile2.getAbsolutePath());
 
@@ -197,7 +197,7 @@ public final class MultiVariantWalkerIntegrationTest extends CommandLineProgramT
         final TestMultiVariantWalker tool = new TestMultiVariantWalker();
 
         final List<String> args = new ArrayList<>();
-        File testFile1 = new File(getTestDataDir(), "interleavedVariants_1_NoDict.vcf");
+        final File testFile1 = new File(getTestDataDir(), "interleavedVariants_1_NoDict.vcf");
         args.add("--variant");
         args.add(testFile1.getAbsolutePath());
 
@@ -211,10 +211,10 @@ public final class MultiVariantWalkerIntegrationTest extends CommandLineProgramT
         final TestMultiVariantWalker tool = new TestMultiVariantWalker();
 
         final List<String> args = new ArrayList<>();
-        File testFile1 = new File(getTestDataDir(), "interleavedVariants_1.vcf");
+        final File testFile1 = new File(getTestDataDir(), "interleavedVariants_1.vcf");
         args.add("--variant");
         args.add(testFile1.getAbsolutePath());
-        File testFile2 = new File(getTestDataDir(), "interleavedVariants_2_NoDict.vcf");
+        final File testFile2 = new File(getTestDataDir(), "interleavedVariants_2_NoDict.vcf");
         args.add("--variant");
         args.add(testFile2.getAbsolutePath());
 
@@ -227,10 +227,10 @@ public final class MultiVariantWalkerIntegrationTest extends CommandLineProgramT
         final TestMultiVariantWalker tool = new TestMultiVariantWalker();
 
         final List<String> args = new ArrayList<>();
-        File testFile1 = new File(getTestDataDir(), "interleavedVariants_1_NoDict.vcf");
+        final File testFile1 = new File(getTestDataDir(), "interleavedVariants_1_NoDict.vcf");
         args.add("--variant");
         args.add(testFile1.getAbsolutePath());
-        File testFile2 = new File(getTestDataDir(), "interleavedVariants_2_NoDict.vcf");
+        final File testFile2 = new File(getTestDataDir(), "interleavedVariants_2_NoDict.vcf");
         args.add("--variant");
         args.add(testFile2.getAbsolutePath());
 

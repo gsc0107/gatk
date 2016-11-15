@@ -20,7 +20,7 @@ public final class ProcessSettings {
     /**
      * @param command Command line to run.
      */
-    public ProcessSettings(String[] command) {
+    public ProcessSettings(final String[] command) {
         this(command, false, null, null, null, null, null);
     }
 
@@ -33,8 +33,8 @@ public final class ProcessSettings {
      * @param stdoutSettings      Settings for capturing the process stdout.
      * @param stderrSettings      Setting for capturing the process stderr.
      */
-    public ProcessSettings(String[] command, boolean redirectErrorStream, File directory, Map<String, String> environment,
-                           InputStreamSettings stdinSettings, OutputStreamSettings stdoutSettings, OutputStreamSettings stderrSettings) {
+    public ProcessSettings(final String[] command, final boolean redirectErrorStream, final File directory, final Map<String, String> environment,
+                           final InputStreamSettings stdinSettings, final OutputStreamSettings stdoutSettings, final OutputStreamSettings stderrSettings) {
         this.command = checkCommand(command);
         this.redirectErrorStream = redirectErrorStream;
         this.directory = directory;
@@ -48,7 +48,7 @@ public final class ProcessSettings {
         return command;
     }
 
-    public void setCommand(String[] command) {
+    public void setCommand(final String[] command) {
         this.command = checkCommand(command);
     }
 
@@ -56,7 +56,7 @@ public final class ProcessSettings {
         return redirectErrorStream;
     }
 
-    public void setRedirectErrorStream(boolean redirectErrorStream) {
+    public void setRedirectErrorStream(final boolean redirectErrorStream) {
         this.redirectErrorStream = redirectErrorStream;
     }
 
@@ -64,7 +64,7 @@ public final class ProcessSettings {
         return directory;
     }
 
-    public void setDirectory(File directory) {
+    public void setDirectory(final File directory) {
         this.directory = directory;
     }
 
@@ -72,7 +72,7 @@ public final class ProcessSettings {
         return environment;
     }
 
-    public void setEnvironment(Map<String, String> environment) {
+    public void setEnvironment(final Map<String, String> environment) {
         this.environment = environment;
     }
 
@@ -88,17 +88,17 @@ public final class ProcessSettings {
         return stderrSettings;
     }
 
-    protected String[] checkCommand(String[] command) {
+    protected String[] checkCommand(final String[] command) {
         Utils.nonNull(command);
         Utils.containsNoNull(Arrays.asList(command), "Command is not allowed to contain nulls");
         return command;
     }
 
-    protected InputStreamSettings checkSettings(InputStreamSettings settings) {
+    protected InputStreamSettings checkSettings(final InputStreamSettings settings) {
         return settings == null ? new InputStreamSettings() : settings;
     }
 
-    protected OutputStreamSettings checkSettings(OutputStreamSettings settings) {
+    protected OutputStreamSettings checkSettings(final OutputStreamSettings settings) {
         return settings == null ? new OutputStreamSettings() : settings;
     }
 }

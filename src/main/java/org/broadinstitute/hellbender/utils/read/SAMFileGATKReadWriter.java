@@ -17,7 +17,7 @@ public final class SAMFileGATKReadWriter implements GATKReadWriter {
     }
 
     @Override
-    public void addRead( GATKRead read ) {
+    public void addRead(final GATKRead read ) {
         samWriter.addAlignment(read.convertToSAMRecord(samWriter.getFileHeader()));
     }
 

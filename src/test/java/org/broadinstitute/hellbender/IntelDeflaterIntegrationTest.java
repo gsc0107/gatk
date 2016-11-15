@@ -82,12 +82,12 @@ public class IntelDeflaterIntegrationTest extends BaseTest {
                      LEN, compressedBytes, 100.0 - 100.0 * compressedBytes / LEN);
 
             // decompress and check output == input
-            Inflater inflater = new Inflater(true);
+            final Inflater inflater = new Inflater(true);
             try {
                 inflater.setInput(compressed, 0, compressedBytes);
                 inflater.inflate(result);
                 inflater.end();
-            } catch (java.util.zip.DataFormatException e) {
+            } catch (final java.util.zip.DataFormatException e) {
                 e.printStackTrace();
             }
 
@@ -146,10 +146,10 @@ public class IntelDeflaterIntegrationTest extends BaseTest {
             log.info("Checking generated output. Total records = " + totalRecords);
             final SamReader expectedFile = readerFactory.open(inputFile);
             final SamReader generatedFile = readerFactory.open(outputFile);
-            Iterator<SAMRecord> generatedIterator = generatedFile.iterator();
+            final Iterator<SAMRecord> generatedIterator = generatedFile.iterator();
 
             for (final SAMRecord expected : expectedFile) {
-                SAMRecord generated = generatedIterator.next();
+                final SAMRecord generated = generatedIterator.next();
                 assert(expected.toString().equals(generated.toString()));
             }
         }

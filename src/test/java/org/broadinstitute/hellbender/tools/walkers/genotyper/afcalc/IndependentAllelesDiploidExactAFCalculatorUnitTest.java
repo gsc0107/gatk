@@ -18,7 +18,7 @@ import java.util.*;
 public final class IndependentAllelesDiploidExactAFCalculatorUnitTest extends BaseTest {
     @DataProvider(name = "TestCombineGLs")
     public Object[][] makeTestCombineGLs() {
-        List<Object[]> tests = new ArrayList<>();
+        final List<Object[]> tests = new ArrayList<>();
 
         tests.add(new Object[]{1, 1, makePL( 0, 10, 20), makePL( 0, 10, 20)});
         tests.add(new Object[]{1, 1, makePL(10,  0, 20), makePL(10,  0, 20)});
@@ -81,7 +81,7 @@ public final class IndependentAllelesDiploidExactAFCalculatorUnitTest extends Ba
 
     @DataProvider(name = "TestMakeAlleleConditionalContexts")
     public Object[][] makeTestMakeAlleleConditionalContexts() {
-        List<Object[]> tests = new ArrayList<>();
+        final List<Object[]> tests = new ArrayList<>();
 
         final VariantContextBuilder root = new VariantContextBuilder("x", "1", 1, 1, Arrays.asList(A));
         final VariantContextBuilder vcAC = new VariantContextBuilder(root).alleles(Arrays.asList(A, C));
@@ -126,13 +126,13 @@ public final class IndependentAllelesDiploidExactAFCalculatorUnitTest extends Ba
 
     @DataProvider(name = "ThetaNTests")
     public Object[][] makeThetaNTests() {
-        List<Object[]> tests = new ArrayList<>();
+        final List<Object[]> tests = new ArrayList<>();
 
         final List<Double> log10LAlleles = Arrays.asList(0.0, -1.0, -2.0, -3.0, -4.0);
 
         for ( final double log10pRef : Arrays.asList(-1, -2, -3) ) {
             for ( final int ploidy : Arrays.asList(1, 2, 3, 4) ) {
-                for ( List<Double> permutations : Utils.makePermutations(log10LAlleles, ploidy, true)) {
+                for ( final List<Double> permutations : Utils.makePermutations(log10LAlleles, ploidy, true)) {
                     tests.add(new Object[]{permutations, Math.pow(10, log10pRef)});
                 }
             }

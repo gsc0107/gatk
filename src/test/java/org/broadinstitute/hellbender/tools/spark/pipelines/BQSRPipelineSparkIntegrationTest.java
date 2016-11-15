@@ -27,7 +27,7 @@ public class BQSRPipelineSparkIntegrationTest extends CommandLineProgramTest {
         final String outputExtension;
         final String expectedFileName;
 
-        private BQSRTest(String referenceURL, String bam, String knownSites, String outputExtension, String args, String expectedFileName) {
+        private BQSRTest(final String referenceURL, final String bam, final String knownSites, final String outputExtension, final String args, final String expectedFileName) {
             this.referenceURL = referenceURL;
             this.bam = bam;
             this.knownSites = knownSites;
@@ -86,8 +86,8 @@ public class BQSRPipelineSparkIntegrationTest extends CommandLineProgramTest {
     }
 
     @Test(dataProvider = "BQSRLocalRefTest", groups = "spark")
-    public void testBQSRLocalRef(BQSRTest params) throws IOException {
-        File outFile = BaseTest.createTempFile("bqsrSparkPipelineTest", params.outputExtension);
+    public void testBQSRLocalRef(final BQSRTest params) throws IOException {
+        final File outFile = BaseTest.createTempFile("bqsrSparkPipelineTest", params.outputExtension);
         final List<String> args = new ArrayList<>();
 
         args.add("-I");
@@ -123,10 +123,10 @@ public class BQSRPipelineSparkIntegrationTest extends CommandLineProgramTest {
         final String hiSeqBam_chr20 = getResourceDir() + WGS_B37_CH20_1M_1M1K_BAM;
         final String dbSNPb37_chr20 = getResourceDir() + DBSNP_138_B37_CH20_1M_1M1K_VCF;
 
-        BQSRTest params = new BQSRTest(b37_reference_20_21, hiSeqBam_chr20, dbSNPb37_chr20, ".bam", "-indelBQSR -enableBAQ " +"--joinStrategy BROADCAST", getResourceDir() + BQSRTestData.EXPECTED_WGS_B37_CH20_1M_1M1K_RECAL);
+        final BQSRTest params = new BQSRTest(b37_reference_20_21, hiSeqBam_chr20, dbSNPb37_chr20, ".bam", "-indelBQSR -enableBAQ " +"--joinStrategy BROADCAST", getResourceDir() + BQSRTestData.EXPECTED_WGS_B37_CH20_1M_1M1K_RECAL);
 
-        ArgumentsBuilder ab = new ArgumentsBuilder().add(params.getCommandLineNoApiKey());
-        IntegrationTestSpec spec = new IntegrationTestSpec(
+        final ArgumentsBuilder ab = new ArgumentsBuilder().add(params.getCommandLineNoApiKey());
+        final IntegrationTestSpec spec = new IntegrationTestSpec(
                 ab.getString(),
                 1,
                 UserException.Require2BitReferenceForBroadcast.class);

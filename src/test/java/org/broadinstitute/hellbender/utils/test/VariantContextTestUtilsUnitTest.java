@@ -22,7 +22,7 @@ public class VariantContextTestUtilsUnitTest {
     }
 
     @Test(dataProvider = "valuesToNormalize")
-    public void testNormalizeScientificNotation(Object toNormalize, Object expected){
+    public void testNormalizeScientificNotation(final Object toNormalize, final Object expected){
         Assert.assertEquals(VariantContextTestUtils.normalizeScientificNotation(toNormalize), expected);
     }
 }

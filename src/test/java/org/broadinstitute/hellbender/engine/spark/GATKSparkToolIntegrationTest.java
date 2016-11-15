@@ -29,7 +29,7 @@ public class GATKSparkToolIntegrationTest extends CommandLineProgramTest {
             return true;
         }
         @Override
-        protected void runTool(JavaSparkContext ctx) {
+        protected void runTool(final JavaSparkContext ctx) {
             //Do-Nothing
         }
     }
@@ -41,7 +41,7 @@ public class GATKSparkToolIntegrationTest extends CommandLineProgramTest {
 
     @Test(expectedExceptions = UserException.MissingReferenceDictFile.class)
     public void testMissingReferenceDictFileCatch() throws IOException {
-        File outFile = BaseTest.createTempFile("bqsrSparkPipelineTest", ".bam");
+        final File outFile = BaseTest.createTempFile("bqsrSparkPipelineTest", ".bam");
         final List<String> args = new ArrayList<>();
         args.add("-R");
         args.add("src/test/resources/org/broadinstitute/hellbender/engine/spark/validNoDict.fasta");

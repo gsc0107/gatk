@@ -277,7 +277,7 @@ public final class GoogleGenomicsReadToGATKReadAdapter implements GATKRead, Seri
             return new byte[0];
         }
 
-        byte[] convertedBaseQualities = new byte[baseQualities.size()];
+        final byte[] convertedBaseQualities = new byte[baseQualities.size()];
         for ( int i = 0; i < baseQualities.size(); ++i ) {
             if ( baseQualities.get(i) < 0 || baseQualities.get(i) > Byte.MAX_VALUE ) {
                 throw new GATKException("Base quality score " + baseQualities.get(i) + " is invalid and/or not convertible to byte");
@@ -296,7 +296,7 @@ public final class GoogleGenomicsReadToGATKReadAdapter implements GATKRead, Seri
         }
 
         final List<Integer> convertedBaseQualities = new ArrayList<>(baseQualities.length);
-        for ( byte b : baseQualities ) {
+        for ( final byte b : baseQualities ) {
             Utils.validateArg( b >= 0, () -> "Base quality score " + b + " is invalid");
             convertedBaseQualities.add((int)b);
         }
@@ -532,7 +532,7 @@ public final class GoogleGenomicsReadToGATKReadAdapter implements GATKRead, Seri
             final String rawValue = getRawAttributeValue(attributeName, "integer");
             return rawValue != null ? Integer.parseInt(rawValue) : null;
         }
-        catch ( NumberFormatException e ) {
+        catch ( final NumberFormatException e ) {
             throw new GATKException.ReadAttributeTypeMismatch(attributeName, "integer", e);
         }
     }
@@ -668,11 +668,11 @@ public final class GoogleGenomicsReadToGATKReadAdapter implements GATKRead, Seri
     }
 
     @Override
-    public boolean equals( Object other ) {
+    public boolean equals(final Object other ) {
         if ( this == other ) return true;
         if ( other == null || getClass() != other.getClass() ) return false;
 
-        GoogleGenomicsReadToGATKReadAdapter that = (GoogleGenomicsReadToGATKReadAdapter)other;
+        final GoogleGenomicsReadToGATKReadAdapter that = (GoogleGenomicsReadToGATKReadAdapter)other;
 
         // The Read class does have a working equals() method (inherited from AbstractMap)
         return genomicsRead != null ? genomicsRead.equals(that.genomicsRead) : that.genomicsRead == null;
@@ -684,7 +684,7 @@ public final class GoogleGenomicsReadToGATKReadAdapter implements GATKRead, Seri
     }
 
     private String getMateContigDisplayString(final String contigName) {
-        String mateContigString;
+        final String mateContigString;
         if (!isPaired()) {
             mateContigString = SAMRecord.NO_ALIGNMENT_REFERENCE_NAME;
         }
@@ -715,7 +715,7 @@ public final class GoogleGenomicsReadToGATKReadAdapter implements GATKRead, Seri
             if (getReadGroup() != null) {
                 sortedAttributes.add(SAMTag.RG.name());
             }
-            for (String key: sortedAttributes) {
+            for (final String key: sortedAttributes) {
                 sb.append(SAM_FIELD_SEPARATOR);
                 sb.append(key
                         + SAM_ATTRIBUTE_SEPARATOR
@@ -734,8 +734,8 @@ public final class GoogleGenomicsReadToGATKReadAdapter implements GATKRead, Seri
             genomicsRead.setAlignedQuality(new ArrayList<>(alignedQuality));
         }
         if (null!=genomicsRead.getInfo()) {
-            Map<String, List<Object>> infoCopy = new LinkedHashMap<>();
-            for (Map.Entry<String, List<Object>> entry : genomicsRead.getInfo().entrySet()) {
+            final Map<String, List<Object>> infoCopy = new LinkedHashMap<>();
+            for (final Map.Entry<String, List<Object>> entry : genomicsRead.getInfo().entrySet()) {
                 infoCopy.put(entry.getKey(), new ArrayList<>(entry.getValue()));
             }
             genomicsRead.setInfo(infoCopy);
@@ -746,8 +746,8 @@ public final class GoogleGenomicsReadToGATKReadAdapter implements GATKRead, Seri
         }
     }
 
-    private String resolveAttributeValue(Set<String> keys, String key) {
-        String attributeValue;
+    private String resolveAttributeValue(final Set<String> keys, final String key) {
+        final String attributeValue;
         if (keys.contains(key)) {
             attributeValue = getAttributeAsString(key);
         } else if (key.equals(SAMTag.RG.name())) {

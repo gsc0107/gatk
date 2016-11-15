@@ -24,8 +24,8 @@ public final class NDNCigarReadTransformerUnitTest {
 
     @Test(dataProvider = "filteringIteratorTestData")
     public void testCigarRefactoring (final String originalCigarString, final String expectedString) {
-        Cigar originalCigar = TextCigarCodec.decode(originalCigarString);
-        String actualString = NDNCigarReadTransformer.refactorNDNtoN(originalCigar).toString();
+        final Cigar originalCigar = TextCigarCodec.decode(originalCigarString);
+        final String actualString = NDNCigarReadTransformer.refactorNDNtoN(originalCigar).toString();
         Assert.assertEquals(actualString, expectedString, "cigar string " + originalCigarString + " should become: " + expectedString + " but got: " + actualString);
     }
 

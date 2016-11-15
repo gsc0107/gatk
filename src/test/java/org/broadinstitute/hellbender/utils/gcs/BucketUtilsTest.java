@@ -45,7 +45,7 @@ public final class BucketUtilsTest extends BaseTest {
     @Test
     public void testCopyLocal() throws IOException {
         final String src = publicTestDir+"empty.vcf";
-        File dest = createTempFile("copy-empty",".vcf");
+        final File dest = createTempFile("copy-empty",".vcf");
 
         BucketUtils.copyFile(src, null, dest.getPath());
         IOUtil.assertFilesEqual(new File(src), dest);
@@ -53,7 +53,7 @@ public final class BucketUtilsTest extends BaseTest {
 
     @Test
     public void testDeleteLocal() throws IOException, GeneralSecurityException {
-        File dest = createTempFile("temp-fortest",".txt");
+        final File dest = createTempFile("temp-fortest",".txt");
         try (FileWriter fw = new FileWriter(dest)){
             fw.write("Goodbye, cruel world!");
         }
@@ -64,10 +64,10 @@ public final class BucketUtilsTest extends BaseTest {
     @Test(groups={"bucket"})
     public void testCopyAndDeleteGCS() throws IOException, GeneralSecurityException {
         final String src = publicTestDir + "empty.vcf";
-        File dest = createTempFile("copy-empty", ".vcf");
+        final File dest = createTempFile("copy-empty", ".vcf");
         final String intermediate = BucketUtils.randomRemotePath(getGCPTestStaging(), "test-copy-empty", ".vcf");
         Assert.assertTrue(BucketUtils.isCloudStorageUrl(intermediate), "!BucketUtils.isCloudStorageUrl(intermediate)");
-        PipelineOptions popts = getAuthenticatedPipelineOptions();
+        final PipelineOptions popts = getAuthenticatedPipelineOptions();
         BucketUtils.copyFile(src, popts, intermediate);
         BucketUtils.copyFile(intermediate, popts, dest.getPath());
         IOUtil.assertFilesEqual(new File(src), dest);
@@ -79,13 +79,13 @@ public final class BucketUtilsTest extends BaseTest {
     @Test
     public void testCopyAndDeleteHDFS() throws Exception {
         final String src = publicTestDir + "empty.vcf";
-        File dest = createTempFile("copy-empty", ".vcf");
+        final File dest = createTempFile("copy-empty", ".vcf");
 
         MiniClusterUtils.runOnIsolatedMiniCluster( cluster -> {
             final String intermediate = BucketUtils.randomRemotePath(MiniClusterUtils.getWorkingDir(cluster).toString(), "test-copy-empty", ".vcf");
             Assert.assertTrue(BucketUtils.isHadoopUrl(intermediate), "!BucketUtils.isHadoopUrl(intermediate)");
 
-            PipelineOptions popts = null;
+            final PipelineOptions popts = null;
             BucketUtils.copyFile(src, popts, intermediate);
             BucketUtils.copyFile(intermediate, popts, dest.getPath());
             IOUtil.assertFilesEqual(new File(src), dest);
@@ -97,22 +97,22 @@ public final class BucketUtilsTest extends BaseTest {
 
     @Test
     public void testDirSize() throws IOException {
-        File dir = createTempDir("dir");
-        File file1 = new File(dir, "file1.txt");
-        File file2 = new File(dir, "file2.txt");
-        File subdir = new File(dir, "sub");
+        final File dir = createTempDir("dir");
+        final File file1 = new File(dir, "file1.txt");
+        final File file2 = new File(dir, "file2.txt");
+        final File subdir = new File(dir, "sub");
         subdir.mkdir();
-        File file3 = new File(subdir, "file3.txt");
+        final File file3 = new File(subdir, "file3.txt");
 
-        for (File file : new File[] { file1, file2, file3 }) {
+        for (final File file : new File[] { file1, file2, file3 }) {
             try (FileWriter fw = new FileWriter(file)){
                 fw.write("Hello!");
             }
         }
 
-        long fileSize = BucketUtils.fileSize(file1.getAbsolutePath(), null);
+        final long fileSize = BucketUtils.fileSize(file1.getAbsolutePath(), null);
         Assert.assertTrue(fileSize > 0);
-        long dirSize = BucketUtils.dirSize(dir.getAbsolutePath(), null);
+        final long dirSize = BucketUtils.dirSize(dir.getAbsolutePath(), null);
         Assert.assertEquals(dirSize, fileSize * 2);
     }
 

@@ -80,7 +80,7 @@ public final class CommandLineParser {
     private Map<String, GATKCommandLinePluginDescriptor<?>> pluginDescriptors = new HashMap<>();
 
     // Return the plugin instance corresponding to the targetDescriptor class
-    public <T> T getPluginDescriptor(Class<T> targetDescriptor) {
+    public <T> T getPluginDescriptor(final Class<T> targetDescriptor) {
         return targetDescriptor.cast(pluginDescriptors.get(targetDescriptor.getName()));
     }
 
@@ -98,14 +98,14 @@ public final class CommandLineParser {
     }
 
 
-    private void putInArgumentMap(ArgumentDefinition arg){
-        for (String key: arg.getNames()){
+    private void putInArgumentMap(final ArgumentDefinition arg){
+        for (final String key: arg.getNames()){
             argumentMap.put(key, arg);
         }
     }
 
-    private boolean inArgumentMap(ArgumentDefinition arg){
-        for (String key: arg.getNames()){
+    private boolean inArgumentMap(final ArgumentDefinition arg){
+        for (final String key: arg.getNames()){
             if(argumentMap.containsKey(key)){
                 return true;
             }
@@ -229,7 +229,7 @@ public final class CommandLineParser {
         final Set<Class<?>> pluginClasses = classFinder.getClasses();
 
         final List<Object> plugins = new ArrayList<>(pluginClasses.size());
-        for (Class<?> c : pluginClasses) {
+        for (final Class<?> c : pluginClasses) {
             if (pluginDescriptor.getClassFilter().test(c)) {
                 try {
                     final Object plugin = pluginDescriptor.getInstance(c);
@@ -271,7 +271,7 @@ public final class CommandLineParser {
                 .filter(argumentDefinition -> printCommon || !argumentDefinition.isCommon)
                 .collect(Collectors.partitioningBy(a -> a.controllingDescriptor == null));
 
-        List<ArgumentDefinition> nonPluginArgs = allArgsMap.get(true);
+        final List<ArgumentDefinition> nonPluginArgs = allArgsMap.get(true);
         if (null != nonPluginArgs && !nonPluginArgs.isEmpty()) {
             // partition the non-plugin args on optional
             final Map<Boolean, List<ArgumentDefinition>> unconditionalArgsMap = nonPluginArgs.stream()
@@ -293,7 +293,7 @@ public final class CommandLineParser {
         }
 
         // now the conditional/dependent args (those controlled by a plugin descriptor)
-        List<ArgumentDefinition> conditionalArgs = allArgsMap.get(false);
+        final List<ArgumentDefinition> conditionalArgs = allArgsMap.get(false);
         if (null != conditionalArgs && !conditionalArgs.isEmpty()) {
             // group all of the conditional argdefs by the name of their controlling pluginDescriptor class
             final Map<GATKCommandLinePluginDescriptor<?>, List<ArgumentDefinition>> argsByControllingDescriptor =
@@ -341,10 +341,10 @@ public final class CommandLineParser {
     public boolean parseArguments(final PrintStream messageStream, final String[] args) {
         this.argv = args;
 
-        OptionParser parser = new OptionParser(false);
+        final OptionParser parser = new OptionParser(false);
 
-        for (ArgumentDefinition arg : argumentDefinitions){
-            OptionSpecBuilder bld = parser.acceptsAll(arg.getNames(), arg.doc);
+        for (final ArgumentDefinition arg : argumentDefinitions){
+            final OptionSpecBuilder bld = parser.acceptsAll(arg.getNames(), arg.doc);
             if (arg.isFlag()) {
                 bld.withOptionalArg().withValuesConvertedBy(new StrictBooleanConverter());
             } else {
@@ -355,7 +355,7 @@ public final class CommandLineParser {
             parser.nonOptions();
         }
 
-        OptionSet parsedArguments;
+        final OptionSet parsedArguments;
         try {
             parsedArguments = parser.parse(args);
         } catch (final OptionException e) {
@@ -364,11 +364,11 @@ public final class CommandLineParser {
         //Check for the special arguments file flag
         //if it's seen, read arguments from that file and recursively call parseArguments()
         if (parsedArguments.has(SpecialArgumentsCollection.ARGUMENTS_FILE_FULLNAME)) {
-            List<String> argfiles = parsedArguments.valuesOf(SpecialArgumentsCollection.ARGUMENTS_FILE_FULLNAME).stream()
+            final List<String> argfiles = parsedArguments.valuesOf(SpecialArgumentsCollection.ARGUMENTS_FILE_FULLNAME).stream()
                     .map(f -> (String)f)
                     .collect(Collectors.toList());
 
-            List<String> newargs = argfiles.stream()
+            final List<String> newargs = argfiles.stream()
                     .distinct()
                     .filter(file -> !argumentsFilesLoadedAlready.contains(file))
                     .flatMap(file -> loadArgumentsFile(file).stream())
@@ -390,14 +390,14 @@ public final class CommandLineParser {
             return false;
         }
 
-        for (OptionSpec<?> optSpec : parsedArguments.asMap().keySet()) {
+        for (final OptionSpec<?> optSpec : parsedArguments.asMap().keySet()) {
             if (parsedArguments.has(optSpec)) {
-                ArgumentDefinition argDef = argumentMap.get(optSpec.options().get(0));
+                final ArgumentDefinition argDef = argumentMap.get(optSpec.options().get(0));
                 setArgument(argDef, (List<String>) optSpec.values(parsedArguments));
             }
         }
 
-        for (Object arg : parsedArguments.nonOptionArguments()) {
+        for (final Object arg : parsedArguments.nonOptionArguments()) {
             setPositionalArgument((String) arg);
         }
 
@@ -409,9 +409,9 @@ public final class CommandLineParser {
     /**
      *  helper to deal with the case of special flags that are evaluated before the options are properly set
      */
-    private boolean isSpecialFlagSet(OptionSet parsedArguments, String flagName){
+    private boolean isSpecialFlagSet(final OptionSet parsedArguments, final String flagName){
         if (parsedArguments.has(flagName)){
-            Object value = parsedArguments.valueOf(flagName);
+            final Object value = parsedArguments.valueOf(flagName);
             return  (value == null || !value.equals("false"));
         } else{
             return false;
@@ -531,7 +531,7 @@ public final class CommandLineParser {
     }
 
     @SuppressWarnings("unchecked")
-    private void setArgument(ArgumentDefinition argumentDefinition, final List<String> values) {
+    private void setArgument(final ArgumentDefinition argumentDefinition, final List<String> values) {
         //special treatment for flags
         if (argumentDefinition.isFlag() && values.isEmpty()){
             argumentDefinition.hasBeenSet = true;
@@ -543,7 +543,7 @@ public final class CommandLineParser {
                 throw new UserException.CommandLineException("Argument '" + argumentDefinition.getNames() + "' cannot be specified more than once.");
         }
 
-        for (String stringValue: values) {
+        for (final String stringValue: values) {
             final Object value;
             if (stringValue.equals(NULL_STRING)) {
                 //"null" is a special value that allows the user to override any default
@@ -582,7 +582,7 @@ public final class CommandLineParser {
      * @return false if a fatal error occurred
      */
     private List<String> loadArgumentsFile(final String argumentsFile) {
-        List<String> args = new ArrayList<>();
+        final List<String> args = new ArrayList<>();
             try (BufferedReader reader = new BufferedReader(new FileReader(argumentsFile))){
                 String line;
                 while ((line = reader.readLine()) != null) {
@@ -828,7 +828,7 @@ public final class CommandLineParser {
         }
     }
 
-    private void handlePositionalArgumentAnnotation(final Field field, Object parent) {
+    private void handlePositionalArgumentAnnotation(final Field field, final Object parent) {
         if (positionalArguments != null) {
             throw new GATKException.CommandLineParserInternalException
                     ("@PositionalArguments cannot be used more than once in an argument class.");
@@ -1011,7 +1011,7 @@ public final class CommandLineParser {
             this.mutuallyExclusive = new LinkedHashSet<>(Arrays.asList(annotation.mutex()));
             this.controllingDescriptor = controllingDescriptor;
 
-            Object tmpDefault = getFieldValue();
+            final Object tmpDefault = getFieldValue();
             if (tmpDefault != null) {
                 if (isCollection && ((Collection) tmpDefault).isEmpty()) {
                     //treat empty collections the same as uninitialized primitive types
@@ -1034,7 +1034,7 @@ public final class CommandLineParser {
             try {
                 field.setAccessible(true);
                 return field.get(parent);
-            } catch (IllegalAccessException e) {
+            } catch (final IllegalAccessException e) {
                 throw new GATKException.ShouldNeverReachHereException("This shouldn't happen since we setAccessible(true).", e);
             }
         }
@@ -1043,7 +1043,7 @@ public final class CommandLineParser {
             try {
                 field.setAccessible(true);
                 field.set(parent, value);
-            } catch (IllegalAccessException e) {
+            } catch (final IllegalAccessException e) {
                 throw new GATKException.ShouldNeverReachHereException("BUG: couldn't set field value. For "
                         + fieldName +" in " + parent.toString() + " with value " + value.toString()
                         + " This shouldn't happen since we setAccessible(true)", e);
@@ -1062,7 +1062,7 @@ public final class CommandLineParser {
         public boolean isControlledByPlugin() { return controllingDescriptor != null; }
 
         public List<String> getNames(){
-            List<String> names = new ArrayList<>();
+            final List<String> names = new ArrayList<>();
             if (!shortName.isEmpty()){
                 names.add(shortName);
             }
@@ -1083,7 +1083,7 @@ public final class CommandLineParser {
          */
         public static Comparator<ArgumentDefinition> sortByLongName = new Comparator<ArgumentDefinition>() {
             @Override
-            public int compare(ArgumentDefinition argDef1, ArgumentDefinition argDef2) {
+            public int compare(final ArgumentDefinition argDef1, final ArgumentDefinition argDef2) {
                 return String.CASE_INSENSITIVE_ORDER.compare(argDef1.getLongName(), argDef2.getLongName());
             }
         };
@@ -1094,7 +1094,7 @@ public final class CommandLineParser {
          * @return a string
          *
          */
-        private String prettyNameValue(Object value) {
+        private String prettyNameValue(final Object value) {
             if(value != null){
                 if (isSensitive){
                     return String.format("--%s ***********", getLongName());
@@ -1110,9 +1110,9 @@ public final class CommandLineParser {
          * back as a command line argument
          */
         public String toCommandLineString(){
-            Object value = getFieldValue();
+            final Object value = getFieldValue();
             if (this.isCollection){
-                Collection<?> collect = (Collection<?>)value;
+                final Collection<?> collect = (Collection<?>)value;
                 return collect.stream()
                         .map(this::prettyNameValue)
                         .collect(Collectors.joining(" "));
@@ -1144,7 +1144,7 @@ public final class CommandLineParser {
             try {
                 positionalArguments.setAccessible(true);
                 positionalArgs = (List<Object>) positionalArguments.get(positionalArgumentsParent);
-            } catch (IllegalAccessException e) {
+            } catch (final IllegalAccessException e) {
                 throw new GATKException.ShouldNeverReachHereException("Should never reach here because we setAccessible(true)", e);
             }
             for (final Object posArg : positionalArgs) {
@@ -1193,10 +1193,10 @@ public final class CommandLineParser {
      *         element will be null for uninitialized fields.
      */
     public static <T> List<Pair<Field, T>> gatherArgumentValuesOfType( final Class<T> type, final Object argumentSource ) {
-        List<Pair<Field, T>> argumentValues = new ArrayList<>();
+        final List<Pair<Field, T>> argumentValues = new ArrayList<>();
 
         // Examine all fields in argumentSource (including superclasses)
-        for ( Field field : getAllFields(argumentSource.getClass()) ) {
+        for ( final Field field : getAllFields(argumentSource.getClass()) ) {
             field.setAccessible(true);
 
             try {
@@ -1206,7 +1206,7 @@ public final class CommandLineParser {
 
                     if ( isCollectionField(field) ) {
                         // Collection arguments are guaranteed by the parsing system to be non-null (at worst, empty)
-                        Collection<?> argumentContainer = (Collection<?>)field.get(argumentSource);
+                        final Collection<?> argumentContainer = (Collection<?>)field.get(argumentSource);
 
                         // Emit a Pair with an explicit null value for empty Collection arguments
                         if ( argumentContainer.isEmpty() ) {
@@ -1215,7 +1215,7 @@ public final class CommandLineParser {
                         // Unpack non-empty Collections of the target type into individual values,
                         // each paired with the same Field object.
                         else {
-                            for ( Object argumentValue : argumentContainer ) {
+                            for ( final Object argumentValue : argumentContainer ) {
                                 argumentValues.add(Pair.of(field, type.cast(argumentValue)));
                             }
                         }
@@ -1230,7 +1230,7 @@ public final class CommandLineParser {
                     argumentValues.addAll(gatherArgumentValuesOfType(type, field.get(argumentSource)));
                 }
             }
-            catch ( IllegalAccessException e ) {
+            catch ( final IllegalAccessException e ) {
                 throw new GATKException.ShouldNeverReachHereException("field access failed after setAccessible(true)");
             }
         }

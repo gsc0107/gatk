@@ -21,11 +21,11 @@ public final class IOUtilsUnitTest extends BaseTest {
 
     @Test
     public void testTempDir() {
-        File tempDir = IOUtils.tempDir("Q-Unit-Test", "", new File("queueTempDirToDelete"));
+        final File tempDir = IOUtils.tempDir("Q-Unit-Test", "", new File("queueTempDirToDelete"));
         Assert.assertTrue(tempDir.exists());
         Assert.assertFalse(tempDir.isFile());
         Assert.assertTrue(tempDir.isDirectory());
-        boolean deleted = IOUtils.tryDelete(tempDir);
+        final boolean deleted = IOUtils.tryDelete(tempDir);
         Assert.assertTrue(deleted);
         Assert.assertFalse(tempDir.exists());
     }
@@ -88,24 +88,24 @@ public final class IOUtilsUnitTest extends BaseTest {
     }
 
     @Test( dataProvider = "ByteArrayIOTestData" )
-    public void testWriteThenReadFileIntoByteArray ( int fileSize, int readBufferSize ) throws Exception {
-        File tempFile = createTempFile(String.format("testWriteThenReadFileIntoByteArray_%d_%d", fileSize, readBufferSize), "tmp");
+    public void testWriteThenReadFileIntoByteArray (final int fileSize, final int readBufferSize ) throws Exception {
+        final File tempFile = createTempFile(String.format("testWriteThenReadFileIntoByteArray_%d_%d", fileSize, readBufferSize), "tmp");
 
-        byte[] dataWritten = getDeterministicRandomData(fileSize);
+        final byte[] dataWritten = getDeterministicRandomData(fileSize);
         IOUtils.writeByteArrayToFile(dataWritten, tempFile);
-        byte[] dataRead = IOUtils.readFileIntoByteArray(tempFile, readBufferSize);
+        final byte[] dataRead = IOUtils.readFileIntoByteArray(tempFile, readBufferSize);
 
         Assert.assertEquals(dataRead.length, dataWritten.length);
         Assert.assertTrue(Arrays.equals(dataRead, dataWritten));
     }
 
     @Test( dataProvider = "ByteArrayIOTestData" )
-    public void testWriteThenReadStreamIntoByteArray ( int fileSize, int readBufferSize ) throws Exception {
-        File tempFile = createTempFile(String.format("testWriteThenReadStreamIntoByteArray_%d_%d", fileSize, readBufferSize), "tmp");
+    public void testWriteThenReadStreamIntoByteArray (final int fileSize, final int readBufferSize ) throws Exception {
+        final File tempFile = createTempFile(String.format("testWriteThenReadStreamIntoByteArray_%d_%d", fileSize, readBufferSize), "tmp");
 
-        byte[] dataWritten = getDeterministicRandomData(fileSize);
+        final byte[] dataWritten = getDeterministicRandomData(fileSize);
         IOUtils.writeByteArrayToStream(dataWritten, new FileOutputStream(tempFile));
-        byte[] dataRead = IOUtils.readStreamIntoByteArray(new FileInputStream(tempFile), readBufferSize);
+        final byte[] dataRead = IOUtils.readStreamIntoByteArray(new FileInputStream(tempFile), readBufferSize);
 
         Assert.assertEquals(dataRead.length, dataWritten.length);
         Assert.assertTrue(Arrays.equals(dataRead, dataWritten));
@@ -113,7 +113,7 @@ public final class IOUtilsUnitTest extends BaseTest {
 
     @Test( expectedExceptions = UserException.CouldNotReadInputFile.class )
     public void testReadNonExistentFileIntoByteArray() {
-        File nonExistentFile = BaseTest.getSafeNonExistentFile("djfhsdkjghdfk");
+        final File nonExistentFile = BaseTest.getSafeNonExistentFile("djfhsdkjghdfk");
         Assert.assertFalse(nonExistentFile.exists());
 
         IOUtils.readFileIntoByteArray(nonExistentFile);
@@ -125,11 +125,11 @@ public final class IOUtilsUnitTest extends BaseTest {
                 -1);
     }
 
-    private byte[] getDeterministicRandomData ( int size ) {
+    private byte[] getDeterministicRandomData (final int size ) {
         Utils.resetRandomGenerator();
-        Random rand = Utils.getRandomGenerator();
+        final Random rand = Utils.getRandomGenerator();
 
-        byte[] randomData = new byte[size];
+        final byte[] randomData = new byte[size];
         rand.nextBytes(randomData);
 
         return randomData;
@@ -147,9 +147,9 @@ public final class IOUtilsUnitTest extends BaseTest {
         FileUtils.mkdir(dir, true);
         final File subdir = new File(dir, "subdir");
         FileUtils.mkdir(subdir, true);
-        File someFile = new File(dir, "someFile");
+        final File someFile = new File(dir, "someFile");
         someFile.createNewFile();
-        File anotherFile = new File(subdir, "anotherFile");
+        final File anotherFile = new File(subdir, "anotherFile");
         anotherFile.createNewFile();
     }
 
@@ -164,7 +164,7 @@ public final class IOUtilsUnitTest extends BaseTest {
     }
 
     @Test(dataProvider = "extensionsToReplace")
-    public void testReplaceExtension(String input, String expected){
+    public void testReplaceExtension(final String input, final String expected){
         Assert.assertEquals(IOUtils.replaceExtension(input, "new"), expected);
         Assert.assertEquals(IOUtils.replaceExtension(input, "new"), IOUtils.replaceExtension(input,"..new"));
         Assert.assertEquals(IOUtils.replaceExtension(new File(input), "new"), new File(expected));
@@ -188,9 +188,9 @@ public final class IOUtilsUnitTest extends BaseTest {
         innerTestGetPath(NA12878_20_21_WGS_bam);
     }
 
-    private void innerTestGetPath(String s) throws IOException {
-        Path p = IOUtils.getPath(s);
-        long size = Files.size(p);
+    private void innerTestGetPath(final String s) throws IOException {
+        final Path p = IOUtils.getPath(s);
+        final long size = Files.size(p);
         Assert.assertTrue(size>0);
     }
 }

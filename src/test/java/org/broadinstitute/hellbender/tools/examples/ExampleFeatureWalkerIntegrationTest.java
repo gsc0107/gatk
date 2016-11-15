@@ -14,7 +14,7 @@ public final class ExampleFeatureWalkerIntegrationTest extends CommandLineProgra
 
     @Test
     public void testExampleFeatureWalker() throws IOException {
-        IntegrationTestSpec testSpec = new IntegrationTestSpec(
+        final IntegrationTestSpec testSpec = new IntegrationTestSpec(
                 " -R " + hg19MiniReference +
                 " -I " + TEST_DATA_DIRECTORY + "reads_data_source_test1.bam" +
                 " -F " + TEST_DATA_DIRECTORY + "example_features.bed" +

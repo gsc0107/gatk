@@ -146,8 +146,8 @@ public final class IntervalsSkipListOneContig<T extends Locatable> implements Se
         int idx = 0;
         // result: bucket# -> how far that bucket reaches
         final int[] result = new int[(vs.size()>>shift)+1];
-        for (Locatable v : vs) {
-            int k = idx>>shift;
+        for (final Locatable v : vs) {
+            final int k = idx>>shift;
             if (k>key) {
                 result[key]=max;
                 key=k;

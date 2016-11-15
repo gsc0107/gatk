@@ -28,17 +28,17 @@ public abstract class ReadFilter implements Predicate<GATKRead>, Serializable {
     protected final ReadFilter delegate;
 
     protected ReadFilter() { delegate = null; };
-    protected ReadFilter(ReadFilter delegate) { this.delegate = delegate; }
+    protected ReadFilter(final ReadFilter delegate) { this.delegate = delegate; }
 
-    public void setHeader(SAMFileHeader samHeader) { this.samHeader = samHeader; }
+    public void setHeader(final SAMFileHeader samHeader) { this.samHeader = samHeader; }
 
     private class ReadFilterNegate extends ReadFilter {
         private static final long serialVersionUID = 1L;
 
-        protected ReadFilterNegate(ReadFilter delegate) {super(delegate);}
+        protected ReadFilterNegate(final ReadFilter delegate) {super(delegate);}
 
         @Override
-        public boolean test( GATKRead read ) {
+        public boolean test(final GATKRead read ) {
             return !delegate.test(read);
         }
     }
@@ -49,10 +49,10 @@ public abstract class ReadFilter implements Predicate<GATKRead>, Serializable {
         //package accesible for testing
         final protected ReadFilter other;
 
-        public ReadFilterAnd(ReadFilter lhs, ReadFilter rhs) { super(lhs); this.other = rhs;}
+        public ReadFilterAnd(final ReadFilter lhs, final ReadFilter rhs) { super(lhs); this.other = rhs;}
 
         @Override
-        public boolean test( GATKRead read ) { return delegate.test(read) && other.test(read);}
+        public boolean test(final GATKRead read ) { return delegate.test(read) && other.test(read);}
     }
 
     protected static class ReadFilterOr extends ReadFilter {
@@ -60,10 +60,10 @@ public abstract class ReadFilter implements Predicate<GATKRead>, Serializable {
 
         final private ReadFilter other;
 
-        public ReadFilterOr(ReadFilter lhs, ReadFilter rhs) { super(lhs); this.other = rhs;}
+        public ReadFilterOr(final ReadFilter lhs, final ReadFilter rhs) { super(lhs); this.other = rhs;}
 
         @Override
-        public boolean test( GATKRead read ) { return delegate.test(read) || other.test(read);}
+        public boolean test(final GATKRead read ) { return delegate.test(read) || other.test(read);}
     }
 
     // It turns out, this is necessary. Please don't remove it.
@@ -76,7 +76,7 @@ public abstract class ReadFilter implements Predicate<GATKRead>, Serializable {
     /**
      * Specialization of {@link #and(Predicate)} so that ReadFilters anded with other ReadFilters produce a ReadFilter
      */
-    public ReadFilter and( ReadFilter other ) {
+    public ReadFilter and(final ReadFilter other ) {
         Utils.nonNull(other);
         return new ReadFilterAnd(this, other);
     }
@@ -84,7 +84,7 @@ public abstract class ReadFilter implements Predicate<GATKRead>, Serializable {
     /**
      * Specialization of {@link #or(Predicate)} so that ReadFilters ored with other ReadFilters produce a ReadFilter
      */
-    public ReadFilter or( ReadFilter other ) {
+    public ReadFilter or(final ReadFilter other ) {
         Utils.nonNull(other);
         return new ReadFilterOr(this, other);
     }

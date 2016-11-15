@@ -56,7 +56,7 @@ public final class PerUnitInsertSizeMetricsCollector
         this.histogramWidth = histogramWidth;
         this.deviations = deviations;
 
-        String prefix = createHistogramValuePrefix();
+        final String prefix = createHistogramValuePrefix();
 
         histograms.put(SamPairUtil.PairOrientation.FR,     new Histogram<>("insert_size", prefix + "fr_count"));
         histograms.put(SamPairUtil.PairOrientation.TANDEM, new Histogram<>("insert_size", prefix + "tandem_count"));
@@ -163,7 +163,7 @@ public final class PerUnitInsertSizeMetricsCollector
         validateEquals(this.library, sourceCollector.library, validationMessage);
         validateEquals(this.readGroup, sourceCollector.readGroup, validationMessage);
 
-        PerUnitInsertSizeMetricsCollector combinedCollector = new PerUnitInsertSizeMetricsCollector(
+        final PerUnitInsertSizeMetricsCollector combinedCollector = new PerUnitInsertSizeMetricsCollector(
                 this.sample,
                 this.library,
                 this.readGroup,
@@ -177,7 +177,7 @@ public final class PerUnitInsertSizeMetricsCollector
         // code above; though any given entry may be empty
         this.histograms.forEach(
                 (po, targetHist) -> {
-                    Histogram<Integer> sourceHist = sourceCollector.histograms.get(po);
+                    final Histogram<Integer> sourceHist = sourceCollector.histograms.get(po);
                     // as a check, make sure the bin and value labels for the histograms for this PO
                     // are the same in both histograms
                     if (!targetHist.getBinLabel().equals(sourceHist.getBinLabel()) ||
@@ -185,7 +185,7 @@ public final class PerUnitInsertSizeMetricsCollector
                         throw new IllegalStateException("Internal error combining collectors: attempt to combine mismatched histograms");
                     }
 
-                    Histogram<Integer> combinedHist = new Histogram<>(targetHist.getBinLabel(), targetHist.getValueLabel());
+                    final Histogram<Integer> combinedHist = new Histogram<>(targetHist.getBinLabel(), targetHist.getValueLabel());
                     combinedHist.addHistogram(sourceHist);
                     combinedHist.addHistogram(targetHist);
 
@@ -208,7 +208,7 @@ public final class PerUnitInsertSizeMetricsCollector
     }
 
     private String createHistogramValuePrefix() {
-        String prefix;
+        final String prefix;
         if (this.readGroup != null) {
             prefix = this.readGroup + ".";
         }

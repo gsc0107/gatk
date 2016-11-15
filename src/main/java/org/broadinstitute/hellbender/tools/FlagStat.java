@@ -22,7 +22,7 @@ public final class FlagStat extends ReadWalker {
     private final FlagStatus sum = new FlagStatus();
 
     @Override
-    public void apply( GATKRead read, ReferenceContext referenceContext, FeatureContext featureContext ) {
+    public void apply(final GATKRead read, final ReferenceContext referenceContext, final FeatureContext featureContext ) {
         sum.add(read);
     }
 
@@ -49,8 +49,8 @@ public final class FlagStat extends ReadWalker {
         long with_mate_mapped_to_a_different_chr_maq_greaterequal_than_5 = 0L;
 
         public String toString() {
-            String ret = "";
-            NumberFormat percentFormatter = new DecimalFormat("#0.00");
+            final String ret = "";
+            final NumberFormat percentFormatter = new DecimalFormat("#0.00");
 
             return ret + readCount + " in total\n"
                        + QC_failure + " QC failure\n"
@@ -132,11 +132,11 @@ public final class FlagStat extends ReadWalker {
         }
 
         @Override
-        public boolean equals(Object o) {
+        public boolean equals(final Object o) {
             if (this == o) return true;
             if (o == null || getClass() != o.getClass()) return false;
 
-            FlagStatus that = (FlagStatus) o;
+            final FlagStatus that = (FlagStatus) o;
 
             if (QC_failure != that.QC_failure) return false;
             if (duplicates != that.duplicates) return false;

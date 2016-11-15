@@ -25,7 +25,7 @@ public abstract class HaplotypeBAMDestination {
      * @param sourceHeader SAMFileHeader used to seed the output SAMFileHeader for this destination.
      * @param haplotypeReadGroupID read group ID used when writing haplotypes as reads
      */
-    protected HaplotypeBAMDestination(SAMFileHeader sourceHeader, final String haplotypeReadGroupID) {
+    protected HaplotypeBAMDestination(final SAMFileHeader sourceHeader, final String haplotypeReadGroupID) {
         Utils.nonNull(sourceHeader, "sourceHeader cannot be null");
         Utils.nonNull(haplotypeReadGroupID, "haplotypeReadGroupID cannot be null");
         this.haplotypeReadGroupID = haplotypeReadGroupID;

@@ -7,7 +7,7 @@ public class CompressedDataListUnitTest {
 
     @Test
     public void testAddSingly(){
-        CompressedDataList<Integer> intList = new CompressedDataList<>();
+        final CompressedDataList<Integer> intList = new CompressedDataList<>();
         intList.add(2);
         intList.add(5);
         intList.add(5);
@@ -27,7 +27,7 @@ public class CompressedDataListUnitTest {
 
     @Test
     public void testAddValueCounts(){
-        CompressedDataList<Integer> intList = new CompressedDataList<>();
+        final CompressedDataList<Integer> intList = new CompressedDataList<>();
         intList.add(5,2);
         intList.add(2,6);
         intList.add(3,1);
@@ -39,7 +39,7 @@ public class CompressedDataListUnitTest {
 
     @Test
     public void testAddBothWays(){
-        CompressedDataList<Integer> intList = new CompressedDataList<>();
+        final CompressedDataList<Integer> intList = new CompressedDataList<>();
         intList.add(2);
         intList.add(5,2);
         intList.add(2);
@@ -56,13 +56,13 @@ public class CompressedDataListUnitTest {
 
     @Test
     public void testCombineLists(){
-        CompressedDataList<Integer> intList1 = new CompressedDataList<>();
+        final CompressedDataList<Integer> intList1 = new CompressedDataList<>();
         intList1.add(5,2);
         intList1.add(2,6);
         intList1.add(3,1);
         intList1.add(4,3);
 
-        CompressedDataList<Integer> intList2 = new CompressedDataList<>();
+        final CompressedDataList<Integer> intList2 = new CompressedDataList<>();
         intList2.add(2,5);
         intList2.add(6,2);
         intList2.add(1,3);
@@ -76,14 +76,14 @@ public class CompressedDataListUnitTest {
 
     @Test
     public void testIterator(){
-        CompressedDataList<Integer> intList1 = new CompressedDataList<>();
+        final CompressedDataList<Integer> intList1 = new CompressedDataList<>();
         intList1.add(5,2);
         intList1.add(2,6);
         intList1.add(3,1);
         intList1.add(4,3);
 
-        CompressedDataList<Integer> intList2 = new CompressedDataList<>();
-        for(Integer i : intList1) {
+        final CompressedDataList<Integer> intList2 = new CompressedDataList<>();
+        for(final Integer i : intList1) {
             intList2.add(i);
         }
 

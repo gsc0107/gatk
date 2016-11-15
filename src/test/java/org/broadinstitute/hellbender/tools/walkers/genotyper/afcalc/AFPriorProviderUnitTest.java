@@ -27,7 +27,7 @@ public final class AFPriorProviderUnitTest extends BaseTest {
         final AFPriorProvider provider = new HeterozygosityAFPriorProvider(het);
         for (int i = 0; i < useCount; i++) {
             final int ploidy = plodies[i];
-            double[] priors = provider.forTotalPloidy(ploidy);
+            final double[] priors = provider.forTotalPloidy(ploidy);
             Assert.assertNotNull(priors);
             Assert.assertEquals(priors.length, ploidy + 1);
             Assert.assertEquals(MathUtils.approximateLog10SumLog10(priors), 0, TOLERANCE);
@@ -100,8 +100,8 @@ public final class AFPriorProviderUnitTest extends BaseTest {
     public Object[][] heterozygosityProviderData() {
         final Object[][] result = new Object[hets.length * useCounts.length * ((ploidy.length + 1) * (ploidy.length) / 2)][];
         int idx = 0;
-        for (double h : hets)
-            for (int sc : useCounts)
+        for (final double h : hets)
+            for (final int sc : useCounts)
                 for (int i = 0; i < ploidy.length; i++)
                     for (int j = i; j < ploidy.length; j++)
                         result[idx++] = new Object[] { h, sc, ploidy[i], ploidy[j]};

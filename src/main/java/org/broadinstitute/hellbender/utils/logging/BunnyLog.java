@@ -25,7 +25,7 @@ public final class BunnyLog {
         this.id = "" + new Random().nextLong();
     }
 
-    public BunnyLog(Logger l) {
+    public BunnyLog(final Logger l) {
         this();
         optLogger = l;
     }
@@ -34,24 +34,24 @@ public final class BunnyLog {
      * Pass false to disable all logging via bunnylog
      * (it's enabled by default).
      */
-    public static void setEnabled(boolean enabled) {
+    public static void setEnabled(final boolean enabled) {
         BunnyLog.enabled = enabled;
     }
 
-    public String start(String name) {
-        String ret = bunny + " START " + id + " " + name;
+    public String start(final String name) {
+        final String ret = bunny + " START " + id + " " + name;
         if (enabled && null!=optLogger) optLogger.info(ret);
         return ret;
     }
 
-    public String stepEnd(String stepName) {
-        String ret = bunny + " STEPEND " + id + " " + stepName;
+    public String stepEnd(final String stepName) {
+        final String ret = bunny + " STEPEND " + id + " " + stepName;
         if (enabled && null!=optLogger) optLogger.info(ret);
         return ret;
     }
 
     public String end() {
-        String ret = bunny + " END " + id;
+        final String ret = bunny + " END " + id;
         if (enabled && null!=optLogger) optLogger.info(ret);
         return ret;
     }

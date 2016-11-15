@@ -64,26 +64,26 @@ public final class ShuffleJoinReadsWithRefBases {
     public static JavaPairRDD<GATKRead, ReferenceBases> addBases(final ReferenceMultiSource referenceDataflowSource,
                                                                  final JavaRDD<GATKRead> reads) {
         // TODO: reimpl this method by calling out to the more complex version?
-        SerializableFunction<GATKRead, SimpleInterval> windowFunction = referenceDataflowSource.getReferenceWindowFunction();
+        final SerializableFunction<GATKRead, SimpleInterval> windowFunction = referenceDataflowSource.getReferenceWindowFunction();
 
-        JavaPairRDD<ReferenceShard, GATKRead> shardRead = reads.mapToPair(gatkRead -> {
-            ReferenceShard shard = ReferenceShard.getShardNumberFromInterval(windowFunction.apply(gatkRead));
+        final JavaPairRDD<ReferenceShard, GATKRead> shardRead = reads.mapToPair(gatkRead -> {
+            final ReferenceShard shard = ReferenceShard.getShardNumberFromInterval(windowFunction.apply(gatkRead));
             return new Tuple2<>(shard, gatkRead);
         });
 
-        JavaPairRDD<ReferenceShard, Iterable<GATKRead>> shardiRead = shardRead.groupByKey();
+        final JavaPairRDD<ReferenceShard, Iterable<GATKRead>> shardiRead = shardRead.groupByKey();
 
         return shardiRead.flatMapToPair(in -> {
-            List<Tuple2<GATKRead, ReferenceBases>> out = Lists.newArrayList();
-            Iterable<GATKRead> iReads = in._2();
+            final List<Tuple2<GATKRead, ReferenceBases>> out = Lists.newArrayList();
+            final Iterable<GATKRead> iReads = in._2();
 
             // Apply the reference window function to each read to produce a set of intervals representing
             // the desired reference bases for each read.
             final List<SimpleInterval> readWindows = StreamSupport.stream(iReads.spliterator(), false).map(read -> windowFunction.apply(read)).collect(Collectors.toList());
 
-            SimpleInterval interval = IntervalUtils.getSpanningInterval(readWindows);
-            ReferenceBases bases = referenceDataflowSource.getReferenceBases(null, interval);
-            for (GATKRead r : iReads) {
+            final SimpleInterval interval = IntervalUtils.getSpanningInterval(readWindows);
+            final ReferenceBases bases = referenceDataflowSource.getReferenceBases(null, interval);
+            for (final GATKRead r : iReads) {
                 final ReferenceBases subset = bases.getSubset(windowFunction.apply(r));
                 out.add(new Tuple2<>(r, subset));
             }
@@ -100,27 +100,27 @@ public final class ShuffleJoinReadsWithRefBases {
      */
     public static <T> JavaPairRDD<GATKRead, Tuple2<T, ReferenceBases>> addBases(final ReferenceMultiSource referenceDataflowSource,
                                                                                 final JavaPairRDD<GATKRead, T> keyedByRead) {
-        SerializableFunction<GATKRead, SimpleInterval> windowFunction = referenceDataflowSource.getReferenceWindowFunction();
+        final SerializableFunction<GATKRead, SimpleInterval> windowFunction = referenceDataflowSource.getReferenceWindowFunction();
 
-        JavaPairRDD<ReferenceShard, Tuple2<GATKRead, T>> shardRead = keyedByRead.mapToPair(pair -> {
-            ReferenceShard shard = ReferenceShard.getShardNumberFromInterval(windowFunction.apply(pair._1()));
+        final JavaPairRDD<ReferenceShard, Tuple2<GATKRead, T>> shardRead = keyedByRead.mapToPair(pair -> {
+            final ReferenceShard shard = ReferenceShard.getShardNumberFromInterval(windowFunction.apply(pair._1()));
             return new Tuple2<>(shard, pair);
         });
 
-        JavaPairRDD<ReferenceShard, Iterable<Tuple2<GATKRead, T>>> shardiRead = shardRead.groupByKey();
+        final JavaPairRDD<ReferenceShard, Iterable<Tuple2<GATKRead, T>>> shardiRead = shardRead.groupByKey();
 
         return shardiRead.flatMapToPair(in -> {
-            List<Tuple2<GATKRead, Tuple2<T, ReferenceBases>>> out = Lists.newArrayList();
-            Iterable<Tuple2<GATKRead, T>> iReads = in._2();
+            final List<Tuple2<GATKRead, Tuple2<T, ReferenceBases>>> out = Lists.newArrayList();
+            final Iterable<Tuple2<GATKRead, T>> iReads = in._2();
 
             // Apply the reference window function to each read to produce a set of intervals representing
             // the desired reference bases for each read.
             final List<SimpleInterval> readWindows = StreamSupport.stream(iReads.spliterator(), false).map(pair -> windowFunction.apply(pair._1())).collect(Collectors.toList());
 
-            SimpleInterval interval = IntervalUtils.getSpanningInterval(readWindows);
+            final SimpleInterval interval = IntervalUtils.getSpanningInterval(readWindows);
             // TODO: don't we need to support GCS PipelineOptions?
-            ReferenceBases bases = referenceDataflowSource.getReferenceBases(null, interval);
-            for (Tuple2<GATKRead, T> p : iReads) {
+            final ReferenceBases bases = referenceDataflowSource.getReferenceBases(null, interval);
+            for (final Tuple2<GATKRead, T> p : iReads) {
                 final ReferenceBases subset = bases.getSubset(windowFunction.apply(p._1()));
                 out.add(new Tuple2<>(p._1(), new Tuple2<>(p._2(), subset)));
             }

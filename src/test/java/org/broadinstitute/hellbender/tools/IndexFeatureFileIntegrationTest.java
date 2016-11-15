@@ -233,7 +233,7 @@ public final class IndexFeatureFileIntegrationTest extends CommandLineProgramTes
         checkIndex(index, Arrays.asList("1"));
     }
 
-    private void checkIndex(Index index, List<String> chroms) {
+    private void checkIndex(final Index index, final List<String> chroms) {
         for (final String chrom : chroms) {
             Assert.assertTrue(index.containsChromosome(chrom));
         }
@@ -251,10 +251,10 @@ public final class IndexFeatureFileIntegrationTest extends CommandLineProgramTes
 
         final Index index = IndexFactory.loadIndex(res.toString());
         Assert.assertTrue(indexClass.isInstance(index));
-        for (int chr: new int[]{1,2,4}) {  //note: unusual loop
+        for (final int chr: new int[]{1,2,4}) {  //note: unusual loop
             Assert.assertTrue(index.containsChromosome(String.valueOf(chr)), String.valueOf(chr));
         }
-        for (int chr: new int[]{3,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22}) { //note: unusual loop
+        for (final int chr: new int[]{3,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22}) { //note: unusual loop
             Assert.assertFalse(index.containsChromosome(String.valueOf(chr)), String.valueOf(chr));
         }
         for (final String chr : Arrays.asList("X", "Y", "MT")){
@@ -291,10 +291,10 @@ public final class IndexFeatureFileIntegrationTest extends CommandLineProgramTes
 
         final Index index = IndexFactory.loadIndex(res.toString());
         Assert.assertTrue(index instanceof TabixIndex);
-        for (int chr: new int[]{1,2,3,4}) {  //note: unusual loop
+        for (final int chr: new int[]{1,2,3,4}) {  //note: unusual loop
             Assert.assertTrue(index.containsChromosome(String.valueOf(chr)), String.valueOf(chr));
         }
-        for (int chr: new int[]{5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22}) { //note: unusual loop
+        for (final int chr: new int[]{5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22}) { //note: unusual loop
             Assert.assertFalse(index.containsChromosome(String.valueOf(chr)), String.valueOf(chr));
         }
         for (final String chr : Arrays.asList("X", "Y", "MT")){

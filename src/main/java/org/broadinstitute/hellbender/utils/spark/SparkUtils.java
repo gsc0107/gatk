@@ -46,7 +46,7 @@ public final class SparkUtils {
             FileUtils.copyFile(bamShard, outStream);
             outStream.write(BlockCompressedStreamConstants.EMPTY_GZIP_BLOCK);
         }
-        catch ( IOException e ) {
+        catch ( final IOException e ) {
             throw new UserException("Error writing to " + destination.getAbsolutePath(), e);
         }
     }
@@ -98,7 +98,7 @@ public final class SparkUtils {
         try {
             final FileSystem fs = targetPath.getFileSystem(ctx.hadoopConfiguration());
             return fs.exists(targetPath);
-        } catch (IOException e) {
+        } catch (final IOException e) {
             throw new UserException("Error validating existence of path " + targetPath + ": " + e.getMessage());
         }
     }

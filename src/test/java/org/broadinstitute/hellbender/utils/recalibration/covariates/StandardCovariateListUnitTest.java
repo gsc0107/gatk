@@ -20,25 +20,25 @@ public final class StandardCovariateListUnitTest extends BaseTest {
 
     @Test
     public void testSize() {
-        StandardCovariateList scl = makeCovariateList();
+        final StandardCovariateList scl = makeCovariateList();
         Assert.assertEquals(scl.size(), 4);
     }
 
     @Test
     public void testCovariateNames() {
-        StandardCovariateList scl = makeCovariateList();
+        final StandardCovariateList scl = makeCovariateList();
         Assert.assertEquals(scl.covariateNames(), "ReadGroupCovariate,QualityScoreCovariate,ContextCovariate,CycleCovariate");
     }
 
     @Test
     public void testIterator() {
-        StandardCovariateList scl = makeCovariateList();
+        final StandardCovariateList scl = makeCovariateList();
         Assert.assertEquals(StreamSupport.stream(scl.spliterator(), false).count(), 4);
     }
 
     @Test
     public void testGetCovariates() {
-        StandardCovariateList scl = makeCovariateList();
+        final StandardCovariateList scl = makeCovariateList();
         Assert.assertEquals(scl.getReadGroupCovariate().parseNameForReport(), "ReadGroup");
         Assert.assertEquals(scl.getQualityScoreCovariate().parseNameForReport(), "QualityScore");
         final List<Covariate> additionalCovars = StreamSupport.stream(scl.getAdditionalCovariates().spliterator(), false).collect(Collectors.toList());
@@ -48,7 +48,7 @@ public final class StandardCovariateListUnitTest extends BaseTest {
 
     @Test
     public void testGetCovariatesByIndex() {
-        StandardCovariateList scl = makeCovariateList();
+        final StandardCovariateList scl = makeCovariateList();
         Assert.assertEquals(scl.get(0).parseNameForReport(), "ReadGroup");
         Assert.assertEquals(scl.get(1).parseNameForReport(), "QualityScore");
         Assert.assertEquals(scl.get(2).parseNameForReport(), "Context");
@@ -57,13 +57,13 @@ public final class StandardCovariateListUnitTest extends BaseTest {
 
     @Test(expectedExceptions = IndexOutOfBoundsException.class)
     public void testGetCovariatesByIndexInvalid() {
-        StandardCovariateList scl = makeCovariateList();
+        final StandardCovariateList scl = makeCovariateList();
         scl.get(4);
     }
 
     @Test
     public void testGetCovariatesByIndexClass() {
-        StandardCovariateList scl = makeCovariateList();
+        final StandardCovariateList scl = makeCovariateList();
         Assert.assertEquals(scl.indexByClass(ReadGroupCovariate.class), 0);
         Assert.assertEquals(scl.indexByClass(QualityScoreCovariate.class), 1);
         Assert.assertEquals(scl.indexByClass(ContextCovariate.class), 2);
@@ -74,17 +74,17 @@ public final class StandardCovariateListUnitTest extends BaseTest {
             private static final long serialVersionUID = 1L;
 
             @Override
-            public void recordValues(GATKRead read, SAMFileHeader header, ReadCovariates values, boolean recordIndels) {
+            public void recordValues(final GATKRead read, final SAMFileHeader header, final ReadCovariates values, final boolean recordIndels) {
 
             }
 
             @Override
-            public String formatKey(int key) {
+            public String formatKey(final int key) {
                 return null;
             }
 
             @Override
-            public int keyFromValue(Object value) {
+            public int keyFromValue(final Object value) {
                 return 0;
             }
 
@@ -97,9 +97,9 @@ public final class StandardCovariateListUnitTest extends BaseTest {
 
     @Test
     public void testGetCovariatesByParsedName() {
-        StandardCovariateList scl = makeCovariateList();
+        final StandardCovariateList scl = makeCovariateList();
         final String[] parsedNames = {"ReadGroup", "QualityScore", "Context", "Cycle"};
-        for (String parsedName : parsedNames) {
+        for (final String parsedName : parsedNames) {
             Assert.assertEquals(scl.getCovariateByParsedName(parsedName).parseNameForReport(), parsedName);
         }
         Assert.assertEquals(scl.getCovariateByParsedName("fred"), null);
@@ -107,7 +107,7 @@ public final class StandardCovariateListUnitTest extends BaseTest {
 
     @Test
     public void testCovariateInitialize() {
-        StandardCovariateList scl = makeCovariateList();
+        final StandardCovariateList scl = makeCovariateList();
         //this just tests non blowing up.
     }
 }

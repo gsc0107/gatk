@@ -20,7 +20,7 @@ public final class ClipReadsIntegrationTest extends CommandLineProgramTest {
     private File localTestData = new File(getTestDataDir(), "ClipReads");
 
     @Test(dataProvider = "clipOptions")
-    public void testClipper(String inBam, String reference, String extension, String option, String optAbrv, boolean doStats) throws IOException {
+    public void testClipper(final String inBam, final String reference, final String extension, final String option, final String optAbrv, final boolean doStats) throws IOException {
         final String tmpBAMOutName = BaseTest.createTempFile(inBam + "." + optAbrv, extension).getAbsolutePath();
         String tmpStatOutName = null;
         if (doStats) {
@@ -58,8 +58,8 @@ public final class ClipReadsIntegrationTest extends CommandLineProgramTest {
             final File expectedOutStat = new File(localTestData, "expected." + inBam + "." + optAbrv + ".tmp");
             Assert.assertTrue(expectedOutStat.exists(), "expected output stat file exists " + expectedOutStat.getAbsolutePath());
             Assert.assertTrue(outFileStat.exists(), "actual output stat file exists " + outFileStat.getAbsolutePath());
-            List<String> actualLines = new XReadLines(new File(tmpStatOutName)).readLines();
-            List<String> expectedLines = new XReadLines(expectedOutStat).readLines();
+            final List<String> actualLines = new XReadLines(new File(tmpStatOutName)).readLines();
+            final List<String> expectedLines = new XReadLines(expectedOutStat).readLines();
             Assert.assertEquals(actualLines.toString(), expectedLines.toString());
         }
     }

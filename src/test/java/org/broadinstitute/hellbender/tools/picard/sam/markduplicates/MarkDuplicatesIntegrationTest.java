@@ -181,21 +181,21 @@ public final class MarkDuplicatesIntegrationTest extends AbstractMarkDuplicatesC
     }
 
     @Test(dataProvider = "strictlyBadBams")
-    public void testLenientStringency(File input) {
+    public void testLenientStringency(final File input) {
         // TODO: This test should really be a PicardCommandLineProgramTest, not here (see #1170).
-        ArgumentsBuilder args = new ArgumentsBuilder();
+        final ArgumentsBuilder args = new ArgumentsBuilder();
         args.add("--"+StandardArgumentDefinitions.INPUT_SHORT_NAME);
         args.add(input.getPath());
         args.add("--"+"VALIDATION_STRINGENCY");
         args.add(ValidationStringency.LENIENT);
         args.add("--"+StandardArgumentDefinitions.OUTPUT_SHORT_NAME);
 
-        File outputFile = createTempFile("markdups", ".bam");
+        final File outputFile = createTempFile("markdups", ".bam");
         outputFile.delete();
         args.add(outputFile.getAbsolutePath());
 
         args.add("--METRICS_FILE");
-        File metricsFile = createTempFile("markdups_metrics", ".txt");
+        final File metricsFile = createTempFile("markdups_metrics", ".txt");
         args.add(metricsFile.getAbsolutePath());
 
         runCommandLine(args.getArgsArray());
@@ -203,22 +203,22 @@ public final class MarkDuplicatesIntegrationTest extends AbstractMarkDuplicatesC
     }
 
     @Test(dataProvider = "strictlyBadBams", expectedExceptions = SAMFormatException.class)
-    public void testStrictStringency(File input) {
+    public void testStrictStringency(final File input) {
         // TODO: This test should really be a PicardCommandLineProgramTest, not here (see #1170).
         // For these inputs, we expect an expection to be thrown because the bams have some issues.
-        ArgumentsBuilder args = new ArgumentsBuilder();
+        final ArgumentsBuilder args = new ArgumentsBuilder();
         args.add("--"+StandardArgumentDefinitions.INPUT_SHORT_NAME);
         args.add(input.getPath());
         args.add("--"+"VALIDATION_STRINGENCY");
         args.add(ValidationStringency.STRICT);
         args.add("--"+StandardArgumentDefinitions.OUTPUT_SHORT_NAME);
 
-        File outputFile = createTempFile("markdups", ".bam");
+        final File outputFile = createTempFile("markdups", ".bam");
         outputFile.delete();
         args.add(outputFile.getAbsolutePath());
 
         args.add("--METRICS_FILE");
-        File metricsFile = createTempFile("markdups_metrics", ".txt");
+        final File metricsFile = createTempFile("markdups_metrics", ".txt");
         args.add(metricsFile.getAbsolutePath());
 
         runCommandLine(args.getArgsArray());

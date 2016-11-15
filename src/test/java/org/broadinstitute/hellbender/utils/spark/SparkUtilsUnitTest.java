@@ -30,7 +30,7 @@ public class SparkUtilsUnitTest extends BaseTest {
         try ( final ReadsDataSource readsSource = new ReadsDataSource(bamShard.toPath()) ) {
             for ( final GATKRead read : readsSource ) {}
         }
-        catch ( SAMFormatException e ) {
+        catch ( final SAMFormatException e ) {
             shardIsNotValidBam = true;
         }
 
@@ -40,7 +40,7 @@ public class SparkUtilsUnitTest extends BaseTest {
         try ( final SamReader headerReader = SamReaderFactory.makeDefault().validationStringency(ValidationStringency.SILENT).open(headerSource) ) {
             header = headerReader.getFileHeader();
         }
-        catch ( IOException e ) {
+        catch ( final IOException e ) {
             throw new UserException("Error reading header from " + headerSource.getAbsolutePath(), e);
         }
 

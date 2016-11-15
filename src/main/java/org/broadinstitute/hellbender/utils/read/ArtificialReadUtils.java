@@ -26,13 +26,13 @@ public final class ArtificialReadUtils {
      * @param chromosomeSize      the length of each chromosome
      * @return
      */
-    public static SAMFileHeader createArtificialSamHeader(int numberOfChromosomes, int startingChromosome, int chromosomeSize) {
-        SAMFileHeader header = new SAMFileHeader();
+    public static SAMFileHeader createArtificialSamHeader(final int numberOfChromosomes, final int startingChromosome, final int chromosomeSize) {
+        final SAMFileHeader header = new SAMFileHeader();
         header.setSortOrder(SAMFileHeader.SortOrder.coordinate);
-        SAMSequenceDictionary dict = new SAMSequenceDictionary();
+        final SAMSequenceDictionary dict = new SAMSequenceDictionary();
         // make up some sequence records
         for (int x = startingChromosome; x < startingChromosome + numberOfChromosomes; x++) {
-            SAMSequenceRecord rec = new SAMSequenceRecord( Integer.toString(x), chromosomeSize /* size */);
+            final SAMSequenceRecord rec = new SAMSequenceRecord( Integer.toString(x), chromosomeSize /* size */);
             rec.setSequenceLength(chromosomeSize);
             dict.addSequence(rec);
         }
@@ -49,12 +49,12 @@ public final class ArtificialReadUtils {
      * @param chromosomeSize      the length of each chromosome
      * @param groupCount          the number of groups to make
      */
-    public static SAMFileHeader createArtificialSamHeaderWithGroups(int numberOfChromosomes, int startingChromosome, int chromosomeSize, int groupCount) {
+    public static SAMFileHeader createArtificialSamHeaderWithGroups(final int numberOfChromosomes, final int startingChromosome, final int chromosomeSize, final int groupCount) {
         final SAMFileHeader header = createArtificialSamHeader(numberOfChromosomes, startingChromosome, chromosomeSize);
 
         final List<SAMReadGroupRecord> readGroups = new ArrayList<>();
         for (int i = 0; i < groupCount; i++) {
-            SAMReadGroupRecord rec = new SAMReadGroupRecord(DEFAULT_READ_GROUP_PREFIX + i);
+            final SAMReadGroupRecord rec = new SAMReadGroupRecord(DEFAULT_READ_GROUP_PREFIX + i);
             rec.setSample(DEFAULT_SAMPLE_NAME);
             readGroups.add(rec);
         }
@@ -93,7 +93,7 @@ public final class ArtificialReadUtils {
      * @param length         the length of the read
      * @return the artificial GATKRead
      */
-    public static GATKRead createArtificialRead(SAMFileHeader header, String name, int refIndex, int alignmentStart, int length) {
+    public static GATKRead createArtificialRead(final SAMFileHeader header, final String name, final int refIndex, final int alignmentStart, final int length) {
         return new SAMRecordToGATKReadAdapter(createArtificialSAMRecord(header, name, refIndex, alignmentStart, length));
     }
 
@@ -108,7 +108,7 @@ public final class ArtificialReadUtils {
      * @param qual           the qualities of the read
      * @return the artificial GATKRead
      */
-    public static GATKRead createArtificialRead(SAMFileHeader header, String name, int refIndex, int alignmentStart, byte[] bases, byte[] qual) {
+    public static GATKRead createArtificialRead(final SAMFileHeader header, final String name, final int refIndex, final int alignmentStart, final byte[] bases, final byte[] qual) {
         return new SAMRecordToGATKReadAdapter(createArtificialSAMRecord(header, name, refIndex, alignmentStart, bases, qual));
     }
 
@@ -123,7 +123,7 @@ public final class ArtificialReadUtils {
      * @param qual           the qualities of the read
      * @return the artificial GATKRead
      */
-    public static GATKRead createArtificialRead(SAMFileHeader header, String name, String contig, int alignmentStart, byte[] bases, byte[] qual) {
+    public static GATKRead createArtificialRead(final SAMFileHeader header, final String name, final String contig, final int alignmentStart, final byte[] bases, final byte[] qual) {
         return new SAMRecordToGATKReadAdapter(createArtificialSAMRecord(header, name, header.getSequenceIndex(contig), alignmentStart, bases, qual));
     }
 
@@ -139,7 +139,7 @@ public final class ArtificialReadUtils {
      * @param cigar          the cigar string of the read
      * @return the artificial GATKRead
      */
-    public static GATKRead createArtificialRead(SAMFileHeader header, String name, int refIndex, int alignmentStart, byte[] bases, byte[] qual, String cigar) {
+    public static GATKRead createArtificialRead(final SAMFileHeader header, final String name, final int refIndex, final int alignmentStart, final byte[] bases, final byte[] qual, final String cigar) {
         return new SAMRecordToGATKReadAdapter(createArtificialSAMRecord(header, name, refIndex, alignmentStart, bases, qual, cigar));
     }
 
@@ -156,7 +156,7 @@ public final class ArtificialReadUtils {
      * @param cigar          the cigar string of the read
      * @return the artificial GATKRead
      */
-    public static GATKRead createArtificialRead(SAMFileHeader header, String name, String contig, int alignmentStart, byte[] bases, byte[] qual, String cigar) {
+    public static GATKRead createArtificialRead(final SAMFileHeader header, final String name, final String contig, final int alignmentStart, final byte[] bases, final byte[] qual, final String cigar) {
         return new SAMRecordToGATKReadAdapter(createArtificialSAMRecord(header, name, header.getSequenceIndex(contig), alignmentStart, bases, qual, cigar));
     }
 
@@ -182,7 +182,7 @@ public final class ArtificialReadUtils {
     }
 
     public static GATKRead createArtificialRead(final byte[] bases, final byte[] qual, final String cigar) {
-        SAMFileHeader header = createArtificialSamHeader();
+        final SAMFileHeader header = createArtificialSamHeader();
         return new SAMRecordToGATKReadAdapter(createArtificialSAMRecord(header, "default_read", 0, 10000, bases, qual, cigar));
     }
 
@@ -292,7 +292,7 @@ public final class ArtificialReadUtils {
      * @return an artificial GATKRead backed by a SAMRecord.
      */
     public static GATKRead createHeaderlessSamBackedRead( final String name, final String contig, final int start, final int length ) {
-        GATKRead read = createSamBackedRead(name, contig, start, length);
+        final GATKRead read = createSamBackedRead(name, contig, start, length);
         ((SAMRecordToGATKReadAdapter) read).getEncapsulatedSamRecord().setHeaderStrict(null);
         return read;
     }
@@ -327,22 +327,22 @@ public final class ArtificialReadUtils {
      * @param length         the length of the read
      * @return the artificial SAMRecord
      */
-    public static SAMRecord createArtificialSAMRecord(SAMFileHeader header, String name, int refIndex, int alignmentStart, int length) {
+    public static SAMRecord createArtificialSAMRecord(final SAMFileHeader header, final String name, final int refIndex, final int alignmentStart, final int length) {
         if ((refIndex == SAMRecord.NO_ALIGNMENT_REFERENCE_INDEX && alignmentStart != SAMRecord.NO_ALIGNMENT_START) ||
                 (refIndex != SAMRecord.NO_ALIGNMENT_REFERENCE_INDEX && alignmentStart == SAMRecord.NO_ALIGNMENT_START))
             throw new IllegalArgumentException("Invalid alignment start for artificial read, start = " + alignmentStart);
-        SAMRecord record = new SAMRecord(header);
+        final SAMRecord record = new SAMRecord(header);
         record.setReadName(name);
         record.setReferenceIndex(refIndex);
         record.setAlignmentStart(alignmentStart);
-        List<CigarElement> elements = new ArrayList<>();
+        final List<CigarElement> elements = new ArrayList<>();
         elements.add(new CigarElement(length, CigarOperator.characterToEnum('M')));
         record.setCigar(new Cigar(elements));
         record.setProperPairFlag(false);
 
         // our reads and quals are all 'A's by default
-        byte[] c = new byte[length];
-        byte[] q = new byte[length];
+        final byte[] c = new byte[length];
+        final byte[] q = new byte[length];
         for (int x = 0; x < length; x++)
             c[x] = q[x] = 'A';
         record.setReadBases(c);
@@ -366,11 +366,11 @@ public final class ArtificialReadUtils {
      * @param qual           the qualities of the read
      * @return the artificial SAMRecord
      */
-    public static SAMRecord createArtificialSAMRecord(SAMFileHeader header, String name, int refIndex, int alignmentStart, byte[] bases, byte[] qual) {
+    public static SAMRecord createArtificialSAMRecord(final SAMFileHeader header, final String name, final int refIndex, final int alignmentStart, final byte[] bases, final byte[] qual) {
         if (bases.length != qual.length) {
             throw new IllegalArgumentException("Passed in read string is different length then the quality array");
         }
-        SAMRecord rec = createArtificialSAMRecord(header, name, refIndex, alignmentStart, bases.length);
+        final SAMRecord rec = createArtificialSAMRecord(header, name, refIndex, alignmentStart, bases.length);
         rec.setReadBases(Arrays.copyOf(bases, bases.length));
         rec.setBaseQualities(Arrays.copyOf(qual, qual.length));
         rec.setAttribute(SAMTag.PG.name(), new SAMReadGroupRecord("x").getId());
@@ -393,8 +393,8 @@ public final class ArtificialReadUtils {
      * @param cigar          the cigar string of the read
      * @return the artificial SAMRecord
      */
-    public static SAMRecord createArtificialSAMRecord(SAMFileHeader header, String name, int refIndex, int alignmentStart, byte[] bases, byte[] qual, String cigar) {
-        SAMRecord rec = createArtificialSAMRecord(header, name, refIndex, alignmentStart, bases, qual);
+    public static SAMRecord createArtificialSAMRecord(final SAMFileHeader header, final String name, final int refIndex, final int alignmentStart, final byte[] bases, final byte[] qual, final String cigar) {
+        final SAMRecord rec = createArtificialSAMRecord(header, name, refIndex, alignmentStart, bases, qual);
         rec.setCigarString(cigar);
         return rec;
     }
@@ -421,16 +421,16 @@ public final class ArtificialReadUtils {
     }
 
     public static SAMRecord createArtificialSAMRecord(final byte[] bases, final byte[] qual, final String cigar) {
-        SAMFileHeader header = createArtificialSamHeader();
+        final SAMFileHeader header = createArtificialSamHeader();
         return createArtificialSAMRecord(header, "default_read", 0, 10000, bases, qual, cigar);
     }
 
     public static SAMRecord createArtificialSAMRecord(final SAMFileHeader header, final Cigar cigar, final String name) {
-        int length = cigar.getReadLength();
-        byte base = 'A';
-        byte qual = 30;
-        byte [] bases = Utils.dupBytes(base, length);
-        byte [] quals = Utils.dupBytes(qual, length);
+        final int length = cigar.getReadLength();
+        final byte base = 'A';
+        final byte qual = 30;
+        final byte [] bases = Utils.dupBytes(base, length);
+        final byte [] quals = Utils.dupBytes(qual, length);
         return createArtificialSAMRecord(header, name, 0, 10000, bases, quals, cigar.toString());
     }
 
@@ -452,7 +452,7 @@ public final class ArtificialReadUtils {
     }
 
     public static Read createArtificialGoogleGenomicsRead( final String name, final String contig, final int start, final byte[] bases, final byte[] quals, final String cigar ) {
-        Read googleRead = new Read();
+        final Read googleRead = new Read();
 
         googleRead.setFragmentName(name);
         googleRead.setAlignment(new LinearAlignment());
@@ -462,8 +462,8 @@ public final class ArtificialReadUtils {
         googleRead.setAlignedSequence(StringUtil.bytesToString(bases));
         googleRead.getAlignment().setCigar(CigarConversionUtils.convertSAMCigarToCigarUnitList(TextCigarCodec.decode(cigar)));
 
-        List<Integer> convertedQuals = new ArrayList<>();
-        for ( byte b : quals ) {
+        final List<Integer> convertedQuals = new ArrayList<>();
+        for ( final byte b : quals ) {
             convertedQuals.add((int)b);
         }
         googleRead.setAlignedQuality(convertedQuals);
@@ -475,16 +475,16 @@ public final class ArtificialReadUtils {
         googleRead.setSupplementaryAlignment(false);
         googleRead.setDuplicateFragment(false);
 
-        Position matePos = new Position();
+        final Position matePos = new Position();
         matePos.setReverseStrand(false);
         googleRead.setNextMatePosition(matePos);
 
         return googleRead;
     }
 
-    public static List<GATKRead> createPair(SAMFileHeader header, String name, int readLen, int leftStart, int rightStart, boolean leftIsFirst, boolean leftIsNegative) {
-        GATKRead left = createArtificialRead(header, name, 0, leftStart, readLen);
-        GATKRead right = createArtificialRead(header, name, 0, rightStart, readLen);
+    public static List<GATKRead> createPair(final SAMFileHeader header, final String name, final int readLen, final int leftStart, final int rightStart, final boolean leftIsFirst, final boolean leftIsNegative) {
+        final GATKRead left = createArtificialRead(header, name, 0, leftStart, readLen);
+        final GATKRead right = createArtificialRead(header, name, 0, rightStart, readLen);
 
         left.setIsPaired(true);
         right.setIsPaired(true);
@@ -509,7 +509,7 @@ public final class ArtificialReadUtils {
         left.setMatePosition(header.getSequence(0).getSequenceName(), right.getStart());
         right.setMatePosition(header.getSequence(0).getSequenceName(), left.getStart());
 
-        int isize = rightStart + readLen - leftStart;
+        final int isize = rightStart + readLen - leftStart;
         left.setFragmentLength(isize);
         right.setFragmentLength(-isize);
 
@@ -541,26 +541,26 @@ public final class ArtificialReadUtils {
         return coll;
     }
 
-    public static GATKRead createRandomRead(SAMFileHeader header, int length) {
-        List<CigarElement> cigarElements = new LinkedList<>();
+    public static GATKRead createRandomRead(final SAMFileHeader header, final int length) {
+        final List<CigarElement> cigarElements = new LinkedList<>();
         cigarElements.add(new CigarElement(length, CigarOperator.M));
-        Cigar cigar = new Cigar(cigarElements);
+        final Cigar cigar = new Cigar(cigarElements);
         return createArtificialRead(header, cigar);
     }
 
-    public static GATKRead createRandomRead(int length) {
-        SAMFileHeader header = createArtificialSamHeader();
+    public static GATKRead createRandomRead(final int length) {
+        final SAMFileHeader header = createArtificialSamHeader();
         return createRandomRead(header, length);
     }
 
-    public static GATKRead createRandomRead(SAMFileHeader header, int length, boolean allowNs) {
-        byte[] quals = createRandomReadQuals(length);
-        byte[] bbases = createRandomReadBases(length, allowNs);
+    public static GATKRead createRandomRead(final SAMFileHeader header, final int length, final boolean allowNs) {
+        final byte[] quals = createRandomReadQuals(length);
+        final byte[] bbases = createRandomReadBases(length, allowNs);
         return createArtificialRead(bbases, quals, bbases.length + "M");
     }
 
-    public static GATKRead createRandomRead(int length, boolean allowNs) {
-        SAMFileHeader header = createArtificialSamHeader();
+    public static GATKRead createRandomRead(final int length, final boolean allowNs) {
+        final SAMFileHeader header = createArtificialSamHeader();
         return createRandomRead(header, length, allowNs);
     }
 
@@ -570,9 +570,9 @@ public final class ArtificialReadUtils {
      * @param length the length of the read
      * @return an array with randomized base qualities between 0 and 50
      */
-    public static byte[] createRandomReadQuals(int length) {
-        Random random = Utils.getRandomGenerator();
-        byte[] quals = new byte[length];
+    public static byte[] createRandomReadQuals(final int length) {
+        final Random random = Utils.getRandomGenerator();
+        final byte[] quals = new byte[length];
         for (int i = 0; i < length; i++)
             quals[i] = (byte) random.nextInt(50);
         return quals;
@@ -585,10 +585,10 @@ public final class ArtificialReadUtils {
      * @param allowNs whether or not to allow N's in the read
      * @return an array with randomized bases (A-N) with equal probability
      */
-    public static byte[] createRandomReadBases(int length, boolean allowNs) {
-        Random random = Utils.getRandomGenerator();
-        int numberOfBases = allowNs ? 5 : 4;
-        byte[] bases = new byte[length];
+    public static byte[] createRandomReadBases(final int length, final boolean allowNs) {
+        final Random random = Utils.getRandomGenerator();
+        final int numberOfBases = allowNs ? 5 : 4;
+        final byte[] bases = new byte[length];
         for (int i = 0; i < length; i++) {
             switch (random.nextInt(numberOfBases)) {
                 case 0:
@@ -620,8 +620,8 @@ public final class ArtificialReadUtils {
      * @param readCount   the number of reads per chromosome
      * @return iterator representing the specified amount of fake data
      */
-    public static ArtificialReadQueryIterator mappedReadIterator(int startingChr, int endingChr, int readCount) {
-        SAMFileHeader header = createArtificialSamHeader((endingChr - startingChr) + 1, startingChr, readCount + DEFAULT_READ_LENGTH);
+    public static ArtificialReadQueryIterator mappedReadIterator(final int startingChr, final int endingChr, final int readCount) {
+        final SAMFileHeader header = createArtificialSamHeader((endingChr - startingChr) + 1, startingChr, readCount + DEFAULT_READ_LENGTH);
 
         return new ArtificialReadQueryIterator(startingChr, endingChr, readCount, 0, header);
     }
@@ -635,8 +635,8 @@ public final class ArtificialReadUtils {
      * @param unmappedReadCount the count of unmapped reads to place at the end of the iterator, like in a sorted bam file
      * @return iterator representing the specified amount of fake data
      */
-    public static ArtificialReadQueryIterator mappedAndUnmappedReadIterator(int startingChr, int endingChr, int readCount, int unmappedReadCount) {
-        SAMFileHeader header = createArtificialSamHeader((endingChr - startingChr) + 1, startingChr, readCount + DEFAULT_READ_LENGTH);
+    public static ArtificialReadQueryIterator mappedAndUnmappedReadIterator(final int startingChr, final int endingChr, final int readCount, final int unmappedReadCount) {
+        final SAMFileHeader header = createArtificialSamHeader((endingChr - startingChr) + 1, startingChr, readCount + DEFAULT_READ_LENGTH);
 
         return new ArtificialReadQueryIterator(startingChr, endingChr, readCount, unmappedReadCount, header);
     }
@@ -647,7 +647,7 @@ public final class ArtificialReadUtils {
      * @return a new sam header
      */
     public static SAMFileHeader createArtificialSamHeader(final SAMSequenceDictionary dict) {
-        SAMFileHeader header = new SAMFileHeader();
+        final SAMFileHeader header = new SAMFileHeader();
         header.setSortOrder(SAMFileHeader.SortOrder.coordinate);
         header.setSequenceDictionary(dict);
         return header;

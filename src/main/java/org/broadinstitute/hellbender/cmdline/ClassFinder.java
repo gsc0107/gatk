@@ -65,7 +65,7 @@ public final class ClassFinder {
         try {
             urls = loader.getResources(packageName);
         }
-        catch (IOException ioe) {
+        catch (final IOException ioe) {
             log.warn("Could not read package: " + packageName, ioe);
             return;
         }
@@ -93,7 +93,7 @@ public final class ClassFinder {
                     scanJar(file, packageName);
                 }
             }
-            catch (IOException ioe) {
+            catch (final IOException ioe) {
                 log.warn("could not read entries", ioe);
             }
         }
@@ -148,7 +148,7 @@ public final class ClassFinder {
                     this.classes.add(type);
                 }
             }
-            catch (Throwable t) {
+            catch (final Throwable t) {
                 log.debug("could not load class: " + classname, t);
             }
         }
@@ -165,9 +165,9 @@ public final class ClassFinder {
      * @return subset of classes discovered so far including only concrete (non-abstract/interface) classes
      */
     public Set<Class<?>> getConcreteClasses() {
-        Set<Class<?>> concreteClassSet = new LinkedHashSet<>();
+        final Set<Class<?>> concreteClassSet = new LinkedHashSet<>();
 
-        for ( Class<?> clazz : classes ) {
+        for ( final Class<?> clazz : classes ) {
             if ( isConcrete(clazz) ) {
                 concreteClassSet.add(clazz);
             }

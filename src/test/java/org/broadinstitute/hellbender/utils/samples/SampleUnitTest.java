@@ -27,7 +27,7 @@ public class SampleUnitTest extends BaseTest {
      * Basic getters
      */
     @Test(dataProvider="basicSamples")
-    public void basicSampleTest(Sample sample, String id, String famID, String paternalID, String maternalID, Sex gender, Affection affection) {
+    public void basicSampleTest(final Sample sample, final String id, final String famID, final String paternalID, final String maternalID, final Sex gender, final Affection affection) {
         Assert.assertTrue(id.equals(sample.getID()));
         Assert.assertTrue(famID == null || famID.equals(sample.getFamilyID()));
         Assert.assertTrue(maternalID == null || maternalID.equals(sample.getMaternalID()));
@@ -37,10 +37,10 @@ public class SampleUnitTest extends BaseTest {
     }
 
     @Test(dataProvider="basicSamples")
-    public void testMergeSamples(Sample sample, String id, String famID, String paternalID, String maternalID, Sex gender, Affection affection) {
+    public void testMergeSamples(final Sample sample, final String id, final String famID, final String paternalID, final String maternalID, final Sex gender, final Affection affection) {
 
-        Sample newSample = new Sample("newSample", null, null, null, Sex.UNKNOWN, Affection.UNKNOWN);
-        Sample mergedSample1 = newSample.mergeSamples(sample);
+        final Sample newSample = new Sample("newSample", null, null, null, Sex.UNKNOWN, Affection.UNKNOWN);
+        final Sample mergedSample1 = newSample.mergeSamples(sample);
         Assert.assertTrue(mergedSample1.getID().equals("newSample"));
 
         if (famID == null) {
@@ -81,8 +81,8 @@ public class SampleUnitTest extends BaseTest {
     }
 
     @Test(dataProvider="sortSamplesNullFields")
-    private void testCompareNullFields(Sample target, int expected) {
-        Sample source = new Sample("A", null, null, null, Sex.MALE, Affection.UNKNOWN);
+    private void testCompareNullFields(final Sample target, final int expected) {
+        final Sample source = new Sample("A", null, null, null, Sex.MALE, Affection.UNKNOWN);
         Assert.assertEquals(source.compareTo(target), expected);
     }
 
@@ -100,8 +100,8 @@ public class SampleUnitTest extends BaseTest {
     }
 
     @Test(dataProvider="sortSamplesFields")
-    private void testCompareFields(Sample target, int expected) {
-        Sample source = new Sample("A", "fam1", "1M", "1F", Sex.MALE, Affection.AFFECTED);
+    private void testCompareFields(final Sample target, final int expected) {
+        final Sample source = new Sample("A", "fam1", "1M", "1F", Sex.MALE, Affection.AFFECTED);
         Assert.assertEquals(source.compareTo(target), expected);
     }
 

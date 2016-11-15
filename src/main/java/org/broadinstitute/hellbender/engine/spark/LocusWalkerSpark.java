@@ -55,7 +55,7 @@ public abstract class LocusWalkerSpark extends GATKSparkTool {
     private FeatureManager features; // TODO: move up to GATKSparkTool?
 
     @Override
-    protected void runPipeline(JavaSparkContext sparkContext) {
+    protected void runPipeline(final JavaSparkContext sparkContext) {
         initializeFeatures();
         super.runPipeline(sparkContext);
     }
@@ -84,16 +84,16 @@ public abstract class LocusWalkerSpark extends GATKSparkTool {
      *
      * @return all alignments from as a {@link JavaRDD}, bounded by intervals if specified.
      */
-    public JavaRDD<Tuple3<AlignmentContext, ReferenceContext, FeatureContext>> getAlignments(JavaSparkContext ctx) {
-        SAMSequenceDictionary sequenceDictionary = getBestAvailableSequenceDictionary();
-        List<SimpleInterval> intervals = hasIntervals() ? getIntervals() : IntervalUtils.getAllIntervalsForReference(sequenceDictionary);
+    public JavaRDD<Tuple3<AlignmentContext, ReferenceContext, FeatureContext>> getAlignments(final JavaSparkContext ctx) {
+        final SAMSequenceDictionary sequenceDictionary = getBestAvailableSequenceDictionary();
+        final List<SimpleInterval> intervals = hasIntervals() ? getIntervals() : IntervalUtils.getAllIntervalsForReference(sequenceDictionary);
         final List<ShardBoundary> intervalShards = intervals.stream()
                 .flatMap(interval -> Shard.divideIntervalIntoShards(interval, readShardSize, readShardPadding, sequenceDictionary).stream())
                 .collect(Collectors.toList());
-        int maxLocatableSize = Math.min(readShardSize, readShardPadding);
-        JavaRDD<Shard<GATKRead>> shardedReads = SparkSharder.shard(ctx, getReads(), GATKRead.class, sequenceDictionary, intervalShards, maxLocatableSize, shuffle);
-        Broadcast<ReferenceMultiSource> bReferenceSource = hasReference() ? ctx.broadcast(getReference()) : null;
-        Broadcast<FeatureManager> bFeatureManager = features == null ? null : ctx.broadcast(features);
+        final int maxLocatableSize = Math.min(readShardSize, readShardPadding);
+        final JavaRDD<Shard<GATKRead>> shardedReads = SparkSharder.shard(ctx, getReads(), GATKRead.class, sequenceDictionary, intervalShards, maxLocatableSize, shuffle);
+        final Broadcast<ReferenceMultiSource> bReferenceSource = hasReference() ? ctx.broadcast(getReference()) : null;
+        final Broadcast<FeatureManager> bFeatureManager = features == null ? null : ctx.broadcast(features);
         return shardedReads.flatMap(getAlignmentsFunction(bReferenceSource, bFeatureManager, sequenceDictionary, getHeaderForReads(), getDownsamplingInfo()));
     }
 
@@ -107,25 +107,25 @@ public abstract class LocusWalkerSpark extends GATKSparkTool {
      * @return a function that maps a {@link Shard} of reads into a tuple of alignments and their corresponding reference and features.
      */
     private static FlatMapFunction<Shard<GATKRead>, Tuple3<AlignmentContext, ReferenceContext, FeatureContext>> getAlignmentsFunction(
-            Broadcast<ReferenceMultiSource> bReferenceSource, Broadcast<FeatureManager> bFeatureManager,
-            SAMSequenceDictionary sequenceDictionary, SAMFileHeader header, LIBSDownsamplingInfo downsamplingInfo) {
+            final Broadcast<ReferenceMultiSource> bReferenceSource, final Broadcast<FeatureManager> bFeatureManager,
+            final SAMSequenceDictionary sequenceDictionary, final SAMFileHeader header, final LIBSDownsamplingInfo downsamplingInfo) {
         return (FlatMapFunction<Shard<GATKRead>, Tuple3<AlignmentContext, ReferenceContext, FeatureContext>>) shardedRead -> {
-            SimpleInterval interval = shardedRead.getInterval();
-            SimpleInterval paddedInterval = shardedRead.getPaddedInterval();
-            Iterator<GATKRead> readIterator = shardedRead.iterator();
-            ReferenceDataSource reference = bReferenceSource == null ? null :
+            final SimpleInterval interval = shardedRead.getInterval();
+            final SimpleInterval paddedInterval = shardedRead.getPaddedInterval();
+            final Iterator<GATKRead> readIterator = shardedRead.iterator();
+            final ReferenceDataSource reference = bReferenceSource == null ? null :
                     new ReferenceMemorySource(bReferenceSource.getValue().getReferenceBases(null, paddedInterval), sequenceDictionary);
-            FeatureManager fm = bFeatureManager == null ? null : bFeatureManager.getValue();
+            final FeatureManager fm = bFeatureManager == null ? null : bFeatureManager.getValue();
 
             final Set<String> samples = header.getReadGroups().stream()
                     .map(SAMReadGroupRecord::getSample)
                     .collect(Collectors.toSet());
-            LocusIteratorByState libs = new LocusIteratorByState(readIterator, downsamplingInfo, false, samples, header, true, false);
-            IntervalOverlappingIterator<AlignmentContext> alignmentContexts = new IntervalOverlappingIterator<>(libs, ImmutableList.of(interval), sequenceDictionary);
-            Iterator<Tuple3<AlignmentContext, ReferenceContext, FeatureContext>> transform = Iterators.transform(alignmentContexts, new Function<AlignmentContext, Tuple3<AlignmentContext, ReferenceContext, FeatureContext>>() {
+            final LocusIteratorByState libs = new LocusIteratorByState(readIterator, downsamplingInfo, false, samples, header, true, false);
+            final IntervalOverlappingIterator<AlignmentContext> alignmentContexts = new IntervalOverlappingIterator<>(libs, ImmutableList.of(interval), sequenceDictionary);
+            final Iterator<Tuple3<AlignmentContext, ReferenceContext, FeatureContext>> transform = Iterators.transform(alignmentContexts, new Function<AlignmentContext, Tuple3<AlignmentContext, ReferenceContext, FeatureContext>>() {
                 @Nullable
                 @Override
-                public Tuple3<AlignmentContext, ReferenceContext, FeatureContext> apply(@Nullable AlignmentContext alignmentContext) {
+                public Tuple3<AlignmentContext, ReferenceContext, FeatureContext> apply(@Nullable final AlignmentContext alignmentContext) {
                     final SimpleInterval alignmentInterval = new SimpleInterval(alignmentContext);
                     return new Tuple3<>(alignmentContext, new ReferenceContext(reference, alignmentInterval), new FeatureContext(fm, alignmentInterval));
                 }

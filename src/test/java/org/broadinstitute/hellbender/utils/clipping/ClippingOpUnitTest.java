@@ -11,8 +11,8 @@ public final class ClippingOpUnitTest extends BaseTest {
 
     @Test (dataProvider = "SoftClipedReadsNewStart")
     public void testGetNewAlignmentStartOffset(final String preClip, final String postClip, final int expectedResult) {
-        Cigar cpreClip = TextCigarCodec.decode(preClip);
-        Cigar cpostClip = TextCigarCodec.decode(postClip);
+        final Cigar cpreClip = TextCigarCodec.decode(preClip);
+        final Cigar cpostClip = TextCigarCodec.decode(postClip);
         Assert.assertEquals(ClippingOp.getNewAlignmentStartOffset(cpostClip, cpreClip), expectedResult,
                 "getNewAlignmentStartOffset returned "+ClippingOp.getNewAlignmentStartOffset(cpostClip, cpreClip)+
                         " when "+expectedResult+" was expected for "+preClip.toString()+" which was clipped to "+postClip.toString());

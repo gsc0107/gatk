@@ -38,7 +38,7 @@ public final class FeatureInputUnitTest extends BaseTest {
 
     @Test(dataProvider = "InvalidFeatureArgumentValuesDataProvider", expectedExceptions = UserException.BadArgumentValue.class)
     public void testInvalidFeatureArgumentValue( final String invalidFeatureArgumentValue ) {
-        FeatureInput<Feature> featureInput = new FeatureInput<>(invalidFeatureArgumentValue);
+        final FeatureInput<Feature> featureInput = new FeatureInput<>(invalidFeatureArgumentValue);
     }
 
     @DataProvider(name = "ValidFileOnlyFeatureArgumentValuesDataProvider")
@@ -55,7 +55,7 @@ public final class FeatureInputUnitTest extends BaseTest {
 
     @Test(dataProvider = "ValidFileOnlyFeatureArgumentValuesDataProvider")
     public void testNoFeatureNameSpecified(final String validFileOnlyFeatureArgumentValue) {
-        FeatureInput<Feature> featureInput = new FeatureInput<>(validFileOnlyFeatureArgumentValue);   //"myName,key1=value,myFile"
+        final FeatureInput<Feature> featureInput = new FeatureInput<>(validFileOnlyFeatureArgumentValue);   //"myName,key1=value,myFile"
 
         Assert.assertEquals(featureInput.getFeaturePath(), validFileOnlyFeatureArgumentValue, "Wrong File in FeatureInput");
         // Name should default to the absolute path of the File when no name is specified
@@ -84,7 +84,7 @@ public final class FeatureInputUnitTest extends BaseTest {
 
     @Test
     public void testFeatureNameSpecified() {
-        FeatureInput<Feature> featureInput = new FeatureInput<>("myName:myFile");
+        final FeatureInput<Feature> featureInput = new FeatureInput<>("myName:myFile");
 
         Assert.assertEquals(featureInput.getFeaturePath(), "myFile", "Wrong File in FeatureInput");
         Assert.assertEquals(featureInput.getName(), "myName", "Wrong name in FeatureInput");
@@ -92,7 +92,7 @@ public final class FeatureInputUnitTest extends BaseTest {
 
     @Test
     public void testNullOKAsFeatureName() {
-        FeatureInput<Feature> featureInput = new FeatureInput<>("null:myFile");
+        final FeatureInput<Feature> featureInput = new FeatureInput<>("null:myFile");
 
         Assert.assertEquals(featureInput.getFeaturePath(), "myFile", "Wrong File in FeatureInput");
         Assert.assertEquals(featureInput.getName(), "null", "Wrong name in FeatureInput");
@@ -100,7 +100,7 @@ public final class FeatureInputUnitTest extends BaseTest {
 
     @Test
     public void testNullOKAsFileName() {
-        FeatureInput<Feature> featureInput = new FeatureInput<>("myName:null");
+        final FeatureInput<Feature> featureInput = new FeatureInput<>("myName:null");
 
         Assert.assertEquals(featureInput.getFeaturePath(), "null", "Wrong File in FeatureInput");
         Assert.assertEquals(featureInput.getName(), "myName", "Wrong name in FeatureInput");
@@ -109,7 +109,7 @@ public final class FeatureInputUnitTest extends BaseTest {
 
     @Test
     public void testFeatureKeyValuePairsSpecified() {
-        FeatureInput<Feature> featureInput = new FeatureInput<>("myName,key1=value1,key2=value2,null=null:myFile");
+        final FeatureInput<Feature> featureInput = new FeatureInput<>("myName,key1=value1,key2=value2,null=null:myFile");
 
         Assert.assertEquals(featureInput.getAttribute("key1"), "value1", "wrong attribute value for key1");
         Assert.assertEquals(featureInput.getAttribute("key2"), "value2", "wrong attribute value for key2");
@@ -122,7 +122,7 @@ public final class FeatureInputUnitTest extends BaseTest {
 
     @Test
     public void testFeatureKeyValuePairSpecified() {
-        FeatureInput<Feature> featureInput = new FeatureInput<>("myName,key1=value1:myFile");
+        final FeatureInput<Feature> featureInput = new FeatureInput<>("myName,key1=value1:myFile");
 
         Assert.assertEquals(featureInput.getAttribute("key1"), "value1", "wrong attribute value for key1");
         Assert.assertEquals(featureInput.getAttribute("key2"), null, "wrong attribute value for key2 (not present)");
@@ -133,7 +133,7 @@ public final class FeatureInputUnitTest extends BaseTest {
 
     @Test
     public void testFeatureKeyValuePairsSpecifiedSameValue() {
-        FeatureInput<Feature> featureInput = new FeatureInput<>("myName,key1=value,key2=value:myFile");
+        final FeatureInput<Feature> featureInput = new FeatureInput<>("myName,key1=value,key2=value:myFile");
 
         Assert.assertEquals(featureInput.getAttribute("key1"), "value", "wrong attribute value for key1");
         Assert.assertEquals(featureInput.getAttribute("key2"), "value", "wrong attribute value for key2");
@@ -157,7 +157,7 @@ public final class FeatureInputUnitTest extends BaseTest {
 
     @Test(dataProvider = "KeyValuesDataProviderForTestingNull", expectedExceptions = IllegalArgumentException.class)
     public void testFeatureValuesForNullKey(final String featureInputArgument ) {
-        FeatureInput<Feature> featureInput = new FeatureInput<>(featureInputArgument);
+        final FeatureInput<Feature> featureInput = new FeatureInput<>(featureInputArgument);
         featureInput.getAttribute(null);
     }
 

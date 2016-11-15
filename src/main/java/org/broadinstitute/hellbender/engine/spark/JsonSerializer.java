@@ -19,20 +19,20 @@ public class JsonSerializer<T> extends Serializer<T> {
     private static final JsonFactory JSON_FACTORY = Utils.getDefaultJsonFactory();
 
     @Override
-    public void write(Kryo kryo, Output output, T object) {
+    public void write(final Kryo kryo, final Output output, final T object) {
         try {
             output.writeString(JSON_FACTORY.toString(object));
-        } catch (IOException e) {
+        } catch (final IOException e) {
             throw new GATKException("Json writing error:" + e);
         }
     }
 
     @Override
-    public T read(Kryo kryo, Input input, Class<T> type) {
-        String s = input.readString();
+    public T read(final Kryo kryo, final Input input, final Class<T> type) {
+        final String s = input.readString();
         try {
             return JSON_FACTORY.fromString(s, type);
-        } catch (IOException e) {
+        } catch (final IOException e) {
             throw new GATKException("Json reading error" + e);
         }
     }

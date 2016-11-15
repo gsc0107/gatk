@@ -508,7 +508,7 @@ public final class ReadLikelihoods<A extends Allele> implements SampleList, Alle
         final int newAlleleCount = alleles.numberOfAlleles() + allelesToAdd.size();
 
         alleleList = null;
-        int referenceIndex = this.referenceAlleleIndex;
+        final int referenceIndex = this.referenceAlleleIndex;
 
         @SuppressWarnings("unchecked")
         final List<A> newAlleles = ListUtils.union(alleles.asListOfAlleles(), allelesToAdd);

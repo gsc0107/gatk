@@ -21,7 +21,7 @@ public final class EventMapUnitTest extends BaseTest {
 
     @DataProvider(name = "MyDataProvider")
     public Object[][] makeMyDataProvider() {
-        List<Object[]> tests = new ArrayList<>();
+        final List<Object[]> tests = new ArrayList<>();
 
         final List<String> SNP_ALLELES = Arrays.asList("A", "C");
         final List<String> INS_ALLELES = Arrays.asList("A", "ACGTGA");
@@ -76,7 +76,7 @@ public final class EventMapUnitTest extends BaseTest {
 
     @DataProvider(name = "BlockSubstitutionsData")
     public Object[][] makeBlockSubstitutionsData() {
-        List<Object[]> tests = new ArrayList<>();
+        final List<Object[]> tests = new ArrayList<>();
 
         for ( int size = EventMap.MIN_NUMBER_OF_EVENTS_TO_COMBINE_INTO_BLOCK_SUBSTITUTION; size < 10; size++ ) {
             final String ref = StringUtils.repeat("A", size);
@@ -115,7 +115,7 @@ public final class EventMapUnitTest extends BaseTest {
 
     @DataProvider(name = "AdjacentSNPIndelTest")
     public Object[][] makeAdjacentSNPIndelTest() {
-        List<Object[]> tests = new ArrayList<>();
+        final List<Object[]> tests = new ArrayList<>();
 
         tests.add(new Object[]{"TT", "GCT", "1M1I1M", Arrays.asList(Arrays.asList("T", "GC"))});
         tests.add(new Object[]{"GCT", "TT", "1M1D1M", Arrays.asList(Arrays.asList("GC", "T"))});
@@ -148,7 +148,7 @@ public final class EventMapUnitTest extends BaseTest {
 
     @DataProvider(name = "MakeBlockData")
     public Object[][] makeMakeBlockData() {
-        List<Object[]> tests = new ArrayList<>();
+        final List<Object[]> tests = new ArrayList<>();
 
         tests.add(new Object[]{Arrays.asList("A", "G"), Arrays.asList("AGT", "A"), Arrays.asList("AGT", "G")});
         tests.add(new Object[]{Arrays.asList("A", "G"), Arrays.asList("A", "AGT"), Arrays.asList("A", "GGT")});

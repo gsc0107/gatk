@@ -88,7 +88,7 @@ public final class GATKVariantContextUtils {
             vcWriterBuilder = vcWriterBuilder.setReferenceDictionary(referenceDictionary);
         }
 
-        for (Options opt : options) {
+        for (final Options opt : options) {
             vcWriterBuilder = vcWriterBuilder.setOption(opt);
         }
 
@@ -389,7 +389,7 @@ public final class GATKVariantContextUtils {
         final List<Integer> lengths = new ArrayList<>();
 
         for ( final Allele allele : vc.getAlternateAlleles() ) {
-            Pair<int[],byte[]> result = getNumTandemRepeatUnits(refAlleleBases, Arrays.copyOfRange(allele.getBases(), 1, allele.length()), refBasesStartingAtVCWithoutPad.getBytes());
+            final Pair<int[],byte[]> result = getNumTandemRepeatUnits(refAlleleBases, Arrays.copyOfRange(allele.getBases(), 1, allele.length()), refBasesStartingAtVCWithoutPad.getBytes());
 
             final int[] repetitionCount = result.getLeft();
             // repetition count = 0 means allele is not a tandem expansion of context
@@ -418,7 +418,7 @@ public final class GATKVariantContextUtils {
            Consider case where ref =ATATAT and we have an insertion of ATAT. Natural description is (AT)3 -> (AT)2.
          */
 
-        byte[] longB;
+        final byte[] longB;
         // find first repeat unit based on either ref or alt, whichever is longer
         if (altBases.length > refBases.length)
             longB = altBases;
@@ -432,7 +432,7 @@ public final class GATKVariantContextUtils {
 
         final int[] repetitionCount = new int[2];
         // look for repetitions forward on the ref bases (i.e. starting at beginning of ref bases)
-        int repetitionsInRef = findNumberOfRepetitions(repeatUnit, refBases, true);
+        final int repetitionsInRef = findNumberOfRepetitions(repeatUnit, refBases, true);
         repetitionCount[0] = findNumberOfRepetitions(repeatUnit, ArrayUtils.addAll(refBases, remainingRefContext), true)-repetitionsInRef;
         repetitionCount[1] = findNumberOfRepetitions(repeatUnit, ArrayUtils.addAll(altBases, remainingRefContext), true)-repetitionsInRef;
 
@@ -449,7 +449,7 @@ public final class GATKVariantContextUtils {
      * @return                      Length of repeat unit, if string can be represented as tandem of substring (if it can't
      *                              be represented as one, it will be just the length of the input string)
      */
-    public static int findRepeatedSubstring(byte[] bases) {
+    public static int findRepeatedSubstring(final byte[] bases) {
 
         int repLength;
         for (repLength=1; repLength <=bases.length; repLength++) {
@@ -483,7 +483,7 @@ public final class GATKVariantContextUtils {
      *
      * @return  Number of repetitions (0 if testString is not a concatenation of n repeatUnit's, including the case of empty testString)
      */
-    public static int findNumberOfRepetitions(byte[] repeatUnit, byte[] testString, boolean leadingRepeats) {
+    public static int findNumberOfRepetitions(final byte[] repeatUnit, final byte[] testString, final boolean leadingRepeats) {
         Utils.nonNull(repeatUnit, "repeatUnit");
         Utils.nonNull(testString, "testString");
         Utils.validateArg(repeatUnit.length != 0, "empty repeatUnit");
@@ -643,7 +643,7 @@ public final class GATKVariantContextUtils {
                                              final String setKey,
                                              final boolean filteredAreUncalled,
                                              final boolean mergeInfoWithMaxAC ) {
-        int originalNumOfVCs = priorityListOfVCs == null ? 0 : priorityListOfVCs.size();
+        final int originalNumOfVCs = priorityListOfVCs == null ? 0 : priorityListOfVCs.size();
         return simpleMerge(unsortedVCs, priorityListOfVCs, originalNumOfVCs, filteredRecordMergeType, genotypeMergeOptions, annotateOrigin, printMessages, setKey, filteredAreUncalled, mergeInfoWithMaxAC);
     }
 
@@ -688,7 +688,7 @@ public final class GATKVariantContextUtils {
 
         final List<VariantContext> preFilteredVCs = sortVariantContextsByPriority(unsortedVCs, priorityListOfVCs, genotypeMergeOptions);
         // Make sure all variant contexts are padded with reference base in case of indels if necessary
-        List<VariantContext> VCs = preFilteredVCs.stream()
+        final List<VariantContext> VCs = preFilteredVCs.stream()
                 .filter(vc -> !filteredAreUncalled || vc.isNotFiltered())
                 .collect(Collectors.toList());
 
@@ -732,7 +732,7 @@ public final class GATKVariantContextUtils {
             nFiltered += vc.isFiltered() ? 1 : 0;
             if ( vc.isVariant() ) variantSources.add(vc.getSource());
 
-            AlleleMapper alleleMapping = resolveIncompatibleAlleles(refAllele, vc, alleles);
+            final AlleleMapper alleleMapping = resolveIncompatibleAlleles(refAllele, vc, alleles);
             remapped = remapped || alleleMapping.needsRemapping();
 
             alleles.addAll(alleleMapping.values());
@@ -755,7 +755,7 @@ public final class GATKVariantContextUtils {
                 depth += vc.getAttributeAsInt(VCFConstants.DEPTH_KEY, 0);
             if ( vc.hasID() ) rsIDs.add(vc.getID());
             if (mergeInfoWithMaxAC && vc.hasAttribute(VCFConstants.ALLELE_COUNT_KEY)) {
-                String rawAlleleCounts = vc.getAttributeAsString(VCFConstants.ALLELE_COUNT_KEY, null);
+                final String rawAlleleCounts = vc.getAttributeAsString(VCFConstants.ALLELE_COUNT_KEY, null);
                 // lets see if the string contains a "," separator
                 if (rawAlleleCounts.contains(VCFConstants.INFO_FIELD_ARRAY_SEPARATOR)) {
                     final List<String> alleleCountArray = Arrays.asList(rawAlleleCounts.substring(1, rawAlleleCounts.length() - 1).split(VCFConstants.INFO_FIELD_ARRAY_SEPARATOR));
@@ -824,7 +824,7 @@ public final class GATKVariantContextUtils {
 
 
         if ( annotateOrigin ) { // we care about where the call came from
-            String setValue;
+            final String setValue;
             if ( nFiltered == 0 && variantSources.size() == originalNumOfVCs ) // nothing was unfiltered
                 setValue = MERGE_INTERSECTION;
             else if ( nFiltered == VCs.size() )     // everything was filtered out
@@ -941,20 +941,20 @@ public final class GATKVariantContextUtils {
         return ! (allele.isReference() || allele.isSymbolic() );
     }
 
-    public static List<VariantContext> sortVariantContextsByPriority(Collection<VariantContext> unsortedVCs, List<String> priorityListOfVCs, GenotypeMergeType mergeOption ) {
+    public static List<VariantContext> sortVariantContextsByPriority(final Collection<VariantContext> unsortedVCs, final List<String> priorityListOfVCs, final GenotypeMergeType mergeOption ) {
         if ( mergeOption == GenotypeMergeType.PRIORITIZE && priorityListOfVCs == null )
             throw new IllegalArgumentException("Cannot merge calls by priority with a null priority list");
 
         if ( priorityListOfVCs == null || mergeOption == GenotypeMergeType.UNSORTED )
             return new ArrayList<>(unsortedVCs);
         else {
-            ArrayList<VariantContext> sorted = new ArrayList<>(unsortedVCs);
+            final ArrayList<VariantContext> sorted = new ArrayList<>(unsortedVCs);
             Collections.sort(sorted, new CompareByPriority(priorityListOfVCs));
             return sorted;
         }
     }
 
-    private static void mergeGenotypes(GenotypesContext mergedGenotypes, VariantContext oneVC, AlleleMapper alleleMapping, boolean uniquifySamples) {
+    private static void mergeGenotypes(final GenotypesContext mergedGenotypes, final VariantContext oneVC, final AlleleMapper alleleMapping, final boolean uniquifySamples) {
         //TODO: should we add a check for cases when the genotypeMergeOption is REQUIRE_UNIQUE
         for ( final Genotype g : oneVC.getGenotypes() ) {
             final String name = mergedSampleName(oneVC.getSource(), g.getSampleName(), uniquifySamples);
@@ -1010,7 +1010,7 @@ public final class GATKVariantContextUtils {
     }
 
 
-    public static String mergedSampleName(String trackName, String sampleName, boolean uniquify ) {
+    public static String mergedSampleName(final String trackName, final String sampleName, final boolean uniquify ) {
         return uniquify ? sampleName + "." + trackName : sampleName;
     }
 
@@ -1186,14 +1186,14 @@ public final class GATKVariantContextUtils {
     protected static class AlleleMapper {
         private VariantContext vc = null;
         private Map<Allele, Allele> map = null;
-        public AlleleMapper(VariantContext vc)          { this.vc = vc; }
-        public AlleleMapper(Map<Allele, Allele> map)    { this.map = map; }
+        public AlleleMapper(final VariantContext vc)          { this.vc = vc; }
+        public AlleleMapper(final Map<Allele, Allele> map)    { this.map = map; }
         public boolean needsRemapping()                 { return this.map != null; }
         public Collection<Allele> values()              { return map != null ? map.values() : vc.getAlleles(); }
-        public Allele remap(Allele a)                   { return map != null && map.containsKey(a) ? map.get(a) : a; }
+        public Allele remap(final Allele a)                   { return map != null && map.containsKey(a) ? map.get(a) : a; }
 
-        public List<Allele> remap(List<Allele> as) {
-            List<Allele> newAs = as.stream()
+        public List<Allele> remap(final List<Allele> as) {
+            final List<Allele> newAs = as.stream()
                     .map(this::remap)
                     .collect(Collectors.toList());
             return newAs;
@@ -1205,16 +1205,16 @@ public final class GATKVariantContextUtils {
         private static final long serialVersionUID = 0L;
 
         List<String> priorityListOfVCs;
-        public CompareByPriority(List<String> priorityListOfVCs) {
+        public CompareByPriority(final List<String> priorityListOfVCs) {
             this.priorityListOfVCs = priorityListOfVCs;
         }
 
-        private int getIndex(VariantContext vc) {
+        private int getIndex(final VariantContext vc) {
             return Utils.validIndex(priorityListOfVCs.indexOf(vc.getSource()), priorityListOfVCs.size());
         }
 
         @Override
-        public int compare(VariantContext vc1, VariantContext vc2) {
+        public int compare(final VariantContext vc1, final VariantContext vc2) {
             return Integer.valueOf(getIndex(vc1)).compareTo(getIndex(vc2));
         }
     }
@@ -1409,7 +1409,7 @@ public final class GATKVariantContextUtils {
      * @param filters the filters for each genotype
      */
     public static void setFilteredGenotypeToNocall(final VariantContextBuilder builder, final VariantContext vc,
-                                                   final boolean setFilteredGenotypesToNocall, BiFunction<VariantContext, Genotype, List<String>> filters) {
+                                                   final boolean setFilteredGenotypesToNocall, final BiFunction<VariantContext, Genotype, List<String>> filters) {
         Utils.nonNull(vc);
         Utils.nonNull(builder);
         Utils.nonNull(filters);
@@ -1420,7 +1420,7 @@ public final class GATKVariantContextUtils {
         boolean haveFilteredNoCallAlleles = false;
         for (final Genotype g : vc.getGenotypes()) {
             if (g.isCalled()) {
-                List<String> filterNames = filters.apply(vc,g);
+                final List<String> filterNames = filters.apply(vc,g);
                 if (!filterNames.isEmpty() && setFilteredGenotypesToNocall) {
                     haveFilteredNoCallAlleles = true;
                     genotypes.add(new GenotypeBuilder(g).filters(filterNames).alleles(GATKVariantContextUtils.noCallAlleles((g.getPloidy()))).make());

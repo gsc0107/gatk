@@ -31,8 +31,8 @@ public final class MathUtilsUnitTest extends BaseTest {
     public void testRunningAverage() {
         logger.warn("Executing testRunningAverage");
 
-        int[] numbers = {1, 2, 4, 5, 3, 128, 25678, -24};
-        MathUtils.RunningAverage r = new MathUtils.RunningAverage();
+        final int[] numbers = {1, 2, 4, 5, 3, 128, 25678, -24};
+        final MathUtils.RunningAverage r = new MathUtils.RunningAverage();
 
         for (final double b : numbers)
             r.add(b);
@@ -188,13 +188,13 @@ public final class MathUtilsUnitTest extends BaseTest {
     public void testLog10BinomialCoefficient() {
         // note that we can test the binomial coefficient calculation indirectly via Newton's identity
         // (1+z)^m = sum (m choose k)z^k
-        double[] z_vals = new double[]{0.999, 0.9, 0.8, 0.5, 0.2, 0.01, 0.0001};
-        int[] exponent = new int[]{5, 15, 25, 50, 100};
-        for (double z : z_vals) {
-            double logz = log10(z);
-            for (int exp : exponent) {
-                double expected_log = exp * log10(1 + z);
-                double[] newtonArray_log = new double[1 + exp];
+        final double[] z_vals = new double[]{0.999, 0.9, 0.8, 0.5, 0.2, 0.01, 0.0001};
+        final int[] exponent = new int[]{5, 15, 25, 50, 100};
+        for (final double z : z_vals) {
+            final double logz = log10(z);
+            for (final int exp : exponent) {
+                final double expected_log = exp * log10(1 + z);
+                final double[] newtonArray_log = new double[1 + exp];
                 for (int k = 0; k <= exp; k++) {
                     newtonArray_log[k] = MathUtils.log10BinomialCoefficient(exp, k) + k * logz;
                 }
@@ -340,9 +340,9 @@ public final class MathUtilsUnitTest extends BaseTest {
         Assert.assertEquals(log10Factorial(12342), 45138.2626503, 1e-1);
 
 
-        int small_start = 1;
-        int med_start = 200;
-        int large_start = 12342;
+        final int small_start = 1;
+        final int med_start = 200;
+        final int large_start = 12342;
         double log10Factorial_small = 0;
         double log10Factorial_middle = log10Factorial(med_start);
         double log10Factorial_large = log10Factorial(large_start);
@@ -359,10 +359,10 @@ public final class MathUtilsUnitTest extends BaseTest {
 
     @Test
     public void testSum() {
-        double[] doubleTest = {-1,0,1,2,3};
-        long[] longTest = {-1,0,1,2,3};
-        byte[] byteTest = {-1,0,1,2,3};
-        int[] intTest = {-1,0,1,2,3};
+        final double[] doubleTest = {-1,0,1,2,3};
+        final long[] longTest = {-1,0,1,2,3};
+        final byte[] byteTest = {-1,0,1,2,3};
+        final int[] intTest = {-1,0,1,2,3};
         Assert.assertEquals(MathUtils.sum(doubleTest), 5.0);
         Assert.assertEquals(MathUtils.sum(longTest), 5);
         Assert.assertEquals(MathUtils.sum(byteTest), 5);
@@ -371,21 +371,21 @@ public final class MathUtilsUnitTest extends BaseTest {
 
     @Test
     public void testSumLog10() {
-        double[] xLog10 = {log10(1.0/6), log10(2.0/6), log10(3.0/6)};
+        final double[] xLog10 = {log10(1.0/6), log10(2.0/6), log10(3.0/6)};
         Assert.assertEquals(MathUtils.sumLog10(xLog10), 1.0);
     }
 
     @Test
     public void testSumRange() {
-        long[] longTest = {-1,0,1,2,3};
-        double[] doubleTest = {-1,0,1,2,3};
+        final long[] longTest = {-1,0,1,2,3};
+        final double[] doubleTest = {-1,0,1,2,3};
         Assert.assertEquals(MathUtils.sum(longTest, 1, 4), 3);
         Assert.assertEquals(MathUtils.sum(doubleTest, 1, 4), 3.0);
     }
 
     @Test
     public void testMean() {
-        double[] test = {0,1,101};
+        final double[] test = {0,1,101};
         Assert.assertEquals(MathUtils.mean(test, 0, 0), Double.NaN);
         Assert.assertEquals(MathUtils.mean(test, 0, 1), 0.0);
         Assert.assertEquals(MathUtils.mean(test, 0, 3), 34.0);
@@ -393,8 +393,8 @@ public final class MathUtilsUnitTest extends BaseTest {
 
     @Test
     public void testPromote() {
-        int[] test = {0, 100, (int)1e10, (int)1e20};
-        double[] prom = MathUtils.promote(test);
+        final int[] test = {0, 100, (int)1e10, (int)1e20};
+        final double[] prom = MathUtils.promote(test);
         for (int i = 0; i < test.length; i++) {
             Assert.assertEquals(test[i], prom[i], 1e-14);
         }
@@ -448,7 +448,7 @@ public final class MathUtilsUnitTest extends BaseTest {
 
     @DataProvider(name = "rounding")
     public Object[][] makeRounding() {
-        List<Object[]> tests = new ArrayList<>();
+        final List<Object[]> tests = new ArrayList<>();
         tests.add(new Object[]{3.1415926, 8, 3.1415926});
         tests.add(new Object[]{3.1415926, 7, 3.1415926});
         tests.add(new Object[]{3.1415926, 6, 3.141593});
@@ -580,13 +580,13 @@ public final class MathUtilsUnitTest extends BaseTest {
     }
 
     @Test(dataProvider = "numbersForMedian")
-    public <T extends Number & Comparable<T>> void testMedian(List<T> values, double expected){
+    public <T extends Number & Comparable<T>> void testMedian(final List<T> values, final double expected){
         Assert.assertEquals(MathUtils.median(values), expected);
     }
 
     @Test(expectedExceptions = IllegalArgumentException.class)
     public void testMedianOfEmptyList(){
-        Collection<Integer> empty = Collections.emptyList();
+        final Collection<Integer> empty = Collections.emptyList();
         MathUtils.median(empty);
     }
 
@@ -640,18 +640,18 @@ public final class MathUtilsUnitTest extends BaseTest {
         Assert.assertEquals(MathUtils.log10sumLog10(new double[] {-15.7654, -17.0101, -17.9341}), Math.log10(Math.pow(10.0, -15.7654) + Math.pow(10.0, -17.0101) + Math.pow(10.0, -17.9341)), requiredPrecision);
 
         // magnitude of the sum doesn't matter, so we can combinatorially test this via partitions of unity
-        double[] mult_partitionFactor = new double[]{0.999,0.98,0.95,0.90,0.8,0.5,0.3,0.1,0.05,0.001};
-        int[] n_partitions = new int[] {2,4,8,16,32,64,128,256,512,1028};
-        for ( double alpha : mult_partitionFactor ) {
-            double log_alpha = Math.log10(alpha);
-            double log_oneMinusAlpha = Math.log10(1-alpha);
-            for ( int npart : n_partitions ) {
-                double[] multiplicative = new double[npart];
-                double[] equal = new double[npart];
+        final double[] mult_partitionFactor = new double[]{0.999,0.98,0.95,0.90,0.8,0.5,0.3,0.1,0.05,0.001};
+        final int[] n_partitions = new int[] {2,4,8,16,32,64,128,256,512,1028};
+        for ( final double alpha : mult_partitionFactor ) {
+            final double log_alpha = Math.log10(alpha);
+            final double log_oneMinusAlpha = Math.log10(1-alpha);
+            for ( final int npart : n_partitions ) {
+                final double[] multiplicative = new double[npart];
+                final double[] equal = new double[npart];
                 double remaining_log = 0.0;  // realspace = 1
                 for ( int i = 0 ; i < npart-1; i++ ) {
                     equal[i] = -Math.log10(npart);
-                    double piece = remaining_log + log_alpha; // take a*remaining, leaving remaining-a*remaining = (1-a)*remaining
+                    final double piece = remaining_log + log_alpha; // take a*remaining, leaving remaining-a*remaining = (1-a)*remaining
                     multiplicative[i] = piece;
                     remaining_log = remaining_log + log_oneMinusAlpha;
                 }
@@ -688,7 +688,7 @@ public final class MathUtilsUnitTest extends BaseTest {
         int x;
         int l;
 
-        public PartitionGenerator(int n) {
+        public PartitionGenerator(final int n) {
             this.n = n;
             this.y = n - 1;
             this.k = 1;
@@ -781,7 +781,7 @@ public final class MathUtilsUnitTest extends BaseTest {
         private int numCategories;
         private int[] next;
 
-        public NextCounts(int numCategories, int totalCounts) {
+        public NextCounts(final int numCategories, final int totalCounts) {
             partitioner = new PartitionGenerator(totalCounts);
             this.numCategories = numCategories;
             next = nextFromPartitioner();
@@ -795,7 +795,7 @@ public final class MathUtilsUnitTest extends BaseTest {
 
         @Override
         public int[] next() {
-            int[] toReturn = clone(next);
+            final int[] toReturn = clone(next);
             next = nextPermutation();
             if ( next == null ) {
                 next = nextFromPartitioner();
@@ -804,7 +804,7 @@ public final class MathUtilsUnitTest extends BaseTest {
             return toReturn;
         }
 
-        private int[] clone(int[] arr) {
+        private int[] clone(final int[] arr) {
             return Arrays.copyOf(arr, arr.length);
         }
 
@@ -818,7 +818,7 @@ public final class MathUtilsUnitTest extends BaseTest {
                 if ( nxt.size() > numCategories ) {
                     return null;
                 } else {
-                    int[] buf = new int[numCategories];
+                    final int[] buf = new int[numCategories];
                     for ( int idx = 0; idx < nxt.size(); idx++ ) {
                         buf[idx] = nxt.get(idx);
                     }
@@ -836,7 +836,7 @@ public final class MathUtilsUnitTest extends BaseTest {
 
     }
 
-    public static int[] nextPermutation(int[] next) {
+    public static int[] nextPermutation(final int[] next) {
         // the counts can swap among each other. The int[] is originally in ascending order
         // this generates the next array in lexicographic order descending
 
@@ -859,12 +859,12 @@ public final class MathUtilsUnitTest extends BaseTest {
             }
         }
 
-        int val = next[gt];
+        final int val = next[gt];
         next[gt] = next[largestLessThan];
         next[largestLessThan] = val;
 
         // reverse the tail of the array
-        int[] newTail = new int[next.length-gt-1];
+        final int[] newTail = new int[next.length-gt-1];
         int ctr = 0;
         for ( int idx = next.length-1; idx > gt; idx-- ) {
             newTail[ctr++] = next[idx];
@@ -879,10 +879,10 @@ public final class MathUtilsUnitTest extends BaseTest {
 
     // man. All this to test dirichlet.
 
-    private double[] unwrap(List<Double> stuff) {
-        double[] unwrapped = new double[stuff.size()];
+    private double[] unwrap(final List<Double> stuff) {
+        final double[] unwrapped = new double[stuff.size()];
         int idx = 0;
-        for ( Double d : stuff ) {
+        for ( final Double d : stuff ) {
             unwrapped[idx++] = d == null ? 0.0 : d;
         }
 
@@ -892,7 +892,7 @@ public final class MathUtilsUnitTest extends BaseTest {
     @Test
     public void testNextPermutation() {
         int[] arr = new int[]{1,2,3,4};
-        int[][] gens = new int[][] {
+        final int[][] gens = new int[][] {
                 new int[]{1,2,3,4},
                 new int[]{1,2,4,3},
                 new int[]{1,3,2,4},
@@ -926,8 +926,8 @@ public final class MathUtilsUnitTest extends BaseTest {
         }
     }
 
-    private double[] addEpsilon(double[] counts) {
-        double[] d = new double[counts.length];
+    private double[] addEpsilon(final double[] counts) {
+        final double[] d = new double[counts.length];
         for ( int i = 0; i < counts.length; i ++ ) {
             d[i] = counts[i] + 1e-3;
         }
@@ -936,7 +936,7 @@ public final class MathUtilsUnitTest extends BaseTest {
 
     @Test
     public void testDirichletMultinomial() {
-        List<double[]> testAlleles = Arrays.asList(
+        final List<double[]> testAlleles = Arrays.asList(
                 new double[]{80,240},
                 new double[]{1,10000},
                 new double[]{0,500},
@@ -950,18 +950,18 @@ public final class MathUtilsUnitTest extends BaseTest {
 
         Assert.assertTrue(! Double.isInfinite(MathUtils.log10Gamma(1e-3)) && ! Double.isNaN(MathUtils.log10Gamma(1e-3)));
 
-        int[] numAlleleSampled = new int[]{2,5,10,20,25};
-        for ( double[] alleles : testAlleles ) {
-            for ( int count : numAlleleSampled ) {
+        final int[] numAlleleSampled = new int[]{2,5,10,20,25};
+        for ( final double[] alleles : testAlleles ) {
+            for ( final int count : numAlleleSampled ) {
                 // test that everything sums to one. Generate all multinomial draws
-                List<Double> likelihoods = new ArrayList<>(100000);
-                NextCounts generator = new NextCounts(alleles.length,count);
+                final List<Double> likelihoods = new ArrayList<>(100000);
+                final NextCounts generator = new NextCounts(alleles.length,count);
                 double maxLog = Double.MIN_VALUE;
                 //List<String> countLog = new ArrayList<String>(200);
                 while ( generator.hasNext() ) {
-                    int[] thisCount = generator.next();
+                    final int[] thisCount = generator.next();
                     //countLog.add(Arrays.toString(thisCount));
-                    Double likelihood = MathUtils.dirichletMultinomial(addEpsilon(alleles),thisCount);
+                    final Double likelihood = MathUtils.dirichletMultinomial(addEpsilon(alleles),thisCount);
                     Assert.assertTrue(! Double.isNaN(likelihood) && ! Double.isInfinite(likelihood),
                             String.format("Likelihood for counts %s and nAlleles %d was %s",
                                     Arrays.toString(thisCount),alleles.length,Double.toString(likelihood)));

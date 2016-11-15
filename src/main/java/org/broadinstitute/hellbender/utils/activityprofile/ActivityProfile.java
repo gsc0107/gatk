@@ -407,7 +407,7 @@ public class ActivityProfile {
         double minP = Double.MAX_VALUE;
 
         for ( int i = minI; i >= minRegionSize - 1; i-- ) {
-            double cur = getProb(i);
+            final double cur = getProb(i);
             if ( cur < minP && isMinimum(i) ) {
                 minP = cur;
                 minI = i;

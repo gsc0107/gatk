@@ -48,7 +48,7 @@ public final class ArtificialBAMBuilderUnitTest extends BaseTest {
     }
 
     @Test(dataProvider = "ArtificialBAMBuilderUnitTestProvider")
-    public void testBamProvider(final ArtificialBAMBuilder bamBuilder, int readLength, int skips, int start, int nSamples, int nReadsPerLocus, int nLoci) throws IOException {
+    public void testBamProvider(final ArtificialBAMBuilder bamBuilder, final int readLength, final int skips, final int start, final int nSamples, final int nReadsPerLocus, final int nLoci) throws IOException {
         Assert.assertEquals(bamBuilder.getReadLength(), readLength);
         Assert.assertEquals(bamBuilder.getSkipNLoci(), skips);
         Assert.assertEquals(bamBuilder.getAlignmentStart(), start);

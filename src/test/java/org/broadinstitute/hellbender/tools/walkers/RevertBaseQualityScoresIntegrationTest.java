@@ -29,7 +29,7 @@ public class RevertBaseQualityScoresIntegrationTest extends CommandLineProgramTe
 
     private static boolean hasOriginalQualScores( final File bam ) throws IOException {
         try ( final SamReader reader = SamReaderFactory.makeDefault().open(bam) ) {
-            for ( SAMRecord read : reader ) {
+            for ( final SAMRecord read : reader ) {
                 final byte[] originalBaseQualities = read.getOriginalBaseQualities();
                 Assert.assertNotNull(originalBaseQualities);
                 final byte[] baseQualities = read.getBaseQualities();

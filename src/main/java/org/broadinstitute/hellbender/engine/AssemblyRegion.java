@@ -549,7 +549,7 @@ public final class AssemblyRegion implements Locatable {
         final ActivityProfile activityProfile = new BandPassActivityProfile(null, maxProbPropagationDistance, activeProbThreshold, BandPassActivityProfile.MAX_FILTER_SIZE, BandPassActivityProfile.DEFAULT_SIGMA, readsHeader);
 
         // First, use our activity profile to determine the bounds of each assembly region:
-        List<AssemblyRegion> assemblyRegions = determineAssemblyRegionBounds(shard, locusIterator, activityProfile, readsHeader, referenceContext, features, evaluator, minRegionSize, maxRegionSize, assemblyRegionPadding);
+        final List<AssemblyRegion> assemblyRegions = determineAssemblyRegionBounds(shard, locusIterator, activityProfile, readsHeader, referenceContext, features, evaluator, minRegionSize, maxRegionSize, assemblyRegionPadding);
 
         // Then, fill the assembly regions with overlapping reads from the shard:
         final PeekableIterator<GATKRead> reads = new PeekableIterator<>(windowReads.iterator());
@@ -587,7 +587,7 @@ public final class AssemblyRegion implements Locatable {
                                                                        final int assemblyRegionPadding ) {
 
         // Use the provided activity profile to determine the bounds of each assembly region:
-        List<AssemblyRegion> assemblyRegions = new ArrayList<>();
+        final List<AssemblyRegion> assemblyRegions = new ArrayList<>();
         for ( final AlignmentContext pileup : locusIterator ) {
             if ( ! activityProfile.isEmpty() ) {
                 final boolean forceConversion = pileup.getLocation().getStart() != activityProfile.getEnd() + 1;

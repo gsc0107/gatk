@@ -19,17 +19,17 @@ public final class ReferenceInputArgumentCollectionTest {
 
     @Test
     public void testOptionalIsOptional(){
-        String[] args = {};
-        WithOptionalReferenceCollection optional = new WithOptionalReferenceCollection();
-        CommandLineParser clp = new CommandLineParser(optional);
+        final String[] args = {};
+        final WithOptionalReferenceCollection optional = new WithOptionalReferenceCollection();
+        final CommandLineParser clp = new CommandLineParser(optional);
         clp.parseArguments(System.out, args);
     }
 
     @Test(expectedExceptions = UserException.CommandLineException.class)
     public void testRequiredIsRequired(){
-        String[] args = {};
-        WithRequiredReferenceCollection required = new WithRequiredReferenceCollection();
-        CommandLineParser clp = new CommandLineParser(required);
+        final String[] args = {};
+        final WithRequiredReferenceCollection required = new WithRequiredReferenceCollection();
+        final CommandLineParser clp = new CommandLineParser(required);
         clp.parseArguments(System.out, args);
     }
 }

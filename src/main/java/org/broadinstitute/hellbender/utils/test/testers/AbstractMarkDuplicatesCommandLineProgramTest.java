@@ -476,8 +476,8 @@ public abstract class AbstractMarkDuplicatesCommandLineProgramTest extends Comma
     @Test
     public void testStackOverFlowPairSetSwap() {
         final AbstractMarkDuplicatesTester tester = getTester();
-        File input = new File(TEST_DATA_DIR, "markDuplicatesWithMateCigar.pairSet.swap.sam");
-        SamReader reader = SamReaderFactory.makeDefault().open(input);
+        final File input = new File(TEST_DATA_DIR, "markDuplicatesWithMateCigar.pairSet.swap.sam");
+        final SamReader reader = SamReaderFactory.makeDefault().open(input);
         tester.setHeader(reader.getFileHeader());
         for (final SAMRecord record : reader) {
             tester.addRecord(record);
@@ -505,11 +505,11 @@ public abstract class AbstractMarkDuplicatesCommandLineProgramTest extends Comma
 
         // Create the pathology
         try (CloseableIterator<SAMRecord> iterator = tester.getRecordIterator()) {
-            int[] qualityOffset = {20, 30, 10, 40}; // creates an interesting pathological ordering
+            final int[] qualityOffset = {20, 30, 10, 40}; // creates an interesting pathological ordering
             int index = 0;
             while (iterator.hasNext()) {
                 final SAMRecord record = iterator.next();
-                byte[] quals = new byte[record.getReadLength()];
+                final byte[] quals = new byte[record.getReadLength()];
                 for (int i = 0; i < record.getReadLength(); i++) {
                     quals[i] = (byte) (qualityOffset[index] + 10);
                 }
@@ -601,7 +601,7 @@ public abstract class AbstractMarkDuplicatesCommandLineProgramTest extends Comma
         final File metricsFile = createTempFile("markdups_metrics", ".txt");
         final File outputFile = createTempFile("markdups", ".bam");
 
-        ArgumentsBuilder args = new ArgumentsBuilder();
+        final ArgumentsBuilder args = new ArgumentsBuilder();
         args.add("-"+ StandardArgumentDefinitions.INPUT_SHORT_NAME);
         args.add(input.getPath());
         args.add("-"+StandardArgumentDefinitions.OUTPUT_SHORT_NAME);

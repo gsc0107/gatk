@@ -29,7 +29,7 @@ public final class MiniClusterUtils {
      * @return a unique path in the filesystem on the given cluster
      * @throws IOException
      */
-    public static Path getTempPath(MiniDFSCluster cluster, String prefix, String extension) throws IOException {
+    public static Path getTempPath(final MiniDFSCluster cluster, final String prefix, final String extension) throws IOException {
         return new Path(cluster.getFileSystem().getWorkingDirectory(), prefix + "_" + UUID.randomUUID() + extension);
     }
 
@@ -37,14 +37,14 @@ public final class MiniClusterUtils {
      * @return path to the working directory in the given cluster
      * @throws IOException
      */
-    public static Path getWorkingDir(MiniDFSCluster cluster) throws IOException {
+    public static Path getWorkingDir(final MiniDFSCluster cluster) throws IOException {
         return cluster.getFileSystem().getWorkingDirectory();
     }
 
     /**
      * shut down the cluster
      */
-    public static void stopCluster(MiniDFSCluster cluster){
+    public static void stopCluster(final MiniDFSCluster cluster){
         if(cluster != null){
             cluster.shutdown(true);
         }
@@ -55,7 +55,7 @@ public final class MiniClusterUtils {
      * @param test a function to run on the cluster, this should indicate success or failure by usine {@link Assert}
      * @throws Exception
      */
-    public static void runOnIsolatedMiniCluster(MiniClusterTest test) throws Exception {
+    public static void runOnIsolatedMiniCluster(final MiniClusterTest test) throws Exception {
         MiniDFSCluster cluster = null;
         try {
             cluster = getMiniCluster();

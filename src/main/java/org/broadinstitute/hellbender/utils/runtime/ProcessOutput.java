@@ -12,7 +12,7 @@ public final class ProcessOutput {
      * @param stdout    The capture of stdout as defined by the stdout OutputStreamSettings.
      * @param stderr    The capture of stderr as defined by the stderr OutputStreamSettings.
      */
-    public ProcessOutput(int exitValue, StreamOutput stdout, StreamOutput stderr) {
+    public ProcessOutput(final int exitValue, final StreamOutput stdout, final StreamOutput stderr) {
         this.exitValue = exitValue;
         this.stdout = stdout;
         this.stderr = stderr;

@@ -60,14 +60,14 @@ public class CommandLineParserPluginUnitTest {
         }
 
         @Override
-        public Object getInstance(Class<?> pluggableClass) throws IllegalAccessException, InstantiationException {
+        public Object getInstance(final Class<?> pluggableClass) throws IllegalAccessException, InstantiationException {
             final TestPluginBase plugin = (TestPluginBase) pluggableClass.newInstance();
             pluginInstances.put(pluggableClass.getSimpleName(), plugin);
             return plugin;
         }
 
         @Override
-        public Set<String> getAllowedValuesForDescriptorArgument(String longArgName) {
+        public Set<String> getAllowedValuesForDescriptorArgument(final String longArgName) {
             if (longArgName.equals(pluginNamesArgName) ){
                 return pluginInstances.keySet();
             }
@@ -75,16 +75,16 @@ public class CommandLineParserPluginUnitTest {
 
         }
         @Override
-        public boolean isDependentArgumentAllowed(Class<?> targetPluginClass) {
+        public boolean isDependentArgumentAllowed(final Class<?> targetPluginClass) {
             return true;
         }
 
         @Override
         public void validateArguments() {
             // remove the un-specified plugin instances
-            Map<String, TestPluginBase> requestedPlugins = new HashMap<>();
+            final Map<String, TestPluginBase> requestedPlugins = new HashMap<>();
             pluginNames.forEach(s -> {
-                TestPluginBase trf = pluginInstances.get(s);
+                final TestPluginBase trf = pluginInstances.get(s);
                 if (null == trf) {
                     throw new UserException.CommandLineException("Unrecognized test plugin name: " + s);
                 }
@@ -100,7 +100,7 @@ public class CommandLineParserPluginUnitTest {
 
         @Override
         public List<TestPluginBase> getAllInstances() {
-            List<TestPluginBase> pluginList = new ArrayList<>();
+            final List<TestPluginBase> pluginList = new ArrayList<>();
             pluginList.addAll(pluginInstances.values());
             return pluginList;
         }
@@ -125,30 +125,30 @@ public class CommandLineParserPluginUnitTest {
     @Test(dataProvider = "pluginTests")
     public void testPlugin(final String[] args, final int expectedInstanceCount){
 
-        PlugInTest plugInTest = new PlugInTest();
+        final PlugInTest plugInTest = new PlugInTest();
         final CommandLineParser clp = new CommandLineParser(
                 plugInTest,
                 Collections.singletonList(new TestPluginDescriptor()));
 
         Assert.assertTrue(clp.parseArguments(System.err, args));
 
-        TestPluginDescriptor pid = clp.getPluginDescriptor(CommandLineParserPluginUnitTest.TestPluginDescriptor.class);
+        final TestPluginDescriptor pid = clp.getPluginDescriptor(CommandLineParserPluginUnitTest.TestPluginDescriptor.class);
         Assert.assertNotNull(pid);
 
-        List<TestPluginBase> pluginBases = pid.getAllInstances();
+        final List<TestPluginBase> pluginBases = pid.getAllInstances();
 
         Assert.assertEquals(pluginBases.size(), expectedInstanceCount);
     }
 
     @Test
     public void testPluginUsage() {
-        PlugInTest plugInTest = new PlugInTest();
+        final PlugInTest plugInTest = new PlugInTest();
         final CommandLineParser clp = new CommandLineParser(
                 plugInTest,
                 Collections.singletonList(new TestPluginDescriptor()));
         final String out = BaseTest.captureStderr(() -> clp.usage(System.err, true)); // with common args
 
-        TestPluginDescriptor pid = clp.getPluginDescriptor(CommandLineParserPluginUnitTest.TestPluginDescriptor.class);
+        final TestPluginDescriptor pid = clp.getPluginDescriptor(CommandLineParserPluginUnitTest.TestPluginDescriptor.class);
         Assert.assertNotNull(pid);
 
         // Make sure TestPlugin.argumentName is listed as conditional
@@ -207,14 +207,14 @@ public class CommandLineParserPluginUnitTest {
         }
 
         @Override
-        public Object getInstance(Class<?> pluggableClass) throws IllegalAccessException, InstantiationException {
+        public Object getInstance(final Class<?> pluggableClass) throws IllegalAccessException, InstantiationException {
             final TestPluginArgCollisionBase plugin = (TestPluginArgCollisionBase) pluggableClass.newInstance();
             pluginInstances.put(pluggableClass.getSimpleName(), plugin);
             return plugin;
         }
 
         @Override
-        public Set<String> getAllowedValuesForDescriptorArgument(String longArgName) {
+        public Set<String> getAllowedValuesForDescriptorArgument(final String longArgName) {
             if (longArgName.equals(pluginNamesArgName) ){
                 return pluginInstances.keySet();
             }
@@ -222,16 +222,16 @@ public class CommandLineParserPluginUnitTest {
 
         }
         @Override
-        public boolean isDependentArgumentAllowed(Class<?> targetPluginClass) {
+        public boolean isDependentArgumentAllowed(final Class<?> targetPluginClass) {
             return true;
         }
 
         @Override
         public void validateArguments() {
             // remove the un-specified plugin instances
-            Map<String, TestPluginArgCollisionBase> requestedPlugins = new HashMap<>();
+            final Map<String, TestPluginArgCollisionBase> requestedPlugins = new HashMap<>();
             pluginNames.forEach(s -> {
-                TestPluginArgCollisionBase trf = pluginInstances.get(s);
+                final TestPluginArgCollisionBase trf = pluginInstances.get(s);
                 if (null == trf) {
                     throw new UserException.CommandLineException("Unrecognized test plugin name: " + s);
                 }
@@ -247,7 +247,7 @@ public class CommandLineParserPluginUnitTest {
 
         @Override
         public List<TestPluginArgCollisionBase> getAllInstances() {
-            List<TestPluginArgCollisionBase> pluginList = new ArrayList<>();
+            final List<TestPluginArgCollisionBase> pluginList = new ArrayList<>();
             pluginList.addAll(pluginInstances.values());
             return pluginList;
         }
@@ -272,7 +272,7 @@ public class CommandLineParserPluginUnitTest {
     @Test(dataProvider = "pluginCollisionTests", expectedExceptions=GATKException.CommandLineParserInternalException.class)
     public void testPluginCollision(final String[] args, final int expectedInstanceCount){
 
-        PlugInCollisionTest plugInCollisionTest = new PlugInCollisionTest();
+        final PlugInCollisionTest plugInCollisionTest = new PlugInCollisionTest();
         new CommandLineParser(
                 plugInCollisionTest,
                 Collections.singletonList(new TestPluginArgCollisionDescriptor()));

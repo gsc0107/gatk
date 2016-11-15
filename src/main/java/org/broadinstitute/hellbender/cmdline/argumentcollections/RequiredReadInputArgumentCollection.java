@@ -20,8 +20,8 @@ public final class RequiredReadInputArgumentCollection extends ReadInputArgument
 
     @Override
     public List<File> getReadFiles() {
-        ArrayList<File> ret = new ArrayList<>();
-        for (String fn : readFilesNames) {
+        final ArrayList<File> ret = new ArrayList<>();
+        for (final String fn : readFilesNames) {
             ret.add(new File(fn));
         }
         return ret;
@@ -29,8 +29,8 @@ public final class RequiredReadInputArgumentCollection extends ReadInputArgument
 
     @Override
     public List<Path> getReadPaths() {
-        ArrayList<Path> ret = new ArrayList<>();
-        for (String fn : readFilesNames) {
+        final ArrayList<Path> ret = new ArrayList<>();
+        for (final String fn : readFilesNames) {
             ret.add(IOUtils.getPath(fn));
         }
         return ret;

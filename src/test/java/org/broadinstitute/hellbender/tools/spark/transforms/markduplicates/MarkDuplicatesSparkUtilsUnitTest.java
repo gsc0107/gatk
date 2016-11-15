@@ -40,29 +40,29 @@ public class MarkDuplicatesSparkUtilsUnitTest extends BaseTest {
 
     @Test(groups = "spark")
     public void testSpanReadsByKeyWithAlternatingGroups() {
-        SAMFileHeader header = ArtificialReadUtils.createArtificialSamHeaderWithGroups(1, 1, 1000, 2);
-        GATKRead read1 = ArtificialReadUtils.createArtificialRead(header, "N", 0, 1, 20);
+        final SAMFileHeader header = ArtificialReadUtils.createArtificialSamHeaderWithGroups(1, 1, 1000, 2);
+        final GATKRead read1 = ArtificialReadUtils.createArtificialRead(header, "N", 0, 1, 20);
         read1.setReadGroup(getReadGroupId(header, 0));
-        GATKRead read2 = ArtificialReadUtils.createArtificialRead(header, "N", 0, 2, 20);
+        final GATKRead read2 = ArtificialReadUtils.createArtificialRead(header, "N", 0, 2, 20);
         read2.setReadGroup(getReadGroupId(header, 1));
-        GATKRead read3 = ArtificialReadUtils.createArtificialRead(header, "N", 0, 3, 20);
+        final GATKRead read3 = ArtificialReadUtils.createArtificialRead(header, "N", 0, 3, 20);
         read3.setReadGroup(getReadGroupId(header, 0));
-        GATKRead read4 = ArtificialReadUtils.createArtificialRead(header, "N", 0, 4, 20);
+        final GATKRead read4 = ArtificialReadUtils.createArtificialRead(header, "N", 0, 4, 20);
         read4.setReadGroup(getReadGroupId(header, 1));
 
-        String key1 = ReadsKey.keyForRead(header, read1);
-        String key2 = ReadsKey.keyForRead(header, read2);
-        String key3 = ReadsKey.keyForRead(header, read3);
-        String key4 = ReadsKey.keyForRead(header, read4);
+        final String key1 = ReadsKey.keyForRead(header, read1);
+        final String key2 = ReadsKey.keyForRead(header, read2);
+        final String key3 = ReadsKey.keyForRead(header, read3);
+        final String key4 = ReadsKey.keyForRead(header, read4);
 
         Assert.assertEquals("ReadGroup0|N", key1);
         Assert.assertEquals("ReadGroup1|N", key2);
         Assert.assertEquals("ReadGroup0|N", key3);
         Assert.assertEquals("ReadGroup1|N", key4);
 
-        JavaSparkContext ctx = SparkContextFactory.getTestSparkContext();
-        JavaRDD<GATKRead> reads = ctx.parallelize(ImmutableList.of(read1, read2, read3, read4), 1);
-        JavaPairRDD<String, Iterable<GATKRead>> groupedReads = MarkDuplicatesSparkUtils.spanReadsByKey(header, reads);
+        final JavaSparkContext ctx = SparkContextFactory.getTestSparkContext();
+        final JavaRDD<GATKRead> reads = ctx.parallelize(ImmutableList.of(read1, read2, read3, read4), 1);
+        final JavaPairRDD<String, Iterable<GATKRead>> groupedReads = MarkDuplicatesSparkUtils.spanReadsByKey(header, reads);
         Assert.assertEquals(groupedReads.collect(),
                 ImmutableList.of(pairIterable(key1, read1, read3), pairIterable(key2, read2, read4)));
     }
@@ -71,21 +71,21 @@ public class MarkDuplicatesSparkUtilsUnitTest extends BaseTest {
         return header.getReadGroups().get(index).getReadGroupId();
     }
 
-    private static <K, V> void check(Iterator<Tuple2<K, V>> it, List<Tuple2<K, Iterable<V>>> expected) {
-        Iterator<Tuple2<K, Iterable<V>>> spanning = MarkDuplicatesSparkUtils.spanningIterator(it);
-        ArrayList<Tuple2<K, Iterable<V>>> actual = Lists.newArrayList(spanning);
+    private static <K, V> void check(final Iterator<Tuple2<K, V>> it, final List<Tuple2<K, Iterable<V>>> expected) {
+        final Iterator<Tuple2<K, Iterable<V>>> spanning = MarkDuplicatesSparkUtils.spanningIterator(it);
+        final ArrayList<Tuple2<K, Iterable<V>>> actual = Lists.newArrayList(spanning);
         Assert.assertEquals(actual, expected);
     }
 
-    private static <K, V> Tuple2<K, V> pair(K key, V value) {
+    private static <K, V> Tuple2<K, V> pair(final K key, final V value) {
         return new Tuple2<>(key, value);
     }
 
-    private static Tuple2<Integer, Iterable<String>> pairIterable(int i, String... s) {
+    private static Tuple2<Integer, Iterable<String>> pairIterable(final int i, final String... s) {
         return new Tuple2<>(i, ImmutableList.copyOf(s));
     }
 
-    private static Tuple2<String, Iterable<GATKRead>> pairIterable(String key, GATKRead... reads) {
+    private static Tuple2<String, Iterable<GATKRead>> pairIterable(final String key, final GATKRead... reads) {
         return new Tuple2<>(key, ImmutableList.copyOf(reads));
     }
 

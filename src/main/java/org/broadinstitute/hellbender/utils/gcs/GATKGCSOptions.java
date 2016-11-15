@@ -26,19 +26,19 @@ import java.security.GeneralSecurityException;
 public interface GATKGCSOptions extends GCSOptions, DataflowPipelineOptions {
 
     public static class Methods {
-        public static void setOfflineAuth(GATKGCSOptions opts, GenomicsFactory.OfflineAuth auth) throws IOException {
-            ByteArrayOutputStream os = new ByteArrayOutputStream();
+        public static void setOfflineAuth(final GATKGCSOptions opts, final GenomicsFactory.OfflineAuth auth) throws IOException {
+            final ByteArrayOutputStream os = new ByteArrayOutputStream();
             try (ObjectOutputStream oos = new ObjectOutputStream(os)) {
                 oos.writeObject(auth);
                 oos.flush();
             }
             opts.setSerializedOfflineAuth(os.toByteArray());
         }
-        public static GenomicsFactory.OfflineAuth getOfflineAuth(GATKGCSOptions opts) throws IOException, ClassNotFoundException, GeneralSecurityException {
-            byte[] serialized = opts.getSerializedOfflineAuth();
+        public static GenomicsFactory.OfflineAuth getOfflineAuth(final GATKGCSOptions opts) throws IOException, ClassNotFoundException, GeneralSecurityException {
+            final byte[] serialized = opts.getSerializedOfflineAuth();
             if (null==serialized && opts.getApiKey()!=null) {
                 // fall back to using the API key only (even if a secrets file was also specified).
-                GenomicsFactory.Builder builder =
+                final GenomicsFactory.Builder builder =
                         GenomicsFactory.builder(opts.getAppName()).setNumberOfRetries(opts.getNumberOfRetries());
                 return builder.build().getOfflineAuthFromApiKey(opts.getApiKey());
             }
@@ -47,8 +47,8 @@ public interface GATKGCSOptions extends GCSOptions, DataflowPipelineOptions {
             }
         }
 
-        public static Storage.Objects createStorageClient(GATKGCSOptions opts) throws GeneralSecurityException, IOException, ClassNotFoundException {
-            GenomicsFactory.OfflineAuth auth = getOfflineAuth(opts);
+        public static Storage.Objects createStorageClient(final GATKGCSOptions opts) throws GeneralSecurityException, IOException, ClassNotFoundException {
+            final GenomicsFactory.OfflineAuth auth = getOfflineAuth(opts);
             return GCSOptions.Methods.createStorageClient(opts.as(GCSOptions.class), auth);
         }
 

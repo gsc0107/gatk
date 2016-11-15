@@ -36,7 +36,7 @@ final class VariantDatum {
 
     public static final Comparator<VariantDatum> VariantDatumLODComparator = (datum1, datum2) -> Double.compare(datum1.lod, datum2.lod);
 
-    public static int countCallsAtTruth(final List<VariantDatum> data, double minLOD ) {
+    public static int countCallsAtTruth(final List<VariantDatum> data, final double minLOD ) {
         return (int)data.stream().filter(d -> (d.atTruthSite && d.lod >= minLOD)).count(); //XXX cast to int for compatibility
     }
 

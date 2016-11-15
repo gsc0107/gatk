@@ -222,7 +222,7 @@ public abstract class GATKSparkTool extends SparkCommandLineProgram {
         if (readInput.endsWith(".adam")) {
             try {
                 return readsSource.getADAMReads(readInput, intervals, getHeaderForReads());
-            } catch (IOException e) {
+            } catch (final IOException e) {
                 throw new UserException("Failed to read ADAM file " + readInput, e);
             }
 
@@ -242,13 +242,13 @@ public abstract class GATKSparkTool extends SparkCommandLineProgram {
      * @param outputFile path to the output bam/cram.
      * @param reads reads to write.
      */
-    public void writeReads(final JavaSparkContext ctx, final String outputFile, JavaRDD<GATKRead> reads) {
+    public void writeReads(final JavaSparkContext ctx, final String outputFile, final JavaRDD<GATKRead> reads) {
         try {
             ReadsSparkSink.writeReads(ctx, outputFile,
                     hasReference() ? referenceArguments.getReferenceFile().getAbsolutePath() : null,
                     reads, readsHeader, shardedOutput ? ReadsWriteFormat.SHARDED : ReadsWriteFormat.SINGLE,
                     getRecommendedNumReducers());
-        } catch (IOException e) {
+        } catch (final IOException e) {
             throw new GATKException("unable to write bam: " + e);
         }
     }
@@ -342,7 +342,7 @@ public abstract class GATKSparkTool extends SparkCommandLineProgram {
     }
 
     @Override
-    protected void runPipeline( JavaSparkContext sparkContext ) {
+    protected void runPipeline(final JavaSparkContext sparkContext ) {
         initializeToolInputs(sparkContext);
         validateToolInputs();
         runTool(sparkContext);

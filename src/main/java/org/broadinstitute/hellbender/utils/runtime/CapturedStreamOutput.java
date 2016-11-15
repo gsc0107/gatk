@@ -31,13 +31,13 @@ public final class CapturedStreamOutput extends StreamOutput {
      * @param processStream  Stream to capture output.
      * @param standardStream Stream to write debug output.
      */
-    public CapturedStreamOutput(OutputStreamSettings settings, InputStream processStream, PrintStream standardStream) {
+    public CapturedStreamOutput(final OutputStreamSettings settings, final InputStream processStream, final PrintStream standardStream) {
         this.processStream = processStream;
-        int bufferSize = settings.getBufferSize();
+        final int bufferSize = settings.getBufferSize();
         this.bufferStream = (bufferSize < 0) ? new ByteArrayOutputStream() : new ByteArrayOutputStream(bufferSize);
 
-        for (StreamLocation location : settings.getStreamLocations()) {
-            OutputStream outputStream;
+        for (final StreamLocation location : settings.getStreamLocations()) {
+            final OutputStream outputStream;
             switch (location) {
                 case Buffer:
                     if (bufferSize < 0) {
@@ -59,7 +59,7 @@ public final class CapturedStreamOutput extends StreamOutput {
                 case File:
                     try {
                         outputStream = new FileOutputStream(settings.getOutputFile(), settings.isAppendFile());
-                    } catch (IOException e) {
+                    } catch (final IOException e) {
                         throw new UserException.BadInput(e.getMessage());
                     }
                     break;
@@ -91,15 +91,15 @@ public final class CapturedStreamOutput extends StreamOutput {
      */
     public void readAndClose() throws IOException {
         try {
-            byte[] buf = new byte[4096];
+            final byte[] buf = new byte[4096];
             int readCount;
             while ((readCount = processStream.read(buf)) >= 0)
-                for (OutputStream outputStream : this.outputStreams.values()) {
+                for (final OutputStream outputStream : this.outputStreams.values()) {
                     outputStream.write(buf, 0, readCount);
                 }
         } finally {
-            for (StreamLocation location : this.outputStreams.keySet()) {
-                OutputStream outputStream = this.outputStreams.get(location);
+            for (final StreamLocation location : this.outputStreams.keySet()) {
+                final OutputStream outputStream = this.outputStreams.get(location);
                 outputStream.flush();
                 if (location != StreamLocation.Standard)
                     IOUtils.closeQuietly(outputStream);

@@ -230,18 +230,18 @@ public final class ClipReads extends ReadWalker {
         //
         if (clipSequencesArgs != null) {
             int i = 0;
-            for (String toClip : clipSequencesArgs) {
+            for (final String toClip : clipSequencesArgs) {
                 i++;
-                ReferenceSequence rs = new ReferenceSequence("CMDLINE-" + i, -1, StringUtil.stringToBytes(toClip));
+                final ReferenceSequence rs = new ReferenceSequence("CMDLINE-" + i, -1, StringUtil.stringToBytes(toClip));
                 addSeqToClip(rs.getName(), rs.getBases());
             }
         }
 
         if (clipSequenceFile != null) {
-            ReferenceSequenceFile rsf = ReferenceSequenceFileFactory.getReferenceSequenceFile(new File(clipSequenceFile));
+            final ReferenceSequenceFile rsf = ReferenceSequenceFileFactory.getReferenceSequenceFile(new File(clipSequenceFile));
 
             while (true) {
-                ReferenceSequence rs = rsf.nextSequence();
+                final ReferenceSequence rs = rsf.nextSequence();
                 if (rs == null)
                     break;
                 else {
@@ -256,18 +256,18 @@ public final class ClipReads extends ReadWalker {
         //
         if (cyclesToClipArg != null) {
             cyclesToClip = new ArrayList<>();
-            for (String range : cyclesToClipArg.split(",")) {
+            for (final String range : cyclesToClipArg.split(",")) {
                 try {
-                    String[] elts = range.split("-");
-                    int start = Integer.parseInt(elts[0]) - 1;
-                    int stop = Integer.parseInt(elts[1]) - 1;
+                    final String[] elts = range.split("-");
+                    final int start = Integer.parseInt(elts[0]) - 1;
+                    final int stop = Integer.parseInt(elts[1]) - 1;
 
                     if (start < 0) throw new Exception();
                     if (stop < start) throw new Exception();
 
                     logger.info(String.format("Creating cycle clipper %d-%d", start, stop));
                     cyclesToClip.add(new MutablePair<>(start, stop));
-                } catch (Exception e) {
+                } catch (final Exception e) {
                     throw new RuntimeException("Badly formatted cyclesToClip argument: " + cyclesToClipArg);
                 }
             }
@@ -279,17 +279,17 @@ public final class ClipReads extends ReadWalker {
         accumulator = new ClippingData(sequencesToClip);
         try {
             outputStats = STATSOUTPUT == null ? null : new PrintStream(STATSOUTPUT);
-        } catch (FileNotFoundException e) {
+        } catch (final FileNotFoundException e) {
             throw new UserException.CouldNotCreateOutputFile(STATSOUTPUT, e);
         }
     }
 
     @Override
-    public void apply( GATKRead read, ReferenceContext ref, FeatureContext featureContext ) {
+    public void apply(GATKRead read, final ReferenceContext ref, final FeatureContext featureContext ) {
         if ( onlyDoRead == null || read.getName().equals(onlyDoRead) ) {
             if ( clippingRepresentation == ClippingRepresentation.HARDCLIP_BASES || clippingRepresentation == ClippingRepresentation.REVERT_SOFTCLIPPED_BASES )
                 read = ReadClipper.revertSoftClippedBases(read);
-            ReadClipperWithData clipper = new ReadClipperWithData(read, sequencesToClip);
+            final ReadClipperWithData clipper = new ReadClipperWithData(read, sequencesToClip);
 
             //
             // run all three clipping modules
@@ -325,8 +325,8 @@ public final class ClipReads extends ReadWalker {
      * @param name
      * @param bases
      */
-    private void addSeqToClip(String name, byte[] bases) {
-        SeqToClip clip = new SeqToClip(name, bases);
+    private void addSeqToClip(final String name, final byte[] bases) {
+        final SeqToClip clip = new SeqToClip(name, bases);
         sequencesToClip.add(clip);
         logger.info(String.format("Creating sequence clipper %s: %s/%s", clip.name, clip.seq, clip.revSeq));
     }
@@ -338,16 +338,16 @@ public final class ClipReads extends ReadWalker {
      *
      * @param clipper
      */
-    private void clipSequences(ReadClipperWithData clipper) {
+    private void clipSequences(final ReadClipperWithData clipper) {
         if (sequencesToClip != null) {                // don't bother if we don't have any sequences to clip
-            GATKRead read = clipper.getRead();
-            ClippingData data = clipper.getData();
+            final GATKRead read = clipper.getRead();
+            final ClippingData data = clipper.getData();
 
-            for (SeqToClip stc : sequencesToClip) {
+            for (final SeqToClip stc : sequencesToClip) {
                 // we have a pattern for both the forward and the reverse strands
-                Pattern pattern = read.isReverseStrand() ? stc.revPat : stc.fwdPat;
-                String bases = read.getBasesString();
-                Matcher match = pattern.matcher(bases);
+                final Pattern pattern = read.isReverseStrand() ? stc.revPat : stc.fwdPat;
+                final String bases = read.getBasesString();
+                final Matcher match = pattern.matcher(bases);
 
                 // keep clipping until match.find() says it can't find anything else
                 boolean found = true;   // go through at least once
@@ -355,10 +355,10 @@ public final class ClipReads extends ReadWalker {
                     found = match.find();
                     //System.out.printf("Matching %s against %s/%s => %b%n", bases, stc.seq, stc.revSeq, found);
                     if (found) {
-                        int start = match.start();
-                        int stop = match.end() - 1;
+                        final int start = match.start();
+                        final int stop = match.end() - 1;
                         //ClippingOp op = new ClippingOp(ClippingOp.ClippingType.MATCHES_CLIP_SEQ, start, stop, stc.seq);
-                        ClippingOp op = new ClippingOp(start, stop);
+                        final ClippingOp op = new ClippingOp(start, stop);
                         clipper.addOp(op);
                         data.incSeqClippedBases(stc.seq, op.getLength());
                     }
@@ -377,7 +377,7 @@ public final class ClipReads extends ReadWalker {
      * @param stop
      * @return
      */
-    private Pair<Integer, Integer> strandAwarePositions(GATKRead read, int start, int stop) {
+    private Pair<Integer, Integer> strandAwarePositions(final GATKRead read, final int start, final int stop) {
         if (read.isReverseStrand())
             return new MutablePair<>(read.getLength() - stop - 1, read.getLength() - start - 1);
         else
@@ -389,13 +389,13 @@ public final class ClipReads extends ReadWalker {
      *
      * @param clipper
      */
-    private void clipCycles(ReadClipperWithData clipper) {
+    private void clipCycles(final ReadClipperWithData clipper) {
         if (cyclesToClip != null) {
-            GATKRead read = clipper.getRead();
-            ClippingData data = clipper.getData();
+            final GATKRead read = clipper.getRead();
+            final ClippingData data = clipper.getData();
 
-            for (Pair<Integer, Integer> p : cyclesToClip) {   // iterate over each cycle range
-                int cycleStart = p.getLeft();
+            for (final Pair<Integer, Integer> p : cyclesToClip) {   // iterate over each cycle range
+                final int cycleStart = p.getLeft();
                 int cycleStop = p.getRight();
 
                 if (cycleStart < read.getLength()) {
@@ -404,12 +404,12 @@ public final class ClipReads extends ReadWalker {
                         // we do tolerate [for convenience) clipping when the stop is beyond the end of the read
                         cycleStop = read.getLength() - 1;
 
-                    Pair<Integer, Integer> startStop = strandAwarePositions(read, cycleStart, cycleStop);
-                    int start = startStop.getLeft();
-                    int stop = startStop.getRight();
+                    final Pair<Integer, Integer> startStop = strandAwarePositions(read, cycleStart, cycleStop);
+                    final int start = startStop.getLeft();
+                    final int stop = startStop.getRight();
 
                     //ClippingOp op = new ClippingOp(ClippingOp.ClippingType.WITHIN_CLIP_RANGE, start, stop, null);
-                    ClippingOp op = new ClippingOp(start, stop);
+                    final ClippingOp op = new ClippingOp(start, stop);
                     clipper.addOp(op);
                     data.incNRangeClippedBases(op.getLength());
                 }
@@ -432,17 +432,17 @@ public final class ClipReads extends ReadWalker {
      *
      * @param clipper
      */
-    private void clipBadQualityScores(ReadClipperWithData clipper) {
-        GATKRead read = clipper.getRead();
-        ClippingData data = clipper.getData();
-        int readLen = read.getLength();
-        byte[] quals = read.getBaseQualities();
+    private void clipBadQualityScores(final ReadClipperWithData clipper) {
+        final GATKRead read = clipper.getRead();
+        final ClippingData data = clipper.getData();
+        final int readLen = read.getLength();
+        final byte[] quals = read.getBaseQualities();
 
 
         int clipSum = 0, lastMax = -1, clipPoint = -1; // -1 means no clip
         for (int i = readLen - 1; i >= 0; i--) {
-            int baseIndex = read.isReverseStrand() ? readLen - i - 1 : i;
-            byte qual = quals[baseIndex];
+            final int baseIndex = read.isReverseStrand() ? readLen - i - 1 : i;
+            final byte qual = quals[baseIndex];
             clipSum += (qTrimmingThreshold - qual);
             if (clipSum >= 0 && (clipSum >= lastMax)) {
                 lastMax = clipSum;
@@ -451,21 +451,21 @@ public final class ClipReads extends ReadWalker {
         }
 
         if (clipPoint != -1) {
-            int start = read.isReverseStrand() ? 0 : clipPoint;
-            int stop = read.isReverseStrand() ? clipPoint : readLen - 1;
+            final int start = read.isReverseStrand() ? 0 : clipPoint;
+            final int stop = read.isReverseStrand() ? clipPoint : readLen - 1;
             //clipper.addOp(new ClippingOp(ClippingOp.ClippingType.LOW_Q_SCORES, start, stop, null));
-            ClippingOp op = new ClippingOp(start, stop);
+            final ClippingOp op = new ClippingOp(start, stop);
             clipper.addOp(op);
             data.incNQClippedBases(op.getLength());
         }
         clipper.setData(data);
     }
 
-    private void accumulate(ReadClipperWithData clipper) {
+    private void accumulate(final ReadClipperWithData clipper) {
         if ( clipper == null )
             return;
 
-        GATKRead clippedRead = clipper.clipRead(clippingRepresentation);
+        final GATKRead clippedRead = clipper.clipRead(clippingRepresentation);
         outputBam.addRead(clippedRead);
 
         accumulator.nTotalReads++;
@@ -487,7 +487,7 @@ public final class ClipReads extends ReadWalker {
         String seq, revSeq;
         Pattern fwdPat, revPat;
 
-        public SeqToClip(String name, byte[] bytez) {
+        public SeqToClip(final String name, final byte[] bytez) {
             this.name = name;
             this.seq = new String(bytez);
             this.fwdPat = Pattern.compile(seq, Pattern.CASE_INSENSITIVE);
@@ -507,29 +507,29 @@ public final class ClipReads extends ReadWalker {
 
         SortedMap<String, Long> seqClipCounts = new TreeMap<>();
 
-        public ClippingData(List<SeqToClip> clipSeqs) {
-            for (SeqToClip clipSeq : clipSeqs) {
+        public ClippingData(final List<SeqToClip> clipSeqs) {
+            for (final SeqToClip clipSeq : clipSeqs) {
                 seqClipCounts.put(clipSeq.seq, 0L);
             }
         }
 
-        public void incNQClippedBases(int n) {
+        public void incNQClippedBases(final int n) {
             nQClippedBases += n;
             nClippedBases += n;
         }
 
-        public void incNRangeClippedBases(int n) {
+        public void incNRangeClippedBases(final int n) {
             nRangeClippedBases += n;
             nClippedBases += n;
         }
 
-        public void incSeqClippedBases(final String seq, int n) {
+        public void incSeqClippedBases(final String seq, final int n) {
             nSeqClippedBases += n;
             nClippedBases += n;
             seqClipCounts.put(seq, seqClipCounts.get(seq) + n);
         }
 
-        public void addData (ClippingData data) {
+        public void addData (final ClippingData data) {
             nTotalReads += data.nTotalReads;
             nTotalBases += data.nTotalBases;
             nClippedReads += data.nClippedReads;
@@ -538,7 +538,7 @@ public final class ClipReads extends ReadWalker {
             nRangeClippedBases += data.nRangeClippedBases;
             nSeqClippedBases += data.nSeqClippedBases;
 
-            for (String seqClip : data.seqClipCounts.keySet()) {
+            for (final String seqClip : data.seqClipCounts.keySet()) {
                 Long count = data.seqClipCounts.get(seqClip);
                 if (seqClipCounts.containsKey(seqClip))
                     count += seqClipCounts.get(seqClip);
@@ -547,7 +547,7 @@ public final class ClipReads extends ReadWalker {
         }
 
         public String toString() {
-            StringBuilder s = new StringBuilder();
+            final StringBuilder s = new StringBuilder();
 
             s.append(StringUtils.repeat('-', 80) + "\n")
                     .append(String.format("Number of examined reads              %d%n", nTotalReads))
@@ -560,7 +560,7 @@ public final class ClipReads extends ReadWalker {
                     .append(String.format("Number of range clipped bases         %d%n", nRangeClippedBases))
                     .append(String.format("Number of sequence clipped bases      %d%n", nSeqClippedBases));
 
-            for (Map.Entry<String, Long> elt : seqClipCounts.entrySet()) {
+            for (final Map.Entry<String, Long> elt : seqClipCounts.entrySet()) {
                 s.append(String.format("  %8d clip sites matching %s%n", elt.getValue(), elt.getKey()));
             }
 
@@ -572,7 +572,7 @@ public final class ClipReads extends ReadWalker {
     public static final class ReadClipperWithData extends ReadClipper {
         private ClippingData data;
 
-        public ReadClipperWithData(GATKRead read, List<SeqToClip> clipSeqs) {
+        public ReadClipperWithData(final GATKRead read, final List<SeqToClip> clipSeqs) {
             super(read);
             data = new ClippingData(clipSeqs);
         }
@@ -581,11 +581,11 @@ public final class ClipReads extends ReadWalker {
             return data;
         }
 
-        public void setData(ClippingData data) {
+        public void setData(final ClippingData data) {
             this.data = data;
         }
 
-        public void addData(ClippingData data) {
+        public void addData(final ClippingData data) {
             this.data.addData(data);
         }
     }

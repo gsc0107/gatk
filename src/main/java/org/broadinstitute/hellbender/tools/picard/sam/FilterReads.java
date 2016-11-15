@@ -161,7 +161,7 @@ public final class FilterReads extends PicardCommandLineProgram {
             IOUtil.assertFileIsReadable(OUTPUT);
             if (WRITE_READS_FILES) writeReadsFile(OUTPUT);
 
-        } catch (IOException e) {
+        } catch (final IOException e) {
             if (OUTPUT.exists() && !OUTPUT.delete()) {
                 throw new UserException("Failed to delete existing output: " + OUTPUT.getAbsolutePath());
             } else {

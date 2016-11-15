@@ -43,10 +43,10 @@ public final class ReadGroupBlackListReadFilter extends ReadFilter implements Se
     public ReadGroupBlackListReadFilter(final List<String> blackLists, final SAMFileHeader header) {
         super.setHeader(header);
         final Map<String, Collection<String>> filters = new TreeMap<>();
-        for (String blackList : blackLists) {
+        for (final String blackList : blackLists) {
             try {
                 addFilter(filters, blackList, null, 0);
-            } catch (IOException e) {
+            } catch (final IOException e) {
                 throw new UserException("Incorrect blacklist:" + blackList, e);
             }
         }
@@ -70,7 +70,7 @@ public final class ReadGroupBlackListReadFilter extends ReadFilter implements Se
         filters.computeIfAbsent(split[0], k -> new TreeSet<>()).add(split[1]);
     }
 
-    private void checkValidFilterEntry(String filter, File parentFile, int parentLineNum, String[] split) {
+    private void checkValidFilterEntry(final String filter, final File parentFile, final int parentLineNum, final String[] split) {
         String message = null;
         if (split.length != 2) {
             message = "Invalid read group filter: " + filter;
@@ -91,7 +91,7 @@ public final class ReadGroupBlackListReadFilter extends ReadFilter implements Se
         final File file = new File(fileName);
         try (final XReadLines lines = new XReadLines(file)) {
             int lineNum = 0;
-            for (String line : lines) {
+            for (final String line : lines) {
                 lineNum++;
                 if (!line.trim().isEmpty() && !line.startsWith(COMMENT_START)) {
                     addFilter(filters, line, file, lineNum);

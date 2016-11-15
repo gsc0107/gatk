@@ -37,11 +37,11 @@ public final class ArtificialBAMBuilder {
     private List<GATKRead> additionalReads = new LinkedList<>();
     private SAMFileHeader header;
 
-    public ArtificialBAMBuilder(int nReadsPerLocus, int nLoci) {
+    public ArtificialBAMBuilder(final int nReadsPerLocus, final int nLoci) {
         this(ArtificialReadUtils.createArtificialSamHeader(1, 1, 1000000).getSequenceDictionary(), nReadsPerLocus, nLoci);
     }
 
-    public ArtificialBAMBuilder(final SAMSequenceDictionary dict, int nReadsPerLocus, int nLoci) {
+    public ArtificialBAMBuilder(final SAMSequenceDictionary dict, final int nReadsPerLocus, final int nLoci) {
         Utils.nonNull(dict, "dict");
         Utils.validateArg(nReadsPerLocus > 0, "nReadsPerLocus should be positive but was " + nReadsPerLocus);
         Utils.validateArg(nLoci > 0, "nLoci should be positive but was " + nLoci);

@@ -45,7 +45,7 @@ public enum MarkDuplicatesScoringStrategy {
         } else {
             int sum = 0;
             for ( final byte b : read.getBaseQualities() ) {
-                int i = (int)b;
+                final int i = (int)b;
                 if ( i >= MIN_BASE_QUAL ) {
                     sum += i;
                 }

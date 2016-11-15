@@ -174,10 +174,10 @@ public final class CachingIndexedFastaSequenceFile extends IndexedFastaSequenceF
         try {
             return new CachingIndexedFastaSequenceFile(fastaFile);
         }
-        catch (IllegalArgumentException e) {
+        catch (final IllegalArgumentException e) {
             throw new UserException.CouldNotReadInputFile(fastaFile, "Could not read reference sequence.  The FASTA must have either a .fasta or .fa extension", e);
         }
-        catch (Exception e) {
+        catch (final Exception e) {
             throw new UserException.CouldNotReadInputFile(fastaFile, e);
         }
     }
@@ -254,7 +254,7 @@ public final class CachingIndexedFastaSequenceFile extends IndexedFastaSequenceF
      *         all of the bases in the ReferenceSequence returned by this method will be upper cased.
      */
     @Override
-    public ReferenceSequence getSubsequenceAt( final String contig, long start, final long stop ) {
+    public ReferenceSequence getSubsequenceAt(final String contig, final long start, final long stop ) {
         final ReferenceSequence result;
 
         if ( (stop - start) >= cacheSize ) {
@@ -264,7 +264,7 @@ public final class CachingIndexedFastaSequenceFile extends IndexedFastaSequenceF
             if ( ! preserveIUPAC ) BaseUtils.convertIUPACtoN(result.getBases(), true, start < 1);
         } else {
             // todo -- potential optimization is to check if contig.name == contig, as this in general will be true
-            SAMSequenceRecord contigInfo = super.getSequenceDictionary().getSequence(contig);
+            final SAMSequenceRecord contigInfo = super.getSequenceDictionary().getSequence(contig);
             if (contigInfo == null){
                 throw new UserException.MissingContigInSequenceDictionary(contig, super.getSequenceDictionary());
             }
@@ -291,7 +291,7 @@ public final class CachingIndexedFastaSequenceFile extends IndexedFastaSequenceF
 
             try {
                 result = new ReferenceSequence(cache.seq.getName(), cache.seq.getContigIndex(), Arrays.copyOfRange(cache.seq.getBases(), cacheOffsetStart, cacheOffsetStop));
-            } catch ( ArrayIndexOutOfBoundsException e ) {
+            } catch ( final ArrayIndexOutOfBoundsException e ) {
                 throw new GATKException(String.format("BUG: bad array indexing.  Cache start %d and end %d, request start %d end %d, offset start %d and end %d, base size %d",
                         cache.start, cache.stop, start, stop, cacheOffsetStart, cacheOffsetStop, cache.seq.getBases().length), e);
             }

@@ -92,9 +92,9 @@ public final class GATKToolUnitTest extends BaseTest{
 
         @Override
         public void traverse() {
-            Iterator<GATKRead> iterator = reads.iterator();
+            final Iterator<GATKRead> iterator = reads.iterator();
             while (iterator.hasNext()) {
-                GATKRead read = iterator.next();
+                final GATKRead read = iterator.next();
                 count++;
             }
         }
@@ -253,17 +253,17 @@ public final class GATKToolUnitTest extends BaseTest{
     }
 
     @Test(dataProvider = "validationStringency", expectedExceptions=SAMFormatException.class)
-    public void testReadsValidationStringencyStrict(final String bamFileName, final String referenceFileName, int count) throws Exception {
+    public void testReadsValidationStringencyStrict(final String bamFileName, final String referenceFileName, final int count) throws Exception {
         testValidationStringency(bamFileName, referenceFileName, "STRICT", count);
     }
 
     @Test(dataProvider = "validationStringency")
-    public void testReadsValidationStringencyLenient(final String bamFileName, final String referenceFileName, int count) throws Exception {
+    public void testReadsValidationStringencyLenient(final String bamFileName, final String referenceFileName, final int count) throws Exception {
         testValidationStringency(bamFileName, referenceFileName, "LENIENT", count);
     }
 
     @Test(dataProvider = "validationStringency")
-    public void testReadsValidationStringencySilent(final String bamFileName, final String referenceFileName, int count) throws Exception {
+    public void testReadsValidationStringencySilent(final String bamFileName, final String referenceFileName, final int count) throws Exception {
         testValidationStringency(bamFileName, referenceFileName, "SILENT", count);
     }
 
@@ -511,7 +511,7 @@ public final class GATKToolUnitTest extends BaseTest{
         final File tmpDir = createTempDir("createVCFTest");
         final File outputFile = new File(tmpDir.getAbsolutePath(), "createVCFTest" + outputExtension);
 
-        ArgumentsBuilder args = new ArgumentsBuilder();
+        final ArgumentsBuilder args = new ArgumentsBuilder();
 
         args.addInput(inputFile);
         args.addOutput(outputFile);

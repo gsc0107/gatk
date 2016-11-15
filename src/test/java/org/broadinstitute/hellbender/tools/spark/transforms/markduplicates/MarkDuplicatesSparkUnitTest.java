@@ -20,7 +20,7 @@ import java.io.IOException;
 public class MarkDuplicatesSparkUnitTest extends BaseTest {
     @DataProvider(name = "md")
     public Object[][] loadReads() {
-        String dir = new File("src/test/resources/org/broadinstitute/hellbender/tools/picard/sam/MarkDuplicates/").getAbsolutePath();
+        final String dir = new File("src/test/resources/org/broadinstitute/hellbender/tools/picard/sam/MarkDuplicates/").getAbsolutePath();
         return new Object[][]{
                 {dir + "/example.chr1.1-1K.unmarkedDups.noDups.bam", 20, 0},
                 {dir + "/example.chr1.1-1K.unmarkedDups.bam", 90, 6},
@@ -30,20 +30,20 @@ public class MarkDuplicatesSparkUnitTest extends BaseTest {
 
     @Test(dataProvider = "md", groups = "spark")
     public void markDupesTest(final String input, final long totalExpected, final long dupsExpected) throws IOException {
-        JavaSparkContext ctx = SparkContextFactory.getTestSparkContext();
+        final JavaSparkContext ctx = SparkContextFactory.getTestSparkContext();
 
-        ReadsSparkSource readSource = new ReadsSparkSource(ctx);
-        JavaRDD<GATKRead> reads = readSource.getParallelReads(input, null);
+        final ReadsSparkSource readSource = new ReadsSparkSource(ctx);
+        final JavaRDD<GATKRead> reads = readSource.getParallelReads(input, null);
         Assert.assertEquals(reads.count(), totalExpected);
 
-        SAMFileHeader header = readSource.getHeader(input, null, null);
-        OpticalDuplicatesArgumentCollection opticalDuplicatesArgumentCollection = new OpticalDuplicatesArgumentCollection();
+        final SAMFileHeader header = readSource.getHeader(input, null, null);
+        final OpticalDuplicatesArgumentCollection opticalDuplicatesArgumentCollection = new OpticalDuplicatesArgumentCollection();
         final OpticalDuplicateFinder finder = opticalDuplicatesArgumentCollection.READ_NAME_REGEX != null ?
                 new OpticalDuplicateFinder(opticalDuplicatesArgumentCollection.READ_NAME_REGEX, opticalDuplicatesArgumentCollection.OPTICAL_DUPLICATE_PIXEL_DISTANCE, null) : null;
-        JavaRDD<GATKRead> markedReads = MarkDuplicatesSpark.mark(reads, header, MarkDuplicatesScoringStrategy.SUM_OF_BASE_QUALITIES, finder, 1);
+        final JavaRDD<GATKRead> markedReads = MarkDuplicatesSpark.mark(reads, header, MarkDuplicatesScoringStrategy.SUM_OF_BASE_QUALITIES, finder, 1);
 
         Assert.assertEquals(markedReads.count(), totalExpected);
-        JavaRDD<GATKRead> dupes = markedReads.filter(GATKRead::isDuplicate);
+        final JavaRDD<GATKRead> dupes = markedReads.filter(GATKRead::isDuplicate);
 
         Assert.assertEquals(dupes.count(), dupsExpected);
     }

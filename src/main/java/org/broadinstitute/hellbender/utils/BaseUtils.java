@@ -11,7 +11,7 @@ import java.util.Random;
  */
 public final class BaseUtils {
 
-    public static boolean isNBase(byte base) {
+    public static boolean isNBase(final byte base) {
         return base == 'N' || base == 'n';
     }
 

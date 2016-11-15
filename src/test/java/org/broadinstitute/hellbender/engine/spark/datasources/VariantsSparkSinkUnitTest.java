@@ -56,20 +56,20 @@ public final class VariantsSparkSinkUnitTest extends BaseTest {
     }
 
     @Test(dataProvider = "loadVariants", groups = "spark")
-    public void variantsSinkTest(String vcf, String outputFileExtension) throws IOException {
+    public void variantsSinkTest(final String vcf, final String outputFileExtension) throws IOException {
         final File outputFile = createTempFile(outputFileName, outputFileExtension);
         assertSingleShardedWritingWorks(vcf, outputFile.getAbsolutePath());
     }
 
     @Test(dataProvider = "loadVariants", groups = "spark")
-    public void variantsSinkHDFSTest(String vcf, String outputFileExtension) throws IOException {
+    public void variantsSinkHDFSTest(final String vcf, final String outputFileExtension) throws IOException {
         final String outputHDFSPath = MiniClusterUtils.getTempPath(cluster, outputFileName, outputFileExtension).toString();
         Assert.assertTrue(BucketUtils.isHadoopUrl(outputHDFSPath));
         assertSingleShardedWritingWorks(vcf, outputHDFSPath);
     }
 
     @Test(dataProvider = "loadVariants", groups = "spark")
-    public void testWritingToAnExistingFileHDFS(String vcf, String outputFileExtension) throws IOException {
+    public void testWritingToAnExistingFileHDFS(final String vcf, final String outputFileExtension) throws IOException {
         final Path outputPath = MiniClusterUtils.getTempPath(cluster, outputFileName, outputFileExtension);
         final FileSystem fs = outputPath.getFileSystem(new Configuration());
         Assert.assertTrue(fs.createNewFile(outputPath));
@@ -78,40 +78,40 @@ public final class VariantsSparkSinkUnitTest extends BaseTest {
     }
 
     @Test(dataProvider = "loadVariants", groups = "spark")
-    public void testWritingToFileURL(String vcf, String outputFileExtension) throws IOException {
-        String outputUrl = "file://" + createTempFile(outputFileName, outputFileExtension).getAbsolutePath();
+    public void testWritingToFileURL(final String vcf, final String outputFileExtension) throws IOException {
+        final String outputUrl = "file://" + createTempFile(outputFileName, outputFileExtension).getAbsolutePath();
         assertSingleShardedWritingWorks(vcf, outputUrl);
     }
 
-    private void assertSingleShardedWritingWorks(String vcf, String outputPath) throws IOException {
-        JavaSparkContext ctx = SparkContextFactory.getTestSparkContext();
+    private void assertSingleShardedWritingWorks(final String vcf, final String outputPath) throws IOException {
+        final JavaSparkContext ctx = SparkContextFactory.getTestSparkContext();
 
-        VariantsSparkSource variantsSparkSource = new VariantsSparkSource(ctx);
+        final VariantsSparkSource variantsSparkSource = new VariantsSparkSource(ctx);
         JavaRDD<VariantContext> variants = variantsSparkSource.getParallelVariantContexts(vcf, null);
         if (variants.getNumPartitions() == 1) {
             variants = variants.repartition(3); // repartition to more than 1 partition
         }
-        VCFHeader header = getHeader(vcf);
+        final VCFHeader header = getHeader(vcf);
 
         VariantsSparkSink.writeVariants(ctx, outputPath, variants, header);
 
-        JavaRDD<VariantContext> variants2 = variantsSparkSource.getParallelVariantContexts(outputPath, null);
+        final JavaRDD<VariantContext> variants2 = variantsSparkSource.getParallelVariantContexts(outputPath, null);
         final List<VariantContext> writtenVariants = variants2.collect();
 
         VariantContextTestUtils.assertEqualVariants(readVariants(vcf), writtenVariants);
     }
 
-    private VCFHeader getHeader(String vcf) throws IOException {
+    private VCFHeader getHeader(final String vcf) throws IOException {
         final java.nio.file.Path vcfPath = IOUtils.getPath(vcf);
         try (SeekableStream stream = new SeekablePathStream(vcfPath)) {
             return VCFHeaderReader.readHeaderFrom(stream);
-        } catch (IOException e) {
+        } catch (final IOException e) {
             throw new UserException("Failed to read VCF header from " + vcf + "\n Caused by:" + e.getMessage(), e);
         }
     }
 
-    private List<VariantContext> readVariants(String vcf) throws IOException {
-        File actualVcf;
+    private List<VariantContext> readVariants(final String vcf) throws IOException {
+        final File actualVcf;
         // work around TribbleIndexedFeatureReader not reading header from .bgz files
         if (vcf.endsWith(".bgz")) {
             actualVcf = File.createTempFile(vcf, ".gz");

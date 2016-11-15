@@ -111,7 +111,7 @@ final class Tranche {
             stream.println("targetTruthSensitivity,numKnown,numNovel,knownTiTv,novelTiTv,minVQSLod,filterName,model,accessibleTruthSites,callsAtTruthSites,truthSensitivity");
 
             Tranche prev = null;
-            for ( Tranche t : tranches ) {
+            for ( final Tranche t : tranches ) {
                 stream.printf("%.2f,%d,%d,%.4f,%.4f,%.4f,VQSRTranche%s%.2fto%.2f,%s,%d,%d,%.4f%n",
                         t.targetTruthSensitivity, t.numKnown, t.numNovel, t.knownTiTv, t.novelTiTv, t.minVQSLod, t.model.toString(),
                         (prev == null ? 0.0 : prev.targetTruthSensitivity), t.targetTruthSensitivity, t.model.toString(), t.accessibleTruthSites, t.callsAtTruthSites, t.getTruthSensitivity());
@@ -120,7 +120,7 @@ final class Tranche {
 
             return bytes.toString();
         }
-        catch (IOException e) {
+        catch (final IOException e) {
             throw new GATKException("IOException while converting tranche to a string");
         }
     }
@@ -140,7 +140,7 @@ final class Tranche {
         if ( bindings.containsKey(key) ) {
             try {
                 return Double.valueOf(bindings.get(key));
-            } catch (NumberFormatException e){
+            } catch (final NumberFormatException e){
                 throw new UserException.MalformedFile("Malformed tranches file. Invalid value for key " + key);
             }
         } else  {
@@ -148,10 +148,10 @@ final class Tranche {
         }
     }
 
-    private static double getOptionalDouble(final Map<String,String> bindings, String key, final double defaultValue ) {
+    private static double getOptionalDouble(final Map<String,String> bindings, final String key, final double defaultValue ) {
         try{
             return Double.valueOf(bindings.getOrDefault(key, String.valueOf(defaultValue)));
-        } catch (NumberFormatException e){
+        } catch (final NumberFormatException e){
             throw new UserException.MalformedFile("Malformed tranches file. Invalid value for key " + key);
         }
     }
@@ -160,7 +160,7 @@ final class Tranche {
         if ( bindings.containsKey(key) ) {
             try{
                 return Integer.valueOf(bindings.get(key));
-            } catch (NumberFormatException e){
+            } catch (final NumberFormatException e){
                 throw new UserException.MalformedFile("Malformed tranches file. Invalid value for key " + key);
             }
         } else {
@@ -171,7 +171,7 @@ final class Tranche {
     private static int getOptionalInteger(final Map<String,String> bindings, final String key, final int defaultValue) {
         try{
             return Integer.valueOf(bindings.getOrDefault(key, String.valueOf(defaultValue)));
-        } catch (NumberFormatException e){
+        } catch (final NumberFormatException e){
             throw new UserException.MalformedFile("Malformed tranches file. Invalid value for key " + key);
         }
     }
@@ -182,7 +182,7 @@ final class Tranche {
      */
     public static List<Tranche> readTranches(final File f) throws IOException{
         String[] header = null;
-        List<Tranche> tranches = new ArrayList<>();
+        final List<Tranche> tranches = new ArrayList<>();
 
         try (XReadLines xrl = new XReadLines(f) ) {
             for (final String line : xrl) {
@@ -201,7 +201,7 @@ final class Tranche {
                         throw new UserException.MalformedFile(f, "Line had too few/many fields.  Header = " + header.length + " vals " + vals.length + ". The line was: " + line);
                     }
 
-                    Map<String, String> bindings = new LinkedHashMap<>();
+                    final Map<String, String> bindings = new LinkedHashMap<>();
                     for (int i = 0; i < vals.length; i++) {
                         bindings.put(header[i], vals[i]);
                     }
@@ -248,7 +248,7 @@ final class Tranche {
             runningSensitivity = new double[data.size()];
 
             for ( int i = data.size() - 1; i >= 0; i-- ) {
-                VariantDatum datum = data.get(i);
+                final VariantDatum datum = data.get(i);
                 nCalledAtTruth += datum.atTruthSite ? 1 : 0;
                 runningSensitivity[i] = 1 - nCalledAtTruth / (1.0 * nTrueSites);
             }
@@ -265,9 +265,9 @@ final class Tranche {
         Collections.sort(data, VariantDatum.VariantDatumLODComparator);
         metric.calculateRunningMetric(data);
 
-        List<Tranche> tranches = new ArrayList<>();
-        for ( double trancheThreshold : trancheThresholds ) {
-            Tranche t = findTranche(data, metric, trancheThreshold, model);
+        final List<Tranche> tranches = new ArrayList<>();
+        for ( final double trancheThreshold : trancheThresholds ) {
+            final Tranche t = findTranche(data, metric, trancheThreshold, model);
 
             if ( t == null ) {
                 if (tranches.isEmpty()) {
@@ -286,12 +286,12 @@ final class Tranche {
     private static Tranche findTranche( final List<VariantDatum> data, final TruthSensitivityMetric metric, final double trancheThreshold, final VariantRecalibratorArgumentCollection.Mode model ) {
         logger.debug(String.format("  Tranche threshold %.2f => selection metric threshold %.3f", trancheThreshold, metric.getThreshold(trancheThreshold)));
 
-        double metricThreshold = metric.getThreshold(trancheThreshold);
-        int n = data.size();
+        final double metricThreshold = metric.getThreshold(trancheThreshold);
+        final int n = data.size();
         for ( int i = 0; i < n; i++ ) {
             if ( metric.getRunningMetric(i) >= metricThreshold ) {
                 // we've found the largest group of variants with sensitivity >= our target truth sensitivity
-                Tranche t = trancheOfVariants(data, i, trancheThreshold, model);
+                final Tranche t = trancheOfVariants(data, i, trancheThreshold, model);
                 logger.debug(String.format("  Found tranche for %.3f: %.3f threshold starting with variant %d; running score is %.3f ",
                         trancheThreshold, metricThreshold, i, metric.getRunningMetric(i)));
                 logger.debug(String.format("  Tranche is %s", t));
@@ -302,10 +302,10 @@ final class Tranche {
         return null;
     }
 
-    private static Tranche trancheOfVariants( final List<VariantDatum> data, int minI, double ts, final VariantRecalibratorArgumentCollection.Mode model ) {
+    private static Tranche trancheOfVariants(final List<VariantDatum> data, final int minI, final double ts, final VariantRecalibratorArgumentCollection.Mode model ) {
         int numKnown = 0, numNovel = 0, knownTi = 0, knownTv = 0, novelTi = 0, novelTv = 0;
 
-        double minLod = data.get(minI).lod;
+        final double minLod = data.get(minI).lod;
         for ( final VariantDatum datum : data ) {
             if ( datum.lod >= minLod ) {
                 if ( datum.isKnown ) {
@@ -322,11 +322,11 @@ final class Tranche {
             }
         }
 
-        double knownTiTv = knownTi / Math.max(1.0 * knownTv, 1.0);
-        double novelTiTv = novelTi / Math.max(1.0 * novelTv, 1.0);
+        final double knownTiTv = knownTi / Math.max(1.0 * knownTv, 1.0);
+        final double novelTiTv = novelTi / Math.max(1.0 * novelTv, 1.0);
 
-        int accessibleTruthSites = VariantDatum.countCallsAtTruth(data, Double.NEGATIVE_INFINITY);
-        int nCallsAtTruth = VariantDatum.countCallsAtTruth(data, minLod);
+        final int accessibleTruthSites = VariantDatum.countCallsAtTruth(data, Double.NEGATIVE_INFINITY);
+        final int nCallsAtTruth = VariantDatum.countCallsAtTruth(data, minLod);
 
         return new Tranche(ts, minLod, numKnown, knownTiTv, numNovel, novelTiTv, accessibleTruthSites, nCallsAtTruth, model, DEFAULT_TRANCHE_NAME);
     }

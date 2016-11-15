@@ -27,21 +27,21 @@ import static org.broadinstitute.hellbender.engine.datasources.ReferenceAPISourc
 
 public class ReferenceAPISourceUnitTest extends BaseTest {
 
-    private ReferenceBases queryReferenceAPI(final String referenceName, final SimpleInterval interval, int pageSize ) {
+    private ReferenceBases queryReferenceAPI(final String referenceName, final SimpleInterval interval, final int pageSize ) {
         final Pipeline p = setupPipeline();
 
-        ReferenceAPISource refAPISource = makeReferenceAPISource(referenceName, p);
+        final ReferenceAPISource refAPISource = makeReferenceAPISource(referenceName, p);
         return refAPISource.getReferenceBases(p.getOptions(), interval, pageSize);
     }
 
     private ReferenceBases queryReferenceAPI( final String referenceName, final SimpleInterval interval ) {
         final Pipeline p = setupPipeline();
 
-        ReferenceAPISource refAPISource = makeReferenceAPISource(referenceName, p);
+        final ReferenceAPISource refAPISource = makeReferenceAPISource(referenceName, p);
         return refAPISource.getReferenceBases(p.getOptions(), interval);
     }
 
-    private ReferenceAPISource makeReferenceAPISource(String referenceName, Pipeline p) {
+    private ReferenceAPISource makeReferenceAPISource(final String referenceName, final Pipeline p) {
         return new ReferenceAPISource(p.getOptions(), ReferenceAPISource.URL_PREFIX + referenceName);
     }
 
@@ -54,9 +54,9 @@ public class ReferenceAPISourceUnitTest extends BaseTest {
             options.setApiKey(getGCPTestApiKey());
             // put a serialized version of the credentials in the pipelineOptions, so we can get to it later.
             try {
-                GenomicsFactory.OfflineAuth auth = GCSOptions.Methods.createGCSAuth(options);
+                final GenomicsFactory.OfflineAuth auth = GCSOptions.Methods.createGCSAuth(options);
                 GATKGCSOptions.Methods.setOfflineAuth(options, auth);
-            } catch (Exception x) {
+            } catch (final Exception x) {
                 throw new GATKException("Error with credentials",x);
             }
         }
@@ -86,7 +86,7 @@ public class ReferenceAPISourceUnitTest extends BaseTest {
     }
 
     @Test(dataProvider="sortData")
-    public void testSequenceDictionarySorting(String inputs, String outputs) {
+    public void testSequenceDictionarySorting(final String inputs, final String outputs) {
         final String[] input = inputs.split(",");
         final String[] expected = outputs.split(",");
         final ReferenceAPISource ref = new ReferenceAPISource(createDummyReferenceMap(input));
@@ -129,19 +129,19 @@ public class ReferenceAPISourceUnitTest extends BaseTest {
 
     @Test(groups = "cloud")
     public void testDummy() {
-        String referenceName = HS37D5_REF_ID;
+        final String referenceName = HS37D5_REF_ID;
         final String expected = "AAACAGGTTA";
         // -1 because we're using closed intervals
-        SimpleInterval interval = new SimpleInterval("1", 50001, 50001 + expected.length() - 1);
-        Logger logger = LogManager.getLogger(ReferenceAPISourceUnitTest.class);
+        final SimpleInterval interval = new SimpleInterval("1", 50001, 50001 + expected.length() - 1);
+        final Logger logger = LogManager.getLogger(ReferenceAPISourceUnitTest.class);
 
-        GenomicsOptions options = PipelineOptionsFactory.create().as(GenomicsOptions.class);
+        final GenomicsOptions options = PipelineOptionsFactory.create().as(GenomicsOptions.class);
         options.setApiKey(getGCPTestApiKey());
         options.setProject(getGCPTestProject());
 
         final Pipeline p = TestPipeline.create(options); // We don't use GATKTestPipeline because we need specific options.
-        ReferenceAPISource refAPISource = makeReferenceAPISource(referenceName, p);
-        ReferenceBases bases = refAPISource.getReferenceBases(p.getOptions(), interval);
+        final ReferenceAPISource refAPISource = makeReferenceAPISource(referenceName, p);
+        final ReferenceBases bases = refAPISource.getReferenceBases(p.getOptions(), interval);
         final String actual = new String(bases.getBases());
         Assert.assertEquals(actual, expected, "Wrong bases returned");
         p.run();
@@ -173,8 +173,8 @@ public class ReferenceAPISourceUnitTest extends BaseTest {
         Assert.assertEquals(bases2.getBases().length, mio + 50 + 1, "Wrong number of bases returned");
 
         // grab some bases around the seam
-        ReferenceBases seam1 = bases1.getSubset(new SimpleInterval("1", 50000 + mio - 100, 50000 + mio + 50));
-        ReferenceBases seam2 = bases2.getSubset(new SimpleInterval("1", 50000 + mio - 100, 50000 + mio + 50));
+        final ReferenceBases seam1 = bases1.getSubset(new SimpleInterval("1", 50000 + mio - 100, 50000 + mio + 50));
+        final ReferenceBases seam2 = bases2.getSubset(new SimpleInterval("1", 50000 + mio - 100, 50000 + mio + 50));
 
         Assert.assertEquals(seam1.getBases(), seam2.getBases(), "seam doesn't match (paging bug?)");
 
@@ -182,7 +182,7 @@ public class ReferenceAPISourceUnitTest extends BaseTest {
 
     @Test(groups = "cloud")
     public void testReferenceSourceMultiSmallPagesQuery() {
-        int pageSize = 300;
+        final int pageSize = 300;
         // not a multiple of pageSize (testing the fetching of a partial page)
         final ReferenceBases bases1 = queryReferenceAPI(HS37D5_REF_ID, new SimpleInterval("1", 50000, 51000), pageSize);
         // multiple of pageSize (testing ending on an exact page boundary)
@@ -197,8 +197,8 @@ public class ReferenceAPISourceUnitTest extends BaseTest {
         Assert.assertEquals(bases2.getBases().length, 900, "Wrong number of bases returned");
 
         // grab some bases they should have in common
-        ReferenceBases seam1 = bases1.getSubset(new SimpleInterval("1", 50025, 50902));
-        ReferenceBases seam2 = bases2.getSubset(new SimpleInterval("1", 50025, 50902));
+        final ReferenceBases seam1 = bases1.getSubset(new SimpleInterval("1", 50025, 50902));
+        final ReferenceBases seam2 = bases2.getSubset(new SimpleInterval("1", 50025, 50902));
 
         Assert.assertEquals(seam1.getBases(), seam2.getBases(), "seam doesn't match (paging bug?)");
     }
@@ -219,7 +219,7 @@ public class ReferenceAPISourceUnitTest extends BaseTest {
     @Test(groups = "cloud")
     public void testReferenceSourceVaryingPageSizeQuery() {
 
-        SimpleInterval interval = new SimpleInterval("1", 50000, 50050);
+        final SimpleInterval interval = new SimpleInterval("1", 50000, 50050);
         final ReferenceBases bases1 = queryReferenceAPI(HS37D5_REF_ID, interval);
         final ReferenceBases bases2 = queryReferenceAPI(HS37D5_REF_ID, interval, 10);
 
@@ -245,11 +245,11 @@ public class ReferenceAPISourceUnitTest extends BaseTest {
         final ReferenceBases bases = queryReferenceAPI(HS37D5_REF_ID, null);
     }
 
-    private Map<String, Reference> createDummyReferenceMap(String[] contig) {
-        Map<String,Reference> fake = new LinkedHashMap<>();
-        for (String s : contig) {
-            Reference r = new Reference();
-            String id = "id-"+s;
+    private Map<String, Reference> createDummyReferenceMap(final String[] contig) {
+        final Map<String,Reference> fake = new LinkedHashMap<>();
+        for (final String s : contig) {
+            final Reference r = new Reference();
+            final String id = "id-"+s;
             r.setName(s);
             r.setId(id);
             r.setLength(100L);
@@ -258,9 +258,9 @@ public class ReferenceAPISourceUnitTest extends BaseTest {
         return fake;
     }
 
-    private void checkSequenceDictionary(SAMSequenceDictionary seq, String[] contig) {
+    private void checkSequenceDictionary(final SAMSequenceDictionary seq, final String[] contig) {
         int i=0;
-        for (String s: contig) {
+        for (final String s: contig) {
             Assert.assertEquals(seq.getSequence(i).getSequenceName(), s);
             i++;
         }

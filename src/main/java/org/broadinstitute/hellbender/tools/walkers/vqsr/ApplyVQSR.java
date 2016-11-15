@@ -204,7 +204,7 @@ public class ApplyVQSR extends MultiVariantWalker {
                     logger.info(String.format("Read tranche " + t));
                 }
             }
-            catch(IOException e ) {
+            catch(final IOException e ) {
                 throw new UserException.CouldNotReadInputFile(TRANCHES_FILE, e);
             }
             Collections.reverse(tranches); // this algorithm wants the tranches ordered from best (lowest truth sensitivity) to worst (highest truth sensitivity)
@@ -215,7 +215,7 @@ public class ApplyVQSR extends MultiVariantWalker {
         }
 
         // setup the header fields
-        VCFHeader inputHeader = getHeaderForVariants();
+        final VCFHeader inputHeader = getHeaderForVariants();
         final Set<VCFHeaderLine> inputHeaders = inputHeader.getMetaDataInSortedOrder();
 
         final Set<VCFHeaderLine> hInfo = new HashSet<>(inputHeaders);
@@ -272,10 +272,10 @@ public class ApplyVQSR extends MultiVariantWalker {
         if(vals.length != 2)
             return false;
         try {
-            double lowerLimit = Double.parseDouble(vals[0]);
-            double upperLimit = Double.parseDouble(vals[1].replace("+",""));    //why does our last tranche end with 100+? Is there anything greater than 100 percent?  Really???
+            final double lowerLimit = Double.parseDouble(vals[0]);
+            final double upperLimit = Double.parseDouble(vals[1].replace("+",""));    //why does our last tranche end with 100+? Is there anything greater than 100 percent?  Really???
         }
-        catch(NumberFormatException e) {
+        catch(final NumberFormatException e) {
             throw new UserException("Poorly formatted tranche filter name does not contain two sensitivity interval end points.");
         }
         return true;
@@ -327,7 +327,7 @@ public class ApplyVQSR extends MultiVariantWalker {
                 (!ignoreInputFilterSet.isEmpty() && ignoreInputFilterSet.containsAll(vc.getFilters()));
 
         if( evaluateThisVariant && variantIsNotFiltered) {
-            String filterString;
+            final String filterString;
             final VariantContextBuilder builder = new VariantContextBuilder(vc);
             if (!useASannotations) {
                 filterString = doSiteSpecificFiltering(vc, recals, builder);
@@ -538,7 +538,7 @@ public class ApplyVQSR extends MultiVariantWalker {
 
             //if it's not a spanning deletion, replace those allele strings with the real values
             if (!allele.equals(Allele.SPAN_DEL)) {
-                VariantContext recalDatum = getMatchingRecalVC(vc, recals, allele);
+                final VariantContext recalDatum = getMatchingRecalVC(vc, recals, allele);
                 if (recalDatum == null) {
                     throw new UserException("Encountered input allele which isn't found in the input recal file. Please make sure VariantRecalibrator and ApplyRecalibration were run on the same set of input variants with flag -AS. First seen at: " + vc);
                 }
@@ -585,7 +585,7 @@ public class ApplyVQSR extends MultiVariantWalker {
      * @return a String with the filter status for this site
      */
     private String doSiteSpecificFiltering(final VariantContext vc, final List<VariantContext> recals, final VariantContextBuilder builder) {
-        VariantContext recalDatum = getMatchingRecalVC(vc, recals, null);
+        final VariantContext recalDatum = getMatchingRecalVC(vc, recals, null);
         if( recalDatum == null ) {
             throw new UserException("Encountered input variant which isn't found in the input recal file. Please make sure VariantRecalibrator and ApplyRecalibration were run on the same set of input variants. First seen at: " + vc );
         }
@@ -597,7 +597,7 @@ public class ApplyVQSR extends MultiVariantWalker {
         final double lod;
         try {
             lod = Double.valueOf(lodString);
-        } catch (NumberFormatException e) {
+        } catch (final NumberFormatException e) {
             throw new UserException("Encountered a malformed record in the input recal file. The lod is unreadable for the record at: " + vc );
         }
 

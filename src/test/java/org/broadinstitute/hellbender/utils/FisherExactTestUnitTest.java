@@ -43,7 +43,7 @@ public final class FisherExactTestUnitTest{
     }
 
     @Test(dataProvider = "UsingTable")
-    public void testUsingTableData(final int refpos, final int refneg, final int altpos, final int altneg, double expectedPvalue) {
+    public void testUsingTableData(final int refpos, final int refneg, final int altpos, final int altneg, final double expectedPvalue) {
         final int[][] contingencyTable = new int[2][2];
         contingencyTable[0][0] = refpos;
         contingencyTable[0][1] = refneg;
