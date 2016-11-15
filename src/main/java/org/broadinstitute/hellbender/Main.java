@@ -287,7 +287,7 @@ public class Main {
                     builder.append(String.format("%s    %-45s%s%s%s\n", GREEN, clazz.getSimpleName(), CYAN, property.oneLineSummary(), KNRM));
                 }
             }
-            builder.append(String.format("\n"));
+            builder.append("\n");
         }
         builder.append(WHITE + "--------------------------------------------------------------------------------------\n" + KNRM);
         System.err.println(builder.toString());

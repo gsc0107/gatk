@@ -184,7 +184,7 @@ public final class ExcessHetUnitTest extends BaseTest {
         Assert.assertTrue(Math.abs(singletonValue) < Math.abs(hetsValue), String.format("singleton=%f allHets=%f", singletonValue, hetsValue));
 
         //Since all hets is such an extreme case and the sample size is large here, we know that the p-value should be 0
-        Assert.assertEquals(hetsValue, ExcessHet.PHRED_SCALED_MIN_P_VALUE, DELTA_PRECISION, String.format("P-value of 0 should be phred scaled to " + ExcessHet.PHRED_SCALED_MIN_P_VALUE));
+        Assert.assertEquals(hetsValue, ExcessHet.PHRED_SCALED_MIN_P_VALUE, DELTA_PRECISION, "P-value of 0 should be phred scaled to " + ExcessHet.PHRED_SCALED_MIN_P_VALUE);
     }
 
     @DataProvider(name = "smallSets")

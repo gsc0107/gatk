@@ -268,7 +268,7 @@ public class UserException extends RuntimeException {
     public static class CannotExecuteRScript extends UserException {
         private static final long serialVersionUID = 0L;
         public CannotExecuteRScript(final String message) {
-            super(String.format("Unable to execute RScript command: " + message));
+            super("Unable to execute RScript command: " + message);
         }
     }
 

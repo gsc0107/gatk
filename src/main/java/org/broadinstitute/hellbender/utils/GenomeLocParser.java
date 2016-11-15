@@ -73,7 +73,7 @@ public final class GenomeLocParser {
         this.validationLevel = validationLevel;
         this.contigInfo = new MRUCachingSAMSequenceDictionary(seqDict);
         if ( logger.isDebugEnabled() ) {
-            logger.debug(String.format("Prepared reference sequence contig dictionary"));
+            logger.debug("Prepared reference sequence contig dictionary");
             for (final SAMSequenceRecord contig : seqDict.getSequences()) {
                 logger.debug(String.format(" %s (%d bp)", contig.getSequenceName(), contig.getSequenceLength()));
             }
