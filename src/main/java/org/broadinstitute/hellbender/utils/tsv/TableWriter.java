@@ -144,7 +144,7 @@ public abstract class TableWriter<R> implements Closeable {
      * @throws IllegalArgumentException if either {@code writer} or {@code columns} are {@code null}.
      * @throws IOException              if one was raised when opening the the destination file for writing.
      */
-    public TableWriter(final Writer writer, final TableColumnCollection columns) throws IOException {
+    public TableWriter(final Writer writer, final TableColumnCollection columns) {
 
         this.columns = Utils.nonNull(columns, "The columns cannot be null.");
         this.writer = new CSVWriter(Utils.nonNull(writer, "the input writer cannot be null"),
@@ -164,7 +164,7 @@ public abstract class TableWriter<R> implements Closeable {
      * @throws IllegalArgumentException if {@code comment} is {@code null}.
      * @throws IOException              if any was raised by this operation.
      */
-    public final void writeComment(final String comment) throws IOException {
+    public final void writeComment(final String comment) {
         Utils.nonNull(comment, "The comment cannot be null.");
         writer.writeNext(new String[]{TableUtils.COMMENT_PREFIX + comment}, false);
         lineNumber++;
@@ -232,7 +232,7 @@ public abstract class TableWriter<R> implements Closeable {
      *
      * @throws IOException if any raised when writing into the destination writer.
      */
-    public void writeHeaderIfApplies() throws IOException {
+    public void writeHeaderIfApplies() {
         if (!headerWritten) {
             writer.writeNext(columns.names().toArray(new String[columns.columnCount()]), false);
             lineNumber++;

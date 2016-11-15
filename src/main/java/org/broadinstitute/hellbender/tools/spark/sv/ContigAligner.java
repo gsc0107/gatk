@@ -33,7 +33,7 @@ public class ContigAligner implements Closeable {
         BWANativeLibrary.load();
     }
 
-    public ContigAligner(final String referenceFilePath) throws IOException {
+    public ContigAligner(final String referenceFilePath) {
         referencePath = referenceFilePath;
 
         try {

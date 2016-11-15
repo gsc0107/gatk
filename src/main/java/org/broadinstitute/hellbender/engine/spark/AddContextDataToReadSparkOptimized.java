@@ -104,7 +104,7 @@ public final class AddContextDataToReadSparkOptimized implements Serializable {
      * @return A FlatMapFunction that acts as described above.
      * @throws IOException
      */
-    public static FlatMapFunction<ContextShard,ContextShard> subdivideAndFillReads(final String bam, final AuthHolder auth, final int outputShardSize, final int margin, final ReadFilter optFilter) throws IOException {
+    public static FlatMapFunction<ContextShard,ContextShard> subdivideAndFillReads(final String bam, final AuthHolder auth, final int outputShardSize, final int margin, final ReadFilter optFilter) {
             return new FlatMapFunction<ContextShard, ContextShard>() {
                 private static final long serialVersionUID = 1L;
                 @Override

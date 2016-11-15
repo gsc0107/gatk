@@ -19,7 +19,7 @@ public final class BedToIntervalListTest extends CommandLineProgramTest {
 
     private final File TEST_DATA_DIR = new File(getTestDataDir(), "picard/interval/BedToIntervalListTest");
 
-    private void doTest(final String inputBed, final String header) throws IOException {
+    private void doTest(final String inputBed, final String header) {
         final File outputFile = BaseTest.createTempFile("bed_to_interval_list_test.", ".interval_list");
         final BedToIntervalList program = new BedToIntervalList();
         final File inputBedFile = new File(TEST_DATA_DIR, inputBed);

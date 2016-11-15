@@ -177,11 +177,11 @@ public final class FastqToSamIntegrationTest extends CommandLineProgramTest {
         return samFile;
     }
 
-    private static File newTempSamFile(final String filename) throws IOException {
+    private static File newTempSamFile(final String filename) {
         return BaseTest.createTempFile(filename, ".sam");
     }
 
-    private static File newTempFile(final String filename) throws IOException {
+    private static File newTempFile(final String filename) {
         return BaseTest.createTempFile(filename, ".tmp");
     }
 

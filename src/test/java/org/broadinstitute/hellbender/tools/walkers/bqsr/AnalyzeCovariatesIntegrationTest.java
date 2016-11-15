@@ -177,8 +177,7 @@ public final class AnalyzeCovariatesIntegrationTest extends CommandLineProgramTe
      * @throws java.io.IOException never thrown, unless there is a problem with the testing environment.
      */
     private String buildCommandLine(final boolean useCsvFile, final boolean usePdfFile,
-            final boolean useBQSRFile, final boolean useBeforeFile, final boolean useAfterFile)
-            throws IOException {
+            final boolean useBQSRFile, final boolean useBeforeFile, final boolean useAfterFile) {
 
         final File csvFile = useCsvFile ? createTempFile("ACTest",".csv") : null;
         final File pdfFile = usePdfFile ? createTempFile("ACTest",".pdf") : null;

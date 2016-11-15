@@ -414,7 +414,7 @@ public final class SamToFastqIntegrationTest extends CommandLineProgramTest {
         }
     }
 
-    private File newTempFastqFile(final String filename) throws IOException {
+    private File newTempFastqFile(final String filename) {
         if(filename == null) return null;
         return BaseTest.createTempFile(filename, ".fastq");
     }

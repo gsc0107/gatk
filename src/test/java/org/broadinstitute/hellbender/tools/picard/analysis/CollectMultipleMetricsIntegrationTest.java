@@ -61,8 +61,7 @@ public final class CollectMultipleMetricsIntegrationTest extends CommandLineProg
     private String setupMultipleCollector(
             final ArgumentsBuilder args,
             final String fileName,
-            final String referenceName) throws IOException
-    {
+            final String referenceName) {
         // create a directory to contain the results since there will be multiple collectors
         // and each may create multiple files
         final File outDir = BaseTest.createTempDir("collectMultiMetricsTest" );

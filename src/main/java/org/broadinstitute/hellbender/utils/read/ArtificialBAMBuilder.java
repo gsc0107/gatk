@@ -125,7 +125,7 @@ public final class ArtificialBAMBuilder {
      * Make an indexed BAM file contains the reads in the builder, marking it for deleteOnExit()
      * @return the BAM file
      */
-    public File makeTemporaryBAMFile() throws IOException{
+    public File makeTemporaryBAMFile() {
         final File file = IOUtils.createTempFile("tempBAM", ".bam");
         return makeBAMFile(file);
     }

@@ -44,7 +44,7 @@ public final class CompareSAMsIntegrationTest extends CommandLineProgramTest {
             final String fileName2,
             final String referenceFileName,
             final ValidationStringency stringency,
-            final boolean expectedResult) throws Exception {
+            final boolean expectedResult) {
         final File testFile1 = new File(TEST_DATA_DIR, fileName1);
         final File testFile2 = new File(TEST_DATA_DIR, fileName2);
         final ArgumentsBuilder args = new ArgumentsBuilder();

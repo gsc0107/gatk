@@ -99,7 +99,7 @@ public final class VariantsSparkSinkUnitTest extends BaseTest {
         VariantContextTestUtils.assertEqualVariants(readVariants(vcf), writtenVariants);
     }
 
-    private VCFHeader getHeader(final String vcf) throws IOException {
+    private VCFHeader getHeader(final String vcf) {
         final java.nio.file.Path vcfPath = IOUtils.getPath(vcf);
         try (SeekableStream stream = new SeekablePathStream(vcfPath)) {
             return VCFHeaderReader.readHeaderFrom(stream);

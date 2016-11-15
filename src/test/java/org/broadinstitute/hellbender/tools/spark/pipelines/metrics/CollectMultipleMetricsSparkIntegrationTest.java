@@ -68,8 +68,7 @@ public final class CollectMultipleMetricsSparkIntegrationTest extends CommandLin
     private String setupMultipleCollector(
             final ArgumentsBuilder args,
             final String fileName,
-            final String referenceName) throws IOException
-    {
+            final String referenceName) {
         // set up test data input and result output
         final File input = new File(TEST_DATA_DIR, fileName);
 

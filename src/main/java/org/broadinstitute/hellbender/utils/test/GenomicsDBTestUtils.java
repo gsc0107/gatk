@@ -38,6 +38,6 @@ public final class GenomicsDBTestUtils {
     @FunctionalInterface
     public interface GenomicsDBTestAction {
 
-        void run() throws IOException;
+        void run();
     }
 }

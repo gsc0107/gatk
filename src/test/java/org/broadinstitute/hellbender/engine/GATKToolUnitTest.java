@@ -496,8 +496,7 @@ public final class GATKToolUnitTest extends BaseTest{
             final GATKTool tool,
             final boolean createIndex,
             final boolean createMD5,
-            final boolean lenient) throws IOException
-    {
+            final boolean lenient) {
         final File tmpDir = createTempDir("createVCFTest");
         final File outputFile = new File(tmpDir.getAbsolutePath(), "createVCFTest" + outputExtension);
 

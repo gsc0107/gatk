@@ -141,7 +141,7 @@ public final class VariantsSparkSink {
 
     private static void saveAsShardedHadoopFiles(
             final JavaSparkContext ctx, final Configuration conf, final String outputFile, final JavaRDD<VariantContext> variants,
-            final VCFHeader header, final boolean writeHeader) throws IOException {
+            final VCFHeader header, final boolean writeHeader) {
         // Set the static header on the driver thread.
         SparkVCFOutputFormat.setVCFHeader(header);
 

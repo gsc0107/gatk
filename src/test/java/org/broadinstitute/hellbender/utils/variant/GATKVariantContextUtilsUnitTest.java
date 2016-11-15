@@ -37,7 +37,7 @@ public final class GATKVariantContextUtilsUnitTest extends BaseTest {
     Allele GT;
 
     @BeforeSuite
-    public void setup() throws IOException {
+    public void setup() {
         // alleles
         Aref = Allele.create("A", true);
         Cref = Allele.create("C", true);
@@ -641,7 +641,7 @@ public final class GATKVariantContextUtilsUnitTest extends BaseTest {
     // --------------------------------------------------------------------------------
 
     @DataProvider(name = "SplitBiallelics")
-    public Object[][] makeSplitBiallelics() throws CloneNotSupportedException {
+    public Object[][] makeSplitBiallelics() {
         final List<Object[]> tests = new ArrayList<>();
 
         final VariantContextBuilder root = new VariantContextBuilder("x", "20", 10, 10, Arrays.asList(Aref, C));
